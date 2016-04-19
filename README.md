@@ -9,14 +9,13 @@ This repository is used for the group project of CmpE352 and CmpE451 Software En
 
 ## Group Members
 
-* [Yiğit Özgümüş](https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş)
+* [Yiğit Özgümüş](https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş) (Communicator)
 * [Gözde Berk](https://github.com/bounswe/bounswe2016group2/wiki/Gözde-Berk)
 * [Erkam Uyanık](https://github.com/bounswe/bounswe2016group2/wiki/Erkam-Uyanık)
 * [Enes Özipek](https://github.com/bounswe/bounswe2016group2/wiki/Enes-Özipek)
 * [Kağan Sarı](https://github.com/bounswe/bounswe2016group2/wiki/Kağan-Sarı)
 * [Arda Yörük](https://github.com/bounswe/bounswe2016group2/wiki/Arda-Yörük)
 * [Osman Aka](https://github.com/bounswe/bounswe2016group2/wiki/Osman-Aka)
-* [Orhan Akısü](https://github.com/bounswe/bounswe2016group2/wiki/Orhan-Akısü)
-* [Mustafa Özen](https://github.com/bounswe/bounswe2016group2/wiki/Mustafa-Özen)
-* 
-**Instructor:** [Suzan Üsküdarlı](http://cmpe.boun.edu.tr/~uskudarli/)
+
+
+ **Instructor:** [Suzan Üsküdarlı](http://cmpe.boun.edu.tr/~uskudarli/)
