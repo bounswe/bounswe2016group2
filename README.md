@@ -17,5 +17,4 @@ This repository is used for the group project of CmpE352 and CmpE451 Software En
 * [Arda Yörük](https://github.com/bounswe/bounswe2016group2/wiki/Arda-Yörük)
 * [Osman Aka](https://github.com/bounswe/bounswe2016group2/wiki/Osman-Aka)
 
-
- **Instructor:** [Suzan Üsküdarlı](http://cmpe.boun.edu.tr/~uskudarli/)
+* **Instructor:** [Suzan Üsküdarlı](http://cmpe.boun.edu.tr/~uskudarli/)
