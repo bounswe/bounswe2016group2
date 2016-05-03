@@ -1,0 +1,13 @@
+!SESSION 2016-05-03 21:05:23.939 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -product org.eclipse.epp.package.jee.product -keyring /Users/yigitozgumus/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -data /Users/yigitozgumus/Repositories/bounswe2016group2 -product org.eclipse.epp.package.jee.product -keyring /Users/yigitozgumus/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.wst.server.discovery 1 0 2016-05-03 21:10:30.849
+!MESSAGE cacheFile=file:/Users/yigitozgumus/Documents/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.wst.server.discovery/serverAdapterSitesDetails.xml
+
+!ENTRY org.eclipse.wst.server.discovery 1 0 2016-05-03 21:10:57.342
+!MESSAGE cacheFile=file:/Users/yigitozgumus/Documents/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.wst.server.discovery/serverAdapterSitesDetails.xml
