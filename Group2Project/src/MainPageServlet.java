@@ -48,7 +48,7 @@ public class MainPageServlet extends HttpServlet {
 							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
 						+ "</tr>"
 						+ "<tr>"
-							+ "<td> <a href=\"YigitOzgumus\"> Kagan Sari </a> </td>"
+							+ "<td> <a href=\"KaganSari\"> Kagan Sari </a> </td>"
 							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
 						+ "</tr>"
 						+ "<tr>"
