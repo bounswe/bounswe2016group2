@@ -15,6 +15,9 @@ import java.io.*;
 @WebServlet("/")
 public class MainPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	protected static final String DB_URL = "jdbc:mysql://ec2-52-50-117-148.eu-west-1.compute.amazonaws.com/group2Project";
+	protected static final String DB_USER = "root";
+	protected static final String DB_PASSWORD = "1234";
        
     /**
      * @see HttpServlet#HttpServlet()
