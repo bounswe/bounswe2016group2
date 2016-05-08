@@ -38,6 +38,8 @@ public class KaganServlet extends HttpServlet {
 	public int radius = 1;
 	public int xDiff = 0;
 	public int yDiff = 0;
+	protected double x = 29.051115;
+	protected double y = 41.084458;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -48,16 +50,34 @@ public class KaganServlet extends HttpServlet {
 
     protected void assignParameters(HttpServletRequest request) {
 		if (request.getParameterMap().containsKey("radius")) {
-			this.radius = Integer.parseInt(request.getParameter("radius"));
+			try {
+				this.radius = Integer.parseInt(request.getParameter("radius"));				
+			} catch (Exception e) {
+				this.radius = 1;
+			}
 		}
 		if (request.getParameterMap().containsKey("x")) {
-			this.xDiff = Integer.parseInt(request.getParameter("x"));
+			try {				
+				this.xDiff = Integer.parseInt(request.getParameter("x"));
+			} catch (Exception e) {
+				this.xDiff = 0;
+			}
 		}
 		if (request.getParameterMap().containsKey("y")) {
-			this.yDiff = Integer.parseInt(request.getParameter("y"));
+			try {
+				this.yDiff = Integer.parseInt(request.getParameter("y"));				
+			} catch (Exception e) {
+				this.yDiff = 0;
+			}
 		}
 	}
-    
+
+    protected void adjustCoordinates() {
+		double xDiffRad = ((double) this.xDiff) / (111.320 * Math.cos(this.x));
+		double yDiffRad = ((double) this.yDiff) / 110.574;
+		this.x -= xDiffRad;
+		this.y += yDiffRad;
+	}
     protected String getQueryString() throws UnsupportedEncodingException {
 		String queryStr =
 			"PREFIX wd: <http://www.wikidata.org/entity/> " +
@@ -75,7 +95,7 @@ public class KaganServlet extends HttpServlet {
 			"{ " +
 			"  SERVICE wikibase:around {" +
 			"    ?place wdt:P625 ?gps . " +
-			"    bd:serviceParam wikibase:center \"Point(29.051115 41.084458)\"^^ogc:wktLiteral . " +
+			"    bd:serviceParam wikibase:center \"Point(" + this.x + " " + this.y + ")\"^^ogc:wktLiteral . " +
 			"    bd:serviceParam wikibase:radius \"" + this.radius + "\" . " +
 			"  }" +
 			"  SERVICE wikibase:label {" +
@@ -108,8 +128,13 @@ public class KaganServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		this.x = 29.051115;
+		this.y = 41.084458;
 		assignParameters(request);
+		adjustCoordinates();
+		System.out.println(this.x);
+		System.out.println(this.y);
 		try {
 			PrintWriter out = response.getWriter();
 			JSONObject items = getItems();

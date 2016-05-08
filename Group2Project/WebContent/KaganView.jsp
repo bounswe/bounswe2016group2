@@ -11,6 +11,10 @@
 <body>
 <form action="">
 	<input type="number" name="radius" placeholder="Radius (km)">
+	<label for="x">Go to up or down</label>
+	<input type="number" name="y" placeholder="Difference on x axis">
+	<label for="y">Go to right or left</label>
+	<input type="number" name="x" placeholder="Radius (km)">
 	<input type="submit" value="Get data">
 </form>
 <% JSONArray items = (JSONArray) ((JSONObject) (((JSONObject) request.getAttribute("items")).get("results"))).get("bindings"); %>
@@ -27,8 +31,8 @@
 			<% String type = (String) placeLabel.get("type"); %>
 			<% String label = (String) placeLabel.get("value"); %>
 			<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
-			<th><%= label %></th>
-			<th><%= description %></th>
+			<td><%= label %></td>
+			<td><%= description %></td>
 		</tr>
 	<% } %>
 </table>
