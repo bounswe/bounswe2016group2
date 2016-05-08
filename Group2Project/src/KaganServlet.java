@@ -35,6 +35,9 @@ import org.json.simple.parser.ParseException;
 @WebServlet("/KaganServlet")
 public class KaganServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public int radius = 1;
+	public int xDiff = 0;
+	public int yDiff = 0;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,6 +46,18 @@ public class KaganServlet extends HttpServlet {
         super();
     }
 
+    protected void assignParameters(HttpServletRequest request) {
+		if (request.getParameterMap().containsKey("radius")) {
+			this.radius = Integer.parseInt(request.getParameter("radius"));
+		}
+		if (request.getParameterMap().containsKey("x")) {
+			this.xDiff = Integer.parseInt(request.getParameter("x"));
+		}
+		if (request.getParameterMap().containsKey("y")) {
+			this.yDiff = Integer.parseInt(request.getParameter("y"));
+		}
+	}
+    
     protected String getQueryString() throws UnsupportedEncodingException {
 		String queryStr =
 			"PREFIX wd: <http://www.wikidata.org/entity/> " +
@@ -55,13 +70,13 @@ public class KaganServlet extends HttpServlet {
 			"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
 			"PREFIX bd: <http://www.bigdata.com/rdf#>" +
 			"PREFIX ogc: <http://www.opengis.net/ont/geosparql#>" +
-			"SELECT DISTINCT ?place ?placeLabel ?gps " +
+			"SELECT DISTINCT ?place ?placeLabel ?placeDescription ?gps " +
 			"WHERE " +
 			"{ " +
 			"  SERVICE wikibase:around {" +
 			"    ?place wdt:P625 ?gps . " +
 			"    bd:serviceParam wikibase:center \"Point(29.051115 41.084458)\"^^ogc:wktLiteral . " +
-			"    bd:serviceParam wikibase:radius \"1\" . " +
+			"    bd:serviceParam wikibase:radius \"" + this.radius + "\" . " +
 			"  }" +
 			"  SERVICE wikibase:label {" +
 			"    bd:serviceParam wikibase:language \"en\" ." +
@@ -93,11 +108,14 @@ public class KaganServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter(); 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+		assignParameters(request);
 		try {
+			PrintWriter out = response.getWriter();
 			JSONObject items = getItems();
 			out.println(items);
+			request.setAttribute("items", items);
+			request.getRequestDispatcher("KaganView.jsp").forward(request, response);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
