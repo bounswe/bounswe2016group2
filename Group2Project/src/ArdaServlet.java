@@ -29,7 +29,7 @@ public class ArdaServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		PrintWriter out = response.getWriter();
-		out.println("This is Arda' page");
+		out.println("This is Arda's page");
 	}
 
 	/**
