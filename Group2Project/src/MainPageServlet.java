@@ -30,47 +30,8 @@ public class MainPageServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    // Notes to the Group
-    // Add your link and update your page direction appropriately
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		out.println("<html>"
-					+ "<head> <title> Group 2 Homework Page </title> </head>"
-					+ "<body>"
-					+ "<table border=\"1\" style=\"width:100%\">"
-						+ "<tr>"
-							+ "<td> <a href=\"YigitOzgumus\"> Yigit Ozgumus </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yi%C4%9Fit-%C3%96zg%C3%BCm%C3%BC%C5%9F\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-						+ "<tr>"
-							+ "<td> <a href=\"YigitOzgumus\"> Gozde Berk </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-						+ "<tr>"
-							+ "<td> <a href=\"EnesOzipek\"> Enes Ozipek </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-						+ "<tr>"
-							+ "<td> <a href=\"KaganSari\"> Kagan Sari </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-						+ "<tr>"
-							+ "<td> <a href=\"YigitOzgumus\"> Erkam Uyanik </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-						+ "<tr>"
-							+ "<td> <a href=\"YigitOzgumus\"> Arda Yoruk </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-						+ "<tr>"
-							+ "<td> <a href=\"YigitOzgumus\"> Osman Aka </a> </td>"
-							+ "<td> <a href=\"https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş\"> Git Profile Page </a> </td>"
-						+ "</tr>"
-					+ "</body>"
-					+ "</html>");
-		
-		
-
+		request.getRequestDispatcher("MainPageView.jsp").forward(request, response);
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
