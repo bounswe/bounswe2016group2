@@ -12,7 +12,7 @@
 <body>
 <div class="container" style="margin: 15px auto;">
 	<div class="jumbotron" style="margin-top: 15px; text-align: center;">
-		You can search any place within a circle around Bogazici University, or you can set values to move off as much as you want and search around that point (Negative values are valid)
+		You can search any place within a circle around Bogazici University, or you can move off as much as you want and search around that point (Negative values are valid). Default is 1 km radius around South Campus of the university.
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -29,13 +29,13 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="input-group">
-							<input class="form-control" type="number" name="y" placeholder="Distance on x axis">
+							<input class="form-control" type="number" name="x" placeholder="Distance on x axis">
 							<span class="input-group-addon">km</span>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="input-group">
-							<input class="form-control" type="number" name="x" placeholder="Distance on y axis">
+							<input class="form-control" type="number" name="y" placeholder="Distance on y axis">
 							<span class="input-group-addon">km</span>
 						</div>
 					</div>
@@ -48,44 +48,46 @@
 	</div>
 	<% JSONArray items = (JSONArray) request.getAttribute("items"); %>
 	<div class="panel panel-default">
-		<!-- <div class="panel-body"> -->
-			<div class="panel-heading">
-				Data
-			</div>
-			<form method="POST" action="">
-				<table class="table">
+		<div class="panel-heading">
+			Data
+		</div>
+		<form method="POST" action="">
+			<table class="table">
+				<tr>
+					<th>Save</th>
+					<th>Value</th>
+					<th>Description</th>
+				</tr>
+				<% for (int i = 0; i < items.size() ; i++) { %>
 					<tr>
-						<th>Save</th>
-			    		<th>Value</th>
-			    		<th>Description</th>
+						<% JSONObject item = (JSONObject) items.get(i); %>
+						<% JSONObject placeLabel = (JSONObject) item.get("placeLabel"); %>
+						<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
+						<% String label = (String) placeLabel.get("value"); %>
+						<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
+						<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
+							<td><input type="checkbox" name="data<%= i %>save"></td>
+							<input hidden name="data<%= i %>" value="true">	
+							<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
+							<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
+						<% } else { %>
+							<td></td>
+						<% } %>
+						<td><%= label %></td>
+						<td><%= description %></td>
 					</tr>
-					<% for (int i = 0; i < items.size() ; i++) { %>
-						<tr>
-							<% JSONObject item = (JSONObject) items.get(i); %>
-							<% JSONObject placeLabel = (JSONObject) item.get("placeLabel"); %>
-							<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
-							<% String label = (String) placeLabel.get("value"); %>
-							<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
-							<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
-								<td><input type="checkbox" name="data<%= i %>save"></td>
-								<input hidden name="data<%= i %>" value="true">	
-								<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
-								<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
-							<% } else { %>
-								<td></td>
-							<% } %>
-							<td><%= label %></td>
-							<td><%= description %></td>
-						</tr>
-					<% } %>
-				</table>
-				<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
-					<input type="submit" value="Save to database" class="btn btn-default btn-lg pull-right">
 				<% } %>
-			</form>
-		<!-- </div> -->
+			</table>
+		</form>
+		<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
+			<div class="panel-body">
+				<form method="POST" action="" style="display: inline-block;">
+					<input class="btn btn-default btn-lg" type="submit" value="Get data from database">
+				</form>
+				<input type="submit" value="Save to database" class="btn btn-default btn-lg">
+			</div>
+		<% } %>
 	</div>
-	
-	</div>
+</div>
 </body>
 </html>
