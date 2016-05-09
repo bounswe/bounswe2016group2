@@ -6,49 +6,86 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Anything near boun</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
-<form action="">
-	<input type="number" name="radius" placeholder="Radius (km)">
-	<label for="x">Go to up or down</label>
-	<input type="number" name="y" placeholder="Difference on x axis">
-	<label for="y">Go to right or left</label>
-	<input type="number" name="x" placeholder="Radius (km)">
-	<input type="submit" value="Get data">
-</form>
-<% JSONArray items = (JSONArray) request.getAttribute("items"); %>
-<form method="POST" action="">
-	<table>
-		<tr>
-			<td>save</td>
-	    	<th>value</th>
-	    	<th>description</th>
-		</tr>
-		<% for (int i = 0; i < items.size() ; i++) { %>
-			<tr>
-				<% JSONObject item = (JSONObject) items.get(i); %>
-				<% JSONObject placeLabel = (JSONObject) item.get("placeLabel"); %>
-				<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
-				<% String label = (String) placeLabel.get("value"); %>
-				<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
+<div class="container" style="margin: 15px auto;">
+	<div class="jumbotron" style="margin-top: 15px; text-align: center;">
+		You can search any place within a circle around Bogazici University, or you can set values to move off as much as you want and search around that point (Negative values are valid)
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			WikiData query 
+		</div>
+		<div class="panel-body">
+			<form action="" class="form-inline">
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input class="form-control" type="number" name="radius" placeholder="Radius">
+							<span class="input-group-addon">km</span>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input class="form-control" type="number" name="y" placeholder="Distance on x axis">
+							<span class="input-group-addon">km</span>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<div class="input-group">
+							<input class="form-control" type="number" name="x" placeholder="Distance on y axis">
+							<span class="input-group-addon">km</span>
+						</div>
+					</div>
+					<div class="col-sm-3">
+						<input class="btn btn-default" type="submit" value="Get data">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<% JSONArray items = (JSONArray) request.getAttribute("items"); %>
+	<div class="panel panel-default">
+		<!-- <div class="panel-body"> -->
+			<div class="panel-heading">
+				Data
+			</div>
+			<form method="POST" action="">
+				<table class="table">
+					<tr>
+						<th>Save</th>
+			    		<th>Value</th>
+			    		<th>Description</th>
+					</tr>
+					<% for (int i = 0; i < items.size() ; i++) { %>
+						<tr>
+							<% JSONObject item = (JSONObject) items.get(i); %>
+							<% JSONObject placeLabel = (JSONObject) item.get("placeLabel"); %>
+							<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
+							<% String label = (String) placeLabel.get("value"); %>
+							<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
+							<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
+								<td><input type="checkbox" name="data<%= i %>save"></td>
+								<input hidden name="data<%= i %>" value="true">	
+								<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
+								<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
+							<% } else { %>
+								<td></td>
+							<% } %>
+							<td><%= label %></td>
+							<td><%= description %></td>
+						</tr>
+					<% } %>
+				</table>
 				<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
-					<td><input type="checkbox" name="data<%= i %>save"></td>
-					<input hidden name="data<%= i %>" value="true">	
-					<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
-					<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
-				<% } else { %>
-					<td></td>
+					<input type="submit" value="Save to database" class="btn btn-default btn-lg pull-right">
 				<% } %>
-				<td><%= label %></td>
-				<td><%= description %></td>
-			</tr>
-		<% } %>
-	</table>
-	<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
-		<input type="submit" value="save to db">
-	<% } %>
-</form>
-
+			</form>
+		<!-- </div> -->
+	</div>
+	
+	</div>
 </body>
 </html>
