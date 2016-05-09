@@ -34,7 +34,7 @@ import org.json.simple.parser.ParseException;
 /**
  * Servlet implementation class KaganServlet
  */
-@WebServlet("/KaganServlet")
+@WebServlet("/KaganSari")
 public class KaganServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public int radius = 1;
