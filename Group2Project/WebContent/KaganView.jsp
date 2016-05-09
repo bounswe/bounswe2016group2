@@ -17,25 +17,32 @@
 	<input type="number" name="x" placeholder="Radius (km)">
 	<input type="submit" value="Get data">
 </form>
-<% JSONArray items = (JSONArray) ((JSONObject) (((JSONObject) request.getAttribute("items")).get("results"))).get("bindings"); %>
-<table>
-	<tr>
-    	<th>value</th>
-    	<th>description</th>
-	</tr>
-	<% for (int i = 0; i < items.size() ; i++) { %>
+<% JSONArray items = (JSONArray) request.getAttribute("items"); %>
+<form method="POST" action="">
+	<table>
 		<tr>
-			<% JSONObject item = (JSONObject) items.get(i); %>
-			<% JSONObject placeLabel = (JSONObject) item.get("placeLabel"); %>
-			<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
-			<% String type = (String) placeLabel.get("type"); %>
-			<% String label = (String) placeLabel.get("value"); %>
-			<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
-			<td><%= label %></td>
-			<td><%= description %></td>
+			<td>save</td>
+	    	<th>value</th>
+	    	<th>description</th>
 		</tr>
-	<% } %>
-</table>
+		<% for (int i = 0; i < items.size() ; i++) { %>
+			<tr>
+				<% JSONObject item = (JSONObject) items.get(i); %>
+				<% JSONObject placeLabel = (JSONObject) item.get("placeLabel"); %>
+				<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
+				<% String label = (String) placeLabel.get("value"); %>
+				<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
+				<input hidden name="data<%= i %>" value="true">
+				<td><input type="checkbox" name="data<%= i %>save"></td>
+				<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
+				<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
+				<td><%= label %></td>
+				<td><%= description %></td>
+			</tr>
+		<% } %>
+	</table>
+	<input type="submit" value="save to db">
+</form>
 
 </body>
 </html>

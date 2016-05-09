@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.sql.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 //import org.apache.jena.sparql.function.library.print;
 //import org.json.simple.JSONArray;
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -48,6 +50,22 @@ public class KaganServlet extends HttpServlet {
         super();
     }
 
+    protected Connection getDBConnection() {
+    	try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+    	Connection conn;
+		try {
+			conn = DriverManager.getConnection(MainPageServlet.DB_URL, MainPageServlet.DB_USER, MainPageServlet.DB_PASSWORD);
+			return conn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+    
     protected void assignParameters(HttpServletRequest request) {
 		if (request.getParameterMap().containsKey("radius")) {
 			try {
@@ -78,6 +96,7 @@ public class KaganServlet extends HttpServlet {
 		this.x -= xDiffRad;
 		this.y += yDiffRad;
 	}
+
     protected String getQueryString() throws UnsupportedEncodingException {
 		String queryStr =
 			"PREFIX wd: <http://www.wikidata.org/entity/> " +
@@ -105,8 +124,28 @@ public class KaganServlet extends HttpServlet {
 			"LIMIT 10";
 		return URLEncoder.encode(queryStr, "UTF-8");
 	}
-    
-    protected JSONObject getItems() throws IOException, ParseException {
+  
+	private String createInsertQuery(HttpServletRequest request) {
+		boolean insert = false;
+		String q = "INSERT INTO kagan (label, description) VALUES ";
+		int i = 0;
+		String next = request.getParameter("data" + i);
+		while (next != null) {
+			String save = request.getParameter("data" + i + "save");
+			String label = request.getParameter("data" + i + "label");
+			String description = request.getParameter("data" + i + "description");
+			if (save != null) {
+				insert = true;
+				q += "(\"" + label + "\", \"" + description + "\"),";
+			}
+			i++;
+			next = request.getParameter("data" + i);
+		}
+		// remove last comma and return query if insert is gonna happen
+		return insert ? q.substring(0, q.length() - 1) : null;
+	}
+
+    protected JSONArray getItems() throws IOException, ParseException {
     	String queryStr = getQueryString();
     	URL path = new URL("https://query.wikidata.org/sparql?format=json&query=" + queryStr);
     	URLConnection con = path.openConnection();
@@ -118,7 +157,8 @@ public class KaganServlet extends HttpServlet {
 
     	JSONParser parser = new JSONParser();
     	JSONObject data = (JSONObject) parser.parse(body);
-		return data;
+    	JSONArray items = (JSONArray) ((JSONObject) (((JSONObject) data).get("results"))).get("bindings");
+		return items;
     	// Query query = QueryFactory.create(queryStr);
 		// Dataset model = DatasetFactory.create();
 		// QueryExecution qExe = QueryExecutionFactory.create(query, model);
@@ -133,11 +173,9 @@ public class KaganServlet extends HttpServlet {
 		this.y = 41.084458;
 		assignParameters(request);
 		adjustCoordinates();
-		System.out.println(this.x);
-		System.out.println(this.y);
 		try {
 			PrintWriter out = response.getWriter();
-			JSONObject items = getItems();
+			JSONArray items = getItems();
 			out.println(items);
 			request.setAttribute("items", items);
 			request.getRequestDispatcher("KaganView.jsp").forward(request, response);
@@ -149,8 +187,34 @@ public class KaganServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		Connection conn = getDBConnection();
+		String query = createInsertQuery(request);
+		try {
+			Statement stmt = conn.createStatement();
+			if (query != null) {
+				stmt.executeUpdate(query);
+			}
+			ResultSet rs = stmt.executeQuery("SELECT * FROM kagan");
+			JSONArray items = new JSONArray();
+			while (rs.next()) {
+				String label = rs.getString("label");
+				String description = rs.getString("description");
+				JSONObject item = new JSONObject();
+				JSONObject placeLabel = new JSONObject();
+				JSONObject placeDescription = new JSONObject();
+				placeLabel.put("value", label);
+				placeDescription.put("value", description);
+				item.put("placeLabel", placeLabel);
+				item.put("placeDescription", placeDescription);
+				items.add(item);
+			}
+			request.setAttribute("items", items);
+			request.getRequestDispatcher("KaganView.jsp").forward(request, response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
-
 }
