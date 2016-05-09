@@ -78,15 +78,13 @@
 					</tr>
 				<% } %>
 			</table>
+			<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
+				<input type="submit" value="Save to database" class="btn btn-default btn-lg" style="width: 100%;">
+			<% } %>
 		</form>
-		<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
-			<div class="panel-body">
-				<form method="POST" action="" style="display: inline-block;">
-					<input class="btn btn-default btn-lg" type="submit" value="Get data from database">
-				</form>
-				<input type="submit" value="Save to database" class="btn btn-default btn-lg">
-			</div>
-		<% } %>
+		<form method="POST" action="" style="width: 100%;">
+			<input class="btn btn-default btn-lg" type="submit" value="Get data from database" style="width: 100%;">
+		</form>
 	</div>
 </div>
 </body>
