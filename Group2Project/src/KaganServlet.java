@@ -73,6 +73,8 @@ public class KaganServlet extends HttpServlet {
 			} catch (Exception e) {
 				this.radius = 1;
 			}
+		} else {
+			this.radius = 1;
 		}
 		if (request.getParameterMap().containsKey("x")) {
 			try {				
@@ -80,6 +82,8 @@ public class KaganServlet extends HttpServlet {
 			} catch (Exception e) {
 				this.xDiff = 0;
 			}
+		} else {
+			this.xDiff = 0;
 		}
 		if (request.getParameterMap().containsKey("y")) {
 			try {
@@ -87,6 +91,8 @@ public class KaganServlet extends HttpServlet {
 			} catch (Exception e) {
 				this.yDiff = 0;
 			}
+		} else {
+			this.yDiff = 0;
 		}
 	}
 
