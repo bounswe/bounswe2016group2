@@ -32,16 +32,22 @@
 				<% JSONObject placeDescription = (JSONObject) item.get("placeDescription"); %>
 				<% String label = (String) placeLabel.get("value"); %>
 				<% String description = placeDescription != null ? (String) placeDescription.get("value") : ""; %>
-				<input hidden name="data<%= i %>" value="true">
-				<td><input type="checkbox" name="data<%= i %>save"></td>
-				<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
-				<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
+				<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
+					<td><input type="checkbox" name="data<%= i %>save"></td>
+					<input hidden name="data<%= i %>" value="true">	
+					<input hidden type="text" name="data<%= i %>label" value="<%= label %>">
+					<input hidden type="text" name="data<%= i %>description" value="<%= description %>">
+				<% } else { %>
+					<td></td>
+				<% } %>
 				<td><%= label %></td>
 				<td><%= description %></td>
 			</tr>
 		<% } %>
 	</table>
-	<input type="submit" value="save to db">
+	<% if (request.getMethod().equalsIgnoreCase("GET")) { %>
+		<input type="submit" value="save to db">
+	<% } %>
 </form>
 
 </body>
