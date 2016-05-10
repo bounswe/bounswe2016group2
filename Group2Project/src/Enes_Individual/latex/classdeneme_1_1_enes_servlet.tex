@@ -1,0 +1,96 @@
+\hypertarget{classdeneme_1_1_enes_servlet}{}\section{deneme.\+Enes\+Servlet Class Reference}
+\label{classdeneme_1_1_enes_servlet}\index{deneme.\+Enes\+Servlet@{deneme.\+Enes\+Servlet}}
+
+
+Inherits Http\+Servlet.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classdeneme_1_1_enes_servlet_aa00f55197ab28893aff6b819e5f9aa56}{Enes\+Servlet} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classdeneme_1_1_enes_servlet_a9672424aafc377b7e9e6da9cec968055}{do\+Get} (Http\+Servlet\+Request request, Http\+Servlet\+Response response)  throws Servlet\+Exception, I\+O\+Exception 
+\item 
+void \hyperlink{classdeneme_1_1_enes_servlet_a4f94adef56457f57c27f8fbc0720c089}{do\+Post} (Http\+Servlet\+Request request, Http\+Servlet\+Response response)  throws Servlet\+Exception, I\+O\+Exception 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Enes
+\end{DoxyAuthor}
+Servlet implementation class This is the main class for the project. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{deneme\+::\+Enes\+Servlet@{deneme\+::\+Enes\+Servlet}!Enes\+Servlet@{Enes\+Servlet}}
+\index{Enes\+Servlet@{Enes\+Servlet}!deneme\+::\+Enes\+Servlet@{deneme\+::\+Enes\+Servlet}}
+\subsubsection[{\texorpdfstring{Enes\+Servlet()}{EnesServlet()}}]{\setlength{\rightskip}{0pt plus 5cm}deneme.\+Enes\+Servlet.\+Enes\+Servlet (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classdeneme_1_1_enes_servlet_aa00f55197ab28893aff6b819e5f9aa56}{}\label{classdeneme_1_1_enes_servlet_aa00f55197ab28893aff6b819e5f9aa56}
+\begin{DoxySeeAlso}{See also}
+Http\+Servlet\+::\+Http\+Servlet() 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Function Documentation}
+\index{deneme\+::\+Enes\+Servlet@{deneme\+::\+Enes\+Servlet}!do\+Get@{do\+Get}}
+\index{do\+Get@{do\+Get}!deneme\+::\+Enes\+Servlet@{deneme\+::\+Enes\+Servlet}}
+\subsubsection[{\texorpdfstring{do\+Get(\+Http\+Servlet\+Request request, Http\+Servlet\+Response response)}{doGet(HttpServletRequest request, HttpServletResponse response)}}]{\setlength{\rightskip}{0pt plus 5cm}void deneme.\+Enes\+Servlet.\+do\+Get (
+\begin{DoxyParamCaption}
+\item[{Http\+Servlet\+Request}]{request, }
+\item[{Http\+Servlet\+Response}]{response}
+\end{DoxyParamCaption}
+) throws Servlet\+Exception, I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classdeneme_1_1_enes_servlet_a9672424aafc377b7e9e6da9cec968055}{}\label{classdeneme_1_1_enes_servlet_a9672424aafc377b7e9e6da9cec968055}
+\begin{DoxySeeAlso}{See also}
+Http\+Servlet\+::do\+Get(\+Http\+Servlet\+Request request, Http\+Servlet\+Response response) When G\+ET request is sent to the page this function works. 
+\end{DoxySeeAlso}
+$<$ Our writer to type html codes
+
+$<$ database connection variable
+
+Check if connection is made.
+
+st\+: Statement object to execute sql queries.
+
+If table is already created , drop it.
+
+Following lines of codes are for creating a form which contains 2 submit button. Search\+: To make sparql query with a given parameter. Get\+Selected\+: To get and show the items saved to the database.\index{deneme\+::\+Enes\+Servlet@{deneme\+::\+Enes\+Servlet}!do\+Post@{do\+Post}}
+\index{do\+Post@{do\+Post}!deneme\+::\+Enes\+Servlet@{deneme\+::\+Enes\+Servlet}}
+\subsubsection[{\texorpdfstring{do\+Post(\+Http\+Servlet\+Request request, Http\+Servlet\+Response response)}{doPost(HttpServletRequest request, HttpServletResponse response)}}]{\setlength{\rightskip}{0pt plus 5cm}void deneme.\+Enes\+Servlet.\+do\+Post (
+\begin{DoxyParamCaption}
+\item[{Http\+Servlet\+Request}]{request, }
+\item[{Http\+Servlet\+Response}]{response}
+\end{DoxyParamCaption}
+) throws Servlet\+Exception, I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classdeneme_1_1_enes_servlet_a4f94adef56457f57c27f8fbc0720c089}{}\label{classdeneme_1_1_enes_servlet_a4f94adef56457f57c27f8fbc0720c089}
+Create print writer to produce html page.
+
+$<$ database connection variable
+
+Statement execute for creating table
+
+Create form for the query results.
+
+Loop all result objects returned from sparql query. Get item values and save into the database And write them to the screen in the format given above.
+
+Check if or not there are records user saved. If not then alert the user with a message box
+
+If user tries to get results without saving any data to the database s/he will get this alert.
+
+Following query is for taking all records user has saved to the database.
+
+res\+: Result set of data obtained from the database
+
+This if branch is for handling the response for saving records to the database.
+
+For each selected values Get original record from the database using the value which is the id of the record.
+
+This response is taken when back button is clicked. This response redirects to the main page.
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/deneme/Enes\+Servlet.\+java\end{DoxyCompactItemize}
