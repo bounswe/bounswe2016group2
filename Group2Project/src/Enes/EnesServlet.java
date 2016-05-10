@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,16 +37,48 @@ public class EnesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
         PrintWriter out = response.getWriter(); /**< Our writer to type html codes */
-         if(request.getParameter("Save")!=null){
-			String [] selectedRows = request.getParameterValues("labels");
-			for (String str : selectedRows) {
-				System.out.println(str);
-			}
+        Db dao = new Db("group2Project", "root", "1234");
+		Connection connection = dao.getConnection(); /**< database connection variable*/
+        if(request.getParameter("Save")!=null){
+        	try {
+        		Statement st = connection.createStatement();
+            	st.executeUpdate(
+    			        "CREATE TABLE IF NOT EXISTS LargestCitiesReq ("
+    			        + " id INTEGER PRIMARY KEY AUTO_INCREMENT,"
+    			        + " cname VARCHAR(255) NOT NULL,"
+    			        + " population VARCHAR(255),"
+    			        + " gps  VARCHAR(255))");
+    			String[] selectedRows = request.getParameterValues("labels");
+    			
+    			for (String str : selectedRows) {
+    				int id = Integer.parseInt(str);
+    				String selQuery = "SELECT cname,population,gps FROM LargestCities WHERE id="+id;
+    				ResultSet res = st.executeQuery(selQuery);
+    				String cname = "";
+    				String pop = "";
+    				String gps = "";
+    				if(res.next()){
+    					cname = res.getString("CNAME");
+    					pop = res.getString("POPULATION");
+    					gps = res.getString("GPS");
+    				}
+    				String query = " INSERT into LargestCitiesReq (cname, population, gps)"+" values (?, ?, ?)";
+	    		      // create the mysql insert preparedstatement
+	    		      PreparedStatement preparedStmt = connection.prepareStatement(query);
+	    		      preparedStmt.setString(1, cname);
+	    		      preparedStmt.setString(2, pop);
+	    		      preparedStmt.setString(3, gps);		    		
+	    		      // execute the preparedstatement
+	    		      preparedStmt.execute();
+    			}
+    			st.executeUpdate("DROP table LargestCities");
+			} catch (Exception e) {
+				// TODO: handle exception
+			} 
 		}
         out.println("<html>");
         
-		Db dao = new Db("group2Project", "root", "1234");
-		Connection connection = dao.getConnection(); /**< database connection variable*/
+		
 		
     	if (connection != null) {
     		out.println("You made it, take control your database now!</br>");
@@ -75,23 +108,6 @@ public class EnesServlet extends HttpServlet {
 				        + " gps  VARCHAR(255))");
 				
 					System.out.println("Heyyo");
-				Sparql sparql = new Sparql();
-		    	org.apache.jena.query.ResultSet res = sparql.getQueryResults();
-		   	/*while (res.hasNext())
-		    	{
-		    		QuerySolution binding = res.nextSolution();
-		    		String itm =  binding.get("cityLabel").toString();
-		    		String itm2 =  binding.get("population").toString();
-		    		String itm3 =  binding.get("gps").toString();
-		    		String query = " INSERT into LargestCities (cname, population, gps)"+" values (?, ?, ?)";
-		    		      // create the mysql insert preparedstatement
-		    		      PreparedStatement preparedStmt = connection.prepareStatement(query);
-		    		      preparedStmt.setString(1, itm.substring(0,itm.indexOf("@")));
-		    		      preparedStmt.setString(2, itm2.substring(0,itm2.indexOf("^")));
-		    		      preparedStmt.setString(3, itm3.substring(0,itm3.indexOf("^")));		    		
-		    		      // execute the preparedstatement
-		    		      preparedStmt.execute();
-		    	}*/
 			}
 					connection.close();
 		} catch (SQLException e) {
@@ -103,6 +119,7 @@ public class EnesServlet extends HttpServlet {
         out.println("<form name=\"loginForm\" method=\"post\" action=\"Enes\">");
         out.println("Search: <input type=\"text\" name=\"searchText\"/> <br/>");
         out.println("<input type=\"submit\" name=\"Search\" value=\"Search\" />");
+        out.println("<input type=\"submit\" name=\"GetSelected\" value=\"Get Records Saved\" />");
         out.println("</form>");
        
     	out.println("</html>");
@@ -111,11 +128,11 @@ public class EnesServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		 PrintWriter writer = response.getWriter();
+         Db dao = new Db("group2Project", "root", "1234");
+ 		   Connection connection = dao.getConnection(); /**< database connection variable*/
 		if(request.getParameter("Search")!=null){
 			String text = request.getParameter("searchText");
-			 PrintWriter writer = response.getWriter();
-	           Db dao = new Db("group2Project", "root", "1234");
-	   		   Connection connection = dao.getConnection(); /**< database connection variable*/
 	   		   
 			try {
 				Statement st = connection.createStatement();
@@ -130,7 +147,7 @@ public class EnesServlet extends HttpServlet {
 		        writer.println("<form action=\"Enes\" method=\"GET\"> ");
 	            writer.println("<table style=\"width:100%\">");
 	            writer.println("<tr>");
-	            writer.println("<th>"+"CNAME"+"</th>");
+	            writer.println("<th>"+"CITY NAME"+"</th>");
 	            writer.println("<th>"+"POPULATION"+"</th>");
 	            writer.println("<th>"+"GPS"+"</th>");
 	            writer.println("<th>Save</th>");
@@ -169,12 +186,41 @@ public class EnesServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}/*else if(request.getParameter("Save")!=null){
-			String [] selectedRows = request.getParameterValues("labels");
-			for (String str : selectedRows) {
-				System.out.println(str);
+		}else if(request.getParameter("GetSelected") != null){
+			
+			try {
+				Statement st = connection.createStatement();
+				String sqlQuery = "SELECT * FROM LargestCitiesReq";
+				ResultSet res = st.executeQuery(sqlQuery);
+				writer.println("<html>");
+	            writer.println("<body>");
+	            writer.println("<table style=\"width:100%\">");
+	            writer.println("<tr>");
+	            writer.println("<th>"+"CITY NAME"+"</th>");
+	            writer.println("<th>"+"POPULATION"+"</th>");
+	            writer.println("<th>"+"GPS"+"</th>");
+	            writer.println("</tr>");
+				while(res.next()){
+				int id = res.getInt("ID");
+				String cname = res.getString("CNAME");
+				String pop = res.getString("POPULATION");
+				String gps = res.getString("GPS");
+				writer.println("<tr>");
+        		writer.println("<td>"+cname+"</td>");
+        		writer.println("<td>"+pop+"</td>");
+        		writer.println("<td>"+gps+"</td>");
+                writer.println("</tr>"); 
+				}
+				writer.println("</table>");
+	            writer.println("</form>");
+	            writer.println("</body>");
+	            writer.println("</html>");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
 			}
-		}*/else{
+		}else{
 			doGet(request, response);
 		}
 	}
