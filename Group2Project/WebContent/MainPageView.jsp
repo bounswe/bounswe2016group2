@@ -27,19 +27,19 @@
 			</tr>
 			<tr>
 				<td> <a href="KaganSari"> Kagan Sari </a> </td>
-				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
+				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Kağan-Sarı"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
-				<td> <a href="YigitOzgumus"> Erkam Uyanik </a> </td>
-				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
+				<td> <a href="ErkamUyanik"> Erkam Uyanik </a> </td>
+				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Enes-Özipek"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
 				<td> <a href="YigitOzgumus"> Arda Yoruk </a> </td>
-				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
+				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Arda-Yörük"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
-				<td> <a href="YigitOzgumus"> Osman Aka </a> </td>
-				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
+				<td> <a href="OsmanAka"> Osman Aka </a> </td>
+				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Osman-Aka"> Git Profile Page </a> </td>
 			</tr>
 		</table>
 	</div>
