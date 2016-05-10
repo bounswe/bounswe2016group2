@@ -18,8 +18,8 @@
 				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yi%C4%9Fit-%C3%96zg%C3%BCm%C3%BC%C5%9F"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
-				<td> <a href="YigitOzgumus"> Gozde Berk </a> </td>
-				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
+				<td> <a href="GozdeBerk"> Gozde Berk </a> </td>
+				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Gözde-Berk"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
 				<td> <a href="EnesOzipek"> Enes Ozipek </a> </td>
