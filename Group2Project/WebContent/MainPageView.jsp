@@ -22,8 +22,8 @@
 				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
-				<td> <a href="EnesOzipek"> Enes Ozipek </a> </td>
-				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Yiğit-Özgümüş"> Git Profile Page </a> </td>
+				<td> <a href="http://ec2-52-50-117-148.eu-west-1.compute.amazonaws.com/enes/Enes"> Enes Ozipek </a> </td>
+				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Enes-%C3%96zipek"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
 				<td> <a href="KaganSari"> Kagan Sari </a> </td>
