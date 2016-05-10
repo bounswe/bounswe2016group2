@@ -16,9 +16,7 @@ Inheritance diagram for Yigit\+Servlet\+:\begin{figure}[H]
 \item 
 Connection \hyperlink{class_yigit_servlet_afbf5525cf34aecfbc5c2d7c0a5398d45}{establish\+Database} ()
 \item 
-String \hyperlink{class_yigit_servlet_a03f680ab69c811ba4bb6024bb172c783}{get\+Query} ()  throws Unsupported\+Encoding\+Exception
-\item 
-void \hyperlink{class_yigit_servlet_a67dcab9984048772508f806eec206392}{initialize\+Parameters} (Http\+Servlet\+Request request)
+void \hyperlink{class_yigit_servlet_a35736a61d3f45e288c437771c29050cd}{create\+Table} ()
 \item 
 J\+S\+O\+N\+Array \hyperlink{class_yigit_servlet_acb708f5a65546d97991965287c3f226d}{get\+Movies} ()
 \item 
@@ -45,7 +43,14 @@ Http\+Servlet\+::\+Http\+Servlet()
 
 
 \subsection{Member Function Documentation}
-\hypertarget{class_yigit_servlet_a87f5660fd804020140513bfd608a1fad}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!do\+Get@{do\+Get}}
+\hypertarget{class_yigit_servlet_a35736a61d3f45e288c437771c29050cd}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!create\+Table@{create\+Table}}
+\index{create\+Table@{create\+Table}!Yigit\+Servlet@{Yigit\+Servlet}}
+\subsubsection[{create\+Table()}]{\setlength{\rightskip}{0pt plus 5cm}void Yigit\+Servlet.\+create\+Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a35736a61d3f45e288c437771c29050cd}
+This method parses the movie J\+S\+O\+N and uploads it to the D\+B Yigit\+\_\+\+Table It seperates the labels and adds it to the S\+Q\+L Query \hypertarget{class_yigit_servlet_a87f5660fd804020140513bfd608a1fad}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!do\+Get@{do\+Get}}
 \index{do\+Get@{do\+Get}!Yigit\+Servlet@{Yigit\+Servlet}}
 \subsubsection[{do\+Get(\+Http\+Servlet\+Request request, Http\+Servlet\+Response response)}]{\setlength{\rightskip}{0pt plus 5cm}void Yigit\+Servlet.\+do\+Get (
 \begin{DoxyParamCaption}
@@ -92,33 +97,6 @@ The database connection object
 This method uses sparql query service and gets the query result data, then exports to J\+S\+O\+N and returns the J\+S\+O\+N Array of the Movies that are found from the query \begin{DoxyReturn}{Returns}
 
 \end{DoxyReturn}
-\hypertarget{class_yigit_servlet_a03f680ab69c811ba4bb6024bb172c783}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!get\+Query@{get\+Query}}
-\index{get\+Query@{get\+Query}!Yigit\+Servlet@{Yigit\+Servlet}}
-\subsubsection[{get\+Query()}]{\setlength{\rightskip}{0pt plus 5cm}String Yigit\+Servlet.\+get\+Query (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-) throws Unsupported\+Encoding\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a03f680ab69c811ba4bb6024bb172c783}
-Store the main query String for modularity \begin{DoxyReturn}{Returns}
-the query string with the right encoding 
-\end{DoxyReturn}
-
-\begin{DoxyExceptions}{Exceptions}
-{\em Unsupported\+Encoding\+Exception} & \\
-\hline
-\end{DoxyExceptions}
-\hypertarget{class_yigit_servlet_a67dcab9984048772508f806eec206392}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!initialize\+Parameters@{initialize\+Parameters}}
-\index{initialize\+Parameters@{initialize\+Parameters}!Yigit\+Servlet@{Yigit\+Servlet}}
-\subsubsection[{initialize\+Parameters(\+Http\+Servlet\+Request request)}]{\setlength{\rightskip}{0pt plus 5cm}void Yigit\+Servlet.\+initialize\+Parameters (
-\begin{DoxyParamCaption}
-\item[{Http\+Servlet\+Request}]{request}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a67dcab9984048772508f806eec206392}
-Assigns the initial duration value which is 0 and the query limit which is 10 The structure of the method is the same since it needs to check the same exceptions with try catches. 
-\begin{DoxyParams}{Parameters}
-{\em request} & \\
-\hline
-\end{DoxyParams}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

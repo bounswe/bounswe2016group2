@@ -70,61 +70,48 @@ public class YigitServlet extends HttpServlet {
     	return null;
     }
     /**
-     *  Store the main query String for modularity
-     * @return the query string with the right encoding
-     * @throws UnsupportedEncodingException
+     * This method parses the movie JSON and uploads it to the DB Yigit_Table
+     * It seperates the labels and adds it to the SQL Query
      */
-    protected String getQuery() throws UnsupportedEncodingException{
-    	String query = "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
-    				   "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
-    				   "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
-    				   "PREFIX p: <http://www.wikidata.org/prop/>\n" +
-    				   "PREFIX ps: <http://www.wikidata.org/prop/statement/>\n" +
-    				   "PREFIX pq: <http://www.wikidata.org/prop/qualifier/>\n" +
-    				   "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
-    				   "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
-    				   "SELECT ?Film ?FilmLabel ?Duration ?ComposerLabel ?genreLabel ?dateLabel \n" +
-    				   "WHERE {\n" +
-    				   "?Film wdt:P31 wd:Q11424.\n" +
-    				   "?Film wdt:P2047 ?Duration.\n" +
-    				   "?Film wdt:P86 ?Composer.\n" +
-    				   "?Film wdt:P136  ?genre.\n" +
-    				   "OPTIONAL { ?Film wdt:P577 ?dateLabel. }\n" +
-    				   "SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
-    				   "FILTER(?Duration >= " + this.duration +").\n" +
-    				   "}\n" +
-    				   "LIMIT " + this.queryLimit +"\n";
-    	return query;
-
+    protected void createTable(){
+    	Connection conn = null;
+    	Statement stat = null;
+    	// Creating the connection
+    	conn = establishDatabase();
+    	try {
+			stat = conn.createStatement();
+			JSONArray movies = getMovies();
+			String query = "INSERT INTO Yigit_Table VALUES";
+			for(int i=0; i<movies.size(); i++){
+				String movieData = movies.toJSONString();
+				query += "(\"";
+				JSONObject movie = (JSONObject) movies.get(i);
+				JSONObject film = (JSONObject) movie.get("FilmLabel");
+				query += film.get("value");
+				query += "\", \"";
+				JSONObject duration = (JSONObject) movie.get("Duration");
+				query += duration.get("value");
+				query += "\", \"";
+				JSONObject composer = (JSONObject) movie.get("ComposerLabel");
+				query += composer.get("value");
+				query += "\", \"";
+				JSONObject genre = (JSONObject) movie.get("genreLabel");
+				query += genre.get("value");
+				query += "\", \"";
+				JSONObject date = (JSONObject) movie.get("dateLabel");
+				query += date.get("value");
+				query += "\"),";
+			}
+			if (query != null) {
+				stat.executeUpdate(query);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
-    /**
-     *  Assigns the initial duration value which is 0 and the query limit which is 10
-     *  The structure of the method is the same since it needs to check the same exceptions with try catches.
-     * @param request
-     */
     
-    protected void initializeParameters(HttpServletRequest request){
-    	// Duration parameter existence check
-    	if(request.getParameterMap().containsKey("duration")){
-    		try {
-    			this.duration = Integer.parseInt(request.getParameter("duration"));
-    		} catch (Exception e) {
-    			this.duration = 0;
-    		}
-    	}else{
-    		this.duration = 0;
-    	}
-    	//Query Limit existence check
-    	if(request.getParameterMap().containsKey("queryLimit")){
-    		try {
-    			this.duration = Integer.parseInt(request.getParameter("queryLimit"));
-    		} catch (Exception e) {
-    			this.queryLimit= 10;
-    		}
-    	}else{
-    		this.queryLimit = 10;
-    	}
-    }
     /**
      * This method uses sparql query service and gets the query result data, then exports to JSON and returns 
      * the JSON Array of the Movies that are found from the query
@@ -133,12 +120,25 @@ public class YigitServlet extends HttpServlet {
     protected JSONArray getMovies()  {
     	// Get the query String from the function
     	String movieQuery = null;
-		try {
-			movieQuery = getQuery();
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		movieQuery =  "PREFIX wd: <http://www.wikidata.org/entity/>\n" +
+			   "PREFIX wdt: <http://www.wikidata.org/prop/direct/>\n" +
+			   "PREFIX wikibase: <http://wikiba.se/ontology#>\n" +
+			   "PREFIX p: <http://www.wikidata.org/prop/>\n" +
+			   "PREFIX ps: <http://www.wikidata.org/prop/statement/>\n" +
+			   "PREFIX pq: <http://www.wikidata.org/prop/qualifier/>\n" +
+			   "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
+			   "PREFIX bd: <http://www.bigdata.com/rdf#>\n" +
+			   "SELECT ?Film ?FilmLabel ?Duration ?ComposerLabel ?genreLabel ?dateLabel \n" +
+			   "WHERE {\n" +
+			   "?Film wdt:P31 wd:Q11424.\n" +
+			   "?Film wdt:P2047 ?Duration.\n" +
+			   "?Film wdt:P86 ?Composer.\n" +
+			   "?Film wdt:P136  ?genre.\n" +
+			   "OPTIONAL { ?Film wdt:P577 ?dateLabel. }\n" +
+			   "SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n" +
+			   "FILTER(?Duration >= " + this.duration +").\n" +
+			   "}\n" +
+			   "LIMIT " + 50 +"\n";
     	// Import into sparql function
     	Query query= QueryFactory.create(movieQuery);
     	//Process the query
@@ -162,6 +162,8 @@ public class YigitServlet extends HttpServlet {
 		}
     	// Collect JSON object and convert it to the JSON Array containing movies
     	JSONArray items =  (JSONArray) ((JSONObject) data.get("results")).get("bindings");
+    	
+    	
     	return items;	
     }
 
@@ -172,9 +174,10 @@ public class YigitServlet extends HttpServlet {
     //TODO
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException  {
 		// TODO Auto-generated method stub
-		initializeParameters(request);
+		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		createTable();
 		//The outline of the page
 		out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
 		out.println("<html>");
