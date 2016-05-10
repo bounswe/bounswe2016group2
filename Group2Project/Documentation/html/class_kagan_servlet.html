@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>My Project: KaganServlet Class Reference</title>
+<title>Group2TestProject: KaganServlet Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,7 +31,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Group2TestProject
    </div>
   </td>
  </tr>
@@ -105,7 +105,9 @@ $(document).ready(function(){initNavTree('class_kagan_servlet.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_kagan_servlet-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">KaganServlet Class Reference</div>  </div>
@@ -125,12 +127,48 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9733d9af94d7f9e4fd26e7d4dddca59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kagan_servlet.html#aa9733d9af94d7f9e4fd26e7d4dddca59">KaganServlet</a> ()</td></tr>
 <tr class="separator:aa9733d9af94d7f9e4fd26e7d4dddca59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:abb3da60d4385e88b231d42c79d3c6c0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb3da60d4385e88b231d42c79d3c6c0c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>radius</b> = 1</td></tr>
+<tr class="separator:abb3da60d4385e88b231d42c79d3c6c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59cd96b1ff9052d22081eaa587f295fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59cd96b1ff9052d22081eaa587f295fa"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>xDiff</b> = 0</td></tr>
+<tr class="separator:a59cd96b1ff9052d22081eaa587f295fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4078c0c4a4dcd1142ab23466b6ea0e68"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4078c0c4a4dcd1142ab23466b6ea0e68"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>yDiff</b> = 0</td></tr>
+<tr class="separator:a4078c0c4a4dcd1142ab23466b6ea0e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:ae9cf99b19633877773e6f8346ed44948"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9cf99b19633877773e6f8346ed44948"></a>
+Connection&#160;</td><td class="memItemRight" valign="bottom"><b>getDBConnection</b> ()</td></tr>
+<tr class="separator:ae9cf99b19633877773e6f8346ed44948"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92634e1d189fec896f1b17e76d9f7043"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92634e1d189fec896f1b17e76d9f7043"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>assignParameters</b> (HttpServletRequest request)</td></tr>
+<tr class="separator:a92634e1d189fec896f1b17e76d9f7043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a051d2f1b8de4f546c7503d422c3d4b13"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a051d2f1b8de4f546c7503d422c3d4b13"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>adjustCoordinates</b> ()</td></tr>
+<tr class="separator:a051d2f1b8de4f546c7503d422c3d4b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb53e6d12a99ea9fe204400e279f5e4e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb53e6d12a99ea9fe204400e279f5e4e"></a>
+String&#160;</td><td class="memItemRight" valign="bottom"><b>getQueryString</b> ()  throws UnsupportedEncodingException </td></tr>
+<tr class="separator:acb53e6d12a99ea9fe204400e279f5e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa741ef72c6695ada00629566c9b5d5cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa741ef72c6695ada00629566c9b5d5cd"></a>
+JSONArray&#160;</td><td class="memItemRight" valign="bottom"><b>getItems</b> ()  throws IOException, ParseException </td></tr>
+<tr class="separator:aa741ef72c6695ada00629566c9b5d5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a069884122c17967444f59c24436e0713"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kagan_servlet.html#a069884122c17967444f59c24436e0713">doGet</a> (HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException </td></tr>
 <tr class="separator:a069884122c17967444f59c24436e0713"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a557149953b3b57dc5a405506e8349609"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kagan_servlet.html#a557149953b3b57dc5a405506e8349609">doPost</a> (HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException </td></tr>
 <tr class="separator:a557149953b3b57dc5a405506e8349609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a11ae9a255dddeefefc0d95b38348f93b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11ae9a255dddeefefc0d95b38348f93b"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>x</b> = 29.051115</td></tr>
+<tr class="separator:a11ae9a255dddeefefc0d95b38348f93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa8107ea89e2018b809bf569724c99db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaa8107ea89e2018b809bf569724c99db"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>y</b> = 41.084458</td></tr>
+<tr class="separator:aaa8107ea89e2018b809bf569724c99db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Servlet implementation class <a class="el" href="class_kagan_servlet.html">KaganServlet</a> </p>

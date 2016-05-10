@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['osmanservlet',['OsmanServlet',['../class_osman_servlet.html',1,'OsmanServlet'],['../class_osman_servlet.html#a01c17538feb7733f728cab3b6be93a5b',1,'OsmanServlet.OsmanServlet()']]]
+  ['mainpageservlet',['MainPageServlet',['../class_main_page_servlet.html',1,'MainPageServlet'],['../class_main_page_servlet.html#a0b23130b80534dc206b4a288b1e53020',1,'MainPageServlet.MainPageServlet()']]]
 ];

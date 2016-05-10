@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mainpageservlet',['MainPageServlet',['../class_main_page_servlet.html#a0b23130b80534dc206b4a288b1e53020',1,'MainPageServlet']]]
+  ['kaganservlet',['KaganServlet',['../class_kagan_servlet.html#aa9733d9af94d7f9e4fd26e7d4dddca59',1,'KaganServlet']]]
 ];

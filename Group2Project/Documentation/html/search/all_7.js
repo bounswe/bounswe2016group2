@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yigitservlet',['YigitServlet',['../class_yigit_servlet.html',1,'YigitServlet'],['../class_yigit_servlet.html#a2cf35716343b40ed5d31bc20bd0e4281',1,'YigitServlet.YigitServlet()']]]
+  ['osmanservlet',['OsmanServlet',['../class_osman_servlet.html',1,'OsmanServlet'],['../class_osman_servlet.html#a01c17538feb7733f728cab3b6be93a5b',1,'OsmanServlet.OsmanServlet()']]]
 ];

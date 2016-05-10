@@ -14,7 +14,15 @@ Inheritance diagram for Yigit\+Servlet\+:\begin{figure}[H]
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \hyperlink{class_yigit_servlet_a87f5660fd804020140513bfd608a1fad}{do\+Get} (Http\+Servlet\+Request request, Http\+Servlet\+Response response)  throws Servlet\+Exception, I\+O\+Exception 
+Connection \hyperlink{class_yigit_servlet_afbf5525cf34aecfbc5c2d7c0a5398d45}{establish\+Database} ()
+\item 
+String \hyperlink{class_yigit_servlet_a03f680ab69c811ba4bb6024bb172c783}{get\+Query} ()  throws Unsupported\+Encoding\+Exception
+\item 
+void \hyperlink{class_yigit_servlet_a67dcab9984048772508f806eec206392}{initialize\+Parameters} (Http\+Servlet\+Request request)
+\item 
+J\+S\+O\+N\+Array \hyperlink{class_yigit_servlet_acb708f5a65546d97991965287c3f226d}{get\+Movies} ()
+\item 
+void \hyperlink{class_yigit_servlet_a87f5660fd804020140513bfd608a1fad}{do\+Get} (Http\+Servlet\+Request request, Http\+Servlet\+Response response)  throws I\+O\+Exception  
 \item 
 void \hyperlink{class_yigit_servlet_a6b23eda49b2fe7abb63786c20fe01d75}{do\+Post} (Http\+Servlet\+Request request, Http\+Servlet\+Response response)  throws Servlet\+Exception, I\+O\+Exception 
 \end{DoxyCompactItemize}
@@ -31,7 +39,7 @@ Servlet implementation class \hyperlink{class_yigit_servlet}{Yigit\+Servlet}
 {}
 \end{DoxyParamCaption}
 )}\label{class_yigit_servlet_a2cf35716343b40ed5d31bc20bd0e4281}
-\begin{DoxySeeAlso}{See also}
+Constructor of the class \begin{DoxySeeAlso}{See also}
 Http\+Servlet\+::\+Http\+Servlet() 
 \end{DoxySeeAlso}
 
@@ -44,7 +52,12 @@ Http\+Servlet\+::\+Http\+Servlet()
 \item[{Http\+Servlet\+Request}]{request, }
 \item[{Http\+Servlet\+Response}]{response}
 \end{DoxyParamCaption}
-) throws Servlet\+Exception, I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a87f5660fd804020140513bfd608a1fad}
+) throws I\+O\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a87f5660fd804020140513bfd608a1fad}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\+O\+Exception} & \\
+\hline
+\end{DoxyExceptions}
 \begin{DoxySeeAlso}{See also}
 Http\+Servlet\+::do\+Get(\+Http\+Servlet\+Request request, Http\+Servlet\+Response response) 
 \end{DoxySeeAlso}
@@ -59,6 +72,53 @@ Http\+Servlet\+::do\+Get(\+Http\+Servlet\+Request request, Http\+Servlet\+Respon
 \begin{DoxySeeAlso}{See also}
 Http\+Servlet\+::do\+Post(\+Http\+Servlet\+Request request, Http\+Servlet\+Response response) 
 \end{DoxySeeAlso}
+\hypertarget{class_yigit_servlet_afbf5525cf34aecfbc5c2d7c0a5398d45}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!establish\+Database@{establish\+Database}}
+\index{establish\+Database@{establish\+Database}!Yigit\+Servlet@{Yigit\+Servlet}}
+\subsubsection[{establish\+Database()}]{\setlength{\rightskip}{0pt plus 5cm}Connection Yigit\+Servlet.\+establish\+Database (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_afbf5525cf34aecfbc5c2d7c0a5398d45}
+Creates the database connection using the credentials defined in main\+Page\+Servlet. Checks the class and the S\+Q\+L availability \begin{DoxyReturn}{Returns}
+The database connection object 
+\end{DoxyReturn}
+\hypertarget{class_yigit_servlet_acb708f5a65546d97991965287c3f226d}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!get\+Movies@{get\+Movies}}
+\index{get\+Movies@{get\+Movies}!Yigit\+Servlet@{Yigit\+Servlet}}
+\subsubsection[{get\+Movies()}]{\setlength{\rightskip}{0pt plus 5cm}J\+S\+O\+N\+Array Yigit\+Servlet.\+get\+Movies (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_acb708f5a65546d97991965287c3f226d}
+This method uses sparql query service and gets the query result data, then exports to J\+S\+O\+N and returns the J\+S\+O\+N Array of the Movies that are found from the query \begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{class_yigit_servlet_a03f680ab69c811ba4bb6024bb172c783}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!get\+Query@{get\+Query}}
+\index{get\+Query@{get\+Query}!Yigit\+Servlet@{Yigit\+Servlet}}
+\subsubsection[{get\+Query()}]{\setlength{\rightskip}{0pt plus 5cm}String Yigit\+Servlet.\+get\+Query (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws Unsupported\+Encoding\+Exception\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a03f680ab69c811ba4bb6024bb172c783}
+Store the main query String for modularity \begin{DoxyReturn}{Returns}
+the query string with the right encoding 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Unsupported\+Encoding\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+\hypertarget{class_yigit_servlet_a67dcab9984048772508f806eec206392}{}\index{Yigit\+Servlet@{Yigit\+Servlet}!initialize\+Parameters@{initialize\+Parameters}}
+\index{initialize\+Parameters@{initialize\+Parameters}!Yigit\+Servlet@{Yigit\+Servlet}}
+\subsubsection[{initialize\+Parameters(\+Http\+Servlet\+Request request)}]{\setlength{\rightskip}{0pt plus 5cm}void Yigit\+Servlet.\+initialize\+Parameters (
+\begin{DoxyParamCaption}
+\item[{Http\+Servlet\+Request}]{request}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\label{class_yigit_servlet_a67dcab9984048772508f806eec206392}
+Assigns the initial duration value which is 0 and the query limit which is 10 The structure of the method is the same since it needs to check the same exceptions with try catches. 
+\begin{DoxyParams}{Parameters}
+{\em request} & \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

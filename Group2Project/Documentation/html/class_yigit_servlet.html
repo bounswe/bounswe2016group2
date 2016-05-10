@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>My Project: YigitServlet Class Reference</title>
+<title>Group2TestProject: YigitServlet Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -31,7 +31,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Group2TestProject
    </div>
   </td>
  </tr>
@@ -127,7 +127,15 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a87f5660fd804020140513bfd608a1fad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#a87f5660fd804020140513bfd608a1fad">doGet</a> (HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException </td></tr>
+<tr class="memitem:afbf5525cf34aecfbc5c2d7c0a5398d45"><td class="memItemLeft" align="right" valign="top">Connection&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#afbf5525cf34aecfbc5c2d7c0a5398d45">establishDatabase</a> ()</td></tr>
+<tr class="separator:afbf5525cf34aecfbc5c2d7c0a5398d45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f680ab69c811ba4bb6024bb172c783"><td class="memItemLeft" align="right" valign="top">String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#a03f680ab69c811ba4bb6024bb172c783">getQuery</a> ()  throws UnsupportedEncodingException</td></tr>
+<tr class="separator:a03f680ab69c811ba4bb6024bb172c783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67dcab9984048772508f806eec206392"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#a67dcab9984048772508f806eec206392">initializeParameters</a> (HttpServletRequest request)</td></tr>
+<tr class="separator:a67dcab9984048772508f806eec206392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb708f5a65546d97991965287c3f226d"><td class="memItemLeft" align="right" valign="top">JSONArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#acb708f5a65546d97991965287c3f226d">getMovies</a> ()</td></tr>
+<tr class="separator:acb708f5a65546d97991965287c3f226d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87f5660fd804020140513bfd608a1fad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#a87f5660fd804020140513bfd608a1fad">doGet</a> (HttpServletRequest request, HttpServletResponse response)  throws IOException  </td></tr>
 <tr class="separator:a87f5660fd804020140513bfd608a1fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b23eda49b2fe7abb63786c20fe01d75"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_yigit_servlet.html#a6b23eda49b2fe7abb63786c20fe01d75">doPost</a> (HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException </td></tr>
 <tr class="separator:a6b23eda49b2fe7abb63786c20fe01d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,7 +155,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See also</dt><dd>HttpServlet::HttpServlet() </dd></dl>
+<p>Constructor of the class </p><dl class="section see"><dt>See also</dt><dd>HttpServlet::HttpServlet() </dd></dl>
 
 </div>
 </div>
@@ -174,7 +182,7 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> throws ServletException, IOException</td>
+          <td></td><td> throws IOException</td>
         </tr>
       </table>
   </td>
@@ -183,6 +191,12 @@ Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">IOException</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section see"><dt>See also</dt><dd>HttpServlet::doGet(HttpServletRequest request, HttpServletResponse response) </dd></dl>
 
 </div>
@@ -219,6 +233,114 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd>HttpServlet::doPost(HttpServletRequest request, HttpServletResponse response) </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="afbf5525cf34aecfbc5c2d7c0a5398d45"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Connection YigitServlet.establishDatabase </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Creates the database connection using the credentials defined in mainPageServlet. Checks the class and the SQL availability </p><dl class="section return"><dt>Returns</dt><dd>The database connection object </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acb708f5a65546d97991965287c3f226d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">JSONArray YigitServlet.getMovies </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>This method uses sparql query service and gets the query result data, then exports to JSON and returns the JSON Array of the Movies that are found from the query </p><dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a03f680ab69c811ba4bb6024bb172c783"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">String YigitServlet.getQuery </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> throws UnsupportedEncodingException</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Store the main query String for modularity </p><dl class="section return"><dt>Returns</dt><dd>the query string with the right encoding </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">UnsupportedEncodingException</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a67dcab9984048772508f806eec206392"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void YigitServlet.initializeParameters </td>
+          <td>(</td>
+          <td class="paramtype">HttpServletRequest&#160;</td>
+          <td class="paramname"><em>request</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Assigns the initial duration value which is 0 and the query limit which is 10 The structure of the method is the same since it needs to check the same exceptions with try catches. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">request</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

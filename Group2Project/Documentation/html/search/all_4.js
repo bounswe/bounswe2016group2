@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kaganservlet',['KaganServlet',['../class_kagan_servlet.html',1,'KaganServlet'],['../class_kagan_servlet.html#aa9733d9af94d7f9e4fd26e7d4dddca59',1,'KaganServlet.KaganServlet()']]]
+  ['initializeparameters',['initializeParameters',['../class_yigit_servlet.html#a67dcab9984048772508f806eec206392',1,'YigitServlet']]]
 ];
