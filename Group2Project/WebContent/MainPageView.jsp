@@ -34,7 +34,7 @@
 				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Enes-Özipek"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
-				<td> <a href="YigitOzgumus"> Arda Yoruk </a> </td>
+				<td> <a href="ArdaServlet"> Arda Yoruk </a> </td>
 				<td> <a href="https://github.com/bounswe/bounswe2016group2/wiki/Arda-Yörük"> Git Profile Page </a> </td>
 			</tr>
 			<tr>
