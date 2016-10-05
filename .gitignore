@@ -1,7 +1,2 @@
-/WebApplication/nbproject/private/
-/WebApplication/dist/
-/WebApplication/build/
-/Servers/
-/Group2Project/.classpath
-/Group2Project/WebContent/WEB-INF/
-/Group2Project/bin/
+/**/.idea/**
+/**/__pycache__/**
