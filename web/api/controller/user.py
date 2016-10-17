@@ -57,7 +57,6 @@ def signin(req):
 @csrf_exempt
 def signout(req):
     logout(req)
-# No backend authenticated the credentials
 
 
 
