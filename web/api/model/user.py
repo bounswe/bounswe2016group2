@@ -1,7 +1,8 @@
 import datetime
 
-from mongoengine import *
+from django.db import models
 
-class User(Document):
-    name = StringField(max_length=200, required=True)
-    createdAt = DateTimeField(default=datetime.datetime.now)
+class User():
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
