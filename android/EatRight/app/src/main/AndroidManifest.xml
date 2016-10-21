@@ -27,8 +27,9 @@
             android:label="@string/title_activity_main" />
         <activity
             android:name=".RegisterActivity"
-            android:parentActivityName=".LoginActivity"
-            android:label="@string/title_activity_register"></activity>
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity" />
+        <activity android:name=".UserHomeActivity"></activity>
     </application>
 
 </manifest>
