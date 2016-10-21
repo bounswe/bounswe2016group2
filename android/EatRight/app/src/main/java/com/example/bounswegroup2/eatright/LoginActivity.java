@@ -51,6 +51,8 @@ import static android.Manifest.permission.READ_CONTACTS;
 import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.baseUrl;
+import static com.example.bounswegroup2.Utils.Constants.emailRegex;
+import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
 /**
  * A login screen that offers login via email/password.
@@ -80,8 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private  Button switchToRegBut;
-    private String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-    private String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{5,10}";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,12 +219,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.matches(regex);
+        return email.matches(emailRegex);
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.matches(pattern);
+        return password.matches(passRegex);
     }
 
     public void switchToRegActivity(View v){
