@@ -327,7 +327,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<String, String, Integer> {
+    private class UserLoginTask extends AsyncTask<String, String, Integer> {
 
         private final String mEmail;
         private final String mPassword;
@@ -383,6 +383,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 e1.printStackTrace();
                 return 0;
             }
+
             try {
 
                 int response_code = conn.getResponseCode();
