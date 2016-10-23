@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">EatRight</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password should have length of 5-10, contain at least one digit, one uppercase letter and lowercase letter</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_password_again">Passwords should match</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_main">Main</string>
+    <string name="title_activity_register">Sign Up</string>
+    <string name="but_to_reg_text"> <u>Not a member ? Register here !</u> </string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password_again">Password Again</string>
+    <string name="prompt_phone">Phone</string>
+    <string name="button_to_server_text"><u>Are you a server ? Click Here !</u></string>
+    <string name="button_to_user_text"><u>Are you a user ? Click Here !</u></string>
+    <string name="title_activity_home">Home</string>
+    <string name="error_unavl_email">This mail address is already in use</string>
+    <string name="error_avl_uname">This username already taken</string>
 </resources>
