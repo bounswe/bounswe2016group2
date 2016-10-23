@@ -1,13 +1,14 @@
-from _mysql_exceptions import IntegrityError as MysqlIntegrityError
-
-from django.db import IntegrityError as DjangoIntegrityError
+from django.core.exceptions import ValidationError
 from django.forms import model_to_dict
+from django.http import Http404
 from django.http import HttpResponse
+from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
 
 from api.service import micronutrient as MicroService
+from api.service.response import JsonResponseBadRequest
 
 @csrf_exempt
 def all(req):
@@ -19,10 +20,13 @@ def create(req):
     try:
         micro = MicroService.create(req.POST['name'])
         return JsonResponse(model_to_dict(micro), safe=False)
+    except ValidationError as e:
+        e = dict(e)
+        if 'slug' in dict(e):
+            e = {'name': e['slug']}
+        return JsonResponseBadRequest(e)
     except MultiValueDictKeyError:
-        return JsonResponse({'message': 'name required'})
-    except (DjangoIntegrityError, MysqlIntegrityError) :
-        return JsonResponse({'message': 'This micronutrient already exists'})
+        return JsonResponseBadRequest({'name': JsonResponseBadRequest.required})
 
 @csrf_exempt
 def createDefaults(req):
@@ -30,15 +34,20 @@ def createDefaults(req):
     return HttpResponse()
 
 @csrf_exempt
-def delete(req):
+def deleteById(req, id):
     try:
-        if 'id' in req.POST:
-            MicroService.deleteById(req.POST['id'])
-        elif 'slug' in req.POST:
-            MicroService.deleteBySlug(req.POST['id'])
-        return JsonResponse({'message':'deleted'})
-    except Exception:
-        raise
+        MicroService.deleteById(id)
+        return HttpResponse()
+    except Http404:
+        return HttpResponseNotFound()
+
+@csrf_exempt
+def deleteBySlug(req, slug):
+    try:
+        MicroService.deleteBySlug(slug)
+        return HttpResponse()
+    except Http404:
+        return HttpResponseNotFound()
 
 @csrf_exempt
 def deleteAll(req):

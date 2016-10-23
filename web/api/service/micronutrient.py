@@ -1,3 +1,5 @@
+from django.shortcuts import get_object_or_404
+
 from api.models import Micronutrient
 import api.mock.nutrient as MicronutrientMock
 
@@ -18,10 +20,10 @@ def createDefaults():
             print(name, ' already exists')
 
 def deleteById(id):
-    Micronutrient.objects.get(id=id).delete()
+    get_object_or_404(Micronutrient, id=id).delete()
 
 def deleteBySlug(slug):
-    Micronutrient.objects.get(slug=slug).delete()
+    get_object_or_404(Micronutrient, slug=slug).delete()
 
 def deleteAll():
     Micronutrient.objects.all().delete()
