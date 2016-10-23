@@ -25,6 +25,11 @@ def create(req):
         return JsonResponse({'message': 'This micronutrient already exists'})
 
 @csrf_exempt
+def createDefaults(req):
+    MicroService.createDefaults()
+    return HttpResponse()
+
+@csrf_exempt
 def delete(req):
     try:
         if 'id' in req.POST:

@@ -9,6 +9,14 @@ def create(name):
     micro.save()
     return micro
 
+def createDefaults():
+    allNames = MicronutrientMock.getAllNames()
+    for name in allNames:
+        try:
+            create(name)
+        except Exception:
+            print(name, ' already exists')
+
 def deleteById(id):
     Micronutrient.objects.get(id=id).delete()
 
