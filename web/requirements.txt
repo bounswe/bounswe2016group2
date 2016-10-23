@@ -1,0 +1,14 @@
+mysqlclient
+
+/.
+/usr
+/usr/lib
+/usr/lib/x86_64-linux-gnu
+/usr/lib/x86_64-linux-gnu/libmysqlclient.so.20.3.2
+/usr/share
+/usr/share/doc
+/usr/share/doc/libmysqlclient20
+/usr/share/doc/libmysqlclient20/copyright
+/usr/share/doc/libmysqlclient20/changelog.Debian.gz
+/usr/share/doc/libmysqlclient20/NEWS.Debian.gz
+/usr/lib/x86_64-linux-gnu/libmysqlclient.so.20
