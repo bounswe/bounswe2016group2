@@ -21,3 +21,6 @@ def toDict(user):
         'fullName': user.first_name + ' ' + user.last_name,
         'email': user.email
     }
+
+def checkIsLoggedIn(user):
+    if(user.is_anonymous): raise PermissionError

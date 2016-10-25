@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^delete/(?P<id>\d+)$', user.delete, name='delete'),
     url(r'^signin$', user.signin, name='signin'),
     url(r'^signout$', user.signout, name='signout'),
+    url(r'^changePassword$', user.changePassword, name='signout'),
     url(r'^admin/', admin.site.urls),
 ]

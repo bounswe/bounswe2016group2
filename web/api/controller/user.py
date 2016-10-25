@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError as DjangoIntegrityError
 from django.http import HttpResponse
@@ -11,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 from api.service import user as UserService
 from api.service.response import JsonResponseBadRequest, HttpResponseUnauthorized
 
-
 @csrf_exempt
 def all(req):
     users = UserService.all()
@@ -21,14 +21,14 @@ def all(req):
 def detail(req, id):
     try:
         user = UserService.get(id)
+        return JsonResponse(UserService.toDict(user), safe=False)
     except ObjectDoesNotExist:
         return HttpResponseNotFound()
-    return JsonResponse(UserService.toDict(user), safe=False)
 
 @csrf_exempt
 def create(req):
     try:
-        user = UserService.create(req.POST['email'], req.POST['password'], req.POST.get('firstName', ''), req.POST.get('lastName', ''))
+        user = UserService.create(req.POST['email'], req.POST['password'], req.POST.get('first_name', ''), req.POST.get('last_name', ''))
         user.save()
         return JsonResponse(UserService.toDict(user))
     except MultiValueDictKeyError as e:
@@ -64,5 +64,21 @@ def signout(req):
     logout(req)
     return HttpResponse()
 
-
-
+@csrf_exempt
+def changePassword(req):
+    try:
+        UserService.checkIsLoggedIn(req.user)
+        oldPassword = req.POST['old_password']
+        newPassword = req.POST['new_password']
+        if req.user.check_password(oldPassword):
+            user = req.user
+            user.set_password(newPassword)
+            user.save()
+            update_session_auth_hash(req, user)
+            return JsonResponse(UserService.toDict(user), safe=False)
+        else:
+            return JsonResponseBadRequest({'old_password': JsonResponseBadRequest.invalid})
+    except MultiValueDictKeyError as e:
+        return JsonResponseBadRequest({slugify(e): JsonResponseBadRequest.required})
+    except PermissionError as e:
+        return HttpResponseUnauthorized()
