@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.http import JsonResponse
 
 class JsonResponseBadRequest(JsonResponse):
@@ -6,3 +7,6 @@ class JsonResponseBadRequest(JsonResponse):
     status_code = 400
     def __init__(self, data, *args, **kwargs):
         JsonResponse.__init__(self, dict(data), *args, **kwargs)
+
+class HttpResponseUnauthorized(HttpResponse):
+    status_code = 401

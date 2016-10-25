@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
-from django.db import IntegrityError as DjangoIntegrityError
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError as DjangoIntegrityError
+from django.http import HttpResponse
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
@@ -8,7 +9,7 @@ from django.utils.text import slugify
 from django.views.decorators.csrf import csrf_exempt
 
 from api.service import user as UserService
-from api.service.response import JsonResponseBadRequest
+from api.service.response import JsonResponseBadRequest, HttpResponseUnauthorized
 
 
 @csrf_exempt
@@ -48,16 +49,20 @@ def delete(req, id):
 
 @csrf_exempt
 def signin(req):
-    user = authenticate(username=req.POST['email'], password=req.POST['password'])
-    if user is not None:
-        login(req, user)
-        return JsonResponse({'message':'login succesful'})
-    else:
-        return JsonResponse({'message':'invalid credentials'})
+    try:
+        user = authenticate(username=req.POST['email'], password=req.POST['password'])
+        if user is not None:
+            login(req, user)
+            return JsonResponse(UserService.toDict(user), safe=False)
+        else:
+            return HttpResponseUnauthorized()
+    except MultiValueDictKeyError as e:
+        return JsonResponseBadRequest({slugify(e): JsonResponseBadRequest.required})
 
 @csrf_exempt
 def signout(req):
     logout(req)
+    return HttpResponse()
 
 
 
