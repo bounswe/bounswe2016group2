@@ -15,7 +15,7 @@ from api.service.response import JsonResponseBadRequest, HttpResponseUnauthorize
 @csrf_exempt
 def all(req):
     users = UserService.all()
-    return JsonResponse(users, safe=False)
+    return JsonResponse(UserService.listToDict(users), safe=False)
 
 @csrf_exempt
 def detail(req, id):
