@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+{% load pipeline %}
 <head>
+    <script src="{% static "bower_components/react/react.js" %}"></script>
+    <script src="{% static "bower_components/react/react-dom.js" %}"></script>
+    {% javascript 'vendor' %}
+    {% javascript 'app' %}
     <meta charset="UTF-8">
     <title>Eat Right</title>
 </head>

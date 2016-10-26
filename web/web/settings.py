@@ -31,15 +31,44 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pipeline',
     'web',
     'api'
 ]
+
+STATIC_ROOT = 'web/static'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
+PIPELINE_ENABLED = True
+
+PIPELINE = {
+    'PIPELINE_ENABLED': True,
+    'JAVASCRIPT': {
+        'vendor': {
+            'source_filenames': (
+                'bower_components/react/react.js'
+                'bower_components/react/react-dom.js'
+            ),
+            'output_filename': 'static/vendor.js'
+        },
+        'app': {
+            'source_filenames': ('static/app.es6'),
+            'output_filename': 'static/app.js'
+        },
+        'COMPILERS': ( 'pipeline.compilers.es6.ES6Compiler1111' )
+    },
+    'COMPILERS': ( 'pipeline.compilers.es6.ES6Compiler1111' )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -122,4 +151,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/app/'

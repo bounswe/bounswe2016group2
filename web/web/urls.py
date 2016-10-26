@@ -1,6 +1,9 @@
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.shortcuts import render
+
+from web import settings
 
 urlpatterns = [
     url(r'^api/', include('api.urls')),
