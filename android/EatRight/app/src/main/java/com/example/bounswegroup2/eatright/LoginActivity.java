@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +32,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Utils.API;
+import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.SessionManager;
 
@@ -48,7 +52,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.example.bounswegroup2.Utils.Constants.API_KEY;
 import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.baseUrl;
@@ -75,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+   // private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -173,9 +182,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
+      /**  if (mAuthTask != null) {
             return;
-        }
+        }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -214,8 +223,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute();
+            loginWithRetro(email,password);
         }
     }
 
@@ -325,10 +333,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    private void loginWithRetro(final String email, final String password){
+
+        ApiInterface apiService = API.getClient().create(ApiInterface.class);
+        Call<User> call = apiService.getUser(email,API_KEY);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User>call, Response<User> response) {
+                String pass = response.body().getPassword();
+                //TODO:  Pass will be comapared by applying hash function
+                if (pass == password){
+                    SessionManager.setPreferences(LoginActivity.this,"usermail",email);
+                    SessionManager.setPreferences(LoginActivity.this,"userpass",pass);
+                    Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                }
+                Log.d("LOGıN", "Pass: " + pass);
+            }
+
+            @Override
+            public void onFailure(Call<User>call, Throwable t) {
+                // Log error here since request failed
+                Log.e("LOGıN", t.toString());
+            }
+        });
+    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
+
+    /**
+     * Asycntask method
     private class UserLoginTask extends AsyncTask<String, String, Integer> {
 
         private final String mEmail;
@@ -439,7 +476,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-
+    */
 
 }
 

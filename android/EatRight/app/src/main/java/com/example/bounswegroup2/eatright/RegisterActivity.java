@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Utils.API;
+import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.SessionManager;
 
 import java.io.BufferedReader;
@@ -27,6 +31,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.internal.framed.Http2;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.HTTP;
+
+import static com.example.bounswegroup2.Utils.Constants.API_KEY;
 import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.baseUrl;
@@ -50,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         expandFormBut = (Button) findViewById(R.id.button_to_server);
+        expandFormBut.setPaintFlags(expandFormBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         phoneText = (EditText) findViewById(R.id.reg_phone);
         regBut = (Button) findViewById(R.id.reg_sign_up_button);
         passText = (EditText)findViewById(R.id.password_reg);
@@ -171,6 +183,31 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private boolean isPasswordValid(String password) { return password.matches(passRegex); }
 
+    private void registerWithRetro(final String email, final String pass, String uname){
+        ApiInterface apiService = API.getClient().create(ApiInterface.class);
+        Call<User> call = apiService.createUser(email,pass,uname,API_KEY);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                int statusCode = response.code();
+                if (statusCode == 1){
+                    SessionManager.setPreferences(RegisterActivity.this,"usermail",email);
+                    SessionManager.setPreferences(RegisterActivity.this,"userpass",pass);
+                    Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
+                    startActivity(intent);
+                    RegisterActivity.this.finish();
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
+    }
     private class UserRegTask extends AsyncTask<String,String,Integer> {
         private final String mEmail;
         private final String mPassword;
