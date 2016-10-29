@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -50,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         expandFormBut = (Button) findViewById(R.id.button_to_server);
+        expandFormBut.setPaintFlags(expandFormBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         phoneText = (EditText) findViewById(R.id.reg_phone);
         regBut = (Button) findViewById(R.id.reg_sign_up_button);
         passText = (EditText)findViewById(R.id.password_reg);
