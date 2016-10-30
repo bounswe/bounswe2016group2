@@ -77,7 +77,8 @@
                 android:background="@android:color/transparent"
                 android:text="@string/but_to_reg_text"
                 android:onClick="switchToRegActivity" />
-
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>
