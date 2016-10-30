@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,25 +28,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Utils.API;
 import com.example.bounswegroup2.Utils.ApiInterface;
-import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.SessionManager;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +43,6 @@ import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.example.bounswegroup2.Utils.Constants.API_KEY;
-import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.baseUrl;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -337,6 +319,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         ApiInterface apiService = API.getClient().create(ApiInterface.class);
         Call<User> call = apiService.getUser(email,API_KEY);
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User>call, Response<User> response) {
@@ -383,7 +366,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Enter URL address where your php file resides
-                url = new URL(baseUrl+"/login");
+                url = new URL(BASE_URL+"/login");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

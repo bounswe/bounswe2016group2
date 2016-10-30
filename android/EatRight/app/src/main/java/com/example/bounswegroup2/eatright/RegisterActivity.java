@@ -40,7 +40,7 @@ import retrofit2.http.HTTP;
 import static com.example.bounswegroup2.Utils.Constants.API_KEY;
 import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
 import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.baseUrl;
+import static com.example.bounswegroup2.Utils.Constants.BASE_URL;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passAgainText;
     private  EditText userNameText;
     private  EditText emailText;
-    private UserRegTask mAuthTask = null;
+   // private UserRegTask mAuthTask = null;
     private View mRegFormView;
     private View mregProgressView;
 
@@ -159,8 +159,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(!phone.isEmpty()){
 
                 }else{
-                    mAuthTask = new UserRegTask(email,pass,uname);
-                    mAuthTask.execute();
+                  //  mAuthTask = new UserRegTask(email,pass,uname);
+                  //  mAuthTask.execute();
                 }
             }
 
@@ -208,6 +208,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Asynctask method
+     *
     private class UserRegTask extends AsyncTask<String,String,Integer> {
         private final String mEmail;
         private final String mPassword;
@@ -223,7 +227,7 @@ public class RegisterActivity extends AppCompatActivity {
         protected Integer doInBackground(String... params) {
             try {
                 // Enter URL address where your php file resides
-                url = new URL(baseUrl+"/reg");
+                url = new URL(BASE_URL+"/reg");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -320,4 +324,5 @@ public class RegisterActivity extends AppCompatActivity {
             showProgress(false);
         }
     }
+        */
 }
