@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EatRight</string>
+    <string name="app_name">Eat Right</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -22,9 +22,15 @@
     <string name="prompt_username">Username</string>
     <string name="prompt_password_again">Password Again</string>
     <string name="prompt_phone">Phone</string>
-    <string name="button_to_server_text"><u>Are you a server ? Click Here !</u></string>
-    <string name="button_to_user_text"><u>Are you a user ? Click Here !</u></string>
+    <string name="button_to_server_text"> <u>Are you a server ? Click Here !</u> </string>
+    <string name="button_to_user_text"> <u>Are you a user ? Click Here !</u> </string>
     <string name="title_activity_home">Home</string>
     <string name="error_unavl_email">This mail address is already in use</string>
     <string name="error_avl_uname">This username already taken</string>
+    <string name="title_activity_user_home">UserHomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
