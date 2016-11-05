@@ -1,10 +1,7 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import authenticate
 from django.http import HttpResponse
-from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
-from django.utils.text import slugify
-from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -12,7 +9,6 @@ from rest_framework.response import Response
 
 from api.model.user import UserSerializer
 from api.service import user as UserService
-from api.service.response import JsonResponseBadRequest, HttpResponseUnauthorized
 
 
 @api_view(['POST'])
@@ -29,21 +25,26 @@ def signup(req):
 
 @api_view(['POST'])
 def signin(req):
-    try:
-        user = authenticate(username=req.POST.get('email', ''), password=req.POST.get('password'))
-        if user is not None:
-            login(req, user)
-            return JsonResponse(UserService.toDict(user), safe=False)
-        else:
-            return HttpResponse(status.HTTP_400_BAD_REQUEST)
-    except MultiValueDictKeyError as e:
-        return JsonResponseBadRequest({slugify(e): JsonResponseBadRequest.required})
+    user = authenticate(username=req.POST.get('email', ''), password=req.POST.get('password', ''))
+    if user is not None:
+        token = UserService.refreshToken(user)
+        return Response({'token': token.key})
+    else:
+        return HttpResponse(status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])
 def signout(req):
-    logout(req)
+    if req.user:
+        UserService.deleteToken(req.user)
     return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def me(req):
+    user = User.objects.get(id=req.user.id)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -77,21 +78,23 @@ def user(req, userId):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
-@csrf_exempt
+@api_view(['POST'])
 def changePassword(req):
     try:
-        UserService.checkIsLoggedIn(req.user)
         oldPassword = req.POST['old_password']
         newPassword = req.POST['new_password']
         if req.user.check_password(oldPassword):
             user = req.user
             user.set_password(newPassword)
-            user.save()
-            update_session_auth_hash(req, user)
-            return JsonResponse(UserService.toDict(user), safe=False)
+            serializer = UserSerializer(user)
+            if serializer.is_valid():
+                serializer.save()
+                return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return JsonResponseBadRequest({'old_password': JsonResponseBadRequest.invalid})
+            return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
     except MultiValueDictKeyError as e:
-        return JsonResponseBadRequest({slugify(e): JsonResponseBadRequest.required})
+        return HttpResponse()
     except PermissionError as e:
-        return HttpResponseUnauthorized()
+        return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
