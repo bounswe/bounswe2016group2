@@ -7,8 +7,53 @@ from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
+
 from api.service import micronutrient as MicroService
 from api.service.response import JsonResponseBadRequest
+from api.model.micronutrient import Micronutrient, MicronutrientSerializer
+
+
+@csrf_exempt
+def micronutrients(req):
+    if req.method == 'GET':
+        micros = Micronutrient.objects.all()
+        serializer = MicronutrientSerializer(micros, many=True)
+        return JsonResponse(serializer.data, status=200, safe=False)
+    elif req.method == 'POST':
+        data = JSONParser().parse(req)
+        serializer = MicronutrientSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def micronutrient(req, micronutrientId):
+    try:
+        micro = Micronutrient.objects.get(id=micronutrientId)
+    except Micronutrient.DoesNotExists:
+        return HttpResponse(status=404)
+
+    if req.method == 'GET':
+        ser = MicronutrientSerializer(micro)
+        return JsonResponse(ser.data)
+
+    elif req.method == 'PUT':
+        data = JSONParser().parse(req)
+        ser = MicronutrientSerializer(micro, data)
+        if ser.is_valid():
+            ser.save()
+            return JsonResponse(ser.data, status=200)
+        else:
+            return JsonResponse(ser.errors, status=400)
+
+    elif req.method == 'DELETE':
+        micro.delete()
+        return JsonResponse(ser.data, status=204)
+
 
 @csrf_exempt
 def all(req):
