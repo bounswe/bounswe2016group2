@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
 from api.controller import micronutrient
@@ -19,5 +19,6 @@ urlpatterns = [
     url(r'^micronutrientsDefaults$', micronutrient.createDefaults),
     url(r'^micronutrientsAll$', micronutrient.deleteAll),
     # ADMIN ROUTES
-    url(r'^admin/', admin.site.urls)
+    url(r'^admin/', admin.site.urls),
+    url(r'^docs', include('rest_framework_docs.urls'))
 ]

@@ -13,6 +13,9 @@ from api.service import user as UserService
 
 @api_view(['POST'])
 def signup(req):
+    """
+    Create user and return
+    """
     if ('email' in req.POST):
         req.POST['username'] = req.POST['email']
     serializer = UserSerializer(data=req.data)
@@ -25,6 +28,9 @@ def signup(req):
 
 @api_view(['POST'])
 def signin(req):
+    """
+    authenticate user with email and password, return token
+    """
     user = authenticate(username=req.POST.get('email', ''), password=req.POST.get('password', ''))
     if user is not None:
         token = UserService.refreshToken(user)
@@ -35,6 +41,9 @@ def signin(req):
 
 @api_view(['GET', 'POST'])
 def signout(req):
+    """
+    delete user token from database
+    """
     if req.user:
         UserService.deleteToken(req.user)
     return HttpResponse(status=status.HTTP_204_NO_CONTENT)
@@ -42,6 +51,9 @@ def signout(req):
 
 @api_view(['GET', 'POST'])
 def me(req):
+    """
+    get current user if authenticated
+    """
     user = User.objects.get(id=req.user.id)
     serializer = UserSerializer(user)
     return Response(serializer.data)
@@ -49,6 +61,9 @@ def me(req):
 
 @api_view(['GET'])
 def users(req):
+    """
+    retrieve all users
+    """
     users = User.objects.all()
     ser = UserSerializer(users, many=True)
     return Response(ser.data)
@@ -56,6 +71,9 @@ def users(req):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def user(req, userId):
+    """
+    retrieve, modify or delete single user by id
+    """
     try:
         user = User.objects.get(id=userId)
     except User.DoesNotExist:
@@ -80,6 +98,9 @@ def user(req, userId):
 
 @api_view(['POST'])
 def changePassword(req):
+    """
+    change user password
+    """
     try:
         oldPassword = req.POST['old_password']
         newPassword = req.POST['new_password']
