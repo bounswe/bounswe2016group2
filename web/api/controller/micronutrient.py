@@ -1,100 +1,96 @@
-from django.core.exceptions import ValidationError
-from django.forms import model_to_dict
-from django.http import Http404
 from django.http import HttpResponse
-from django.http import HttpResponseNotFound
-from django.http import JsonResponse
-from django.utils.datastructures import MultiValueDictKeyError
-from django.views.decorators.csrf import csrf_exempt
+from django.utils.text import slugify
 
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from api.service import micronutrient as MicroService
-from api.service.response import JsonResponseBadRequest
 from api.model.micronutrient import Micronutrient, MicronutrientSerializer
 
 
-@csrf_exempt
+@api_view(['GET', 'POST'])
 def micronutrients(req):
+    """
+    Get all micronutrients, or create a new one
+    """
     if req.method == 'GET':
         micros = Micronutrient.objects.all()
-        serializer = MicronutrientSerializer(micros, many=True)
-        return JsonResponse(serializer.data, status=200, safe=False)
+        ser = MicronutrientSerializer(micros, many=True)
+        return Response(ser.data)
+
     elif req.method == 'POST':
-        data = JSONParser().parse(req)
-        serializer = MicronutrientSerializer(data=data)
+        if 'name' in req.POST:
+            req.POST['slug'] = slugify(req.POST['name'])
+        serializer = MicronutrientSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
 def micronutrient(req, micronutrientId):
+    """
+    Retrive, modify or delete single micronutrient by id
+    """
     try:
         micro = Micronutrient.objects.get(id=micronutrientId)
-    except Micronutrient.DoesNotExists:
-        return HttpResponse(status=404)
+    except Micronutrient.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if 'name' in req.POST:
+        req.POST['slug'] = slugify(req.POST['name'])
 
     if req.method == 'GET':
         ser = MicronutrientSerializer(micro)
-        return JsonResponse(ser.data)
+        return Response(ser.data)
 
     elif req.method == 'PUT':
-        data = JSONParser().parse(req)
-        ser = MicronutrientSerializer(micro, data)
-        if ser.is_valid():
-            ser.save()
-            return JsonResponse(ser.data, status=200)
+        serializer = MicronutrientSerializer(micro, data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         else:
-            return JsonResponse(ser.errors, status=400)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif req.method == 'DELETE':
         micro.delete()
-        return JsonResponse(ser.data, status=204)
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
-@csrf_exempt
-def all(req):
-    micros = list(MicroService.all())
-    return JsonResponse(micros, safe=False)
-
-@csrf_exempt
-def create(req):
+@api_view(['GET', 'DELETE'])
+def slug(req, slug):
+    """
+    Retrive or delete single micronutrient by slug
+    """
     try:
-        micro = MicroService.create(req.POST['name'])
-        return JsonResponse(model_to_dict(micro), safe=False)
-    except ValidationError as e:
-        e = dict(e)
-        if 'slug' in dict(e):
-            e = {'name': e['slug']}
-        return JsonResponseBadRequest(e)
-    except MultiValueDictKeyError:
-        return JsonResponseBadRequest({'name': JsonResponseBadRequest.required})
+        micro = Micronutrient.objects.get(slug=slug)
+    except Micronutrient.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-@csrf_exempt
+    if req.method == 'GET':
+        ser = MicronutrientSerializer(micro)
+        return Response(ser.data)
+
+    elif req.method == 'DELETE':
+        micro.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
 def createDefaults(req):
+    """
+    Add default micronutrients in mocks to database
+    """
     MicroService.createDefaults()
-    return HttpResponse()
+    return HttpResponse(status=status.HTTP_201_CREATED)
 
-@csrf_exempt
-def deleteById(req, id):
-    try:
-        MicroService.deleteById(id)
-        return HttpResponse()
-    except Http404:
-        return HttpResponseNotFound()
 
-@csrf_exempt
-def deleteBySlug(req, slug):
-    try:
-        MicroService.deleteBySlug(slug)
-        return HttpResponse()
-    except Http404:
-        return HttpResponseNotFound()
-
-@csrf_exempt
+@api_view(['DELETE'])
 def deleteAll(req):
+    """
+    Flush micronutrient table, delete all
+    """
     MicroService.deleteAll()
-    return HttpResponse()
+    return HttpResponse(status=status.HTTP_204_NO_CONTENT)

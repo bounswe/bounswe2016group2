@@ -16,5 +16,7 @@ class Micronutrient(models.Model):
 
 
 class MicronutrientSerializer(serializers.ModelSerializer):
-    model = Micronutrient
-    fields = ('id', 'name', 'slug')
+
+    class Meta:
+        model = Micronutrient
+        fields = ('id', 'name', 'slug')
