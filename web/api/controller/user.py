@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError as DjangoIntegrityError
 from django.http import HttpResponse
@@ -12,10 +11,12 @@ from django.views.decorators.csrf import csrf_exempt
 from api.service import user as UserService
 from api.service.response import JsonResponseBadRequest, HttpResponseUnauthorized
 
+
 @csrf_exempt
 def all(req):
     users = UserService.all()
     return JsonResponse(UserService.listToDict(users), safe=False)
+
 
 @csrf_exempt
 def detail(req, id):
@@ -25,10 +26,16 @@ def detail(req, id):
     except ObjectDoesNotExist:
         return HttpResponseNotFound()
 
+
 @csrf_exempt
 def create(req):
     try:
-        user = UserService.create(req.POST['email'], req.POST['password'], req.POST.get('first_name', ''), req.POST.get('last_name', ''))
+        user = UserService.create(
+            req.POST['email'],
+            req.POST['password'],
+            req.POST.get('first_name', ''),
+            req.POST.get('last_name', '')
+        )
         user.save()
         return JsonResponse(UserService.toDict(user))
     except MultiValueDictKeyError as e:
@@ -37,6 +44,7 @@ def create(req):
         return JsonResponseBadRequest({'email': JsonResponseBadRequest.required})
     except DjangoIntegrityError:
         return JsonResponseBadRequest({'email': JsonResponseBadRequest.taken})
+
 
 @csrf_exempt
 def delete(req, id):
@@ -59,10 +67,12 @@ def signin(req):
     except MultiValueDictKeyError as e:
         return JsonResponseBadRequest({slugify(e): JsonResponseBadRequest.required})
 
+
 @csrf_exempt
 def signout(req):
     logout(req)
     return HttpResponse()
+
 
 @csrf_exempt
 def changePassword(req):
