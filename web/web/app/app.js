@@ -1,5 +1,5 @@
 const root = document.getElementById('root')
-let user = {}
+let user = null
 
 class Layout extends React.Component {
   render() {
