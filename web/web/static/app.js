@@ -1,6 +1,7 @@
-e = React.createElement;
+'use strict';
 
-ReactDOM.render(
-  e('div', null, 'CmpE 352 & 451 Group 2'),
-  document.getElementById('root')
-);
+ReactDOM.render(React.createElement(
+  'h1',
+  null,
+  'Hello, world!'
+), document.getElementById('root'));
