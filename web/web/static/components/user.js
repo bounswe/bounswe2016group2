@@ -17,15 +17,21 @@ var SignInModal = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (SignInModal.__proto__ || Object.getPrototypeOf(SignInModal)).call(this, props));
 
     _this.data = {};
-    _this.changed = _this.changed.bind(_this);
+    _this.emailChanged = _this.emailChanged.bind(_this);
+    _this.passwordChanged = _this.passwordChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
     return _this;
   }
 
   _createClass(SignInModal, [{
-    key: "changed",
-    value: function changed(e) {
-      this.data[e.target.name] = e.target.value;
+    key: "emailChanged",
+    value: function emailChanged(e) {
+      this.setState({ email: e.target.value });
+    }
+  }, {
+    key: "passwordChanged",
+    value: function passwordChanged(e) {
+      this.setState({ password: e.target.value });
     }
   }, {
     key: "submit",
@@ -94,15 +100,33 @@ var SignUpModal = function (_React$Component2) {
     var _this2 = _possibleConstructorReturn(this, (SignUpModal.__proto__ || Object.getPrototypeOf(SignUpModal)).call(this, props));
 
     _this2.data = {};
-    _this2.changed = _this2.changed.bind(_this2);
+    _this2.first_nameChanged = _this2.first_nameChanged.bind(_this2);
+    _this2.last_nameChanged = _this2.last_nameChanged.bind(_this2);
+    _this2.emailChanged = _this2.emailChanged.bind(_this2);
+    _this2.passwordChanged = _this2.passwordChanged.bind(_this2);
     _this2.submit = _this2.submit.bind(_this2);
     return _this2;
   }
 
   _createClass(SignUpModal, [{
-    key: "changed",
-    value: function changed(e) {
-      this.data[e.target.name] = e.target.value;
+    key: "first_nameChanged",
+    value: function first_nameChanged(e) {
+      this.setState({ first_name: e.target.value });
+    }
+  }, {
+    key: "last_nameChanged",
+    value: function last_nameChanged(e) {
+      this.setState({ last_name: e.target.value });
+    }
+  }, {
+    key: "emailChanged",
+    value: function emailChanged(e) {
+      this.setState({ email: e.target.value });
+    }
+  }, {
+    key: "passwordChanged",
+    value: function passwordChanged(e) {
+      this.setState({ password: e.target.value });
     }
   }, {
     key: "submit",
@@ -136,7 +160,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "First name"
               ),
-              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.data.first_name, onChange: this.changed })
+              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.data.first_name, onChange: this.first_nameChanged })
             ),
             React.createElement(
               "div",
@@ -146,7 +170,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Last name"
               ),
-              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.data.last_name, onChange: this.changed })
+              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.data.last_name, onChange: this.last_nameChanged })
             ),
             React.createElement(
               "div",
@@ -156,7 +180,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "E-mail"
               ),
-              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.data.email, onChange: this.changed })
+              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.data.email, onChange: this.emailChanged })
             ),
             React.createElement(
               "div",
@@ -166,7 +190,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Password"
               ),
-              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.data.password, onChange: this.changed })
+              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.data.password, onChange: this.passwordChanged })
             ),
             React.createElement(
               "div",

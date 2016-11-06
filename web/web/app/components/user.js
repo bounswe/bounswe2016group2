@@ -3,13 +3,13 @@ class SignInModal extends React.Component {
   constructor (props) {
     super(props)
     this.data = {}
-    this.changed = this.changed.bind(this)
+    this.emailChanged = this.emailChanged.bind(this)
+    this.passwordChanged = this.passwordChanged.bind(this)
     this.submit = this.submit.bind(this)
   }
 
-  changed(e) {
-    this.data[e.target.name] = e.target.value
-  }
+  emailChanged(e) {this.setState({email: e.target.value}) }
+  passwordChanged(e) {this.setState({password: e.target.value}) }
 
   submit(e) {
     e.preventDefault()
@@ -53,13 +53,17 @@ class SignUpModal extends React.Component {
   constructor (props) {
     super(props)
     this.data = {}
-    this.changed = this.changed.bind(this)
+    this.first_nameChanged = this.first_nameChanged.bind(this)
+    this.last_nameChanged = this.last_nameChanged.bind(this)
+    this.emailChanged = this.emailChanged.bind(this)
+    this.passwordChanged = this.passwordChanged.bind(this)
     this.submit = this.submit.bind(this)
   }
 
-  changed(e) {
-    this.data[e.target.name] = e.target.value
-  }
+  first_nameChanged(e) {this.setState({first_name: e.target.value}) }
+  last_nameChanged(e) {this.setState({last_name: e.target.value}) }
+  emailChanged(e) {this.setState({email: e.target.value}) }
+  passwordChanged(e) {this.setState({password: e.target.value}) }
 
   submit(e) {
     e.preventDefault()
@@ -82,19 +86,19 @@ class SignUpModal extends React.Component {
           <form className='ui form'>
             <div className="field">
               <label>First name</label>
-              <input type="text" name="firstName" placeholder="First name" value={this.data.first_name} onChange={this.changed}/>
+              <input type="text" name="firstName" placeholder="First name" value={this.data.first_name} onChange={this.first_nameChanged}/>
             </div>
             <div className="field">
               <label>Last name</label>
-              <input type="text" name="lastName" placeholder="Last name" value={this.data.last_name} onChange={this.changed}/>
+              <input type="text" name="lastName" placeholder="Last name" value={this.data.last_name} onChange={this.last_nameChanged}/>
             </div>
             <div className="field">
               <label>E-mail</label>
-              <input type="text" name="email" placeholder="E-mail" value={this.data.email} onChange={this.changed}/>
+              <input type="text" name="email" placeholder="E-mail" value={this.data.email} onChange={this.emailChanged}/>
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" name="password" placeholder="Password" value={this.data.password} onChange={this.changed}/>
+              <input type="password" name="password" placeholder="Password" value={this.data.password} onChange={this.passwordChanged}/>
             </div>
             <div className="field">
               <label>Repeat password</label>
