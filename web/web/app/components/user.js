@@ -2,7 +2,7 @@ class SignInModal extends React.Component {
 
   constructor (props) {
     super(props)
-    this.data = {}
+    this.state = {}
     this.emailChanged = this.emailChanged.bind(this)
     this.passwordChanged = this.passwordChanged.bind(this)
     this.submit = this.submit.bind(this)
@@ -13,7 +13,11 @@ class SignInModal extends React.Component {
 
   submit(e) {
     e.preventDefault()
-    Api.signin(this.data)
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    Api.signin(data)
       .then((data) => {
 
       }).catch((err) => {
@@ -32,11 +36,11 @@ class SignInModal extends React.Component {
           <form className='ui form'>
             <div className="field">
               <label>E-mail</label>
-              <input type="text" name="email" placeholder="E-mail" value={this.data.email} onChange={this.changed}/>
+              <input type="text" name="email" placeholder="E-mail" value={this.state.email} onChange={this.changed}/>
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" name="password" placeholder="Password" value={this.data.password} onChange={this.changed}/>
+              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.changed}/>
             </div>
             <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.submit}>
               Submit
@@ -52,7 +56,10 @@ class SignUpModal extends React.Component {
 
   constructor (props) {
     super(props)
-    this.data = {}
+    this.state = {
+      data: null,
+      errors: null
+    }
     this.first_nameChanged = this.first_nameChanged.bind(this)
     this.last_nameChanged = this.last_nameChanged.bind(this)
     this.emailChanged = this.emailChanged.bind(this)
@@ -67,15 +74,24 @@ class SignUpModal extends React.Component {
 
   submit(e) {
     e.preventDefault()
-    Api.signup(this.data)
+    this.setState({errors: null})
+    const data = {
+      email: this.state.email,
+      password: this.state.password,
+      first_name: this.state.first_name,
+      last_name: this.state.last_name
+    }
+    Api.signup(data)
       .then((data) => {
 
       }).catch((err) => {
-
+        this.setState({errors: err.data})
       })
   }
 
   render() {
+    let formClassName = 'ui form'
+    if (this.state.errors) formClassName += ' error'
     return (
       <div id='signUpModal' className="ui small modal">
         <i className="close icon"></i>
@@ -83,22 +99,32 @@ class SignUpModal extends React.Component {
           Sign Up
         </div>
         <div className="content">
-          <form className='ui form'>
+          <form className={formClassName}>
             <div className="field">
               <label>First name</label>
-              <input type="text" name="firstName" placeholder="First name" value={this.data.first_name} onChange={this.first_nameChanged}/>
+              <input type="text" name="firstName" placeholder="First name" value={this.state.first_name} onChange={this.first_nameChanged}/>
             </div>
             <div className="field">
               <label>Last name</label>
-              <input type="text" name="lastName" placeholder="Last name" value={this.data.last_name} onChange={this.last_nameChanged}/>
+              <input type="text" name="lastName" placeholder="Last name" value={this.state.last_name} onChange={this.last_nameChanged}/>
             </div>
             <div className="field">
               <label>E-mail</label>
-              <input type="text" name="email" placeholder="E-mail" value={this.data.email} onChange={this.emailChanged}/>
+              <input type="text" name="email" placeholder="E-mail" value={this.state.email} onChange={this.emailChanged}/>
+              { this.state.errors && this.state.errors.email &&
+                <div className="ui error message">
+                  <p>{this.state.errors.email[0]}</p>
+                </div>
+              }
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" name="password" placeholder="Password" value={this.data.password} onChange={this.passwordChanged}/>
+              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.passwordChanged}/>
+              { this.state.errors && this.state.errors.password &&
+                <div className="ui error message">
+                  <p>{this.state.errors.password[0]}</p>
+                </div>
+              }
             </div>
             <div className="field">
               <label>Repeat password</label>

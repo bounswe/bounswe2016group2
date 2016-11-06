@@ -16,7 +16,7 @@ var SignInModal = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SignInModal.__proto__ || Object.getPrototypeOf(SignInModal)).call(this, props));
 
-    _this.data = {};
+    _this.state = {};
     _this.emailChanged = _this.emailChanged.bind(_this);
     _this.passwordChanged = _this.passwordChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
@@ -37,7 +37,11 @@ var SignInModal = function (_React$Component) {
     key: "submit",
     value: function submit(e) {
       e.preventDefault();
-      Api.signin(this.data).then(function (data) {}).catch(function (err) {});
+      var data = {
+        email: this.state.email,
+        password: this.state.password
+      };
+      Api.signin(data).then(function (data) {}).catch(function (err) {});
     }
   }, {
     key: "render",
@@ -65,7 +69,7 @@ var SignInModal = function (_React$Component) {
                 null,
                 "E-mail"
               ),
-              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.data.email, onChange: this.changed })
+              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.state.email, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -75,7 +79,7 @@ var SignInModal = function (_React$Component) {
                 null,
                 "Password"
               ),
-              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.data.password, onChange: this.changed })
+              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.state.password, onChange: this.changed })
             ),
             React.createElement(
               "button",
@@ -99,7 +103,10 @@ var SignUpModal = function (_React$Component2) {
 
     var _this2 = _possibleConstructorReturn(this, (SignUpModal.__proto__ || Object.getPrototypeOf(SignUpModal)).call(this, props));
 
-    _this2.data = {};
+    _this2.state = {
+      data: null,
+      errors: null
+    };
     _this2.first_nameChanged = _this2.first_nameChanged.bind(_this2);
     _this2.last_nameChanged = _this2.last_nameChanged.bind(_this2);
     _this2.emailChanged = _this2.emailChanged.bind(_this2);
@@ -131,12 +138,25 @@ var SignUpModal = function (_React$Component2) {
   }, {
     key: "submit",
     value: function submit(e) {
+      var _this3 = this;
+
       e.preventDefault();
-      Api.signup(this.data).then(function (data) {}).catch(function (err) {});
+      this.setState({ errors: null });
+      var data = {
+        email: this.state.email,
+        password: this.state.password,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name
+      };
+      Api.signup(data).then(function (data) {}).catch(function (err) {
+        _this3.setState({ errors: err.data });
+      });
     }
   }, {
     key: "render",
     value: function render() {
+      var formClassName = 'ui form';
+      if (this.state.errors) formClassName += ' error';
       return React.createElement(
         "div",
         { id: "signUpModal", className: "ui small modal" },
@@ -151,7 +171,7 @@ var SignUpModal = function (_React$Component2) {
           { className: "content" },
           React.createElement(
             "form",
-            { className: "ui form" },
+            { className: formClassName },
             React.createElement(
               "div",
               { className: "field" },
@@ -160,7 +180,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "First name"
               ),
-              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.data.first_name, onChange: this.first_nameChanged })
+              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.state.first_name, onChange: this.first_nameChanged })
             ),
             React.createElement(
               "div",
@@ -170,7 +190,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Last name"
               ),
-              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.data.last_name, onChange: this.last_nameChanged })
+              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.state.last_name, onChange: this.last_nameChanged })
             ),
             React.createElement(
               "div",
@@ -180,7 +200,16 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "E-mail"
               ),
-              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.data.email, onChange: this.emailChanged })
+              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.state.email, onChange: this.emailChanged }),
+              this.state.errors && this.state.errors.email && React.createElement(
+                "div",
+                { className: "ui error message" },
+                React.createElement(
+                  "p",
+                  null,
+                  this.state.errors.email[0]
+                )
+              )
             ),
             React.createElement(
               "div",
@@ -190,7 +219,16 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Password"
               ),
-              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.data.password, onChange: this.passwordChanged })
+              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.state.password, onChange: this.passwordChanged }),
+              this.state.errors && this.state.errors.password && React.createElement(
+                "div",
+                { className: "ui error message" },
+                React.createElement(
+                  "p",
+                  null,
+                  this.state.errors.password[0]
+                )
+              )
             ),
             React.createElement(
               "div",
@@ -222,13 +260,13 @@ var NavbarUser = function (_React$Component3) {
   function NavbarUser(props) {
     _classCallCheck(this, NavbarUser);
 
-    var _this3 = _possibleConstructorReturn(this, (NavbarUser.__proto__ || Object.getPrototypeOf(NavbarUser)).call(this, props));
+    var _this4 = _possibleConstructorReturn(this, (NavbarUser.__proto__ || Object.getPrototypeOf(NavbarUser)).call(this, props));
 
-    _this3.state = { user: props.user };
-    _this3.openSigninModal = _this3.openSigninModal.bind(_this3);
-    _this3.openSignupModal = _this3.openSignupModal.bind(_this3);
-    _this3.signout = _this3.signout.bind(_this3);
-    return _this3;
+    _this4.state = { user: props.user };
+    _this4.openSigninModal = _this4.openSigninModal.bind(_this4);
+    _this4.openSignupModal = _this4.openSignupModal.bind(_this4);
+    _this4.signout = _this4.signout.bind(_this4);
+    return _this4;
   }
 
   _createClass(NavbarUser, [{
