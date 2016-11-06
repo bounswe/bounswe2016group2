@@ -13,6 +13,12 @@ class SignInModal extends React.Component {
 
   submit(e) {
     e.preventDefault()
+    Api.signin(this.data)
+      .then((data) => {
+
+      }).catch((err) => {
+
+      })
   }
 
   render() {
@@ -57,6 +63,12 @@ class SignUpModal extends React.Component {
 
   submit(e) {
     e.preventDefault()
+    Api.signup(this.data)
+      .then((data) => {
+
+      }).catch((err) => {
+
+      })
   }
 
   render() {
@@ -70,11 +82,11 @@ class SignUpModal extends React.Component {
           <form className='ui form'>
             <div className="field">
               <label>First name</label>
-              <input type="text" name="firstName" placeholder="First name" value={this.data.firstName} onChange={this.changed}/>
+              <input type="text" name="firstName" placeholder="First name" value={this.data.first_name} onChange={this.changed}/>
             </div>
             <div className="field">
               <label>Last name</label>
-              <input type="text" name="lastName" placeholder="Last name" value={this.data.lastName} onChange={this.changed}/>
+              <input type="text" name="lastName" placeholder="Last name" value={this.data.last_name} onChange={this.changed}/>
             </div>
             <div className="field">
               <label>E-mail</label>
@@ -88,7 +100,7 @@ class SignUpModal extends React.Component {
               <label>Repeat password</label>
               <input type="password" name="repeatPassword" placeholder="Password"/>
             </div>
-            <button className="ui button" type="submit" style={{width:'100%'}}>
+            <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.submit}>
               Submit
             </button>
           </form>

@@ -31,6 +31,7 @@ var SignInModal = function (_React$Component) {
     key: "submit",
     value: function submit(e) {
       e.preventDefault();
+      Api.signin(this.data).then(function (data) {}).catch(function (err) {});
     }
   }, {
     key: "render",
@@ -107,6 +108,7 @@ var SignUpModal = function (_React$Component2) {
     key: "submit",
     value: function submit(e) {
       e.preventDefault();
+      Api.signup(this.data).then(function (data) {}).catch(function (err) {});
     }
   }, {
     key: "render",
@@ -134,7 +136,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "First name"
               ),
-              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.data.firstName, onChange: this.changed })
+              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.data.first_name, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -144,7 +146,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Last name"
               ),
-              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.data.lastName, onChange: this.changed })
+              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.data.last_name, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -178,7 +180,7 @@ var SignUpModal = function (_React$Component2) {
             ),
             React.createElement(
               "button",
-              { className: "ui button", type: "submit", style: { width: '100%' } },
+              { className: "ui button", type: "submit", style: { width: '100%' }, onClick: this.submit },
               "Submit"
             )
           )
