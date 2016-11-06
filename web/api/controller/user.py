@@ -36,7 +36,7 @@ def signin(req):
         token = UserService.refreshToken(user)
         return Response({'token': token.key})
     else:
-        return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])

@@ -13,6 +13,7 @@ class SignInModal extends React.Component {
 
   submit(e) {
     e.preventDefault()
+    this.setState({error: false})
     const data = {
       email: this.state.email,
       password: this.state.password
@@ -21,11 +22,13 @@ class SignInModal extends React.Component {
       .then((data) => {
 
       }).catch((err) => {
-
+        this.setState({error: true})
       })
   }
 
   render() {
+    let formClassName = 'ui form'
+    if (this.state.error) formClassName += ' error'
     return (
       <div id='signInModal' className="ui small modal">
         <i className="close icon"></i>
@@ -33,7 +36,7 @@ class SignInModal extends React.Component {
           Sign In
         </div>
         <div className="content">
-          <form className='ui form'>
+          <form className={formClassName}>
             <div className="field">
               <label>E-mail</label>
               <input type="text" name="email" placeholder="E-mail" value={this.state.email} onChange={this.changed}/>
@@ -41,6 +44,9 @@ class SignInModal extends React.Component {
             <div className="field">
               <label>Password</label>
               <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.changed}/>
+            </div>
+            <div className="ui error message">
+              <p>Invalid email or password</p>
             </div>
             <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.submit}>
               Submit
