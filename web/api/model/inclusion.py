@@ -11,9 +11,16 @@ class Inclusion(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     weight = models.FloatField()
 
+    class Meta:
+        unique_together = ('food', 'ingredient')
+
 
 class InclusionSerializer(serializers.ModelSerializer):
 
+    food = serializers.PrimaryKeyRelatedField(queryset=Food.objects.all())
+    ingredient = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
+    weight = serializers.FloatField(min_value=0)
+
     class Meta:
         model = Inclusion
-        fields = ()
+        fields = ('food', 'ingredient', 'weight')
