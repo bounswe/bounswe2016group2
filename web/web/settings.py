@@ -138,6 +138,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+        # 'rest_framework.parsers.MultiPartParser',
     )
 }
