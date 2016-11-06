@@ -1,8 +1,7 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from api.controller import micronutrient
-from api.controller import user
+from api.controller import ingredient, user, food, inclusion
 
 urlpatterns = [
     # USER ROUTES
@@ -12,12 +11,16 @@ urlpatterns = [
     url(r'^users/me$', user.me),
     url(r'^users$', user.users),
     url(r'^users/(?P<userId>[0-9]+)$', user.user),
-    # MICRONUTRIENT ROUTES
-    url(r'^micronutrients$', micronutrient.micronutrients),
-    url(r'^micronutrients/(?P<micronutrientId>[0-9]+)$', micronutrient.micronutrient),
-    url(r'^micronutrients/(?P<slug>[\w-]+)$', micronutrient.slug),
-    url(r'^micronutrientsDefaults$', micronutrient.createDefaults),
-    url(r'^micronutrientsAll$', micronutrient.deleteAll),
+    # INGREDIENT ROUTES
+    url(r'^ingredients$', ingredient.ingredients),
+    url(r'^ingredients/(?P<ingredientId>[0-9]+)$', ingredient.ingredient),
+    url(r'^ingredients/(?P<slug>[\w-]+)$', ingredient.slug),
+    url(r'^ingredientMocks$', ingredient.createMocks),
+    # FOOD ROUTES
+    url(r'^foods$', food.foods),
+    url(r'^foods/(?P<foodId>[0-9]+)$', food.food),
+    url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
+    url(r'^foodMocks$', food.createMocks),
     # ADMIN ROUTES
     url(r'^admin/', admin.site.urls),
     url(r'^docs', include('rest_framework_docs.urls'))
