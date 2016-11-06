@@ -31,12 +31,18 @@ def signin(req):
     """
     authenticate user with email and password, return token
     """
-    user = authenticate(username=req.POST.get('email', ''), password=req.POST.get('password', ''))
-    if user is not None:
-        token = UserService.refreshToken(user)
-        return Response({'token': token.key})
-    else:
-        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = UserSerializer(data=req.data)
+    data = serializer.initial_data
+    print(req.data)
+    if 'email' in data and 'password' in data:
+        user = authenticate(
+            username=serializer.initial_data['email'],
+            password=serializer.initial_data['password']
+        )
+        if user is not None:
+            token = UserService.refreshToken(user)
+            return Response({'token': token.key})
+    return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])

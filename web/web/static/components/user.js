@@ -40,11 +40,15 @@ var SignInModal = function (_React$Component) {
 
       e.preventDefault();
       this.setState({ error: false });
-      var data = {
+      var postData = {
         email: this.state.email,
         password: this.state.password
       };
-      Api.signin(data).then(function (data) {}).catch(function (err) {
+      Api.signin(postData).then(function (data) {
+        reactCookie.save('token', data.token);
+        reactCookie.save('email', postData.email);
+        window.location.href = '/';
+      }).catch(function (err) {
         _this2.setState({ error: true });
       });
     }
@@ -76,7 +80,7 @@ var SignInModal = function (_React$Component) {
                 null,
                 'E-mail'
               ),
-              React.createElement('input', { type: 'text', name: 'email', placeholder: 'E-mail', value: this.state.email, onChange: this.changed })
+              React.createElement('input', { type: 'text', name: 'email', placeholder: 'E-mail', value: this.state.email, onChange: this.emailChanged })
             ),
             React.createElement(
               'div',
@@ -86,7 +90,7 @@ var SignInModal = function (_React$Component) {
                 null,
                 'Password'
               ),
-              React.createElement('input', { type: 'password', name: 'password', placeholder: 'Password', value: this.state.password, onChange: this.changed })
+              React.createElement('input', { type: 'password', name: 'password', placeholder: 'Password', value: this.state.password, onChange: this.passwordChanged })
             ),
             React.createElement(
               'div',
@@ -158,13 +162,19 @@ var SignUpModal = function (_React$Component2) {
 
       e.preventDefault();
       this.setState({ errors: null });
-      var data = {
+      var postData = {
         email: this.state.email,
         password: this.state.password,
         first_name: this.state.first_name,
         last_name: this.state.last_name
       };
-      Api.signup(data).then(function (data) {}).catch(function (err) {
+      Api.signup(postData).then(function (data) {
+        Api.signin(postData).then(function (data) {
+          reactCookie.save('token', data.token);
+          reactCookie.save('email', postData.email);
+          window.location.href = '/';
+        });
+      }).catch(function (err) {
         _this4.setState({ errors: err.data });
       });
     }
@@ -278,7 +288,7 @@ var NavbarUser = function (_React$Component3) {
 
     var _this5 = _possibleConstructorReturn(this, (NavbarUser.__proto__ || Object.getPrototypeOf(NavbarUser)).call(this, props));
 
-    _this5.state = { user: props.user };
+    _this5.state = { userEmail: props.userEmail };
     _this5.openSigninModal = _this5.openSigninModal.bind(_this5);
     _this5.openSignupModal = _this5.openSignupModal.bind(_this5);
     _this5.signout = _this5.signout.bind(_this5);
@@ -297,14 +307,23 @@ var NavbarUser = function (_React$Component3) {
     }
   }, {
     key: 'signout',
-    value: function signout() {}
+    value: function signout() {
+      reactCookie.remove('email');
+      reactCookie.remove('token');
+      window.location.href = '/';
+    }
   }, {
     key: 'render',
     value: function render() {
-      if (this.state.user) {
+      if (this.state.userEmail) {
         return React.createElement(
           'div',
           { className: 'right menu' },
+          React.createElement(
+            'a',
+            { className: 'item' },
+            userEmail
+          ),
           React.createElement(
             'a',
             { className: 'item', onClick: this.signout },

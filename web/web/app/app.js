@@ -1,6 +1,8 @@
 const root = document.getElementById('root')
-let user = null
+const token = reactCookie.load('token')
+const userEmail = reactCookie.load('email')
 
+console.log(token, userEmail);
 class Layout extends React.Component {
   render() {
     return (
@@ -12,7 +14,7 @@ class Layout extends React.Component {
           <a className='item'>
             Other stuff
           </a>
-          <NavbarUser user={user}/>
+          <NavbarUser userEmail={userEmail}/>
         </div>
         <div className='ui container'>
           <div className='ui center aligned segment'>

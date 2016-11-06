@@ -14,13 +14,15 @@ class SignInModal extends React.Component {
   submit(e) {
     e.preventDefault()
     this.setState({error: false})
-    const data = {
+    const postData = {
       email: this.state.email,
       password: this.state.password
     }
-    Api.signin(data)
+    Api.signin(postData)
       .then((data) => {
-
+        reactCookie.save('token', data.token)
+        reactCookie.save('email', postData.email)
+        window.location.href = '/'
       }).catch((err) => {
         this.setState({error: true})
       })
@@ -39,11 +41,11 @@ class SignInModal extends React.Component {
           <form className={formClassName}>
             <div className="field">
               <label>E-mail</label>
-              <input type="text" name="email" placeholder="E-mail" value={this.state.email} onChange={this.changed}/>
+              <input type="text" name="email" placeholder="E-mail" value={this.state.email} onChange={this.emailChanged}/>
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.changed}/>
+              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.passwordChanged}/>
             </div>
             <div className="ui error message">
               <p>Invalid email or password</p>
@@ -81,15 +83,20 @@ class SignUpModal extends React.Component {
   submit(e) {
     e.preventDefault()
     this.setState({errors: null})
-    const data = {
+    const postData = {
       email: this.state.email,
       password: this.state.password,
       first_name: this.state.first_name,
       last_name: this.state.last_name
     }
-    Api.signup(data)
+    Api.signup(postData)
       .then((data) => {
-
+        Api.signin(postData)
+        .then((data) => {
+            reactCookie.save('token', data.token)
+            reactCookie.save('email', postData.email)
+            window.location.href = '/'
+        })
       }).catch((err) => {
         this.setState({errors: err.data})
       })
@@ -150,7 +157,7 @@ class NavbarUser extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {user: props.user}
+    this.state = {userEmail: props.userEmail}
     this.openSigninModal = this.openSigninModal.bind(this);
     this.openSignupModal = this.openSignupModal.bind(this);
     this.signout = this.signout.bind(this);
@@ -165,12 +172,18 @@ class NavbarUser extends React.Component {
   }
 
   signout() {
+    reactCookie.remove('email')
+    reactCookie.remove('token')
+    window.location.href = '/'
   }
 
   render () {
-    if (this.state.user) {
+    if (this.state.userEmail) {
       return(
         <div className='right menu'>
+          <a className='item'>
+            {userEmail}
+          </a>
           <a className='item' onClick={this.signout}>
             Sign Out
           </a>
