@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^foods/(?P<foodId>[0-9]+)$', food.food),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
     url(r'^foodMocks$', food.createMocks),
+    # INCLUSION ROUTES
+    url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
     # ADMIN ROUTES
     url(r'^admin/', admin.site.urls),
     url(r'^docs', include('rest_framework_docs.urls'))
