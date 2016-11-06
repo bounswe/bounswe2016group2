@@ -9,7 +9,6 @@ from api.model.ingredient import Ingredient
 class Food(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
-    calory = models.IntegerField()
 
     ingredients = models.ManyToManyField(Ingredient, through='Inclusion')
 
@@ -24,4 +23,5 @@ class FoodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Food
-        fields = ('id', 'name')
+        fields = '__all__'
+        depth = 1
