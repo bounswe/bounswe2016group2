@@ -2,13 +2,21 @@
 <html lang="en">
 {% load static %}
 <head>
-    <meta charset="UTF-8">
-    <title>Eat Right</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Eat Right</title>
+  <link rel="stylesheet" href="{% static 'bower_components/semantic/dist/semantic.min.css' %}">
 </head>
 <body>
-    <div id="root"></div>
-    <script src="{% static 'bower_components/react/react.js' %}"></script>
-    <script src="{% static 'bower_components/react/react-dom.js' %}"></script>
-    <script src="{% static 'app.js' %}"></script>
+  <div id="root">
+  </div>
+  <script src="{% static 'bower_components/react/react.js' %}"></script>
+  <script src="{% static 'bower_components/react/react-dom.js' %}"></script>
+  <script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+  <script src="{% static 'bower_components/semantic/dist/semantic.js' %}"></script>
+  <script src="{% static 'bower_components/semantic/dist/semantic.js' %}"></script>
+  <script src="{% static 'components/user.js' %}"></script>
+  <script src="{% static 'app.js' %}"></script>
 </body>
 </html>

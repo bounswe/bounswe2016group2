@@ -8,49 +8,44 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var root = document.getElementById('root');
-var user = {};
+var NavbarUser = function (_React$Component) {
+  _inherits(NavbarUser, _React$Component);
 
-var Layout = function (_React$Component) {
-  _inherits(Layout, _React$Component);
+  function NavbarUser(props) {
+    _classCallCheck(this, NavbarUser);
 
-  function Layout() {
-    _classCallCheck(this, Layout);
+    var _this = _possibleConstructorReturn(this, (NavbarUser.__proto__ || Object.getPrototypeOf(NavbarUser)).call(this, props));
 
-    return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).apply(this, arguments));
+    _this.state = { user: props.user };
+    _this.signin = _this.signin.bind(_this);
+    _this.signout = _this.signout.bind(_this);
+    return _this;
   }
 
-  _createClass(Layout, [{
+  _createClass(NavbarUser, [{
+    key: 'signin',
+    value: function signin() {
+      this.setState({ user: user });
+    }
+  }, {
+    key: 'signout',
+    value: function signout() {
+      this.setState({ user: false });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
         'div',
-        null,
+        { className: 'right menu' },
         React.createElement(
-          'div',
-          { className: 'ui secondary pointing menu', style: { paddingTop: 10 } },
-          React.createElement(
-            'a',
-            { className: 'item active' },
-            'Home'
-          ),
-          React.createElement(
-            'a',
-            { className: 'item' },
-            'Other stuff'
-          ),
-          React.createElement(NavbarUser, { user: user })
-        ),
-        React.createElement(
-          'div',
-          { className: 'ui container' },
-          React.createElement('div', { className: 'ui center aligned segment' })
+          'a',
+          { className: 'item', onClick: this.state.user ? this.signout : this.signin },
+          this.state.user ? 'Sign Out' : 'Sign In'
         )
       );
     }
   }]);
 
-  return Layout;
+  return NavbarUser;
 }(React.Component);
-
-ReactDOM.render(React.createElement(Layout, null), root);
