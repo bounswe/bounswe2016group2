@@ -11,13 +11,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SignInModal = function (_React$Component) {
   _inherits(SignInModal, _React$Component);
 
-  function SignInModal() {
+  function SignInModal(props) {
     _classCallCheck(this, SignInModal);
 
-    return _possibleConstructorReturn(this, (SignInModal.__proto__ || Object.getPrototypeOf(SignInModal)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (SignInModal.__proto__ || Object.getPrototypeOf(SignInModal)).call(this, props));
+
+    _this.data = {};
+    _this.changed = _this.changed.bind(_this);
+    _this.submit = _this.submit.bind(_this);
+    return _this;
   }
 
   _createClass(SignInModal, [{
+    key: "changed",
+    value: function changed(e) {
+      this.data[e.target.name] = e.target.value;
+    }
+  }, {
+    key: "submit",
+    value: function submit(e) {
+      e.preventDefault();
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
@@ -43,7 +58,7 @@ var SignInModal = function (_React$Component) {
                 null,
                 "E-mail"
               ),
-              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail" })
+              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.data.email, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -53,11 +68,11 @@ var SignInModal = function (_React$Component) {
                 null,
                 "Password"
               ),
-              React.createElement("input", { type: "password", name: "password", placeholder: "Password" })
+              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.data.password, onChange: this.changed })
             ),
             React.createElement(
               "button",
-              { className: "ui button", type: "submit", style: { width: '100%' } },
+              { className: "ui button", type: "submit", style: { width: '100%' }, onClick: this.submit },
               "Submit"
             )
           )
@@ -72,13 +87,28 @@ var SignInModal = function (_React$Component) {
 var SignUpModal = function (_React$Component2) {
   _inherits(SignUpModal, _React$Component2);
 
-  function SignUpModal() {
+  function SignUpModal(props) {
     _classCallCheck(this, SignUpModal);
 
-    return _possibleConstructorReturn(this, (SignUpModal.__proto__ || Object.getPrototypeOf(SignUpModal)).apply(this, arguments));
+    var _this2 = _possibleConstructorReturn(this, (SignUpModal.__proto__ || Object.getPrototypeOf(SignUpModal)).call(this, props));
+
+    _this2.data = {};
+    _this2.changed = _this2.changed.bind(_this2);
+    _this2.submit = _this2.submit.bind(_this2);
+    return _this2;
   }
 
   _createClass(SignUpModal, [{
+    key: "changed",
+    value: function changed(e) {
+      this.data[e.target.name] = e.target.value;
+    }
+  }, {
+    key: "submit",
+    value: function submit(e) {
+      e.preventDefault();
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
@@ -104,7 +134,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "First name"
               ),
-              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name" })
+              React.createElement("input", { type: "text", name: "firstName", placeholder: "First name", value: this.data.firstName, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -114,7 +144,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Last name"
               ),
-              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name" })
+              React.createElement("input", { type: "text", name: "lastName", placeholder: "Last name", value: this.data.lastName, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -124,7 +154,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "E-mail"
               ),
-              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail" })
+              React.createElement("input", { type: "text", name: "email", placeholder: "E-mail", value: this.data.email, onChange: this.changed })
             ),
             React.createElement(
               "div",
@@ -134,7 +164,7 @@ var SignUpModal = function (_React$Component2) {
                 null,
                 "Password"
               ),
-              React.createElement("input", { type: "password", name: "password", placeholder: "Password" })
+              React.createElement("input", { type: "password", name: "password", placeholder: "Password", value: this.data.password, onChange: this.changed })
             ),
             React.createElement(
               "div",
