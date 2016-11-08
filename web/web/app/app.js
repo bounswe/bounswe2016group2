@@ -2,7 +2,6 @@ const root = document.getElementById('root')
 const token = reactCookie.load('token')
 const userEmail = reactCookie.load('email')
 
-console.log(token, userEmail);
 class Layout extends React.Component {
   render() {
     return (

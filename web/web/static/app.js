@@ -12,8 +12,6 @@ var root = document.getElementById('root');
 var token = reactCookie.load('token');
 var userEmail = reactCookie.load('email');
 
-console.log(token, userEmail);
-
 var Layout = function (_React$Component) {
   _inherits(Layout, _React$Component);
 
