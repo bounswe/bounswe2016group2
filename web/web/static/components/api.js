@@ -87,6 +87,16 @@ var Api = function () {
     value: function signup(data) {
       return this.post('users/signup', data);
     }
+
+    /**
+     * {email: String, password: String, first_name: String, last_name: String}
+     */
+
+  }, {
+    key: 'searchFood',
+    value: function searchFood(data) {
+      return this.get('foods', data);
+    }
   }]);
 
   return Api;

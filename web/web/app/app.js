@@ -17,8 +17,7 @@ class Layout extends React.Component {
           <NavbarUser userEmail={userEmail}/>
         </div>
         <div className='ui container'>
-          <div className='ui center aligned segment'>
-          </div>
+          <FoodSearch/>
         </div>
       </div>
     )

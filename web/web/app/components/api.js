@@ -64,4 +64,11 @@ class Api {
   static signup(data) {
     return this.post('users/signup', data)
   }
+
+  /**
+   * {email: String, password: String, first_name: String, last_name: String}
+   */
+  static searchFood(data) {
+    return this.get('foods', data)
+  }
 }

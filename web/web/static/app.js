@@ -47,7 +47,7 @@ var Layout = function (_React$Component) {
         React.createElement(
           'div',
           { className: 'ui container' },
-          React.createElement('div', { className: 'ui center aligned segment' })
+          React.createElement(FoodSearch, null)
         )
       );
     }
