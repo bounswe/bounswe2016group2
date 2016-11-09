@@ -32,20 +32,20 @@ var Layout = function (_React$Component) {
           { className: 'ui secondary pointing menu', style: { paddingTop: 10 } },
           React.createElement(
             'a',
-            { href: '/', className: 'item active' },
+            { className: 'item active' },
             'Home'
           ),
           React.createElement(
             'a',
-            { href: 'addFood/', className: 'item' },
-            'Add Food'
+            { className: 'item' },
+            'Other stuff'
           ),
           React.createElement(NavbarUser, { userEmail: userEmail })
         ),
         React.createElement(
           'div',
           { className: 'ui container' },
-          React.createElement(FoodSearch, null)
+          React.createElement(AddFood, null)
         )
       );
     }
@@ -54,4 +54,4 @@ var Layout = function (_React$Component) {
   return Layout;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Layout, null), root);
+ReactDOM.render(React.createElement(Layout, null), addFood);

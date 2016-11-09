@@ -88,6 +88,11 @@ var Api = function () {
       return this.post('users/signup', data);
     }
   }, {
+    key: 'addFood',
+    value: function signup(data) {
+      return this.post('foods', data);
+    }
+  }, {
     key: 'searchFood',
     value: function searchFood(query) {
       return this.get('foodSearch?query=' + query);
