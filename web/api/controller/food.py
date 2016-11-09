@@ -85,3 +85,14 @@ def createMocks(req):
     """
     # FoodService.createDefaults()
     return HttpResponse(status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def search(req):
+    """
+    Search food
+    """
+    q = slugify(req.GET.get('query', ''))
+    foods = Food.objects.filter(slug__startswith=q)
+    seriealizer = FoodSerializer(foods, many=True)
+    return Response(seriealizer.data)
