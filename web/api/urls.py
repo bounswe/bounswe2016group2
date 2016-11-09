@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^foods$', food.foods),
     url(r'^foods/(?P<foodId>[0-9]+)$', food.food),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
+    url(r'^foodSearch$', food.search),
     url(r'^foodMocks$', food.createMocks),
     # INCLUSION ROUTES
     url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
