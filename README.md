@@ -3,9 +3,13 @@
 
 This repository is used for the group project of CmpE352 and CmpE451 Software Engineering courses offered at Boğaziçi University during 2016 Spring and 2016 Fall semesters.
 
- **Know What You Eat** 
- 
+ **Know What You Eat**
+
  Our main goal for this project is to serve people to learn more about what they eat in terms of macro and micro nutrients by building a platform that both regular users and servers can join. We ultimately want to improve the quality of our users' lifestyles and ease their daily choices of food. You can find the full description of our project through [here](https://github.com/bounswe/bounswe2016group2/wiki/Project-Description) and you can refer to  [our Wiki page](https://github.com/bounswe/bounswe2016group2/wiki) for more information about what has been done for CmpE352 course so far.
+
+* [Website](http://52.208.59.70/)
+* [API Documentation](http://52.208.59.70/api/docs)
+* [Running the project on local server](https://github.com/bounswe/bounswe2016group2/wiki/Running-Django-on-local-host)
 
 ## Group Members
 
