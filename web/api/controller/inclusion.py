@@ -11,12 +11,15 @@ from api.model.inclusion import Inclusion, InclusionSerializer
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def inclusion(req, food, ingredient):
     """
-
+    Create, retrive, modify or delete the existence of ingredient in food
     """
-    # req.data['food'] = foodId
-    # req.data['ingredient'] = ingredientId
+    data = {
+        'food': food,
+        'ingredient': ingredient,
+        'weight': req.data['weight'] if 'weight' in req.data else 0
+    }
     if req.method == 'POST':
-        serializer = InclusionSerializer(data=req.data)
+        serializer = InclusionSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -34,9 +37,7 @@ def inclusion(req, food, ingredient):
             return Response(serializer.data)
 
         elif req.method == 'PUT':
-            req.data['food'] = food
-            req.data['ingredient'] = ingredient
-            serializer = InclusionSerializer(inclusion, data=req.data)
+            serializer = InclusionSerializer(inclusion, data=data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)

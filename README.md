@@ -9,6 +9,7 @@ This repository is used for the group project of CmpE352 and CmpE451 Software En
 
 * [Website](http://52.208.59.70/)
 * [API Documentation](http://52.208.59.70/api/docs)
+* [API Detailed Documentation](https://github.com/bounswe/bounswe2016group2/wiki/API-Documentation)
 * [Running the project on local server](https://github.com/bounswe/bounswe2016group2/wiki/Running-Django-on-local-host)
 
 ## Group Members
