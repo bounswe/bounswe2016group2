@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^ingredients$', ingredient.ingredients),
     url(r'^ingredients/(?P<ingredientId>[0-9]+)$', ingredient.ingredient),
     url(r'^ingredients/(?P<slug>[\w-]+)$', ingredient.slug),
+    url(r'^ingredientSearch', ingredient.search),
     url(r'^ingredientMocks$', ingredient.createMocks),
     # FOOD ROUTES
     url(r'^foods$', food.foods),

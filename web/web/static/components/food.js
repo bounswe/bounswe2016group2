@@ -103,8 +103,9 @@ var FoodSearch = function (_React$Component3) {
     key: "search",
     value: function search(query) {
       var _this4 = this;
-
+			console.log(query);
       Api.searchFood(query).then(function (foods) {
+      	console.log(foods);
         var list = foods.map(function (food) {
           return React.createElement(Food, { key: food.id, data: food });
         });

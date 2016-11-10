@@ -18,11 +18,13 @@ var AddFood = function (_React$Component) {
 
     _this.state = {
       data: null,
-      errors: null
+      errors: null,
+      ingredient: ''
     };
     _this.nameChanged = _this.nameChanged.bind(_this);
     _this.slugChanged = _this.slugChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
+    _this.ingredientChanged = _this.ingredientChanged.bind(_this);
     return _this;
   }
 
@@ -37,9 +39,31 @@ var AddFood = function (_React$Component) {
       this.setState({ slug: e.target.value });
     }
   }, {
+    key: 'ingredientChanged',
+    value: function ingredientChanged(e) {
+      this.setState({ ingredient: e.target.value });
+			this.ingredientSearch(this.state.ingredient);
+    }
+  }, {
+    key: 'ingredientSearch',
+    value: function ingredientSearch(query) {
+      var _this2 = this;
+
+      Api.searchIngredient(query).then(function (ingres) {
+        var list = ingres.map(function (ing) {
+          return React.createElement(
+            'div',
+            { className: 'item' },
+            ing.name
+          );
+        });
+        _this2.setState({ list: list });
+      });
+    }
+  }, {
     key: 'submit',
     value: function submit(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       e.preventDefault();
       this.setState({ errors: null });
@@ -48,7 +72,7 @@ var AddFood = function (_React$Component) {
         slug: this.state.slug
       };
       Api.addFood(postData).then(function (data) {}).catch(function (err) {
-        _this2.setState({ errors: err.data });
+        _this3.setState({ errors: err.data });
       });
     }
   }, {
@@ -106,6 +130,35 @@ var AddFood = function (_React$Component) {
                   null,
                   this.state.errors.slug[0]
                 )
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'fields' },
+              React.createElement(
+                'div',
+                { className: 'field' },
+                React.createElement(
+                  'label',
+                  null,
+                  ' Ingredient '
+                ),
+                React.createElement('input', { type: 'text', placeholder: 'ingredient', value: this.state.ingredient, onChange: this.ingredientChanged }),
+                React.createElement(
+                  'ul',
+                  { className: 'ui list' },
+                  this.state.list
+                )
+              ),
+              React.createElement(
+                'div',
+                { className: 'field' },
+                React.createElement(
+                  'label',
+                  null,
+                  ' Weight '
+                ),
+                React.createElement('input', { type: 'text', placeholder: 'weight' })
               )
             ),
             React.createElement(

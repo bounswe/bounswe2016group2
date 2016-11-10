@@ -4,16 +4,36 @@ class AddFood extends React.Component {
     super(props)
     this.state = {
       data: null,
-      errors: null
+      errors: null,
+      ingredient: ''
     }
     this.nameChanged = this.nameChanged.bind(this)
     this.slugChanged = this.slugChanged.bind(this)
     this.submit = this.submit.bind(this)
+    this.ingredientChanged = this.ingredientChanged.bind(this)
   }
 
   nameChanged(e) {this.setState({name: e.target.value})}
   slugChanged(e) {this.setState({slug: e.target.value})}
 
+  ingredientChanged(e) {
+    this.setState({ingredient: e.target.value});
+		this.ingredientSearch(this.state.ingredient);
+  }
+
+	ingredientSearch(query) {
+    Api.searchIngredient(query)
+    .then((ingres) => {
+      const list = ingres.map((ing) => {
+        return (
+					<div className="item">
+						{ing.name}
+					</div>
+				)
+      })
+      this.setState({list: list})
+    })
+	}
   submit(e) {
     e.preventDefault()
     this.setState({errors: null})
@@ -57,6 +77,17 @@ class AddFood extends React.Component {
                 </div>
               }
             </div>
+            <div className="fields">
+							<div className="field">
+								<label> Ingredient </label>
+								<input type="text" placeholder="ingredient" value={this.state.ingredient} onChange={this.ingredientChanged}/>
+								<ul className='ui list'>{this.state.list}</ul>
+							</div>
+							<div className="field">
+								<label> Weight </label>
+								<input type="text" placeholder="weight"/>
+							</div>
+						</div>
             <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.submit}>
               Add Food
             </button>

@@ -89,8 +89,13 @@ var Api = function () {
     }
   }, {
     key: 'addFood',
-    value: function signup(data) {
+    value: function addFood(data) {
       return this.post('foods', data);
+    }
+  }, {
+    key: 'searchIngredient',
+    value: function searchIngredient(query) {
+      return this.get('ingredientSearch?query=' + query);
     }
   }, {
     key: 'searchFood',
