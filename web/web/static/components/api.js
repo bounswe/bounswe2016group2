@@ -93,6 +93,11 @@ var Api = function () {
       return this.post('foods', data);
     }
   }, {
+    key: 'addIngredientToFood',
+    value: function addIngredientToFood(data) {
+      return this.post('foods/1/ingredients/1', data);
+    }
+  }, {
     key: 'searchIngredient',
     value: function searchIngredient(query) {
       return this.get('ingredientSearch?query=' + query);

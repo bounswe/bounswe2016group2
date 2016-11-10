@@ -5,17 +5,19 @@ class AddFood extends React.Component {
     this.state = {
       data: null,
       errors: null,
-      ingredient: ''
+      ingredient: '',
+      ingredientId: ''
     }
     this.nameChanged = this.nameChanged.bind(this)
     this.slugChanged = this.slugChanged.bind(this)
     this.submit = this.submit.bind(this)
     this.ingredientChanged = this.ingredientChanged.bind(this)
+    this.weightChanged = this.weightChanged.bind(this)
   }
 
   nameChanged(e) {this.setState({name: e.target.value})}
   slugChanged(e) {this.setState({slug: e.target.value})}
-
+  weightChanged(e) {this.setState({weight: e.target.value})}
   ingredientChanged(e) {
     this.setState({ingredient: e.target.value});
 		this.ingredientSearch(this.state.ingredient);
@@ -25,6 +27,7 @@ class AddFood extends React.Component {
     Api.searchIngredient(query)
     .then((ingres) => {
       const list = ingres.map((ing) => {
+        this.setState({ingredientId: ing.id});
         return (
 					<div className="item">
 						{ing.name}
@@ -32,8 +35,10 @@ class AddFood extends React.Component {
 				)
       })
       this.setState({list: list})
+
     })
 	}
+
   submit(e) {
     e.preventDefault()
     this.setState({errors: null})
@@ -41,9 +46,20 @@ class AddFood extends React.Component {
       name: this.state.name,
       slug: this.state.slug
     }
+
     Api.addFood(postData)
       .then((data) => {
-
+				const ingredients = {
+					weight: parseInt(this.state.weight),
+					ingredient: this.state.ingredientId,
+					food: data.id
+				}
+				Api.addIngredientToFood(ingredients)
+					.then((data) => {}).catch((err) => {
+						console.log("error during ingredient insertion")
+						console.log(err.data)
+						// TODO: remove added food from database
+					})
       }).catch((err) => {
         this.setState({errors: err.data})
       })
@@ -85,7 +101,7 @@ class AddFood extends React.Component {
 							</div>
 							<div className="field">
 								<label> Weight </label>
-								<input type="text" placeholder="weight"/>
+								<input type="text" placeholder="weight" value={this.state.weight} onChange={this.weightChanged}/>
 							</div>
 						</div>
             <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.submit}>

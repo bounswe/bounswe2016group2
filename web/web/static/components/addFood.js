@@ -19,12 +19,14 @@ var AddFood = function (_React$Component) {
     _this.state = {
       data: null,
       errors: null,
-      ingredient: ''
+      ingredient: '',
+      ingredientId: ''
     };
     _this.nameChanged = _this.nameChanged.bind(_this);
     _this.slugChanged = _this.slugChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
     _this.ingredientChanged = _this.ingredientChanged.bind(_this);
+    _this.weightChanged = _this.weightChanged.bind(_this);
     return _this;
   }
 
@@ -39,10 +41,15 @@ var AddFood = function (_React$Component) {
       this.setState({ slug: e.target.value });
     }
   }, {
+    key: 'weightChanged',
+    value: function weightChanged(e) {
+      this.setState({ weight: e.target.value });
+    }
+  }, {
     key: 'ingredientChanged',
     value: function ingredientChanged(e) {
       this.setState({ ingredient: e.target.value });
-			this.ingredientSearch(this.state.ingredient);
+      this.ingredientSearch(this.state.ingredient);
     }
   }, {
     key: 'ingredientSearch',
@@ -51,6 +58,7 @@ var AddFood = function (_React$Component) {
 
       Api.searchIngredient(query).then(function (ingres) {
         var list = ingres.map(function (ing) {
+          _this2.setState({ ingredientId: ing.id });
           return React.createElement(
             'div',
             { className: 'item' },
@@ -71,7 +79,19 @@ var AddFood = function (_React$Component) {
         name: this.state.name,
         slug: this.state.slug
       };
-      Api.addFood(postData).then(function (data) {}).catch(function (err) {
+
+      Api.addFood(postData).then(function (data) {
+        var ingredients = {
+          weight: parseInt(_this3.state.weight),
+          ingredient: _this3.state.ingredientId,
+          food: data.id
+        };
+        Api.addIngredientToFood(ingredients).then(function (data) {}).catch(function (err) {
+          console.log("error during ingredient insertion");
+          console.log(err.data);
+          // TODO: remove added food from database
+        });
+      }).catch(function (err) {
         _this3.setState({ errors: err.data });
       });
     }
@@ -158,7 +178,7 @@ var AddFood = function (_React$Component) {
                   null,
                   ' Weight '
                 ),
-                React.createElement('input', { type: 'text', placeholder: 'weight' })
+                React.createElement('input', { type: 'text', placeholder: 'weight', value: this.state.weight, onChange: this.weightChanged })
               )
             ),
             React.createElement(
