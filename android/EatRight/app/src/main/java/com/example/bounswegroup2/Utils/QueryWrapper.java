@@ -25,4 +25,14 @@ public class QueryWrapper {
         options.put("format","json");
     }
 
+    public void getAllFoods(){
+        options = new HashMap<>();
+        options.put("format","json");
+    }
+
+    public void getAllIngredients(){
+        options = new HashMap<>();
+        options.put("format","json");
+    }
+
 }
