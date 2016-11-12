@@ -33,9 +33,13 @@
             android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".UserHomeActivity"
+            android:exported="true"
             android:label="@string/title_activity_user_home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FoodPageActivity"
+            android:exported="true"
+            android:label="FoodPageActivity" />
     </application>
 
 </manifest>
