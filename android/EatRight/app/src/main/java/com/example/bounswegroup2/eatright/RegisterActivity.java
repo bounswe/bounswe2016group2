@@ -50,9 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Button regBut;
     private EditText passText;
     private EditText passAgainText;
-    private  EditText userNameText;
-    private  EditText emailText;
-   // private UserRegTask mAuthTask = null;
+    private EditText userNameText;
+    private EditText emailText;
+    // private UserRegTask mAuthTask = null;
     private View mRegFormView;
     private View mregProgressView;
 
@@ -64,25 +64,26 @@ public class RegisterActivity extends AppCompatActivity {
         expandFormBut.setPaintFlags(expandFormBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         phoneText = (EditText) findViewById(R.id.reg_phone);
         regBut = (Button) findViewById(R.id.reg_sign_up_button);
-        passText = (EditText)findViewById(R.id.password_reg);
-        passAgainText = (EditText)findViewById(R.id.password_reg_again);
-        userNameText = (EditText)findViewById(R.id.reg_username);
-        emailText = (EditText)findViewById(R.id.email_reg);
+        passText = (EditText) findViewById(R.id.password_reg);
+        passAgainText = (EditText) findViewById(R.id.password_reg_again);
+        userNameText = (EditText) findViewById(R.id.reg_username);
+        emailText = (EditText) findViewById(R.id.email_reg);
         mRegFormView = (View) findViewById(R.id.reg_form);
         mregProgressView = (View) findViewById(R.id.reg_progress);
     }
 
     public void expandFormForServer(View v) {
-        if (v.getId() == expandFormBut.getId()){
-                if (phoneText.getVisibility() == View.GONE){
-                        phoneText.setVisibility(View.VISIBLE);
-                        expandFormBut.setText(R.string.button_to_user_text);
-                }else if(phoneText.getVisibility() == View.VISIBLE){
-                        phoneText.setVisibility(View.GONE);
-                        expandFormBut.setText(R.string.button_to_server_text);
-                }
+        if (v.getId() == expandFormBut.getId()) {
+            if (phoneText.getVisibility() == View.GONE) {
+                phoneText.setVisibility(View.VISIBLE);
+                expandFormBut.setText(R.string.button_to_user_text);
+            } else if (phoneText.getVisibility() == View.VISIBLE) {
+                phoneText.setVisibility(View.GONE);
+                expandFormBut.setText(R.string.button_to_server_text);
+            }
         }
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -118,7 +119,8 @@ public class RegisterActivity extends AppCompatActivity {
             mRegFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-    public void regButClicked(View v){
+
+    public void regButClicked(View v) {
         if (v.getId() == regBut.getId()) {
             // Reset errors.
             emailText.setError(null);
@@ -151,16 +153,16 @@ public class RegisterActivity extends AppCompatActivity {
                 cancel = true;
             }
 
-            if(cancel){
+            if (cancel) {
                 // There was an error; don't attempt login and focus the first
                 // form field with an error.
                 focusView.requestFocus();
-            }else{
-                if(!phone.isEmpty()){
+            } else {
+                if (!phone.isEmpty()) {
 
-                }else{
-                  //  mAuthTask = new UserRegTask(email,pass,uname);
-                  //  mAuthTask.execute();
+                } else {
+                    //  mAuthTask = new UserRegTask(email,pass,uname);
+                    //  mAuthTask.execute();
                 }
             }
 
@@ -181,22 +183,25 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isEmailValid(String email) {
         return email.matches(emailRegex);
     }
-    private boolean isPasswordValid(String password) { return password.matches(passRegex); }
 
-    private void registerWithRetro(final String email, final String pass, String uname){
+    private boolean isPasswordValid(String password) {
+        return password.matches(passRegex);
+    }
+
+    private void registerWithRetro(final String email, final String pass, String uname) {
         ApiInterface apiService = API.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.createUser(email,pass,uname,API_KEY);
+        Call<User> call = apiService.createUser(email, pass, uname, API_KEY);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 int statusCode = response.code();
-                if (statusCode == 1){
-                    SessionManager.setPreferences(RegisterActivity.this,"usermail",email);
-                    SessionManager.setPreferences(RegisterActivity.this,"userpass",pass);
-                    Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
+                if (statusCode == 1) {
+                    SessionManager.setPreferences(RegisterActivity.this, "usermail", email);
+                    SessionManager.setPreferences(RegisterActivity.this, "userpass", pass);
+                    Intent intent = new Intent(RegisterActivity.this, UserHomeActivity.class);
                     startActivity(intent);
                     RegisterActivity.this.finish();
-                }else{
+                } else {
 
                 }
             }
@@ -209,120 +214,4 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Asynctask method
-     *
-    private class UserRegTask extends AsyncTask<String,String,Integer> {
-        private final String mEmail;
-        private final String mPassword;
-        private final String mUname;
-        HttpURLConnection conn;
-        URL url = null;
-        UserRegTask(String email, String password, String uname) {
-            mEmail = email;
-            mPassword = password;
-            mUname = uname;
-        }
-        @Override
-        protected Integer doInBackground(String... params) {
-            try {
-                // Enter URL address where your php file resides
-                url = new URL(BASE_URL+"/reg");
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return 0;
-            }
-
-            try {
-                // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("usermail", params[0])
-                        .appendQueryParameter("password", params[1])
-                        .appendQueryParameter("uname", params[2]);
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                return 0;
-            }
-
-            try {
-
-                int response_code = conn.getResponseCode();
-
-                // Check if successful connection made
-                if (response_code == HttpURLConnection.HTTP_OK) {
-
-                    // Read data sent from server
-                    InputStream input = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-                    // Pass data to onPostExecute method
-                    return Integer.parseInt(result.toString());
-                }else{
-                    return 0;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return 0;
-            } finally {
-                conn.disconnect();
-            }
-
-        }
-        @Override
-        protected void onPostExecute(final Integer response) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (response == 0) {
-                Toast.makeText(RegisterActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
-            }else if(response == 1) {
-                Toast.makeText(RegisterActivity.this, "Email is already in use", Toast.LENGTH_LONG).show();
-            }else if(response == 2){
-                Toast.makeText(RegisterActivity.this, "Username is already in use", Toast.LENGTH_LONG).show();
-            }else if(response == 3){
-                //TODO .Signup succeeded.
-                SessionManager.setPreferences(RegisterActivity.this,"usermail",mEmail);
-                SessionManager.setPreferences(RegisterActivity.this,"userpass",mPassword);
-                Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
-                startActivity(intent);
-                RegisterActivity.this.finish();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-        */
 }

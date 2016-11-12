@@ -92,6 +92,7 @@ public class UserHomeActivity extends AppCompatActivity
                                                consHistFragment.getTag()).commit();
         } else if (id == R.id.nav_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.setArgs("ENESOZIPEK");
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,
                                                settingsFragment,settingsFragment.getTag()).commit();
