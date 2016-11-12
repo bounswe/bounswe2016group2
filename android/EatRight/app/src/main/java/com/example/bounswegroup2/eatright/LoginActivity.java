@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,19 +29,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.User;
-import com.example.bounswegroup2.Utils.API;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static com.example.bounswegroup2.Utils.Constants.API_KEY;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -74,6 +76,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private  Button switchToRegBut;
+    //TODO test
+    private User testUsers;
+    private String test22 ="";
+    private Map<String, String> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +112,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+                QueryWrapper query = new QueryWrapper();
+                query.usersQuery();
+                Call<User> test2 = test.getUsers(query.getOptions());
+                System.out.println(test2.request().url().toString());
+                test2.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        final GsonBuilder gsonBuilder = new GsonBuilder();
+                        final Gson gson = gsonBuilder.create();
+                        User[] hoho = gson.fromJson(test22,User[].class);
+                        for (int i = 0; i <hoho.length ; i++) {
+                            System.out.println(hoho[i].getFirstName());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        System.out.println(t.getCause());
+                        System.out.println(t.getMessage());
+
+                    }
+                });
+               // attemptLogin();
             }
         });
 
@@ -205,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            loginWithRetro(email,password);
+           // loginWithRetro(email,password);
         }
     }
 
@@ -315,33 +344,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private void loginWithRetro(final String email, final String password){
-
-        ApiInterface apiService = API.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.getUser(email,API_KEY);
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User>call, Response<User> response) {
-                String pass = response.body().getPassword();
-                //TODO:  Pass will be comapared by applying hash function
-                if (pass == password){
-                    SessionManager.setPreferences(LoginActivity.this,"usermail",email);
-                    SessionManager.setPreferences(LoginActivity.this,"userpass",pass);
-                    Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
-                    startActivity(intent);
-                    LoginActivity.this.finish();
-                }
-                Log.d("LOGıN", "Pass: " + pass);
-            }
-
-            @Override
-            public void onFailure(Call<User>call, Throwable t) {
-                // Log error here since request failed
-                Log.e("LOGıN", t.toString());
-            }
-        });
-    }
+//    private void loginWithRetro(final String email, final String password){
+//
+//        ApiInterface apiService = QueryWrapper.getClient().create(ApiInterface.class);
+//        Call<User> call = apiService.getUser(email,API_KEY);
+//
+//        call.enqueue(new Callback<User>() {
+//            @Override
+//            public void onResponse(Call<User>call, Response<User> response) {
+//                String pass = response.body().getPassword();
+//                //TODO:  Pass will be comapared by applying hash function
+//                if (pass == password){
+//                    SessionManager.setPreferences(LoginActivity.this,"usermail",email);
+//                    SessionManager.setPreferences(LoginActivity.this,"userpass",pass);
+//                    Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+//                    startActivity(intent);
+//                    LoginActivity.this.finish();
+//                }
+//                Log.d("LOGıN", "Pass: " + pass);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<User>call, Throwable t) {
+//                // Log error here since request failed
+//                Log.e("LOGıN", t.toString());
+//            }
+//        });
+//    }
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
