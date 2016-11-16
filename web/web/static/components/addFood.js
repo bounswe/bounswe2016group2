@@ -20,13 +20,15 @@ var AddFood = function (_React$Component) {
       data: null,
       errors: null,
       ingredient: '',
-      ingredientId: ''
+      ingredientId: '',
+      ingredients: [{ name: '', weight: '', list: '', id: '' }]
     };
     _this.nameChanged = _this.nameChanged.bind(_this);
     _this.slugChanged = _this.slugChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
-    _this.ingredientChanged = _this.ingredientChanged.bind(_this);
-    _this.weightChanged = _this.weightChanged.bind(_this);
+    _this.ingredientNameChanged = _this.ingredientNameChanged.bind(_this);
+    _this.ingredientWeightChanged = _this.ingredientWeightChanged.bind(_this);
+    _this.appendIngredient = _this.appendIngredient.bind(_this);
     return _this;
   }
 
@@ -41,19 +43,34 @@ var AddFood = function (_React$Component) {
       this.setState({ slug: e.target.value });
     }
   }, {
-    key: 'weightChanged',
-    value: function weightChanged(e) {
-      this.setState({ weight: e.target.value });
+    key: 'ingredientNameChanged',
+    value: function ingredientNameChanged(index, e) {
+      var ingArray = this.state.ingredients;
+      var currentIng = ingArray[index];
+      currentIng.name = e.target.value;
+      ingArray[index] = currentIng;
+      this.setState({ ingredients: ingArray });
+      this.ingredientSearch(currentIng.name, index);
     }
   }, {
-    key: 'ingredientChanged',
-    value: function ingredientChanged(e) {
-      this.setState({ ingredient: e.target.value });
-      this.ingredientSearch(e.target.value);
+    key: 'ingredientWeightChanged',
+    value: function ingredientWeightChanged(index, e) {
+      var ingArray = this.state.ingredients;
+      var currentIng = ingArray[index];
+      currentIng.weight = e.target.value;
+      ingArray[index] = currentIng;
+      this.setState({ ingredients: ingArray });
+    }
+  }, {
+    key: 'appendIngredient',
+    value: function appendIngredient(e) {
+      e.preventDefault();
+      var newIng = { name: '', weight: '', id: '' };
+      this.setState({ ingredients: this.state.ingredients.concat(newIng) });
     }
   }, {
     key: 'ingredientSearch',
-    value: function ingredientSearch(query) {
+    value: function ingredientSearch(query, index) {
       var _this2 = this;
 
       Api.searchIngredient(query).then(function (ingres) {
@@ -65,7 +82,11 @@ var AddFood = function (_React$Component) {
             ing.name
           );
         });
-        _this2.setState({ list: list });
+        var ingArray = _this2.state.ingredients;
+        var currentIng = ingArray[index];
+        currentIng.list = list;
+        ingArray[index] = currentIng;
+        _this2.setState({ ingredients: ingArray });
       });
     }
   }, {
@@ -152,34 +173,41 @@ var AddFood = function (_React$Component) {
                 )
               )
             ),
-            React.createElement(
-              'div',
-              { className: 'fields' },
-              React.createElement(
+            this.state.ingredients.map(function (ingredient, index) {
+              return React.createElement(
                 'div',
-                { className: 'field' },
+                { className: 'fields' },
                 React.createElement(
-                  'label',
-                  null,
-                  ' Ingredient '
+                  'div',
+                  { className: 'field' },
+                  React.createElement(
+                    'label',
+                    null,
+                    ' Ingredient '
+                  ),
+                  React.createElement('input', { type: 'text', placeholder: 'ingredient', value: ingredient.name, onChange: this.ingredientNameChanged.bind(this, index) }),
+                  React.createElement(
+                    'ul',
+                    { className: 'ui list' },
+                    ingredient.list
+                  )
                 ),
-                React.createElement('input', { type: 'text', placeholder: 'ingredient', value: this.state.ingredient, onChange: this.ingredientChanged }),
                 React.createElement(
-                  'ul',
-                  { className: 'ui list' },
-                  this.state.list
+                  'div',
+                  { className: 'field' },
+                  React.createElement(
+                    'label',
+                    null,
+                    ' Weight '
+                  ),
+                  React.createElement('input', { type: 'text', placeholder: 'weight', value: ingredient.weight, onChange: this.ingredientWeightChanged.bind(this, index) })
                 )
-              ),
-              React.createElement(
-                'div',
-                { className: 'field' },
-                React.createElement(
-                  'label',
-                  null,
-                  ' Weight '
-                ),
-                React.createElement('input', { type: 'text', placeholder: 'weight', value: this.state.weight, onChange: this.weightChanged })
-              )
+              );
+            }, this),
+            React.createElement(
+              'a',
+              { href: 'javascript:void(0);', onClick: this.appendIngredient },
+              'Append ingredient'
             ),
             React.createElement(
               'button',

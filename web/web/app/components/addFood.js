@@ -6,24 +6,42 @@ class AddFood extends React.Component {
       data: null,
       errors: null,
       ingredient: '',
-      ingredientId: ''
+      ingredientId: '',
+      ingredients: [{name: '', weight: '', list: '', id: ''}]
     }
     this.nameChanged = this.nameChanged.bind(this)
     this.slugChanged = this.slugChanged.bind(this)
     this.submit = this.submit.bind(this)
-    this.ingredientChanged = this.ingredientChanged.bind(this)
-    this.weightChanged = this.weightChanged.bind(this)
+    this.ingredientNameChanged = this.ingredientNameChanged.bind(this)
+    this.ingredientWeightChanged = this.ingredientWeightChanged.bind(this)
+    this.appendIngredient = this.appendIngredient.bind(this)
   }
 
   nameChanged(e) {this.setState({name: e.target.value})}
   slugChanged(e) {this.setState({slug: e.target.value})}
-  weightChanged(e) {this.setState({weight: e.target.value})}
-  ingredientChanged(e) {
-    this.setState({ingredient: e.target.value});
-		this.ingredientSearch(e.target.value);
+  ingredientNameChanged(index, e) {
+    var ingArray = this.state.ingredients;
+    var currentIng = ingArray[index];
+    currentIng.name = e.target.value;
+    ingArray[index] = currentIng
+    this.setState({ingredients: ingArray});
+		this.ingredientSearch(currentIng.name, index);
+  }
+  ingredientWeightChanged(index, e) {
+    var ingArray = this.state.ingredients;
+    var currentIng = ingArray[index];
+    currentIng.weight = e.target.value;
+    ingArray[index] = currentIng
+    this.setState({ingredients: ingArray});
   }
 
-	ingredientSearch(query) {
+  appendIngredient(e){
+    e.preventDefault();
+    var newIng = {name: '', weight: '', id: ''};
+    this.setState({ingredients: this.state.ingredients.concat(newIng)});
+  }
+
+	ingredientSearch(query, index) {
     Api.searchIngredient(query)
     .then((ingres) => {
       const list = ingres.map((ing) => {
@@ -34,8 +52,11 @@ class AddFood extends React.Component {
 					</div>
 				)
       })
-      this.setState({list: list})
-
+      var ingArray = this.state.ingredients;
+      var currentIng = ingArray[index];
+      currentIng.list = list;
+      ingArray[index] = currentIng
+      this.setState({ingredients: ingArray})
     })
 	}
 
@@ -93,17 +114,23 @@ class AddFood extends React.Component {
                 </div>
               }
             </div>
-            <div className="fields">
-							<div className="field">
-								<label> Ingredient </label>
-								<input type="text" placeholder="ingredient" value={this.state.ingredient} onChange={this.ingredientChanged}/>
-								<ul className='ui list'>{this.state.list}</ul>
-							</div>
-							<div className="field">
-								<label> Weight </label>
-								<input type="text" placeholder="weight" value={this.state.weight} onChange={this.weightChanged}/>
-							</div>
-						</div>
+            {this.state.ingredients.map(function(ingredient, index){
+              return (
+                  <div className="fields">
+                    <div className="field">
+                      <label> Ingredient </label>
+                      <input type="text" placeholder="ingredient" value={ingredient.name} onChange={this.ingredientNameChanged.bind(this, index)}/>
+                      <ul className='ui list'>{ingredient.list}</ul>
+                    </div>
+                    <div className="field">
+                      <label> Weight </label>
+                      <input type="text" placeholder="weight" value={ingredient.weight} onChange={this.ingredientWeightChanged.bind(this, index)}/>
+                    </div>
+                  </div>
+                )
+            }, this)}
+            <a href="javascript:void(0);" onClick={this.appendIngredient}>Append ingredient</a>
+            
             <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.submit}>
               Add Food
             </button>
