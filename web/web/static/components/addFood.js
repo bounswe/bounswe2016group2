@@ -112,18 +112,14 @@ var AddFood = function (_React$Component) {
             food: data.id
           };
           Api.addIngredientToFood(currentIng).then(function (data) {}).catch(function (err) {
-            console.log("error during ingredient insertion");
-            console.log(err.data);
-
             var ingArray = _this4.state.ingredients;
             var currentIng = ingArray[index];
-            console.log(err.data);
             currentIng.errors = err.data.weight[0];
             ingArray[index] = currentIng;
-            console.log(currentIng);
             _this4.setState({ ingredients: ingArray, errors: err.data });
+
+            Api.deleteFood(data.id).then().catch();
             return;
-            // TODO: remove added food from database
           });
         }, _this3);
 

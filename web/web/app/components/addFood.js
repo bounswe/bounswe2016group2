@@ -80,18 +80,14 @@ class AddFood extends React.Component {
           Api.addIngredientToFood(currentIng)
             .then((data) => {
             }).catch((err) => {
-              console.log("error during ingredient insertion")
-              console.log(err.data)
-
               var ingArray = this.state.ingredients;
               var currentIng = ingArray[index];
-              console.log(err.data);
               currentIng.errors = err.data.weight[0];
               ingArray[index] = currentIng;
-              console.log(currentIng);
               this.setState({ingredients: ingArray, errors: err.data});
+
+              Api.deleteFood(data.id).then().catch();
               return;
-              // TODO: remove added food from database
             })}, this);
 				
         // TODO: redirect to the page of newly added food
