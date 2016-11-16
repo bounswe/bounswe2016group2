@@ -21,7 +21,7 @@ var AddFood = function (_React$Component) {
       errors: null,
       ingredient: '',
       ingredientId: '',
-      ingredients: [{ name: '', weight: '', list: '', id: '' }]
+      ingredients: [{ name: '', weight: '', list: '', id: '', errors: '' }]
     };
     _this.nameChanged = _this.nameChanged.bind(_this);
     _this.slugChanged = _this.slugChanged.bind(_this);
@@ -85,6 +85,7 @@ var AddFood = function (_React$Component) {
         var ingArray = _this2.state.ingredients;
         var currentIng = ingArray[index];
         currentIng.list = list;
+        currentIng.id = ingres[ingres.length - 1].id;
         ingArray[index] = currentIng;
         _this2.setState({ ingredients: ingArray });
       });
@@ -102,16 +103,31 @@ var AddFood = function (_React$Component) {
       };
 
       Api.addFood(postData).then(function (data) {
-        var ingredients = {
-          weight: parseInt(_this3.state.weight),
-          ingredient: _this3.state.ingredientId,
-          food: data.id
-        };
-        Api.addIngredientToFood(ingredients).then(function (data) {}).catch(function (err) {
-          console.log("error during ingredient insertion");
-          console.log(err.data);
-          // TODO: remove added food from database
-        });
+        _this3.state.ingredients.map(function (ingredient, index) {
+          var _this4 = this;
+
+          var currentIng = {
+            weight: parseInt(ingredient.weight),
+            ingredient: ingredient.id,
+            food: data.id
+          };
+          Api.addIngredientToFood(currentIng).then(function (data) {}).catch(function (err) {
+            console.log("error during ingredient insertion");
+            console.log(err.data);
+
+            var ingArray = _this4.state.ingredients;
+            var currentIng = ingArray[index];
+            console.log(err.data);
+            currentIng.errors = err.data.weight[0];
+            ingArray[index] = currentIng;
+            console.log(currentIng);
+            _this4.setState({ ingredients: ingArray, errors: err.data });
+            return;
+            // TODO: remove added food from database
+          });
+        }, _this3);
+
+        // TODO: redirect to the page of newly added food
       }).catch(function (err) {
         _this3.setState({ errors: err.data });
       });
@@ -200,7 +216,16 @@ var AddFood = function (_React$Component) {
                     null,
                     ' Weight '
                   ),
-                  React.createElement('input', { type: 'text', placeholder: 'weight', value: ingredient.weight, onChange: this.ingredientWeightChanged.bind(this, index) })
+                  React.createElement('input', { type: 'text', placeholder: 'weight', value: ingredient.weight, onChange: this.ingredientWeightChanged.bind(this, index) }),
+                  ingredient.errors != '' && React.createElement(
+                    'div',
+                    { className: 'ui error message' },
+                    React.createElement(
+                      'p',
+                      null,
+                      ingredient.errors
+                    )
+                  )
                 )
               );
             }, this),

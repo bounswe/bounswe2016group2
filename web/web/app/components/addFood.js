@@ -7,7 +7,7 @@ class AddFood extends React.Component {
       errors: null,
       ingredient: '',
       ingredientId: '',
-      ingredients: [{name: '', weight: '', list: '', id: ''}]
+      ingredients: [{name: '', weight: '', list: '', id: '', errors: ''}]
     }
     this.nameChanged = this.nameChanged.bind(this)
     this.slugChanged = this.slugChanged.bind(this)
@@ -55,6 +55,7 @@ class AddFood extends React.Component {
       var ingArray = this.state.ingredients;
       var currentIng = ingArray[index];
       currentIng.list = list;
+      currentIng.id = ingres[ingres.length-1].id;
       ingArray[index] = currentIng
       this.setState({ingredients: ingArray})
     })
@@ -70,17 +71,30 @@ class AddFood extends React.Component {
 
     Api.addFood(postData)
       .then((data) => {
-				const ingredients = {
-					weight: parseInt(this.state.weight),
-					ingredient: this.state.ingredientId,
-					food: data.id
-				}
-				Api.addIngredientToFood(ingredients)
-					.then((data) => {}).catch((err) => {
-						console.log("error during ingredient insertion")
-						console.log(err.data)
-						// TODO: remove added food from database
-					})
+        this.state.ingredients.map(function(ingredient,index) {
+          const currentIng = {
+            weight: parseInt(ingredient.weight),
+            ingredient: ingredient.id,
+            food: data.id
+          }
+          Api.addIngredientToFood(currentIng)
+            .then((data) => {
+            }).catch((err) => {
+              console.log("error during ingredient insertion")
+              console.log(err.data)
+
+              var ingArray = this.state.ingredients;
+              var currentIng = ingArray[index];
+              console.log(err.data);
+              currentIng.errors = err.data.weight[0];
+              ingArray[index] = currentIng;
+              console.log(currentIng);
+              this.setState({ingredients: ingArray, errors: err.data});
+              return;
+              // TODO: remove added food from database
+            })}, this);
+				
+        // TODO: redirect to the page of newly added food
       }).catch((err) => {
         this.setState({errors: err.data})
       })
@@ -125,6 +139,11 @@ class AddFood extends React.Component {
                     <div className="field">
                       <label> Weight </label>
                       <input type="text" placeholder="weight" value={ingredient.weight} onChange={this.ingredientWeightChanged.bind(this, index)}/>
+                      { ingredient.errors != '' &&
+                        <div className="ui error message">
+                          <p>{ingredient.errors}</p>
+                        </div>
+                      }
                     </div>
                   </div>
                 )
