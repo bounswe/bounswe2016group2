@@ -20,7 +20,7 @@ class AddFood extends React.Component {
   weightChanged(e) {this.setState({weight: e.target.value})}
   ingredientChanged(e) {
     this.setState({ingredient: e.target.value});
-		this.ingredientSearch(this.state.ingredient);
+		this.ingredientSearch(e.target.value);
   }
 
 	ingredientSearch(query) {

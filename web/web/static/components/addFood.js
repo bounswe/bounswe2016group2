@@ -49,7 +49,7 @@ var AddFood = function (_React$Component) {
     key: 'ingredientChanged',
     value: function ingredientChanged(e) {
       this.setState({ ingredient: e.target.value });
-      this.ingredientSearch(this.state.ingredient);
+      this.ingredientSearch(e.target.value);
     }
   }, {
     key: 'ingredientSearch',
