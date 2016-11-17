@@ -1,8 +1,11 @@
 package com.example.bounswegroup2.eatright;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -57,8 +60,15 @@ public class UserHomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.user_home, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_search_view, menu);
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+         searchView.setSearchableInfo(
+        searchManager.getSearchableInfo(getComponentName()));
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -90,7 +100,7 @@ public class UserHomeActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,consHistFragment,
                                                consHistFragment.getTag()).commit();
-        } else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_foods) {
             SettingsFragment settingsFragment = new SettingsFragment();
             settingsFragment.setArgs("ENESOZIPEK");
             FragmentManager manager = getSupportFragmentManager();

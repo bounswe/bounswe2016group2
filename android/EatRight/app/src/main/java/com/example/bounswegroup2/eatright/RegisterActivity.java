@@ -5,8 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,32 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.bounswegroup2.Models.User;
-import com.example.bounswegroup2.Utils.API;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import okhttp3.internal.framed.Http2;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
-import static com.example.bounswegroup2.Utils.Constants.API_KEY;
-import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.BASE_URL;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -50,8 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Button regBut;
     private EditText passText;
     private EditText passAgainText;
-    private EditText userNameText;
-    private EditText emailText;
+    private  EditText userNameText;
+    private  EditText emailText;
     // private UserRegTask mAuthTask = null;
     private View mRegFormView;
     private View mregProgressView;
@@ -64,26 +47,25 @@ public class RegisterActivity extends AppCompatActivity {
         expandFormBut.setPaintFlags(expandFormBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         phoneText = (EditText) findViewById(R.id.reg_phone);
         regBut = (Button) findViewById(R.id.reg_sign_up_button);
-        passText = (EditText) findViewById(R.id.password_reg);
-        passAgainText = (EditText) findViewById(R.id.password_reg_again);
-        userNameText = (EditText) findViewById(R.id.reg_username);
-        emailText = (EditText) findViewById(R.id.email_reg);
+        passText = (EditText)findViewById(R.id.password_reg);
+        passAgainText = (EditText)findViewById(R.id.password_reg_again);
+        userNameText = (EditText)findViewById(R.id.reg_username);
+        emailText = (EditText)findViewById(R.id.email_reg);
         mRegFormView = (View) findViewById(R.id.reg_form);
         mregProgressView = (View) findViewById(R.id.reg_progress);
     }
 
     public void expandFormForServer(View v) {
-        if (v.getId() == expandFormBut.getId()) {
-            if (phoneText.getVisibility() == View.GONE) {
+        if (v.getId() == expandFormBut.getId()){
+            if (phoneText.getVisibility() == View.GONE){
                 phoneText.setVisibility(View.VISIBLE);
                 expandFormBut.setText(R.string.button_to_user_text);
-            } else if (phoneText.getVisibility() == View.VISIBLE) {
+            }else if(phoneText.getVisibility() == View.VISIBLE){
                 phoneText.setVisibility(View.GONE);
                 expandFormBut.setText(R.string.button_to_server_text);
             }
         }
     }
-
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -119,8 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
             mRegFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
-    public void regButClicked(View v) {
+    public void regButClicked(View v){
         if (v.getId() == regBut.getId()) {
             // Reset errors.
             emailText.setError(null);
@@ -153,16 +134,19 @@ public class RegisterActivity extends AppCompatActivity {
                 cancel = true;
             }
 
-            if (cancel) {
+            if(cancel){
                 // There was an error; don't attempt login and focus the first
                 // form field with an error.
                 focusView.requestFocus();
-            } else {
-                if (!phone.isEmpty()) {
+            }else{
+                showProgress(true);
+                if(!phone.isEmpty()){
 
-                } else {
+                }else{
                     //  mAuthTask = new UserRegTask(email,pass,uname);
                     //  mAuthTask.execute();
+                    registerWithRetro(email,pass,uname);
+                    showProgress(false);
                 }
             }
 
@@ -184,34 +168,40 @@ public class RegisterActivity extends AppCompatActivity {
         return email.matches(emailRegex);
     }
 
-    private boolean isPasswordValid(String password) {
-        return password.matches(passRegex);
-    }
+    private boolean isPasswordValid(String password) { return password.matches(passRegex); }
 
-    private void registerWithRetro(final String email, final String pass, String uname) {
-        ApiInterface apiService = API.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.createUser(email, pass, uname, API_KEY);
-        call.enqueue(new Callback<User>() {
+    private void registerWithRetro(final String email, final String pass, String uname){
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper query = new QueryWrapper();
+        query.put("email", email);
+        query.put("password", pass);
+        query.put("username", uname);
+        Call<ResponseBody> cb = test.postSignupUser(query.getOptions());
+        cb.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-                if (statusCode == 1) {
-                    SessionManager.setPreferences(RegisterActivity.this, "usermail", email);
-                    SessionManager.setPreferences(RegisterActivity.this, "userpass", pass);
-                    Intent intent = new Intent(RegisterActivity.this, UserHomeActivity.class);
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(response.code());
+                System.out.println(response.raw());
+
+                if (response.isSuccessful()){
+                    SessionManager.setPreferences(RegisterActivity.this,"usermail",email);
+                    SessionManager.setPreferences(RegisterActivity.this,"userpass",pass);
+                    Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
                     startActivity(intent);
                     RegisterActivity.this.finish();
-                } else {
-
+                }else{
+                    Toast.makeText(RegisterActivity.this,"Oops, something went wrong !",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
             }
         });
 
     }
+
 
 }

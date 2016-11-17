@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,21 +29,30 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.User;
-import com.example.bounswegroup2.Utils.API;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static com.example.bounswegroup2.Utils.Constants.API_KEY;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -66,32 +76,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-   // private UserLoginTask mAuthTask = null;
+    // private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private  Button switchToRegBut;
+    private Button switchToRegBut;
+    //TODO test
+    private User testUsers;
+    private String test22 = "";
+    private Map<String, String> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(SessionManager.isUserLoggedIn(this,"usermail") && SessionManager.isUserLoggedIn(this,"userpass")){
+       /* if (SessionManager.isUserLoggedIn(this, "usermail") && SessionManager.isUserLoggedIn(this, "userpass")) {
             // User is already logged in
-            Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
             startActivity(intent);
             LoginActivity.this.finish();
-        }
+        }*/
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         switchToRegBut = (Button) findViewById(R.id.button_to_register);
         switchToRegBut.setPaintFlags(switchToRegBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -100,15 +114,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
-        });
+        });*/
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -163,10 +171,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-      /**  if (mAuthTask != null) {
-            return;
-        }*/
+    public void attemptLogin(View v) {
+        /**  if (mAuthTask != null) {
+         return;
+         }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -205,7 +213,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            loginWithRetro(email,password);
+            loginWithRetro(email, password);
         }
     }
 
@@ -216,15 +224,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.matches(passRegex);
+        //return password.matches(passRegex);
+        return true;
     }
 
-    public void switchToRegActivity(View v){
-        if(v.getId() == switchToRegBut.getId() ){
+    public void switchToRegActivity(View v) {
+        if (v.getId() == switchToRegBut.getId()) {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         }
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -315,33 +325,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private void loginWithRetro(final String email, final String password){
-
-        ApiInterface apiService = API.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.getUser(email,API_KEY);
-
-        call.enqueue(new Callback<User>() {
+    private void loginWithRetro(final String email, final String password) {
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper query = new QueryWrapper();
+        query.put("email", email);
+        query.put("password", password);
+        Call<ResponseBody> cb = test.postSigninUser(query.getOptions());
+        System.out.println(cb.request().url());
+        System.out.println(cb.request().body().toString());
+        cb.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<User>call, Response<User> response) {
-                String pass = response.body().getPassword();
-                //TODO:  Pass will be comapared by applying hash function
-                if (pass == password){
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(response.code());
+                try {
+                    JSONObject json = new JSONObject(response.body().string());
+                    System.out.println(json.getString("token"));
+                } catch (JSONException|IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (response.isSuccessful()) {
+                    showProgress(false);
                     SessionManager.setPreferences(LoginActivity.this,"usermail",email);
-                    SessionManager.setPreferences(LoginActivity.this,"userpass",pass);
+                    SessionManager.setPreferences(LoginActivity.this,"userpass",password);
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
+                } else {
+                    showProgress(false);
+                    Toast.makeText(LoginActivity.this,"Password or Email is wrong !",Toast.LENGTH_SHORT).show();
                 }
-                Log.d("LOGıN", "Pass: " + pass);
             }
 
             @Override
-            public void onFailure(Call<User>call, Throwable t) {
-                // Log error here since request failed
-                Log.e("LOGıN", t.toString());
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
             }
         });
+
+
     }
-
 }
-
