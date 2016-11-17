@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
@@ -23,9 +25,9 @@
     <item android:title="Application" >
         <menu>
             <item
-                android:id="@+id/nav_settings"
+                android:id="@+id/nav_foods"
                 android:icon="@drawable/ic_menu_settings"
-                android:title="Settings" />
+                android:title="@string/foods" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

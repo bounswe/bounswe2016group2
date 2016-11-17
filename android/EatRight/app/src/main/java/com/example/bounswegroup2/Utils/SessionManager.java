@@ -27,4 +27,9 @@ public class SessionManager {
         SharedPreferences prefs = context.getSharedPreferences("User",Context.MODE_PRIVATE);
         return !(prefs.getString(key,null) == null);
     }
+    public static void clearCredet(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences("User", Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+    }
 }

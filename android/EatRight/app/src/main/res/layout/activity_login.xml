@@ -68,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="attemptLogin"/>
 
             <Button
                 android:layout_width="match_parent"
