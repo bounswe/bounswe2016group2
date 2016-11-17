@@ -21,6 +21,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -104,8 +105,8 @@ public interface ApiInterface {
 //
 //    @DELETE("api/foods/{slug}")
 //
-//    @GET("api/foodSearch")
-//
+     @GET("api/foodSearch")
+     Call<List<Food>> getFoodsWithQuery(@Query("query") String query);
 //    @POST("api/foodMocks")
 //
 //    @GET("api/foods/{food}/ingredients/{ingredient}")
