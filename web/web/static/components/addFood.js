@@ -29,6 +29,7 @@ var AddFood = function (_React$Component) {
     _this.ingredientNameChanged = _this.ingredientNameChanged.bind(_this);
     _this.ingredientWeightChanged = _this.ingredientWeightChanged.bind(_this);
     _this.appendIngredient = _this.appendIngredient.bind(_this);
+    _this.removeIngredient = _this.removeIngredient.bind(_this);
     return _this;
   }
 
@@ -67,6 +68,14 @@ var AddFood = function (_React$Component) {
       e.preventDefault();
       var newIng = { name: '', weight: '', id: '' };
       this.setState({ ingredients: this.state.ingredients.concat(newIng) });
+    }
+  }, {
+    key: 'removeIngredient',
+    value: function removeIngredient(index, e) {
+      e.preventDefault();
+      var ingArray = this.state.ingredients;
+      ingArray.splice(index, 1);
+      this.setState({ ingredients: ingArray });
     }
   }, {
     key: 'ingredientSearch',
@@ -222,6 +231,11 @@ var AddFood = function (_React$Component) {
                       ingredient.errors
                     )
                   )
+                ),
+                index !== 0 && React.createElement(
+                  'a',
+                  { href: 'javascript:void(0);', onClick: this.removeIngredient.bind(this, index) },
+                  'remove'
                 )
               );
             }, this),

@@ -15,6 +15,7 @@ class AddFood extends React.Component {
     this.ingredientNameChanged = this.ingredientNameChanged.bind(this)
     this.ingredientWeightChanged = this.ingredientWeightChanged.bind(this)
     this.appendIngredient = this.appendIngredient.bind(this)
+    this.removeIngredient = this.removeIngredient.bind(this)
   }
 
   nameChanged(e) {this.setState({name: e.target.value})}
@@ -39,6 +40,12 @@ class AddFood extends React.Component {
     e.preventDefault();
     var newIng = {name: '', weight: '', id: ''};
     this.setState({ingredients: this.state.ingredients.concat(newIng)});
+  }
+  removeIngredient(index, e){
+    e.preventDefault();
+    var ingArray = this.state.ingredients;
+    ingArray.splice(index, 1);
+    this.setState({ingredients: ingArray});
   }
 
 	ingredientSearch(query, index) {
@@ -141,6 +148,9 @@ class AddFood extends React.Component {
                         </div>
                       }
                     </div>
+                    {index !== 0 &&
+                      <a href="javascript:void(0);" onClick={this.removeIngredient.bind(this, index)}>remove</a>
+                    }
                   </div>
                 )
             }, this)}
