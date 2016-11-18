@@ -27,6 +27,7 @@ class SignUpModal extends React.Component {
       first_name: this.state.first_name,
       last_name: this.state.last_name
     }
+    
     Api.signup(postData)
       .then((data) => {
         Api.signin(postData)

@@ -61,6 +61,7 @@ var SignUpModal = function (_React$Component) {
         first_name: this.state.first_name,
         last_name: this.state.last_name
       };
+
       Api.signup(postData).then(function (data) {
         Api.signin(postData).then(function (data) {
           reactCookie.save('token', data.token);
