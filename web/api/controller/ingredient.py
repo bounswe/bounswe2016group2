@@ -85,3 +85,13 @@ def createMocks(req):
     """
     # IngredientService.createDefaults()
     return HttpResponse(status=status.HTTP_201_CREATED)
+
+@api_view(['GET'])
+def search(req):
+    """
+    Search ingredient
+    """
+    q = slugify(req.GET.get('query', ''))
+    ingredients = Ingredient.objects.filter(slug__startswith=q)
+    seriealizer = IngredientSerializer(ingredients, many=True)
+    return Response(seriealizer.data)

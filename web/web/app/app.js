@@ -7,11 +7,11 @@ class Layout extends React.Component {
     return (
       <div>
         <div className='ui secondary pointing menu' style={{paddingTop: 10}}>
-          <a className='item active'>
+          <a href="/" className='item active'>
             Home
           </a>
-          <a className='item'>
-            Other stuff
+          <a href="addFood/" className='item'>
+            Add Food
           </a>
           <NavbarUser userEmail={userEmail}/>
         </div>

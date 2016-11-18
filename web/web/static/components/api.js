@@ -88,6 +88,21 @@ var Api = function () {
       return this.post('users/signup', data);
     }
   }, {
+    key: 'addFood',
+    value: function addFood(data) {
+      return this.post('foods', data);
+    }
+  }, {
+    key: 'addIngredientToFood',
+    value: function addIngredientToFood(data) {
+      return this.post('foods/1/ingredients/1', data);
+    }
+  }, {
+    key: 'searchIngredient',
+    value: function searchIngredient(query) {
+      return this.get('ingredientSearch?query=' + query);
+    }
+  }, {
     key: 'searchFood',
     value: function searchFood(query) {
       return this.get('foodSearch?query=' + query);

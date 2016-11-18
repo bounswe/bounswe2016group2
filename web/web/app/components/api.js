@@ -68,4 +68,8 @@ class Api {
   static searchFood(query) {
     return this.get(`foodSearch?query=${query}`)
   }
+
+  static addFood(query) {
+    return this.get(`food?query=$(query)`)
+  }
 }
