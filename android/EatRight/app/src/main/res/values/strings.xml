@@ -33,7 +33,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="user_home_title">Android Studio</string>
+    <string name="user_home_title">Welcome</string>
     <string name="user_home_mail">android.studio@android.com</string>
     <string name="consumption_history">Consumption History</string>
 
@@ -41,4 +41,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_hint">Search Food</string>
     <string name="foods">Foods</string>
+    <string name="user_image">User Image</string>
+    <string name="allergic_ingredients">Allergic Ingredients</string>
+    <string name="search">Search</string>
 </resources>
