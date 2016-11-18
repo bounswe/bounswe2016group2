@@ -71,13 +71,13 @@ class AddFood extends React.Component {
 
     Api.addFood(postData)
       .then((data) => {
-        this.state.ingredients.map(function(ingredient,index) {
+        this.state.ingredients.forEach(function(ingredient,index) {
           const currentIng = {
             weight: parseInt(ingredient.weight),
             ingredient: ingredient.id,
             food: data.id
           }
-          Api.addIngredientToFood(currentIng)
+          Api.addIngredientToFood(currentIng.food, currentIng.ingredient, currentIng)
             .then((data) => {
             }).catch((err) => {
               var ingArray = this.state.ingredients;

@@ -93,8 +93,8 @@ class Api {
 		return this.post('foods', data);
 	}
 
-	static addIngredientToFood(data) {
-		return this.post('foods/1/ingredients/1', data);
+	static addIngredientToFood(foodId, ingId, data) {
+		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
 	}
 
 	static searchIngredient(query) {

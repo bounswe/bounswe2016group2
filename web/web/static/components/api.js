@@ -121,8 +121,8 @@ var Api = function () {
     }
   }, {
     key: 'addIngredientToFood',
-    value: function addIngredientToFood(data) {
-      return this.post('foods/1/ingredients/1', data);
+    value: function addIngredientToFood(foodId, ingId, data) {
+      return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
     }
   }, {
     key: 'searchIngredient',

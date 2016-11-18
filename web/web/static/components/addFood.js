@@ -103,7 +103,7 @@ var AddFood = function (_React$Component) {
       };
 
       Api.addFood(postData).then(function (data) {
-        _this3.state.ingredients.map(function (ingredient, index) {
+        _this3.state.ingredients.forEach(function (ingredient, index) {
           var _this4 = this;
 
           var currentIng = {
@@ -111,7 +111,7 @@ var AddFood = function (_React$Component) {
             ingredient: ingredient.id,
             food: data.id
           };
-          Api.addIngredientToFood(currentIng).then(function (data) {}).catch(function (err) {
+          Api.addIngredientToFood(currentIng.food, currentIng.ingredient, currentIng).then(function (data) {}).catch(function (err) {
             var ingArray = _this4.state.ingredients;
             var currentIng = ingArray[index];
             currentIng.errors = err.data.weight[0];
