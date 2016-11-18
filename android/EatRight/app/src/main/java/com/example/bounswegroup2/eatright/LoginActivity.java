@@ -40,6 +40,7 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -337,18 +338,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 System.out.println(response.code());
-                try {
-                    JSONObject json = new JSONObject(response.body().string());
-                    System.out.println(json.getString("token"));
-                } catch (JSONException|IOException e) {
-                    e.printStackTrace();
-                }
-
+                System.out.println(response.body().toString());
+                System.out.println(response.message());
+                System.out.println(response.raw());
+                System.out.println(response.headers());
                 if (response.isSuccessful()) {
                     showProgress(false);
                     SessionManager.setPreferences(LoginActivity.this,"usermail",email);
                     SessionManager.setPreferences(LoginActivity.this,"userpass",password);
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+                    intent.putExtra("email",email);
                     startActivity(intent);
                     LoginActivity.this.finish();
                 } else {

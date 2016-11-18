@@ -21,6 +21,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
@@ -39,13 +40,13 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @Headers("Content-Type: application/json")
-    @POST("api/users/signup/{userInfo}")
-    Call<ResponseBody> postSignupUser(@FieldMap Map<String,String> userInfo);
+    @PUT("api/users/signup/{userInfo}")
+    Call<ResponseBody> postSignupUser(@FieldMap(encoded = true) Map<String,String> userInfo);
 
     @FormUrlEncoded
     @Headers("Content-Type: application/json")
     @POST("api/users/signin/{userInfo}")
-    Call<ResponseBody> postSigninUser(@FieldMap Map<String, String> userInfo);
+    Call<ResponseBody> postSigninUser(@FieldMap(encoded = true) Map<String, String> userInfo);
 
     @POST("api/users/signout")
     void postSignout();
@@ -104,8 +105,8 @@ public interface ApiInterface {
 //
 //    @DELETE("api/foods/{slug}")
 //
-//    @GET("api/foodSearch")
-//
+     @GET("api/foodSearch")
+     Call<List<Food>> getFoodsWithQuery(@Query("query") String query);
 //    @POST("api/foodMocks")
 //
 //    @GET("api/foods/{food}/ingredients/{ingredient}")

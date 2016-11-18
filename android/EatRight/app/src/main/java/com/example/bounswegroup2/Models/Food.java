@@ -23,7 +23,7 @@ public class Food {
     private String slug;
     @SerializedName("ingredients")
     @Expose
-    private List<Object> ingredients = new ArrayList<Object>();
+    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     /**
      *
@@ -84,7 +84,7 @@ public class Food {
      * @return
      * The ingredients
      */
-    public List<Object> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
 
@@ -93,7 +93,7 @@ public class Food {
      * @param ingredients
      * The ingredients
      */
-    public void setIngredients(List<Object> ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
