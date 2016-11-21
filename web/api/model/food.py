@@ -9,6 +9,7 @@ from api.model.ingredient import Ingredient
 class Food(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
+    photo = models.URLField(max_length=255, null=True)
 
     ingredients = models.ManyToManyField(Ingredient, through='Inclusion')
 

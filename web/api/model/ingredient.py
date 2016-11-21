@@ -7,6 +7,7 @@ from rest_framework import serializers
 class Ingredient(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
+    photo = models.URLField(max_length=255, null=True)
 
     value = models.FloatField()
     unit = models.CharField(max_length=32)
