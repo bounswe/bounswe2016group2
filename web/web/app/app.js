@@ -2,31 +2,17 @@ const root = document.getElementById('root')
 const token = reactCookie.load('token')
 const userEmail = reactCookie.load('email')
 
-class Layout extends React.Component {
-  render() {
-    return (
-      <div>
-        <div className='ui secondary pointing menu' style={{paddingTop: 10}}>
-          <a href="/" className='item active'>
-            Home
-          </a>
-          <a href="addFood/" className='item'>
-            Add Food
-          </a>
-          <NavbarUser userEmail={userEmail}/>
-        </div>
-        <div className='ui container'>
-          <FoodSearch/>
-        </div>
-      </div>
-    )
-  }
-}
-
-var router = new Navigo({root:null, useHash:false});
+var router = new Navigo({root:'/', useHash:false});
 
 router
-  .on('*', function () {
-      ReactDOM.render(<Layout/>, root)
+  .on(/addFood/, function() {
+    ReactDOM.render(
+      <Layout><AddFood/></Layout>
+    , root);
+  })
+  .on('/',function () {
+    ReactDOM.render(
+      <Layout><FoodSearch/></Layout>
+    , root);
   })
   .resolve()
