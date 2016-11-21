@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,21 +29,31 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.User;
-import com.example.bounswegroup2.Utils.API;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static com.example.bounswegroup2.Utils.Constants.API_KEY;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -66,32 +77,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-   // private UserLoginTask mAuthTask = null;
+    // private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private  Button switchToRegBut;
+    private Button switchToRegBut;
+    //TODO test
+    private User testUsers;
+    private String test22 = "";
+    private Map<String, String> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if(SessionManager.isUserLoggedIn(this,"usermail") && SessionManager.isUserLoggedIn(this,"userpass")){
+       /* if (SessionManager.isUserLoggedIn(this, "usermail") && SessionManager.isUserLoggedIn(this, "userpass")) {
             // User is already logged in
-            Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+            Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
             startActivity(intent);
             LoginActivity.this.finish();
-        }
+        }*/
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         switchToRegBut = (Button) findViewById(R.id.button_to_register);
         switchToRegBut.setPaintFlags(switchToRegBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -100,15 +115,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
-        });
+        });*/
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -163,10 +172,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-      /**  if (mAuthTask != null) {
-            return;
-        }*/
+    public void attemptLogin(View v) {
+        /**  if (mAuthTask != null) {
+         return;
+         }*/
 
         // Reset errors.
         mEmailView.setError(null);
@@ -205,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            loginWithRetro(email,password);
+            loginWithRetro(email, password);
         }
     }
 
@@ -216,15 +225,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.matches(passRegex);
+        //return password.matches(passRegex);
+        return true;
     }
 
-    public void switchToRegActivity(View v){
-        if(v.getId() == switchToRegBut.getId() ){
+    public void switchToRegActivity(View v) {
+        if (v.getId() == switchToRegBut.getId()) {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         }
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -315,151 +326,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private void loginWithRetro(final String email, final String password){
-
-        ApiInterface apiService = API.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.getUser(email,API_KEY);
-
-        call.enqueue(new Callback<User>() {
+    private void loginWithRetro(final String email, final String password) {
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper query = new QueryWrapper();
+        query.put("email", email);
+        query.put("password", password);
+        Call<ResponseBody> cb = test.postSigninUser(query.getOptions());
+        System.out.println(cb.request().url());
+        System.out.println(cb.request().body().toString());
+        cb.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<User>call, Response<User> response) {
-                String pass = response.body().getPassword();
-                //TODO:  Pass will be comapared by applying hash function
-                if (pass == password){
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(response.code());
+                System.out.println(response.body().toString());
+                System.out.println(response.message());
+                System.out.println(response.raw());
+                System.out.println(response.headers());
+                if (response.isSuccessful()) {
+                    showProgress(false);
                     SessionManager.setPreferences(LoginActivity.this,"usermail",email);
-                    SessionManager.setPreferences(LoginActivity.this,"userpass",pass);
+                    SessionManager.setPreferences(LoginActivity.this,"userpass",password);
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+                    intent.putExtra("email",email);
                     startActivity(intent);
                     LoginActivity.this.finish();
+                } else {
+                    showProgress(false);
+                    Toast.makeText(LoginActivity.this,"Password or Email is wrong !",Toast.LENGTH_SHORT).show();
                 }
-                Log.d("LOGıN", "Pass: " + pass);
             }
 
             @Override
-            public void onFailure(Call<User>call, Throwable t) {
-                // Log error here since request failed
-                Log.e("LOGıN", t.toString());
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
             }
         });
+
+
     }
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-
-    /**
-     * Asycntask method
-    private class UserLoginTask extends AsyncTask<String, String, Integer> {
-
-        private final String mEmail;
-        private final String mPassword;
-        HttpURLConnection conn;
-        URL url = null;
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Enter URL address where your php file resides
-                url = new URL(BASE_URL+"/login");
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return 0;
-            }
-
-            try {
-                // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("usermail", params[0])
-                        .appendQueryParameter("password", params[1]);
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                return 0;
-            }
-
-            try {
-
-                int response_code = conn.getResponseCode();
-
-                // Check if successful connection made
-                if (response_code == HttpURLConnection.HTTP_OK) {
-
-                    // Read data sent from server
-                    InputStream input = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-                    // Pass data to onPostExecute method
-                    return Integer.parseInt(result.toString());
-                }else{
-                    return 0;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return 0;
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(final Integer response) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (response == 0) {
-                Toast.makeText(LoginActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
-            }else if(response == 1) {
-                Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_LONG).show();
-            }else {
-                SessionManager.setPreferences(LoginActivity.this,"usermail",mEmail);
-                SessionManager.setPreferences(LoginActivity.this,"userpass",mPassword);
-                Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
-                startActivity(intent);
-                LoginActivity.this.finish();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-    */
-
 }
-

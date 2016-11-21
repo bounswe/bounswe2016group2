@@ -5,8 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,32 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.bounswegroup2.Models.User;
-import com.example.bounswegroup2.Utils.API;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import okhttp3.internal.framed.Http2;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
-import static com.example.bounswegroup2.Utils.Constants.API_KEY;
-import static com.example.bounswegroup2.Utils.Constants.CONNECTION_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.READ_TIMEOUT;
-import static com.example.bounswegroup2.Utils.Constants.BASE_URL;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
@@ -52,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passAgainText;
     private  EditText userNameText;
     private  EditText emailText;
-   // private UserRegTask mAuthTask = null;
+    // private UserRegTask mAuthTask = null;
     private View mRegFormView;
     private View mregProgressView;
 
@@ -74,13 +57,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void expandFormForServer(View v) {
         if (v.getId() == expandFormBut.getId()){
-                if (phoneText.getVisibility() == View.GONE){
-                        phoneText.setVisibility(View.VISIBLE);
-                        expandFormBut.setText(R.string.button_to_user_text);
-                }else if(phoneText.getVisibility() == View.VISIBLE){
-                        phoneText.setVisibility(View.GONE);
-                        expandFormBut.setText(R.string.button_to_server_text);
-                }
+            if (phoneText.getVisibility() == View.GONE){
+                phoneText.setVisibility(View.VISIBLE);
+                expandFormBut.setText(R.string.button_to_user_text);
+            }else if(phoneText.getVisibility() == View.VISIBLE){
+                phoneText.setVisibility(View.GONE);
+                expandFormBut.setText(R.string.button_to_server_text);
+            }
         }
     }
     /**
@@ -156,11 +139,14 @@ public class RegisterActivity extends AppCompatActivity {
                 // form field with an error.
                 focusView.requestFocus();
             }else{
+                showProgress(true);
                 if(!phone.isEmpty()){
 
                 }else{
-                  //  mAuthTask = new UserRegTask(email,pass,uname);
-                  //  mAuthTask.execute();
+                    //  mAuthTask = new UserRegTask(email,pass,uname);
+                    //  mAuthTask.execute();
+                    registerWithRetro(email,pass,uname);
+                    showProgress(false);
                 }
             }
 
@@ -181,148 +167,41 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isEmailValid(String email) {
         return email.matches(emailRegex);
     }
+
     private boolean isPasswordValid(String password) { return password.matches(passRegex); }
 
     private void registerWithRetro(final String email, final String pass, String uname){
-        ApiInterface apiService = API.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.createUser(email,pass,uname,API_KEY);
-        call.enqueue(new Callback<User>() {
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper query = new QueryWrapper();
+        query.put("email", email);
+        query.put("password", pass);
+        query.put("username", uname);
+        Call<ResponseBody> cb = test.postSignupUser(query.getOptions());
+        cb.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                int statusCode = response.code();
-                if (statusCode == 1){
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(response.code());
+                System.out.println(response.raw());
+
+                if (response.isSuccessful()){
                     SessionManager.setPreferences(RegisterActivity.this,"usermail",email);
                     SessionManager.setPreferences(RegisterActivity.this,"userpass",pass);
                     Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
                     startActivity(intent);
                     RegisterActivity.this.finish();
                 }else{
-
+                    Toast.makeText(RegisterActivity.this,"Oops, something went wrong !",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
             }
         });
 
     }
 
-    /**
-     * Asynctask method
-     *
-    private class UserRegTask extends AsyncTask<String,String,Integer> {
-        private final String mEmail;
-        private final String mPassword;
-        private final String mUname;
-        HttpURLConnection conn;
-        URL url = null;
-        UserRegTask(String email, String password, String uname) {
-            mEmail = email;
-            mPassword = password;
-            mUname = uname;
-        }
-        @Override
-        protected Integer doInBackground(String... params) {
-            try {
-                // Enter URL address where your php file resides
-                url = new URL(BASE_URL+"/reg");
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return 0;
-            }
 
-            try {
-                // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection)url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("usermail", params[0])
-                        .appendQueryParameter("password", params[1])
-                        .appendQueryParameter("uname", params[2]);
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                return 0;
-            }
-
-            try {
-
-                int response_code = conn.getResponseCode();
-
-                // Check if successful connection made
-                if (response_code == HttpURLConnection.HTTP_OK) {
-
-                    // Read data sent from server
-                    InputStream input = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-                    // Pass data to onPostExecute method
-                    return Integer.parseInt(result.toString());
-                }else{
-                    return 0;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return 0;
-            } finally {
-                conn.disconnect();
-            }
-
-        }
-        @Override
-        protected void onPostExecute(final Integer response) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (response == 0) {
-                Toast.makeText(RegisterActivity.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
-            }else if(response == 1) {
-                Toast.makeText(RegisterActivity.this, "Email is already in use", Toast.LENGTH_LONG).show();
-            }else if(response == 2){
-                Toast.makeText(RegisterActivity.this, "Username is already in use", Toast.LENGTH_LONG).show();
-            }else if(response == 3){
-                //TODO .Signup succeeded.
-                SessionManager.setPreferences(RegisterActivity.this,"usermail",mEmail);
-                SessionManager.setPreferences(RegisterActivity.this,"userpass",mPassword);
-                Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
-                startActivity(intent);
-                RegisterActivity.this.finish();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-        */
 }
