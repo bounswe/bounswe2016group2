@@ -8,7 +8,8 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
 
-    weight = models.FloatField()
+    value = models.FloatField()
+    unit = models.CharField(max_length=32)
     energy = models.FloatField()
 
     protein = models.FloatField()
@@ -45,6 +46,8 @@ class IngredientSerializer(serializers.ModelSerializer):
     carb = serializers.FloatField(min_value=0)
     fat = serializers.FloatField(min_value=0)
 
+    value = serializers.FloatField(min_value=0, default=None)
+    unit = serializers.FloatField(default='g')
     saturatedFat = serializers.FloatField(min_value=0, default=0)
     sugar = serializers.FloatField(min_value=0, default=0)
     fibre = serializers.FloatField(min_value=0, default=0)
