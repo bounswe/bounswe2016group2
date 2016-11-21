@@ -23,4 +23,10 @@ class Layout extends React.Component {
   }
 }
 
-ReactDOM.render(<Layout/>, root)
+var router = new Navigo({root:null, useHash:false});
+
+router
+  .on('*', function () {
+      ReactDOM.render(<Layout/>, root)
+  })
+  .resolve()

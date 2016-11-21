@@ -54,4 +54,8 @@ var Layout = function (_React$Component) {
   return Layout;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Layout, null), root);
+var router = new Navigo({ root: null, useHash: false });
+
+router.on('*', function () {
+  ReactDOM.render(React.createElement(Layout, null), root);
+}).resolve();
