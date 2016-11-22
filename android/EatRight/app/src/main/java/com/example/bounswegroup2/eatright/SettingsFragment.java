@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
@@ -92,7 +93,12 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
             Food food = (Food)adapter.getAdapter().getItem(position);
 
             TextView textView = (TextView) viewGroup.findViewById(R.id.food_name);
-            Toast.makeText(getActivity(),textView.getText().toString()+"\n"+ Arrays.toString(food.getIngredients().toArray()),Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(getActivity(), FoodPageActivity.class);
+            intent.putExtra("food",food);
+            startActivity(intent);
+            //Toast.makeText(getActivity(),textView.getText().toString()+"\n"+ Arrays.toString(food.getIngredients().toArray()),Toast.LENGTH_LONG).show();
+
         }
        /* if(adapter.getId() == lv.getId()){
             SparseBooleanArray clickedItemPositions = lv.getCheckedItemPositions();

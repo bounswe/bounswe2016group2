@@ -4,13 +4,14 @@ package com.example.bounswegroup2.Models;
  * Created by yigitozgumus on 11/12/16.
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Food {
+public class Food implements Serializable{
 
     @SerializedName("id")
     @Expose
