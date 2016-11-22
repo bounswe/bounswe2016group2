@@ -21,7 +21,7 @@ class InclusionSerializer(serializers.ModelSerializer):
 
     food = serializers.PrimaryKeyRelatedField(queryset=Food.objects.all())
     ingredient = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
-    value = serializers.FloatField(min_value=0)
+    value = serializers.FloatField(min_value=0, default=1)
     unit = serializers.CharField(default='g')
 
     class Meta:

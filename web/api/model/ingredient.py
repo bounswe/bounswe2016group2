@@ -7,9 +7,9 @@ from rest_framework import serializers
 class Ingredient(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
-    photo = models.URLField(max_length=255, null=True)
+    photo = models.URLField(max_length=255, null=True, blank=True)
 
-    value = models.FloatField()
+    value = models.FloatField(null=True, blank=True)
     unit = models.CharField(max_length=32)
     energy = models.FloatField()
 
@@ -40,15 +40,18 @@ class Ingredient(models.Model):
 
 
 class IngredientSerializer(serializers.ModelSerializer):
-    weight = serializers.FloatField(min_value=0)
+
+    slug = serializers.SlugField(read_only=True, allow_null=True)
+
     energy = serializers.FloatField(min_value=0)
 
     protein = serializers.FloatField(min_value=0)
     carb = serializers.FloatField(min_value=0)
     fat = serializers.FloatField(min_value=0)
 
-    value = serializers.FloatField(min_value=0, default=None)
-    unit = serializers.FloatField(default='g')
+    value = serializers.FloatField(min_value=0, required=False)
+    unit = serializers.CharField(default='g')
+
     saturatedFat = serializers.FloatField(min_value=0, default=0)
     sugar = serializers.FloatField(min_value=0, default=0)
     fibre = serializers.FloatField(min_value=0, default=0)

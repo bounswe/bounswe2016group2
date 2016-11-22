@@ -20,8 +20,6 @@ def ingredients(req):
         return Response(serializer.data)
 
     elif req.method == 'POST':
-        if 'name' in req.POST:
-            req.POST['slug'] = slugify(req.POST['name'])
         serializer = IngredientSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
