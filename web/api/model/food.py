@@ -9,7 +9,7 @@ from api.model.ingredient import Ingredient
 class Food(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
-    photo = models.URLField(max_length=255, null=True)
+    photo = models.URLField(max_length=255, null=True, blank=True)
 
     ingredients = models.ManyToManyField(Ingredient, through='Inclusion')
 
@@ -21,6 +21,8 @@ class Food(models.Model):
 
 
 class FoodSerializer(serializers.ModelSerializer):
+
+    slug = serializers.SlugField(read_only=True, allow_null=True)
 
     class Meta:
         model = Food
