@@ -15,9 +15,12 @@ def inclusion(req, food, ingredient):
     """
     data = {
         'food': food,
-        'ingredient': ingredient,
-        'weight': req.data['weight'] if 'weight' in req.data else 0
+        'ingredient': ingredient
     }
+    if 'value' in req.data:
+        data['value'] = req.data['value']
+    if 'unit' in req.data:
+        data['unit'] = req.data['unit']
     if req.method == 'POST':
         serializer = InclusionSerializer(data=data)
         if serializer.is_valid():
