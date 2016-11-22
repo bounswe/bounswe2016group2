@@ -18,12 +18,12 @@
         android:text="Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button" />
+        android:id="@+id/restaurant_button" />
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:id="@+id/textView3"
+        android:id="@+id/food_name_text"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="185dp"
                     app:srcCompat="@mipmap/ic_launcher"
-                    android:id="@+id/imageView3"
+                    android:id="@+id/food_image"
                     android:layout_weight="1"/>
 
             </LinearLayout>
@@ -62,28 +62,28 @@
                     android:text="Food Taste"
                     android:layout_width="195dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView6"
+                    android:id="@+id/food_taste_rating_text"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
                 <RatingBar
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ratingBar"
+                    android:id="@+id/food_taste_ratingBar"
                     android:layout_weight="1"
                     style="@style/Widget.AppCompat.RatingBar.Indicator" />
                 <TextView
                     android:text="Rate"
                     android:layout_width="195dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView7"
+                    android:id="@+id/rate_food_taste_text"
                     android:gravity="center"
                     android:layout_weight="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
                 <RatingBar
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ratingBar4"
+                    android:id="@+id/rate_food_taste_ratingBar"
                     android:layout_weight="1"
                     style="@style/Widget.AppCompat.RatingBar.Indicator" />
                 <EditText
@@ -92,7 +92,7 @@
                     android:hint="Comment"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/editText2" />
+                    android:id="@+id/comment_text" />
 
             </LinearLayout>
         </LinearLayout>
@@ -108,7 +108,7 @@
                     android:text="Tasted It!"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/button2"
+                    android:id="@+id/tasted_it_button"
                     android:layout_weight="1"/>
 
         <LinearLayout
@@ -120,7 +120,7 @@
                 android:text="Image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/button4"
+                android:id="@+id/add_image_button"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
                 android:layout_weight="1"
                 android:elevation="0dp" />
@@ -128,7 +128,7 @@
                 android:text="Post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/button5"
+                android:id="@+id/post_comment_button"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
@@ -137,7 +137,7 @@
         android:text="Calorie Information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView10"
+        android:id="@+id/calorie_info_text"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
     <LinearLayout
@@ -148,14 +148,14 @@
             android:text="Total Calories"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:id="@+id/textView11"
+            android:id="@+id/total_calories_text"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_weight="1" />
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:id="@+id/textView16"
+            android:id="@+id/total_calories_result_text"
             android:layout_weight="1" />
     </LinearLayout>
     <LinearLayout
@@ -166,14 +166,14 @@
             android:text="Carbonhydrate"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:id="@+id/textView12"
+            android:id="@+id/carb_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_weight="1" />
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView17"
+            android:id="@+id/carb_result_text"
             android:layout_weight="1" />
     </LinearLayout>
     <LinearLayout
@@ -184,14 +184,14 @@
             android:text="Fat"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:id="@+id/textView13"
+            android:id="@+id/fat_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_weight="1" />
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView18"
+            android:id="@+id/fat_result_text"
             android:layout_weight="1" />
     </LinearLayout>
     <LinearLayout
@@ -202,19 +202,19 @@
             android:text="Protein"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:id="@+id/textView14"
+            android:id="@+id/protein_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:layout_weight="1" />
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView19"
+            android:id="@+id/protein_result_text"
             android:layout_weight="1" />
     </LinearLayout>
     <Button
         android:text="Ingredients"
         android:layout_width="149dp"
         android:layout_height="wrap_content"
-        android:id="@+id/button3" />
+        android:id="@+id/ingredients_button" />
 </LinearLayout>
