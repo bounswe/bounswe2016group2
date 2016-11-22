@@ -2,7 +2,7 @@ from django.db import models
 
 from rest_framework import serializers
 
-from api.model.food import Food
+from api.model.food import Food, FoodSerializer
 from django.contrib.auth.models import User
 
 
@@ -22,4 +22,12 @@ class AteFoodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AteFood
-        fields = ('user', 'food', 'value')
+        fields = ('user', 'food', 'value', 'created')
+
+
+class AteFoodDetailSerializer(serializers.ModelSerializer):
+    food = FoodSerializer()
+
+    class Meta:
+        model = AteFood
+        fields = ('food', 'value')

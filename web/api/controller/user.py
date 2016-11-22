@@ -8,6 +8,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.model.user import UserSerializer
+from api.model.ateFood import AteFood, AteFoodDetailSerializer
+from api.model.ateIngredient import AteIngredient, AteIngredientDetailSerializer
 from api.service import user as UserService
 
 
@@ -125,3 +127,18 @@ def changePassword(req):
         return HttpResponse()
     except PermissionError as e:
         return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+def history(req):
+    """
+    get current user's eaten food and ingredient history
+    """
+    ateFoods = AteFood.objects.filter(user=req.user.id)
+    ateIngredients = AteIngredient.objects.filter(user=req.user.id)
+    foodSerializer = AteFoodDetailSerializer(ateFoods, many=True)
+    ingredientSerializer = AteIngredientDetailSerializer(ateIngredients, many=True)
+    return Response({
+        'foods': foodSerializer.data,
+        'ingredients': ingredientSerializer.data
+    })

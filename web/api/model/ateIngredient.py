@@ -2,7 +2,7 @@ from django.db import models
 
 from rest_framework import serializers
 
-from api.model.ingredient import Ingredient
+from api.model.ingredient import Ingredient, IngredientSerializer
 from django.contrib.auth.models import User
 
 
@@ -25,3 +25,11 @@ class AteIngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = AteIngredient
         fields = ('user', 'ingredient', 'value', 'unit')
+
+
+class AteIngredientDetailSerializer(serializers.ModelSerializer):
+    ingredient = IngredientSerializer()
+
+    class Meta:
+        model = AteIngredient
+        fields = ('ingredient', 'value', 'unit', 'created')
