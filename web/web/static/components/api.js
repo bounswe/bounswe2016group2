@@ -67,6 +67,33 @@ var Api = function () {
         });
       });
     }
+  }, {
+    key: 'delete',
+    value: function _delete(url, data) {
+      var _this3 = this;
+
+      return new Promise(function (resolve, reject) {
+        var status = null;
+        fetch(_this3.path(url), {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }).then(function (res) {
+          status = res.status;
+          return res;
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          if (status < 400) {
+            resolve(data);
+          } else {
+            reject({ status: status, data: data });
+          }
+        });
+      });
+    }
 
     /**
      * {email: String, password: String}
@@ -88,9 +115,29 @@ var Api = function () {
       return this.post('users/signup', data);
     }
   }, {
+    key: 'addFood',
+    value: function addFood(data) {
+      return this.post('foods', data);
+    }
+  }, {
+    key: 'addIngredientToFood',
+    value: function addIngredientToFood(foodId, ingId, data) {
+      return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
+    }
+  }, {
+    key: 'searchIngredient',
+    value: function searchIngredient(query) {
+      return this.get('ingredientSearch?query=' + query);
+    }
+  }, {
     key: 'searchFood',
     value: function searchFood(query) {
       return this.get('foodSearch?query=' + query);
+    }
+  }, {
+    key: 'deleteFood',
+    value: function deleteFood(data) {
+      return this.delete('foods/' + data);
     }
   }]);
 
