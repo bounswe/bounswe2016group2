@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,9 +27,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.FoodAdapter;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.bounswegroup2.eatright.R.layout.nav_header_user_home;
 
@@ -49,6 +61,7 @@ public class UserHomeActivity extends AppCompatActivity
     private FloatingActionButton mFab ;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
+    ArrayList<Food> HistoryFoods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +73,6 @@ public class UserHomeActivity extends AppCompatActivity
         userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
         userHistory.setText(R.string.user_page_histroy);
-
         //TODO will be activated after the main implementation
 //        mFab = (FloatingActionButton) findViewById(R.id.fab);
 //        mFab.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +85,6 @@ public class UserHomeActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         initSecondaryViews(bundle);
         initFoodHistory();
-
-
-
     }
 
     public void initSecondaryViews(Bundle bundle){
@@ -106,31 +115,47 @@ public class UserHomeActivity extends AppCompatActivity
         mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
         mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
-        ArrayList<Food> foods = getFoods();
-        foodAdapterH = new FoodAdapter(getApplicationContext(),foods);
-        foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-
-            }
-
-            @Override
-            public void onItemLongClick(int position, View v) {
-
-            }
-        });
-        mHistoryRecyclerView.setAdapter(foodAdapterH);
-
+        getFoods();
     }
 
     public void initFoodRecommendations(){
         //TODO will process recommended foods and will add to the recycler view
     }
 
-    public ArrayList getFoods(){
-        ArrayList<Food> foods = new ArrayList<>();
+    public void getFoods(){
         //TODO will be implemented
-        return foods;
+        ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper query = new QueryWrapper();
+
+        Call<List<Food>> cb = foodCall.getFoods(query.getOptions());
+        cb.enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                HistoryFoods = new ArrayList<Food>();
+                HistoryFoods = (ArrayList<Food>) response.body();
+                for (int i = 0; i < HistoryFoods.size(); i++) {
+                    System.out.println(HistoryFoods.get(i).getName());
+                }
+                foodAdapterH = new FoodAdapter(getApplicationContext(),HistoryFoods);
+                foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
+                    @Override
+                    public void onItemClick(int position, View v) {
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position, View v) {
+
+                    }
+                });
+                mHistoryRecyclerView.setAdapter(foodAdapterH);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+            }
+        });
     }
 
 

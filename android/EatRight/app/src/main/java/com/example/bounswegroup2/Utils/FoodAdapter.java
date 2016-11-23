@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.eatright.R;
@@ -13,6 +14,7 @@ import com.example.bounswegroup2.eatright.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yigitozgumus on 11/23/16.
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
-    private ArrayList<Food> foods;
+    private ArrayList<Food> foods  = new ArrayList<>();
     private Context context;
     private static ClickListener clickListener;
 
@@ -34,11 +36,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
         ImageView foodImage;
+        TextView foodTitle;
         public ViewHolder(View view) {
             super(view);
             foodImage = (ImageView)view.findViewById(R.id.food_image);
             foodImage.setOnClickListener(this);
             foodImage.setOnLongClickListener(this);
+            foodTitle = (TextView) view.findViewById(R.id.food_title);
         }
 
         @Override
@@ -72,15 +76,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(FoodAdapter.ViewHolder holder, int position) {
-//        Picasso.with(context)
-//                .load(artCollections.get(position).getWebImageUrl())
-//                .fit()
-//                .placeholder(R.drawable.rijksmuseum)
-//                .into(holder.imgCollection);
+        holder.foodTitle.setText(foods.get(position).getName());
+        Picasso.with(context)
+                .load("https://nutritionaz.files.wordpress.com/2014/06/eat-right.jpg")
+                .fit()
+                .into(holder.foodImage);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return foods.size();
     }
 }
