@@ -5,12 +5,12 @@ const userEmail = reactCookie.load('email')
 var router = new Navigo({root:'/', useHash:false});
 
 router
-  .on(/addFood/, function() {
+  .on("/addFood/", function() {
     ReactDOM.render(
       <Layout><AddFood/></Layout>
     , root);
   })
-  .on('/',function () {
+  .on("*",function () {
     ReactDOM.render(
       <Layout><FoodSearch/></Layout>
     , root);
