@@ -21,7 +21,7 @@ public class QueryWrapper {
     private Map<String, String> options;
     public QueryWrapper(){
         options = new HashMap<>();
-        //options.put("format","json");
+        options.put("format","json");
     }
 
 

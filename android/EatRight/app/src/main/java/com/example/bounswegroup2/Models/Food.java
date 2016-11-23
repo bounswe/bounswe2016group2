@@ -4,13 +4,14 @@ package com.example.bounswegroup2.Models;
  * Created by yigitozgumus on 11/12/16.
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Food {
+public class Food implements Serializable{
 
     @SerializedName("id")
     @Expose
@@ -23,7 +24,7 @@ public class Food {
     private String slug;
     @SerializedName("ingredients")
     @Expose
-    private List<Object> ingredients = new ArrayList<Object>();
+    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     /**
      *
@@ -84,7 +85,7 @@ public class Food {
      * @return
      * The ingredients
      */
-    public List<Object> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
 
@@ -93,7 +94,7 @@ public class Food {
      * @param ingredients
      * The ingredients
      */
-    public void setIngredients(List<Object> ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

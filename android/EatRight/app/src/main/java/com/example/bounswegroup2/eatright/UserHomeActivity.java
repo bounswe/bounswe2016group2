@@ -2,10 +2,12 @@ package com.example.bounswegroup2.eatright;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +18,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import static com.example.bounswegroup2.eatright.R.layout.nav_header_user_home;
 
 public class UserHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,6 +31,8 @@ public class UserHomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,9 +50,18 @@ public class UserHomeActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        TextView tv = (TextView)header.findViewById(R.id.textView_email);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null) {
+            String un = bundle.getString("username");
+            if(un != null)
+            tv.setText(un);
+            else
+            tv.setText(bundle.getString("email"));
+        }
     }
 
     @Override
@@ -66,10 +83,31 @@ public class UserHomeActivity extends AppCompatActivity
                 (SearchManager)getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
-         searchView.setSearchableInfo(
-        searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.setArgs(query);
+                FragmentManager manager = getSupportFragmentManager();
+                manager.beginTransaction().replace(R.id.content_user_home,
+                        settingsFragment,settingsFragment.getTag()).commit();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+
+        });
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -102,7 +140,6 @@ public class UserHomeActivity extends AppCompatActivity
                                                consHistFragment.getTag()).commit();
         } else if (id == R.id.nav_foods) {
             SettingsFragment settingsFragment = new SettingsFragment();
-            settingsFragment.setArgs("ENESOZIPEK");
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,
                                                settingsFragment,settingsFragment.getTag()).commit();
