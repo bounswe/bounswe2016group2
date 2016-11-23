@@ -14,15 +14,15 @@
     tools:context="com.example.bounswegroup2.eatright.FoodPageActivity"
     android:weightSum="1">
 
-    <Button
+    <!--<Button
         android:text="Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/restaurant_button" />
+        android:id="@+id/restaurant_button" />-->
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="48dp"
         android:id="@+id/food_name_text"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
@@ -61,18 +61,21 @@
                 <TextView
                     android:text="Food Taste"
                     android:layout_width="195dp"
-                    android:layout_height="wrap_content"
                     android:id="@+id/food_taste_rating_text"
                     android:gravity="center"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:layout_height="44dp" />
                 <RatingBar
-                    android:layout_width="match_parent"
+                    android:layout_width="191dp"
                     android:layout_height="match_parent"
                     android:id="@+id/food_taste_ratingBar"
-                    android:layout_weight="1"
                     style="@style/Widget.AppCompat.RatingBar.Indicator" />
-                <TextView
+                <Button
+                    android:text="Tasted It!"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:id="@+id/tasted_it_button" />
+                <!--<TextView
                     android:text="Rate"
                     android:layout_width="195dp"
                     android:layout_height="wrap_content"
@@ -85,31 +88,26 @@
                     android:layout_height="match_parent"
                     android:id="@+id/rate_food_taste_ratingBar"
                     android:layout_weight="1"
-                    style="@style/Widget.AppCompat.RatingBar.Indicator" />
-                <EditText
+                    style="@style/Widget.AppCompat.RatingBar.Indicator" />-->
+                <!--<EditText
                     android:layout_width="wrap_content"
                     android:layout_height="75dp"
                     android:hint="Comment"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/comment_text" />
+                    android:id="@+id/comment_text" />-->
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_weight="1.1">
 
-                <Button
-                    android:text="Tasted It!"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tasted_it_button"
-                    android:layout_weight="1"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,12 +129,12 @@
                 android:id="@+id/post_comment_button"
                 android:layout_weight="1"/>
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <TextView
         android:text="Calorie Information"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="49dp"
         android:id="@+id/calorie_info_text"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
@@ -214,7 +212,8 @@
     </LinearLayout>
     <Button
         android:text="Ingredients"
-        android:layout_width="149dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ingredients_button" />
+
 </LinearLayout>
