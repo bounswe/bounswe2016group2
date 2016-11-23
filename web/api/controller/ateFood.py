@@ -4,25 +4,33 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-# from api.model.food import Food, FoodSerializer
-from api.model.inclusion import Inclusion, InclusionSerializer
+from api.model.ateFood import AteFood, AteFoodSerializer
+from api.model.food import Food
 
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def inclusion(req, food, ingredient):
+@api_view(['GET', 'POST', 'DELETE'])
+def ateFood(req, foodId):
     """
-    Create, retrive, modify or delete the existence of ingredient in food
+    Create or delete the existence of eating status of food
     """
     data = {
-        'food': food,
-        'ingredient': ingredient
+        'food': foodId,
+        'user': req.user.id
     }
     if 'value' in req.data:
         data['value'] = req.data['value']
     if 'unit' in req.data:
         data['unit'] = req.data['unit']
+
+    try:
+        food = Food.objects.get(id=foodId)
+        data['food'] = food.id
+    except Food.DoesNotExist:
+        print('ammk')
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     if req.method == 'POST':
-        serializer = InclusionSerializer(data=data)
+        serializer = AteFoodSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -31,22 +39,14 @@ def inclusion(req, food, ingredient):
     else:
         # find the relation if request is not POST
         try:
-            inclusion = Inclusion.objects.get(food=food, ingredient=ingredient)
-        except Inclusion.DoesNotExist:
+            ateFood = AteFood.objects.get(user=req.user.id, food=food.id)
+        except AteFood.DoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
         if req.method == 'GET':
-            serializer = InclusionSerializer(inclusion)
+            serializer = AteFoodSerializer(ateFood)
             return Response(serializer.data)
 
-        elif req.method == 'PUT':
-            serializer = InclusionSerializer(inclusion, data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         elif req.method == 'DELETE':
-            inclusion.delete()
+            ateFood.delete()
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)
