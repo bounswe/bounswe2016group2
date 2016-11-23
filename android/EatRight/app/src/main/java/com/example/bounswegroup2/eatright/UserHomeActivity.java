@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Utils.FoodAdapter;
+
+import java.util.ArrayList;
+
 import static com.example.bounswegroup2.eatright.R.layout.nav_header_user_home;
 
 public class UserHomeActivity extends AppCompatActivity
@@ -29,49 +37,103 @@ public class UserHomeActivity extends AppCompatActivity
 
     private TextView userRecommendations;
     private TextView userHistory;
-
+    private RecyclerView mHistoryRecyclerView;
+    private RecyclerView mRecomRecyclerView;
+    private LinearLayoutManager mHistoryLinearLayoutManager;
+    private LinearLayoutManager mRecomLinearLayoutManager;
+    private FoodAdapter foodAdapterH;
+    private FoodAdapter foodAdapterR;
+    private DrawerLayout drawer;
+    private NavigationView mNavigationView;
+    private TextView mShowName;
+    private FloatingActionButton mFab ;
+    private ActionBarDrawerToggle mToggle;
+    private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         userRecommendations = (TextView) findViewById(R.id.user_home_recommendations);
         userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
         userHistory.setText(R.string.user_page_histroy);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
+        //TODO will be activated after the main implementation
+//        mFab = (FloatingActionButton) findViewById(R.id.fab);
+//        mFab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
 //            }
 //        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View header=navigationView.getHeaderView(0);
-        TextView tv = (TextView)header.findViewById(R.id.textView_email);
         Bundle bundle = getIntent().getExtras();
+        initSecondaryViews(bundle);
+        initFoodHistory();
+
+
+
+    }
+
+    public void initSecondaryViews(Bundle bundle){
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mToggle = new ActionBarDrawerToggle(
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
+
+        View header=mNavigationView.getHeaderView(0);
+        mShowName = (TextView)header.findViewById(R.id.textView_email);
+
         if(bundle!=null) {
             String un = bundle.getString("username");
             if(un != null)
-            tv.setText(un);
+                mShowName.setText(un);
             else
-            tv.setText(bundle.getString("email"));
+                mShowName.setText(bundle.getString("email"));
         }
     }
+
+    public void initFoodHistory(){
+        mHistoryRecyclerView = (RecyclerView) findViewById(R.id.History_recycler);
+        mHistoryRecyclerView.setHasFixedSize(true);
+        mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
+        mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
+        ArrayList<Food> foods = getFoods();
+        foodAdapterH = new FoodAdapter(getApplicationContext(),foods);
+        foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+
+            }
+
+            @Override
+            public void onItemLongClick(int position, View v) {
+
+            }
+        });
+        mHistoryRecyclerView.setAdapter(foodAdapterH);
+
+    }
+
+    public void initFoodRecommendations(){
+        //TODO will process recommended foods and will add to the recycler view
+    }
+
+    public ArrayList getFoods(){
+        ArrayList<Food> foods = new ArrayList<>();
+        //TODO will be implemented
+        return foods;
+    }
+
+
 
     @Override
     public void onBackPressed() {

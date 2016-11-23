@@ -1,14 +1,18 @@
 package com.example.bounswegroup2.Utils;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.eatright.R;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by yigitozgumus on 11/23/16.
@@ -16,7 +20,8 @@ import com.squareup.picasso.Picasso;
 
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
-
+    private ArrayList<Food> foods;
+    private Context context;
     private static ClickListener clickListener;
 
     //Creating onClick listener for the ImageTexts
@@ -51,6 +56,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     public void setOnItemClickListener(ClickListener clickListener) {
         FoodAdapter.clickListener = clickListener;
+    }
+
+    public FoodAdapter(Context context, ArrayList<Food> foodList){
+        this.context = context;
+        this.foods = foodList;
     }
 
     @Override
