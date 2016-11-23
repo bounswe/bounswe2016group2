@@ -12,7 +12,8 @@ router
   })
   .on("*",function () {
     ReactDOM.render(
-      <Layout><FoodSearch/></Layout>
+      //<Layout><FoodSearch/></Layout>
+      <Layout><UserHomepage/></Layout>
     , root);
   })
   .resolve()

@@ -13,9 +13,11 @@ router.on("/addFood/", function () {
     React.createElement(AddFood, null)
   ), root);
 }).on("*", function () {
-  ReactDOM.render(React.createElement(
+  ReactDOM.render(
+  //<Layout><FoodSearch/></Layout>
+  React.createElement(
     Layout,
     null,
-    React.createElement(FoodSearch, null)
+    React.createElement(UserHomepage, null)
   ), root);
 }).resolve();
