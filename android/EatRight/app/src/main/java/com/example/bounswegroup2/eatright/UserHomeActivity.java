@@ -73,6 +73,7 @@ public class UserHomeActivity extends AppCompatActivity
         userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
         userHistory.setText(R.string.user_page_histroy);
+
         //TODO will be activated after the main implementation
 //        mFab = (FloatingActionButton) findViewById(R.id.fab);
 //        mFab.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +117,7 @@ public class UserHomeActivity extends AppCompatActivity
         mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
         getFoods();
+
     }
 
     public void initFoodRecommendations(){
@@ -133,9 +135,6 @@ public class UserHomeActivity extends AppCompatActivity
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
                 HistoryFoods = new ArrayList<Food>();
                 HistoryFoods = (ArrayList<Food>) response.body();
-                for (int i = 0; i < HistoryFoods.size(); i++) {
-                    System.out.println(HistoryFoods.get(i).getName());
-                }
                 foodAdapterH = new FoodAdapter(getApplicationContext(),HistoryFoods);
                 foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
                     @Override
@@ -149,6 +148,7 @@ public class UserHomeActivity extends AppCompatActivity
                     }
                 });
                 mHistoryRecyclerView.setAdapter(foodAdapterH);
+
 
             }
 

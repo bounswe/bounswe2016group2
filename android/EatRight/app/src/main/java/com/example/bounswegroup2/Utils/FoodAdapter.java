@@ -79,7 +79,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
         holder.foodTitle.setText(foods.get(position).getName());
         Picasso.with(context)
                 .load("https://nutritionaz.files.wordpress.com/2014/06/eat-right.jpg")
+                .placeholder(R.drawable.eatright)
                 .fit()
+                .centerInside()
                 .into(holder.foodImage);
     }
 
