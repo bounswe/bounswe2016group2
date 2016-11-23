@@ -29,6 +29,7 @@ var AddFood = function (_React$Component) {
     _this.ingredientNameChanged = _this.ingredientNameChanged.bind(_this);
     _this.ingredientWeightChanged = _this.ingredientWeightChanged.bind(_this);
     _this.appendIngredient = _this.appendIngredient.bind(_this);
+    _this.removeIngredient = _this.removeIngredient.bind(_this);
     return _this;
   }
 
@@ -69,6 +70,14 @@ var AddFood = function (_React$Component) {
       this.setState({ ingredients: this.state.ingredients.concat(newIng) });
     }
   }, {
+    key: 'removeIngredient',
+    value: function removeIngredient(index, e) {
+      e.preventDefault();
+      var ingArray = this.state.ingredients;
+      ingArray.splice(index, 1);
+      this.setState({ ingredients: ingArray });
+    }
+  }, {
     key: 'ingredientSearch',
     value: function ingredientSearch(query, index) {
       var _this2 = this;
@@ -103,7 +112,7 @@ var AddFood = function (_React$Component) {
       };
 
       Api.addFood(postData).then(function (data) {
-        _this3.state.ingredients.map(function (ingredient, index) {
+        _this3.state.ingredients.forEach(function (ingredient, index) {
           var _this4 = this;
 
           var currentIng = {
@@ -111,19 +120,15 @@ var AddFood = function (_React$Component) {
             ingredient: ingredient.id,
             food: data.id
           };
-          Api.addIngredientToFood(currentIng).then(function (data) {}).catch(function (err) {
-            console.log("error during ingredient insertion");
-            console.log(err.data);
-
+          Api.addIngredientToFood(currentIng.food, currentIng.ingredient, currentIng).then(function (data) {}).catch(function (err) {
             var ingArray = _this4.state.ingredients;
             var currentIng = ingArray[index];
-            console.log(err.data);
             currentIng.errors = err.data.weight[0];
             ingArray[index] = currentIng;
-            console.log(currentIng);
             _this4.setState({ ingredients: ingArray, errors: err.data });
+
+            Api.deleteFood(data.id).then().catch();
             return;
-            // TODO: remove added food from database
           });
         }, _this3);
 
@@ -226,6 +231,11 @@ var AddFood = function (_React$Component) {
                       ingredient.errors
                     )
                   )
+                ),
+                index !== 0 && React.createElement(
+                  'a',
+                  { href: 'javascript:void(0);', onClick: this.removeIngredient.bind(this, index) },
+                  'remove'
                 )
               );
             }, this),

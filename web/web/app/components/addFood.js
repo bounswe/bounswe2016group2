@@ -15,6 +15,7 @@ class AddFood extends React.Component {
     this.ingredientNameChanged = this.ingredientNameChanged.bind(this)
     this.ingredientWeightChanged = this.ingredientWeightChanged.bind(this)
     this.appendIngredient = this.appendIngredient.bind(this)
+    this.removeIngredient = this.removeIngredient.bind(this)
   }
 
   nameChanged(e) {this.setState({name: e.target.value})}
@@ -39,6 +40,12 @@ class AddFood extends React.Component {
     e.preventDefault();
     var newIng = {name: '', weight: '', id: ''};
     this.setState({ingredients: this.state.ingredients.concat(newIng)});
+  }
+  removeIngredient(index, e){
+    e.preventDefault();
+    var ingArray = this.state.ingredients;
+    ingArray.splice(index, 1);
+    this.setState({ingredients: ingArray});
   }
 
 	ingredientSearch(query, index) {
@@ -71,27 +78,23 @@ class AddFood extends React.Component {
 
     Api.addFood(postData)
       .then((data) => {
-        this.state.ingredients.map(function(ingredient,index) {
+        this.state.ingredients.forEach(function(ingredient,index) {
           const currentIng = {
             weight: parseInt(ingredient.weight),
             ingredient: ingredient.id,
             food: data.id
           }
-          Api.addIngredientToFood(currentIng)
+          Api.addIngredientToFood(currentIng.food, currentIng.ingredient, currentIng)
             .then((data) => {
             }).catch((err) => {
-              console.log("error during ingredient insertion")
-              console.log(err.data)
-
               var ingArray = this.state.ingredients;
               var currentIng = ingArray[index];
-              console.log(err.data);
               currentIng.errors = err.data.weight[0];
               ingArray[index] = currentIng;
-              console.log(currentIng);
               this.setState({ingredients: ingArray, errors: err.data});
+
+              Api.deleteFood(data.id).then().catch();
               return;
-              // TODO: remove added food from database
             })}, this);
 				
         // TODO: redirect to the page of newly added food
@@ -145,6 +148,9 @@ class AddFood extends React.Component {
                         </div>
                       }
                     </div>
+                    {index !== 0 &&
+                      <a href="javascript:void(0);" onClick={this.removeIngredient.bind(this, index)}>remove</a>
+                    }
                   </div>
                 )
             }, this)}

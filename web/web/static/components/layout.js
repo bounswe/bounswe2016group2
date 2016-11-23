@@ -8,10 +8,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var root = document.getElementById('root');
-var token = reactCookie.load('token');
-var userEmail = reactCookie.load('email');
-
 var Layout = function (_React$Component) {
   _inherits(Layout, _React$Component);
 
@@ -32,20 +28,20 @@ var Layout = function (_React$Component) {
           { className: 'ui secondary pointing menu', style: { paddingTop: 10 } },
           React.createElement(
             'a',
-            { className: 'item active' },
+            { href: '/', className: 'item active' },
             'Home'
           ),
           React.createElement(
             'a',
-            { className: 'item' },
-            'Other stuff'
+            { href: '/addFood', className: 'item' },
+            'Add Food'
           ),
           React.createElement(NavbarUser, { userEmail: userEmail })
         ),
         React.createElement(
           'div',
           { className: 'ui container' },
-          React.createElement(AddFood, null)
+          this.props.children
         )
       );
     }
@@ -53,5 +49,3 @@ var Layout = function (_React$Component) {
 
   return Layout;
 }(React.Component);
-
-ReactDOM.render(React.createElement(Layout, null), addFood);
