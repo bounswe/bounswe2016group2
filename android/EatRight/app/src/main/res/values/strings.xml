@@ -28,6 +28,8 @@
     <string name="error_unavl_email">This mail address is already in use</string>
     <string name="error_avl_uname">This username already taken</string>
     <string name="title_activity_user_home">UserHomeActivity</string>
+    <string name="user_page_recommendations">Recommendations</string>
+    <string name="user_page_histroy">History</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

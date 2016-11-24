@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_below="@id/alergic_edit_text"
-        android:hint="Multi Auto Complete " />
+        android:hint="Allergic ingredient" />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
