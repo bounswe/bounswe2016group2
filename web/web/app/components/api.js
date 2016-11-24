@@ -108,4 +108,10 @@ class Api {
 	static deleteFood(data){
 		return this.delete('foods/' + data);
 	}
+  static getFood(id){
+    return this.get('foods/' + id);
+  }
+  static getIngr(id){
+    return this.get('ingredients/' + id);
+  }
 }

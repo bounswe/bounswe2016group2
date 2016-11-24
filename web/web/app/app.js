@@ -10,6 +10,16 @@ router
       <Layout><AddFood/></Layout>
     , root);
   })
+  .on("/food/:id", function(params) {
+    ReactDOM.render(
+      <Layout><FoodPage id={params.id}/></Layout>,
+      root);
+  })
+  .on("/ingredient/:id", function(params) {
+    ReactDOM.render(
+      <Layout><IngrPage id={params.id}/></Layout>,
+      root);
+  })
   .on("*",function () {
     ReactDOM.render(
       <Layout><FoodSearch/></Layout>

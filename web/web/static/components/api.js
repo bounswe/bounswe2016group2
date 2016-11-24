@@ -139,6 +139,16 @@ var Api = function () {
     value: function deleteFood(data) {
       return this.delete('foods/' + data);
     }
+  }, {
+    key: 'getFood',
+    value: function getFood(id) {
+      return this.get('foods/' + id);
+    }
+  }, {
+    key: 'getIngr',
+    value: function getIngr(id) {
+      return this.get('ingredients/' + id);
+    }
   }]);
 
   return Api;
