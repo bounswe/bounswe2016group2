@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_below="@id/alergic_edit_text"
-        android:hint="Multi Auto Complete " />
+        android:hint="Allergic ingredient" />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,21 +28,21 @@
         android:text="@string/search"
         android:id="@+id/searchFood"
         android:layout_below="@+id/ingr_listview"/>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/ingr_listview"
-    tools:context="com.example.bounswegroup2.eatright.SettingsFragment"
-    >
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <ListView
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/android:list"
-        android:layout_gravity="bottom"
-        />
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/ingr_listview"
+        tools:context="com.example.bounswegroup2.eatright.SettingsFragment"
+        >
+
+        <!-- TODO: Update blank fragment layout -->
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@id/android:list"
+            android:layout_gravity="bottom"
+            />
+    </FrameLayout>
 </RelativeLayout>

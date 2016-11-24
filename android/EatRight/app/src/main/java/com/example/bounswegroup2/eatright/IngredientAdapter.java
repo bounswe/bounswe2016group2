@@ -40,10 +40,17 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         }
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.ingr_name);
-        TextView tvSlug = (TextView) convertView.findViewById(R.id.ingr_slug);
+        TextView tvEnergy = (TextView) convertView.findViewById(R.id.ingr_energy);
+        TextView tvPro = (TextView) convertView.findViewById(R.id.ingr_pro);
+        TextView tvCab = (TextView) convertView.findViewById(R.id.ingr_cab);
+        TextView tvFat = (TextView) convertView.findViewById(R.id.ingr_fat);
         // Populate the data into the template view using the data object
         tvName.setText(ingr.getName());
-        tvSlug.setText(ingr.getSlug());
+        tvEnergy.setText("Energy: "+ingr.getFat());
+        tvPro.setText("Pro: "+ingr.getProtein());
+        tvCab.setText("Carb: "+ingr.getCarb());
+        tvFat.setText("Fat: "+ingr.getFat());
+
         // Return the completed view to render on screen
         return convertView;
     }
