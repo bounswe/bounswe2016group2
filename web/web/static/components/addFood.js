@@ -19,12 +19,9 @@ var AddFood = function (_React$Component) {
     _this.state = {
       data: null,
       errors: null,
-      ingredient: '',
-      ingredientId: '',
       ingredients: [{ name: '', weight: '', list: '', id: '', errors: '' }]
     };
     _this.nameChanged = _this.nameChanged.bind(_this);
-    _this.slugChanged = _this.slugChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
     _this.ingredientNameChanged = _this.ingredientNameChanged.bind(_this);
     _this.ingredientWeightChanged = _this.ingredientWeightChanged.bind(_this);
@@ -37,11 +34,6 @@ var AddFood = function (_React$Component) {
     key: 'nameChanged',
     value: function nameChanged(e) {
       this.setState({ name: e.target.value });
-    }
-  }, {
-    key: 'slugChanged',
-    value: function slugChanged(e) {
-      this.setState({ slug: e.target.value });
     }
   }, {
     key: 'ingredientNameChanged',
@@ -107,8 +99,7 @@ var AddFood = function (_React$Component) {
       e.preventDefault();
       this.setState({ errors: null });
       var postData = {
-        name: this.state.name,
-        slug: this.state.slug
+        name: this.state.name
       };
 
       Api.addFood(postData).then(function (data) {
@@ -212,25 +203,6 @@ var AddFood = function (_React$Component) {
                   'p',
                   null,
                   this.state.errors.name[0]
-                )
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'field' },
-              React.createElement(
-                'label',
-                null,
-                ' Slug '
-              ),
-              React.createElement('input', { type: 'text', name: 'slug', placeholder: 'slug', value: this.state.slug, onChange: this.slugChanged }),
-              this.state.errors && this.state.errors.slug && React.createElement(
-                'div',
-                { className: 'ui error message' },
-                React.createElement(
-                  'p',
-                  null,
-                  this.state.errors.slug[0]
                 )
               )
             ),
