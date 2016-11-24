@@ -22,6 +22,7 @@ var AddFood = function (_React$Component) {
       ingredients: [{ name: '', weight: '', list: '', id: '', errors: '' }]
     };
     _this.nameChanged = _this.nameChanged.bind(_this);
+    _this.urlChanged = _this.urlChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
     _this.ingredientNameChanged = _this.ingredientNameChanged.bind(_this);
     _this.ingredientWeightChanged = _this.ingredientWeightChanged.bind(_this);
@@ -34,6 +35,11 @@ var AddFood = function (_React$Component) {
     key: 'nameChanged',
     value: function nameChanged(e) {
       this.setState({ name: e.target.value });
+    }
+  }, {
+    key: 'urlChanged',
+    value: function urlChanged(e) {
+      this.setState({ url: e.target.value });
     }
   }, {
     key: 'ingredientNameChanged',
@@ -99,7 +105,8 @@ var AddFood = function (_React$Component) {
       e.preventDefault();
       this.setState({ errors: null });
       var postData = {
-        name: this.state.name
+        name: this.state.name,
+        photo: this.state.url
       };
 
       Api.addFood(postData).then(function (data) {
@@ -205,6 +212,16 @@ var AddFood = function (_React$Component) {
                   this.state.errors.name[0]
                 )
               )
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                ' Image '
+              ),
+              React.createElement('input', { type: 'url', name: 'image', placeholder: 'image url', value: this.state.url, onChange: this.urlChanged })
             ),
             this.state.ingredients.map(function (ingredient, index) {
               return React.createElement(

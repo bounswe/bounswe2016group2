@@ -8,6 +8,7 @@ class AddFood extends React.Component {
       ingredients: [{name: '', weight: '', list: '', id: '', errors: ''}]
     }
     this.nameChanged = this.nameChanged.bind(this)
+    this.urlChanged = this.urlChanged.bind(this)
     this.submit = this.submit.bind(this)
     this.ingredientNameChanged = this.ingredientNameChanged.bind(this)
     this.ingredientWeightChanged = this.ingredientWeightChanged.bind(this)
@@ -16,6 +17,7 @@ class AddFood extends React.Component {
   }
 
   nameChanged(e) {this.setState({name: e.target.value})}
+  urlChanged(e) {this.setState({url: e.target.value})}
   ingredientNameChanged(index, e) {
     var ingArray = this.state.ingredients;
     var currentIng = ingArray[index];
@@ -68,7 +70,8 @@ class AddFood extends React.Component {
     e.preventDefault()
     this.setState({errors: null})
     const postData = {
-      name: this.state.name
+      name: this.state.name,
+      photo: this.state.url
     }
 
     Api.addFood(postData)
@@ -128,6 +131,10 @@ class AddFood extends React.Component {
                   <p>{this.state.errors.name[0]}</p>
                 </div>
               }
+            </div>
+            <div className="field">
+              <label> Image </label>
+              <input type="url" name="image" placeholder="image url" value={this.state.url} onChange={this.urlChanged}/>
             </div>
             {this.state.ingredients.map(function(ingredient, index){
               return (
