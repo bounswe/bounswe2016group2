@@ -242,6 +242,7 @@ public class UserHomeActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,
                                                settingsFragment,settingsFragment.getTag()).commit();
+            findViewById(R.id.yigitLinear).setVisibility(View.GONE);
         } else if (id == R.id.nav_send) {
 
         }
