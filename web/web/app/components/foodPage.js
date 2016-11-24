@@ -1,14 +1,33 @@
+class Ingredient extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <h3 className="header"> {this.props.data.name} </h3>
+        <div> {this.props.data.defaultValue || 0} {this.props.data.defaultUnit} </div>
+      </div>
+    );
+  }
+}
+
 class FoodPage extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
       id: props.id,
+      name: null,
       data: null,
       errors: null,
-      ingredients: [{name: '', defaultUnit: '', defaultValue: ''}]
+      ingredients: []
     }
     this.fetch = this.fetch.bind(this)
+    this.ateThis = this.ateThis.bind(this)
+  }
+  componentWillMount(){
     this.fetch(this.state.id);
   }
 
@@ -23,30 +42,43 @@ class FoodPage extends React.Component {
           }
         );
       }).catch((err) => {
-        this.setState({errors: err.data})
-        // TODO: print error message
+        this.setState({errors: err});
       })
   }
 
+  // TODO: currently not working
+  ateThis() {
+    var query = {
+      value: 1
+    }
+    Api.foodAte(this.state.id, query)
+      .then((data) => {
+        console.log(data);
+      }).catch((err) => {
+        console.log(err);
+      })
+  }
   render() {
     return (
       <div id='FoodPage'>
         <div className="header">
-          <h1 className="ui header"> {this.state.name} </h1>
+          <h1 className="ui header"> {this.state.name || "Food not found"} </h1>
         </div>
         <div className="content">
           <div>
             <img src={this.state.url} style={{width: 400, height: 400}}/>
           </div>
+          {
+            userEmail && this.state.name &&
+            <button className="ui button" type="button" style={{width:'10%'}} onClick={this.ateThis}>
+              I ate this!
+            </button>
+          }
           <div>
             <h2 className="header"> Ingredients</h2>
             {this.state.ingredients.map(function(ingredient, index){
-              return (
-                <div>
-                  <h3 className="header"> {ingredient.name} </h3>
-                  <div> {ingredient.defaultValue || 0} {ingredient.defaultUnit} </div>
-                </div>
-            )}, this)}
+              return <Ingredient data={ingredient} key={index}/>
+            }, this)}
           </div>
         </div>
       </div>

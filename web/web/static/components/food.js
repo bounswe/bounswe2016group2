@@ -67,17 +67,27 @@ var Food = function (_React$Component2) {
     });
     _this2.state = {
       name: props.data.name,
+      id: props.data.id,
       ingredientStr: ingredientStr
     };
+    _this2.click = _this2.click.bind(_this2);
     return _this2;
   }
 
   _createClass(Food, [{
+    key: "click",
+    value: function click() {
+      var link = '/food/' + this.state.id;
+      return function () {
+        window.location.href = link;
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
-        { className: "item" },
+        { className: "item", onClick: this.click() },
         React.createElement(
           "div",
           { className: "header" },

@@ -96,6 +96,7 @@ class AddFood extends React.Component {
             })}, this);
 
         // TODO: redirect to the page of newly added food
+        window.location.href='/food/' + data.id;
       }).catch((err) => {
         this.setState({errors: err.data})
       })

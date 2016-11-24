@@ -50,7 +50,8 @@ var Api = function () {
         fetch(_this2.path(url), {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authentication': 'Token ' + token
           },
           body: JSON.stringify(data)
         }).then(function (res) {
@@ -148,6 +149,21 @@ var Api = function () {
     key: 'getIngr',
     value: function getIngr(id) {
       return this.get('ingredients/' + id);
+    }
+  }, {
+    key: 'foodAte',
+    value: function foodAte(id, data) {
+      return this.post('foods/' + id + "/ate", data);
+    }
+  }, {
+    key: 'ingredientAte',
+    value: function ingredientAte(id, data) {
+      return this.post('ingredients/' + id + "/ate", data);
+    }
+  }, {
+    key: 'consumptionHistory',
+    value: function consumptionHistory(data) {
+      return this.get('users/history');
     }
   }]);
 

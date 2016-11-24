@@ -20,6 +20,11 @@ router
       <Layout><IngrPage id={params.id}/></Layout>,
       root);
   })
+  .on("/profile/", function(params) {
+    ReactDOM.render(
+      <Layout><UserHomepage/></Layout>,
+      root);
+  })
   .on("*",function () {
     ReactDOM.render(
       <Layout><FoodSearch/></Layout>

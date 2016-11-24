@@ -24,6 +24,12 @@ router.on("/addFood/", function () {
     null,
     React.createElement(IngrPage, { id: params.id })
   ), root);
+}).on("/profile/", function (params) {
+  ReactDOM.render(React.createElement(
+    Layout,
+    null,
+    React.createElement(UserHomepage, null)
+  ), root);
 }).on("*", function () {
   ReactDOM.render(React.createElement(
     Layout,

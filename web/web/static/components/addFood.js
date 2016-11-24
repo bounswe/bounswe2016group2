@@ -131,6 +131,7 @@ var AddFood = function (_React$Component) {
         }, _this3);
 
         // TODO: redirect to the page of newly added food
+        window.location.href = '/food/' + data.id;
       }).catch(function (err) {
         _this3.setState({ errors: err.data });
       });

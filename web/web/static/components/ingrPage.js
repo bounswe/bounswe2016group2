@@ -22,6 +22,7 @@ var IngrPage = function (_React$Component) {
       errors: null
     };
     _this.fetch = _this.fetch.bind(_this);
+    _this.ateThis = _this.ateThis.bind(_this);
     _this.ingrProps = _this.ingrProps.bind(_this);
     return _this;
   }
@@ -37,7 +38,6 @@ var IngrPage = function (_React$Component) {
       var _this2 = this;
 
       Api.getIngr(id).then(function (data) {
-        console.log(data);
         _this2.setState({
           name: data.name,
           url: data.photo,
@@ -45,7 +45,7 @@ var IngrPage = function (_React$Component) {
         });
         _this2.ingrProps();
       }).catch(function (err) {
-        _this2.setState({ errors: err.data });
+        _this2.setState({ errors: err });
         // TODO: print error message
       });
     }
@@ -76,6 +76,21 @@ var IngrPage = function (_React$Component) {
       }
       this.setState({ ingrProps: result });
     }
+
+    // TODO: currently nor working
+
+  }, {
+    key: "ateThis",
+    value: function ateThis() {
+      var query = {
+        value: 1
+      };
+      Api.ingredientAte(this.state.id, query).then(function (data) {
+        console.log(data);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
   }, {
     key: "render",
     value: function render() {
@@ -89,7 +104,7 @@ var IngrPage = function (_React$Component) {
             "h1",
             { className: "ui header" },
             " ",
-            this.state.name,
+            this.state.name || "Ingredient not found",
             " "
           )
         ),
@@ -100,6 +115,11 @@ var IngrPage = function (_React$Component) {
             "div",
             null,
             this.state.url && React.createElement("img", { src: this.state.url, style: { width: 400, height: 400 } })
+          ),
+          userEmail && this.state.name && React.createElement(
+            "button",
+            { className: "ui button", type: "button", style: { width: '10%' }, onClick: this.ateThis },
+            "I ate this!"
           ),
           React.createElement(
             "div",

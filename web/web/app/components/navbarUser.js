@@ -26,7 +26,7 @@ class NavbarUser extends React.Component {
     if (this.state.userEmail) {
       return(
         <div className='right menu'>
-          <a className='item'>
+          <a className='item' href='/profile'>
             {userEmail}
           </a>
           <a className='item' onClick={this.signout}>

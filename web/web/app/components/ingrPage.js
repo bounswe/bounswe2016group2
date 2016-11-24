@@ -8,6 +8,7 @@ class IngrPage extends React.Component {
       errors: null
     }
     this.fetch = this.fetch.bind(this)
+    this.ateThis = this.ateThis.bind(this)
     this.ingrProps = this.ingrProps.bind(this)
   }
 
@@ -18,7 +19,6 @@ class IngrPage extends React.Component {
   fetch(id) {
     Api.getIngr(id)
       .then((data) => {
-        console.log(data);
         this.setState(
           {
             name: data.name,
@@ -28,7 +28,7 @@ class IngrPage extends React.Component {
         );
         this.ingrProps();
       }).catch((err) => {
-        this.setState({errors: err.data})
+        this.setState({errors: err})
         // TODO: print error message
       })
   }
@@ -47,11 +47,24 @@ class IngrPage extends React.Component {
     this.setState({ingrProps: result});
   }
 
+// TODO: currently nor working
+  ateThis() {
+    var query = {
+      value: 1
+    }
+    Api.ingredientAte(this.state.id, query)
+      .then((data) => {
+        console.log(data);
+      }).catch((err) => {
+        console.log(err);
+      })
+  }
+
   render() {
     return (
       <div id='IngredientPage'>
         <div className="header">
-          <h1 className="ui header"> {this.state.name} </h1>
+          <h1 className="ui header"> {this.state.name || "Ingredient not found"} </h1>
         </div>
         <div className="content">
           <div>
@@ -60,6 +73,12 @@ class IngrPage extends React.Component {
               <img src={this.state.url} style={{width: 400, height: 400}}/>
             }
           </div>
+          {
+            userEmail && this.state.name &&
+            <button className="ui button" type="button" style={{width:'10%'}} onClick={this.ateThis}>
+              I ate this!
+            </button>
+          }
           <div>
             <h2 className="header"> Properties</h2>
             {this.state.ingrProps}

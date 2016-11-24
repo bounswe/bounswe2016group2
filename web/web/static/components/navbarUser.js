@@ -49,7 +49,7 @@ var NavbarUser = function (_React$Component) {
           { className: 'right menu' },
           React.createElement(
             'a',
-            { className: 'item' },
+            { className: 'item', href: '/profile' },
             userEmail
           ),
           React.createElement(

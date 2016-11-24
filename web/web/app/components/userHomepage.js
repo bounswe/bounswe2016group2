@@ -7,6 +7,24 @@ class UserHomepage extends React.Component
     {
       data: 'arda'
     }
+
+    this.getConsumptionHistory = this.getConsumptionHistory.bind(this);
+  }
+
+  componentDidMount(){
+    if(!token){
+      window.location.href = '/';
+    }
+    this.getConsumptionHistory();
+  }
+
+  getConsumptionHistory() {
+    Api.consumptionHistory('').then((data) => {
+      this.setState({consumption: data});
+    }).catch((err) => {
+      this.setState({errors: err.data});
+      console.log("error fetching consumption");
+    })
   }
 
   render() {
