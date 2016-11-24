@@ -25,3 +25,16 @@ micro = {
     'niacin':        {'name': 'Niacin',        'unit': 'NE'},
     'folate':        {'name': 'Folate',        'unit': 'DFE'}
 }
+
+unit = {
+    'mg':           {'unit': 'g',  'value': .001},
+    'kg':           {'unit': 'g',  'value': 1000},
+    'l':            {'unit': 'ml', 'value': 1000},
+    'teaspoon':     {'unit': 'ml', 'value': 5},
+    'dessertspoon': {'unit': 'ml', 'value': 10},
+    'tablespoon':   {'unit': 'ml', 'value': 15},
+    'cup':          {'unit': 'ml', 'value': 240},
+    'pint':         {'unit': 'ml', 'value': 500},
+    'quart':        {'unit': 'ml', 'value': 945},
+    'gallon':       {'unit': 'ml', 'value': 3785}
+}

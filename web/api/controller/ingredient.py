@@ -20,8 +20,6 @@ def ingredients(req):
         return Response(serializer.data)
 
     elif req.method == 'POST':
-        if 'name' in req.POST:
-            req.POST['slug'] = slugify(req.POST['name'])
         serializer = IngredientSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
@@ -38,9 +36,6 @@ def ingredient(req, ingredientId):
         ingredient = Ingredient.objects.get(id=ingredientId)
     except Ingredient.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if 'name' in req.POST:
-        req.POST['slug'] = slugify(req.POST['name'])
 
     if req.method == 'GET':
         serializer = IngredientSerializer(ingredient)
