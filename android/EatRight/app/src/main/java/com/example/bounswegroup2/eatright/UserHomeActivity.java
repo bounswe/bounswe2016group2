@@ -139,7 +139,10 @@ public class UserHomeActivity extends AppCompatActivity
                 foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-
+                        Food food = HistoryFoods.get(position);
+                        Intent intent = new Intent(UserHomeActivity.this, FoodPageActivity.class);
+                        intent.putExtra("food", food);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -247,4 +250,6 @@ public class UserHomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

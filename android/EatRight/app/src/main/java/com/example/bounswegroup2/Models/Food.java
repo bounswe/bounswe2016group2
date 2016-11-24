@@ -4,6 +4,8 @@ package com.example.bounswegroup2.Models;
  * Created by yigitozgumus on 11/12/16.
  */
 
+import android.view.ViewDebug;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,11 @@ public class Food implements Serializable {
     @SerializedName("ingredients")
     @Expose
     private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+
+    @SerializedName("photo_links")
+    @Expose
+    private ArrayList<String> photoLinks = new ArrayList<>();
 
     /**
      *
@@ -97,5 +104,14 @@ public class Food implements Serializable {
     public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+
+    public ArrayList<String> getPhotoLinks() {
+        return photoLinks;
+    }
+
+    public void setPhotoLinks(ArrayList<String> photoLinks) {
+        this.photoLinks = photoLinks;
+    }
+
 
 }
