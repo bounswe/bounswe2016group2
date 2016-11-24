@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18,26 +18,30 @@ var Ingredient = function (_React$Component) {
   }
 
   _createClass(Ingredient, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-          "h3",
-          { className: "header" },
-          " ",
-          this.props.data.name,
-          " "
+          'h3',
+          { className: 'header' },
+          ' ',
+          React.createElement(
+            'a',
+            { href: '/ingredient/' + this.props.data.id },
+            this.props.data.name,
+            ' '
+          )
         ),
         React.createElement(
-          "div",
+          'div',
           null,
-          " ",
+          ' ',
           this.props.data.defaultValue || 0,
-          " ",
+          ' ',
           this.props.data.defaultUnit,
-          " "
+          ' '
         )
       );
     }
@@ -67,12 +71,12 @@ var FoodPage = function (_React$Component2) {
   }
 
   _createClass(FoodPage, [{
-    key: "componentWillMount",
+    key: 'componentWillMount',
     value: function componentWillMount() {
       this.fetch(this.state.id);
     }
   }, {
-    key: "fetch",
+    key: 'fetch',
     value: function fetch(id) {
       var _this3 = this;
 
@@ -90,7 +94,7 @@ var FoodPage = function (_React$Component2) {
     // TODO: currently not working
 
   }, {
-    key: "ateThis",
+    key: 'ateThis',
     value: function ateThis() {
       var query = {
         value: 1
@@ -102,42 +106,42 @@ var FoodPage = function (_React$Component2) {
       });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { id: "FoodPage" },
+        'div',
+        { id: 'FoodPage' },
         React.createElement(
-          "div",
-          { className: "header" },
+          'div',
+          { className: 'header' },
           React.createElement(
-            "h1",
-            { className: "ui header" },
-            " ",
+            'h1',
+            { className: 'ui header' },
+            ' ',
             this.state.name || "Food not found",
-            " "
+            ' '
           )
         ),
         React.createElement(
-          "div",
-          { className: "content" },
+          'div',
+          { className: 'content' },
           React.createElement(
-            "div",
+            'div',
             null,
-            React.createElement("img", { src: this.state.url, style: { width: 400, height: 400 } })
+            React.createElement('img', { src: this.state.url, style: { width: 400, height: 400 } })
           ),
           userEmail && this.state.name && React.createElement(
-            "button",
-            { className: "ui button", type: "button", style: { width: '10%' }, onClick: this.ateThis },
-            "I ate this!"
+            'button',
+            { className: 'ui button', type: 'button', style: { width: '10%' }, onClick: this.ateThis },
+            'I ate this!'
           ),
           React.createElement(
-            "div",
+            'div',
             null,
             React.createElement(
-              "h2",
-              { className: "header" },
-              " Ingredients"
+              'h2',
+              { className: 'header' },
+              ' Ingredients'
             ),
             this.state.ingredients.map(function (ingredient, index) {
               return React.createElement(Ingredient, { data: ingredient, key: index });

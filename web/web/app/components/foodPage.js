@@ -6,7 +6,7 @@ class Ingredient extends React.Component {
   render() {
     return (
       <div>
-        <h3 className="header"> {this.props.data.name} </h3>
+        <h3 className="header"> <a href={'/ingredient/' + this.props.data.id}>{this.props.data.name} </a></h3>
         <div> {this.props.data.defaultValue || 0} {this.props.data.defaultUnit} </div>
       </div>
     );
