@@ -11,13 +11,16 @@ class FoodInput extends React.Component {
   }
   render() {
     return (
-      <form className="ui form">
-        <div className="field">
-          <input type="text" name="food" placeholder="Search food"
-            value={this.state.query} onChange={this.change}
-          />
-        </div>
-      </form>
+      <div>
+        <form className="ui form">
+          <div className="field">
+            <input type="text" name="food" placeholder="Search food"
+              value={this.state.query} onChange={this.change}
+            />
+          </div>
+        </form>
+        <form className="ui form"></form>
+    </div>
     )
   }
 }
@@ -31,12 +34,21 @@ class Food extends React.Component {
     })
     this.state = {
       name: props.data.name,
+      id: props.data.id,
       ingredientStr: ingredientStr
     }
+    this.click = this.click.bind(this);
+  }
+
+  click(){
+    var link = '/food/' + this.state.id;
+    return(
+      function(){window.location.href = link}
+    );
   }
   render() {
     return (
-      <div className="item">
+      <div className="item" onClick={this.click()}>
         <div className="header">{this.state.name}</div>
         {this.state.ingredientStr}
       </div>

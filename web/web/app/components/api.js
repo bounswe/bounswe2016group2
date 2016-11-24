@@ -33,7 +33,8 @@ class Api {
       fetch(this.path(url), {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authentication': 'Token ' + token
         },
         body: JSON.stringify(data)
       }).then((res) => {
@@ -108,4 +109,19 @@ class Api {
 	static deleteFood(data){
 		return this.delete('foods/' + data);
 	}
+  static getFood(id){
+    return this.get('foods/' + id);
+  }
+  static getIngr(id){
+    return this.get('ingredients/' + id);
+  }
+  static foodAte(id, data){
+    return this.post('foods/' + id + "/ate", data);
+  }
+  static ingredientAte(id, data){
+    return this.post('ingredients/' + id + "/ate", data);
+  }
+  static consumptionHistory(data){
+    return this.get('users/history');
+  }
 }

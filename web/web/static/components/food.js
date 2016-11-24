@@ -32,15 +32,20 @@ var FoodInput = function (_React$Component) {
     key: "render",
     value: function render() {
       return React.createElement(
-        "form",
-        { className: "ui form" },
+        "div",
+        null,
         React.createElement(
-          "div",
-          { className: "field" },
-          React.createElement("input", { type: "text", name: "food", placeholder: "Search food",
-            value: this.state.query, onChange: this.change
-          })
-        )
+          "form",
+          { className: "ui form" },
+          React.createElement(
+            "div",
+            { className: "field" },
+            React.createElement("input", { type: "text", name: "food", placeholder: "Search food",
+              value: this.state.query, onChange: this.change
+            })
+          )
+        ),
+        React.createElement("form", { className: "ui form" })
       );
     }
   }]);
@@ -62,17 +67,27 @@ var Food = function (_React$Component2) {
     });
     _this2.state = {
       name: props.data.name,
+      id: props.data.id,
       ingredientStr: ingredientStr
     };
+    _this2.click = _this2.click.bind(_this2);
     return _this2;
   }
 
   _createClass(Food, [{
+    key: "click",
+    value: function click() {
+      var link = '/food/' + this.state.id;
+      return function () {
+        window.location.href = link;
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(
         "div",
-        { className: "item" },
+        { className: "item", onClick: this.click() },
         React.createElement(
           "div",
           { className: "header" },
@@ -103,9 +118,8 @@ var FoodSearch = function (_React$Component3) {
     key: "search",
     value: function search(query) {
       var _this4 = this;
-			console.log(query);
+
       Api.searchFood(query).then(function (foods) {
-      	console.log(foods);
         var list = foods.map(function (food) {
           return React.createElement(Food, { key: food.id, data: food });
         });
