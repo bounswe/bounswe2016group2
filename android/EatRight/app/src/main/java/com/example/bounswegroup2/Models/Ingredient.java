@@ -77,6 +77,10 @@ public class Ingredient implements Serializable {
     @Expose
     private String slug;
 
+    public Ingredient(String name, String slug) {
+    this.name = name; this.slug = slug;
+    }
+
     /**
      *
      * @return

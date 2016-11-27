@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
@@ -27,6 +28,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         this.ingredients = ingredients;
         this.suggestions = new ArrayList<Ingredient>();
         this.tempItems = new ArrayList<Ingredient>(this.ingredients);
+
     }
 
 
@@ -46,10 +48,10 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         TextView tvFat = (TextView) convertView.findViewById(R.id.ingr_fat);
         // Populate the data into the template view using the data object
         tvName.setText(ingr.getName());
-        tvEnergy.setText("Energy: "+ingr.getFat());
-        tvPro.setText("Pro: "+ingr.getProtein());
-        tvCab.setText("Carb: "+ingr.getCarb());
-        tvFat.setText("Fat: "+ingr.getFat());
+        tvEnergy.setText(Integer.toString(ingr.getEnergy()));
+        tvPro.setText(Integer.toString(ingr.getProtein()));
+        tvCab.setText(Integer.toString(ingr.getCarb()));
+        tvFat.setText(Integer.toString(ingr.getFat()));
 
         // Return the completed view to render on screen
         return convertView;

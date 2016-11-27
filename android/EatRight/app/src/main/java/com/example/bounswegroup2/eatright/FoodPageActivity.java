@@ -1,15 +1,11 @@
 package com.example.bounswegroup2.eatright;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.widget.ListPopupWindow;
-import android.text.Layout;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -100,6 +96,10 @@ public class FoodPageActivity extends AppCompatActivity {
            // listPopupWindow.setHorizontalOffset( -200 );
             listPopupWindow.setVerticalOffset( 500 );
             listPopupWindow.setModal(true);
+            ListView lv = (ListView)inflater.inflate(R.layout.ingr_raw_layout,null);
+            View v = inflater.inflate(R.layout.ingr_list_header,lv,false);
+            lv.addHeaderView(v,null,false);
+
             IngredientAdapter ingr = new IngredientAdapter(FoodPageActivity.this,ingredients);
             listPopupWindow.setAdapter(ingr);
             listPopupWindow.show();
@@ -118,5 +118,13 @@ public class FoodPageActivity extends AppCompatActivity {
 
         }
     };
+    @Override
+    public void onBackPressed(){
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            super.onBackPressed(); //replaced
+        }
+    }
 
 }

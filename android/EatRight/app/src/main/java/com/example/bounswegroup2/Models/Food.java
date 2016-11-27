@@ -8,6 +8,7 @@ import android.view.ViewDebug;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
@@ -32,6 +33,10 @@ public class Food implements Serializable {
     @SerializedName("photo_links")
     @Expose
     private ArrayList<String> photoLinks = new ArrayList<>();
+
+    public Food(String name, String slug) {
+       this.name = name; this.slug = slug;
+    }
 
     /**
      *
@@ -114,4 +119,17 @@ public class Food implements Serializable {
     }
 
 
+
+    public static Comparator<Food> czToA = new Comparator<Food>() {
+        @Override
+        public int compare(Food food, Food t1) {
+            return food.getName().compareToIgnoreCase(t1.getName());
+        }
+    };
+    public static Comparator<Food> caToZ = new Comparator<Food>() {
+        @Override
+        public int compare(Food food, Food t1) {
+            return -food.getName().compareToIgnoreCase(t1.getName());
+        }
+    };
 }

@@ -1,6 +1,7 @@
 package com.example.bounswegroup2.eatright;
 
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -29,7 +31,10 @@ import com.example.bounswegroup2.Utils.QueryWrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +50,8 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
     private Button searchButton;
     private ListView lv;
     private MultiAutoCompleteTextView mtext1;
+    private View headerView;
+
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
@@ -61,7 +68,6 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_settings, container, false);
-        allergicEditText = (EditText)rootView.findViewById(R.id.alergic_edit_text);
         searchButton = (Button)rootView.findViewById(R.id.searchFood);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +76,11 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
                 getAllFoods(query,items);
             }
         });
+
         lv = (ListView) rootView.findViewById(R.id.ingr_listview);
+        //TableLayout headerView = (TableLayout) inflater.inflate(R.layout.ingr_list_header,null);
+        //lv.addHeaderView(headerView);
+
         mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.multiAutoCompleteTextView1);
         return  rootView;
     }
@@ -82,7 +92,16 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
         //getAllFoods(query)
         getListView().setOnItemClickListener(this);
         lv.setOnItemClickListener(this);
-        getAllIngredients();
+        //getAllIngredients();
+        Ingredient i  = new Ingredient("bread","bread"); i.setCarb(100);i.setFat(100);i.setProtein(100); i.setEnergy(300);
+        Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
+        Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
+        ArrayList<Ingredient> foodList = new ArrayList<Ingredient>(); foodList.add(i);foodList.add(i2);foodList.add(i3);
+        IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), foodList);
+        mtext1.setAdapter(adapter);
+        mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        headerView = getLayoutInflater(savedInstancesState).inflate(R.layout.food_list_header,null);
+        getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(SettingsFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
         //setRetainInstance(true);
@@ -91,45 +110,13 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
     @Override
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
         if(adapter.getId() == getListView().getId()){
-            ViewGroup viewGroup = (ViewGroup)view;
             Food food = (Food)adapter.getAdapter().getItem(position);
-
-            TextView textView = (TextView) viewGroup.findViewById(R.id.food_name);
-
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
             intent.putExtra("food", food);
             startActivity(intent);
-            //Toast.makeText(getActivity(),textView.getText().toString()+"\n"+ Arrays.toString(food.getIngredients().toArray()),Toast.LENGTH_LONG).show();
-
         }
-       /* if(adapter.getId() == lv.getId()){
-            SparseBooleanArray clickedItemPositions = lv.getCheckedItemPositions();
-            String s ="";
-            for(int index=0;index<clickedItemPositions.size();index++){
-                // Get the checked status of the current item
-                boolean checked = clickedItemPositions.valueAt(index);
-
-                if(checked){
-                    // If the current item is checked
-                    int key = clickedItemPositions.keyAt(index);
-                    Ingredient item = (Ingredient) lv.getItemAtPosition(key);
-                    s+=item.getName()+" ";
-                    // Display the checked items on TextView
-                    //mTextView.setText(mTextView.getText() + item + " | ");
-                }
-            }
-           // ViewGroup viewGroup = (ViewGroup)view;
-          //  Ingredient ingr = (Ingredient) adapter.getAdapter().getItem(position);
-
-            //TextView textView = (TextView) viewGroup.findViewById(R.id.ingr_name);
-            Toast.makeText(getActivity(),s,Toast.LENGTH_SHORT).show();
-        }*/
     }
-    /*
-    public void onListItemClick(ListView l,View v,int position,long id){
-        super.onListItemClick(l,v,position,id);
 
-    }*/
 
     private void getAllFoods(String queryString, final List<String> allergic){
         if(queryString == null) queryString = "";
@@ -149,7 +136,6 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
                             i--;
                         }
                     }
-
                 }
                 FoodsAdapter adapter = new FoodsAdapter(SettingsFragment.this.getContext(), foodList);
                 setListAdapter(adapter);
@@ -157,6 +143,38 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
 
             @Override
             public void onFailure(Call<List<Food>> call, Throwable t) {
+                System.out.println("HATA VAR");
+                Food f  = new Food("apple","apple");
+                Food f2 = new Food("banana","banana");
+                Food f3 = new Food("orange","orange");
+                Ingredient i  = new Ingredient("bread","bread"); i.setCarb(100);i.setFat(100);i.setProtein(100); i.setEnergy(300);
+                Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
+                Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
+                ArrayList<Ingredient> ingList = new ArrayList<Ingredient>(); ingList.add(i);
+                f.setIngredients(ingList);
+                ArrayList<String> a = new ArrayList<String>(); a.add("https://nutritionaz.files.wordpress.com/2014/06/eat-right.jpg");
+                f.setPhotoLinks(a); f2.setPhotoLinks(a); f3.setPhotoLinks(a);
+                ingList.add(i2);
+                f2.setIngredients(ingList);
+                ingList.add(i3);
+                f3.setIngredients(ingList);
+                final ArrayList<Food> foodList = new ArrayList<Food>(); foodList.add(f);foodList.add(f2);foodList.add(f3);
+                final FoodsAdapter adapter = new FoodsAdapter(SettingsFragment.this.getContext(), foodList);
+                setListAdapter(adapter);
+                headerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!adapter.isSorted()){
+                        Collections.sort(foodList,Food.czToA);
+                        adapter.setSorted(true);
+                        }else {
+                            Collections.sort(foodList,Food.caToZ);
+                            adapter.setSorted(false);
+                        }
+                        adapter.setFoods(foodList);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
 
             }
         });
@@ -168,12 +186,13 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
         cb.enqueue(new Callback<List<Ingredient>>() {
             @Override
             public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
-                IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), (ArrayList<Ingredient>) response.body());
+             //   IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), (ArrayList<Ingredient>) response.body());
                 //lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 //lv.setItemsCanFocus(false);
                 //lv.setAdapter(adapter);
-                mtext1.setAdapter(adapter);
-                mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
+              //  mtext1.setAdapter(adapter);
+               // mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
             }
 
             @Override

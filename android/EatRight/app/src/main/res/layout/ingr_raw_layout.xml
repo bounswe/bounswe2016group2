@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/ingr_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""
@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/ingr_energy"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/ingr_cab"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""
@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/ingr_pro"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/ingr_fat"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""

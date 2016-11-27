@@ -3,19 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout_setting_fragment">
-    <EditText
-        android:id="@+id/alergic_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/allergic_ingredients"
-        android:visibility="gone"/>
     <MultiAutoCompleteTextView
         android:id="@+id/multiAutoCompleteTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:layout_below="@id/alergic_edit_text"
-        android:hint="Allergic ingredient" />
+        android:hint="@string/allergic_ingredient" />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
