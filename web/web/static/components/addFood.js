@@ -174,7 +174,7 @@ var AddFood = function (_React$Component) {
             ),
             React.createElement(
               'a',
-              { className: 'item' },
+              { className: 'item', href: 'search/' },
               'Search'
             ),
             React.createElement(
