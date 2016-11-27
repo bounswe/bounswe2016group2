@@ -20,10 +20,11 @@ import java.util.ArrayList;
 
 public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
     private ArrayList<Food> foods = new ArrayList<Food>();
-    private boolean isSorted = true;
+    private boolean isSorted ;
     public FoodsAdapter(Context context, ArrayList<Food> foods) {
         super(context, 0, foods);
         this.foods = foods;
+        isSorted = true;
     }
 
 
@@ -40,6 +41,8 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         TextView tvName = (TextView) convertView.findViewById(R.id.food_name);
         TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
+        TextView tvRating = (TextView) convertView.findViewById(R.id.rating_food);
+        tvRating.setText(Double.toString(food.getRating()));
         tvComment.setText(food.getSlug());
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());

@@ -28,7 +28,9 @@ public class Food implements Serializable {
     @SerializedName("ingredients")
     @Expose
     private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-
+    @SerializedName("rating")
+    @Expose
+    private double rating;
 
     @SerializedName("photo_links")
     @Expose
@@ -110,6 +112,14 @@ public class Food implements Serializable {
         this.ingredients = ingredients;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
     public ArrayList<String> getPhotoLinks() {
         return photoLinks;
     }
@@ -120,16 +130,34 @@ public class Food implements Serializable {
 
 
 
-    public static Comparator<Food> czToA = new Comparator<Food>() {
+    public static Comparator<Food> caToZ = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
             return food.getName().compareToIgnoreCase(t1.getName());
         }
     };
-    public static Comparator<Food> caToZ = new Comparator<Food>() {
+    public static Comparator<Food> czToA = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            return -food.getName().compareToIgnoreCase(t1.getName());
+            return t1.getName().compareToIgnoreCase(food.getName());
         }
     };
+    public static Comparator<Food> caToZRating = new Comparator<Food>() {
+        @Override
+        public int compare(Food food, Food t1) {
+            if(food.getRating() < t1.getRating()) return 1;
+            if(food.getRating() > t1.getRating()) return -1;
+            return 0;
+        }
+    };
+    public static Comparator<Food> czToARating = new Comparator<Food>() {
+        @Override
+        public int compare(Food food, Food t1) {
+            if(food.getRating() > t1.getRating()) return 1;
+            if(food.getRating() < t1.getRating()) return -1;
+            return 0;
+        }
+    };
+
+
 }

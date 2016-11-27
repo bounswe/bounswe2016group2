@@ -56,4 +56,6 @@
     <string name="food_image">Food Image</string>
     <string name="rating">Rating</string>
     <string name="allergic_ingredient">Allergic ingredient</string>
+    <string name="_4">4</string>
+    <string name="last_comment">Last Comment</string>
 </resources>

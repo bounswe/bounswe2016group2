@@ -40,6 +40,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.drawable.arrow_down_float;
+import static android.R.drawable.arrow_up_float;
+
 
 /**
  * A simple {@link ListFragment} subclass.
@@ -51,7 +54,8 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
     private ListView lv;
     private MultiAutoCompleteTextView mtext1;
     private View headerView;
-
+    private TextView tvName;
+    private TextView tvRating;
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
@@ -76,7 +80,9 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
                 getAllFoods(query,items);
             }
         });
-
+        headerView = inflater.inflate(R.layout.food_list_header,null);
+        tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
+        tvRating = (TextView) headerView.findViewById(R.id.food_list_header_rating);
         lv = (ListView) rootView.findViewById(R.id.ingr_listview);
         //TableLayout headerView = (TableLayout) inflater.inflate(R.layout.ingr_list_header,null);
         //lv.addHeaderView(headerView);
@@ -100,7 +106,7 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
         IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), foodList);
         mtext1.setAdapter(adapter);
         mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-        headerView = getLayoutInflater(savedInstancesState).inflate(R.layout.food_list_header,null);
+
         getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(SettingsFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
@@ -158,24 +164,43 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
                 f2.setIngredients(ingList);
                 ingList.add(i3);
                 f3.setIngredients(ingList);
+                f.setRating(4.5); f2.setRating(4.1); f3.setRating(2.8);
                 final ArrayList<Food> foodList = new ArrayList<Food>(); foodList.add(f);foodList.add(f2);foodList.add(f3);
                 final FoodsAdapter adapter = new FoodsAdapter(SettingsFragment.this.getContext(), foodList);
                 setListAdapter(adapter);
-                headerView.setOnClickListener(new View.OnClickListener() {
+
+                tvName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(!adapter.isSorted()){
-                        Collections.sort(foodList,Food.czToA);
-                        adapter.setSorted(true);
+                        if(adapter.isSorted()){
+                            Collections.sort(foodList,Food.czToA);
+                            adapter.setSorted(false);
+                            tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
                         }else {
                             Collections.sort(foodList,Food.caToZ);
-                            adapter.setSorted(false);
+                            adapter.setSorted(true);
+                            tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
                         }
                         adapter.setFoods(foodList);
                         adapter.notifyDataSetChanged();
                     }
                 });
-
+                tvRating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(adapter.isSorted()){
+                            Collections.sort(foodList,Food.czToARating);
+                            adapter.setSorted(false);
+                            tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                        }else {
+                            Collections.sort(foodList,Food.caToZRating);
+                            adapter.setSorted(true);
+                            tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                        }
+                        adapter.setFoods(foodList);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }

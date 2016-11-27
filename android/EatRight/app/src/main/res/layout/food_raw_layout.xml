@@ -29,7 +29,7 @@
         android:layout_gravity="start"
         android:background="#8800FF00"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content">
@@ -38,9 +38,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Last Comment"
+            android:text="@string/last_comment"
             android:textSize="16sp"/>
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating:           "
+            android:layout_below="@id/comment_food"
+            android:id="@+id/ratingText"
+            />
+        <TextView
+            android:layout_below="@id/comment_food"
+            android:layout_alignEnd="@+id/ratingText"
+            android:id="@+id/rating_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/_4"
+            android:textSize="16sp"/>
+    </RelativeLayout>
     <ImageView
         android:id="@+id/food_image_view"
         android:layout_width="0dp"
