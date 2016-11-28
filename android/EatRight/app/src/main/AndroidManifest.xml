@@ -34,12 +34,13 @@
             android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".UserHomeActivity"
+            android:exported="true"
             android:label="@string/title_activity_user_home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable" /></activity>
-
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".FoodPageActivity"
             android:exported="true"
@@ -48,7 +49,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bounswegroup2.eatright.UserHomeActivity" />
         </activity>
-
+        <activity android:name=".IngredientPage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bounswegroup2.eatright.FoodPageActivity" />
+        </activity>
     </application>
 
 </manifest>

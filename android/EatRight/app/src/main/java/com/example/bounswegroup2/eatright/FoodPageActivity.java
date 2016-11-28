@@ -39,7 +39,7 @@ public class FoodPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_page);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         Food food = (Food)intent.getExtras().getSerializable("food");
         listView = (ListView)findViewById(R.id.ingredientForFoodPage);
         ingredients=new ArrayList<Ingredient>();
@@ -75,56 +75,12 @@ public class FoodPageActivity extends AppCompatActivity {
         btnOpenIngredients.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v){
-                initiatePopupWindow();
+                Intent inten = new Intent(FoodPageActivity.this,IngredientPage.class);
+                inten.putExtra("ingredients",ingredients);
+                startActivity(inten);
+                finish();
             }
         });
-    }
-    private PopupWindow popupIngredients;
-
-    private void initiatePopupWindow() {
-        try {
-            // We need to get the instance of the LayoutInflater
-            LayoutInflater inflater = (LayoutInflater) FoodPageActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            ViewGroup l = (ViewGroup) inflater.inflate(R.layout.activity_food_page,null);
-            ListPopupWindow listPopupWindow = new ListPopupWindow(FoodPageActivity.this);
-
-            listPopupWindow.setAnchorView(l);
-           // listPopupWindow.setDropDownGravity(Gravity.CENTER);
-            listPopupWindow.setHeight( ListPopupWindow.WRAP_CONTENT );
-            listPopupWindow.setWidth(1000);
-           // listPopupWindow.setHorizontalOffset( -200 );
-            listPopupWindow.setVerticalOffset( 500 );
-            listPopupWindow.setModal(true);
-            ListView lv = (ListView)inflater.inflate(R.layout.ingr_raw_layout,null);
-            View v = inflater.inflate(R.layout.ingr_list_header,lv,false);
-            lv.addHeaderView(v,null,false);
-
-            IngredientAdapter ingr = new IngredientAdapter(FoodPageActivity.this,ingredients);
-            listPopupWindow.setAdapter(ingr);
-            listPopupWindow.show();
-
-           // btnCloseIngredients = (Button) layout.findViewById(R.id.btn_close_ingredients_popup);
-//            btnCloseIngredients.setOnClickListener(cancel_button_click_listener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private OnClickListener cancel_button_click_listener = new OnClickListener() {
-        public void onClick(View v) {
-            popupIngredients.dismiss();
-
-        }
-    };
-    @Override
-    public void onBackPressed(){
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
-        } else {
-            super.onBackPressed(); //replaced
-        }
     }
 
 }
