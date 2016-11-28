@@ -154,7 +154,7 @@ var AddFood = function (_React$Component) {
             { className: 'ui six item menu', style: { width: "100%", height: 20, position: 'absolute', left: 0, top: "18%", backgroundColor: 'white' } },
             React.createElement(
               'a',
-              { className: 'item', href: '/' },
+              { className: 'item', href: 'profile/' },
               'Home'
             ),
             React.createElement(
