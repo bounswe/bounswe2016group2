@@ -226,8 +226,10 @@ public class UserHomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_add_food) {
+            FoodAddFragment foodAddFragment = new FoodAddFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -243,11 +245,11 @@ public class UserHomeActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.content_user_home,
                                                settingsFragment,settingsFragment.getTag()).commit();
 
-            findViewById(R.id.yigitLinear).setVisibility(View.GONE);
+
         } else if (id == R.id.nav_send) {
 
         }
-
+        findViewById(R.id.yigitLinear).setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
