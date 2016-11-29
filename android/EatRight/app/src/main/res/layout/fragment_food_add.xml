@@ -9,7 +9,7 @@
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/tableLayoutAddFood">
         <TableRow>
         <AutoCompleteTextView
@@ -26,11 +26,23 @@
         </TableRow>
     </TableLayout>
     </ScrollView>
-    <Button
-        android:id="@+id/buttonAdd"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:layout_gravity="bottom"
-        />
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add" />
+
+        <Button
+            android:id="@+id/addFoodSubmitBut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"/>
+
+    </LinearLayout>
 </FrameLayout>

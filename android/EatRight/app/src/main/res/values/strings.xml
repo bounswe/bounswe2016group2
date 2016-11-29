@@ -60,6 +60,7 @@
     <string name="last_comment">Last Comment</string>
     <string name="add_food">Add Food</string>
     <string name="add_ingredient">Add Ingredient</string>
-    <string name="add">Add+</string>
+    <string name="add">Add Ingredient+</string>
     <string name="amount">Amount</string>
+    <string name="submit">Submit</string>
 </resources>
