@@ -3,25 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.bounswegroup2.eatright.FoodAddFragment">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/linearLayoutAddFood">
+        android:id="@+id/tableLayoutAddFood">
+        <TableRow>
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewIngr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Add Ingredient" />
+            android:ems="8"
+            android:hint="@string/add_ingredient" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amountEText"
+            android:hint="@string/amount"/>
+        </TableRow>
+    </TableLayout>
+    </ScrollView>
     <Button
         android:id="@+id/buttonAdd"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add+"
+        android:text="@string/add"
         android:layout_gravity="bottom"
         />
-    </LinearLayout>
-
 </FrameLayout>

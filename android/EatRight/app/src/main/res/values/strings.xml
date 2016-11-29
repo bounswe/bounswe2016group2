@@ -59,4 +59,7 @@
     <string name="_4">4</string>
     <string name="last_comment">Last Comment</string>
     <string name="add_food">Add Food</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="add">Add+</string>
+    <string name="amount">Amount</string>
 </resources>

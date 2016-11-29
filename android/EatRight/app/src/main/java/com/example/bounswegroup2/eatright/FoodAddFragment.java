@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import com.example.bounswegroup2.Models.Ingredient;
 
@@ -30,9 +34,10 @@ public class FoodAddFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private LinearLayout mLayout;
+    private TableLayout mLayout;
     private AutoCompleteTextView mAutoCompleteTextView;
     private Button mButton;
+    private IngredientAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -75,16 +80,35 @@ public class FoodAddFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLayout.addView(createNewTextView(mAutoCompleteTextView.getText().toString()));
+
+                /* Create a new row to be added. */
+                TableRow tr = new TableRow(getContext());
+                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+/* Add Button to row. */
+                tr.addView(createNewTextView());
+                tr.addView(createNewEditTextView());
+/* Add row to TableLayout. */
+//tr.setBackgroundResource(R.drawable.sf_gradient_03);
+                mLayout.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
             }
         };
     }
 
-    private AutoCompleteTextView createNewTextView(String text) {
-        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private View createNewEditTextView() {
+        final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        final EditText eText = new EditText(this.getContext());
+        eText.setHint(R.string.amount);
+        eText.setLayoutParams(lparams);
+        return eText;
+    }
+
+    private AutoCompleteTextView createNewTextView() {
+        final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         final AutoCompleteTextView textView = new AutoCompleteTextView(this.getContext());
+        textView.setEms(8);
+        textView.setHint(R.string.add_ingredient);
         textView.setLayoutParams(lparams);
-        textView.setText(text);
+        textView.setAdapter(adapter);
         return textView;
     }
 
@@ -93,7 +117,7 @@ public class FoodAddFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_add, container, false);
-        mLayout = (LinearLayout) rootView.findViewById(R.id.linearLayoutAddFood);
+        mLayout = (TableLayout) rootView.findViewById(R.id.tableLayoutAddFood);
         mAutoCompleteTextView = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextViewIngr);
         mButton = (Button) rootView.findViewById(R.id.buttonAdd);
         mButton.setOnClickListener(buttonClicked());
@@ -113,7 +137,7 @@ public class FoodAddFragment extends Fragment {
         Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
         Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
         ArrayList<Ingredient> ingList = new ArrayList<Ingredient>(); ingList.add(i);ingList.add(i2);ingList.add(i3);
-        IngredientAdapter adapter = new IngredientAdapter(FoodAddFragment.this.getContext(), ingList);
+        adapter = new IngredientAdapter(FoodAddFragment.this.getContext(), ingList);
         mAutoCompleteTextView.setAdapter(adapter);
     }
 
