@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-# from api.service import ingredient as IngredientService
+from api.service import ingredient as IngredientService
 from api.model.ingredient import Ingredient, IngredientSerializer
 
 
@@ -78,8 +78,9 @@ def createMocks(req):
     """
     Add default ingredients in mocks to database
     """
-    # IngredientService.createDefaults()
+    IngredientService.createDefaults()
     return HttpResponse(status=status.HTTP_201_CREATED)
+
 
 @api_view(['GET'])
 def search(req):
