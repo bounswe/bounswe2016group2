@@ -31,9 +31,10 @@ public class FoodPageActivity extends AppCompatActivity {
     private Integer pro;
     private Integer carb;
     private Integer fat;
+    private Food fSeen;
     private ListView listView;
     Button btnOpenIngredients;
-    Button btnCloseIngredients;
+    Button btnTastedIt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class FoodPageActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.ingredientForFoodPage);
         ingredients=new ArrayList<Ingredient>();
         ingredients=food.getIngredients();
-
+        fSeen = food;
         pro=0;
         carb=0;
         fat=0;
@@ -81,6 +82,18 @@ public class FoodPageActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnTastedIt = (Button) findViewById(R.id.tasted_it_button);
+        btnTastedIt.setOnClickListener(tastedButtonclicked());
+    }
+
+    private OnClickListener tastedButtonclicked() {
+        return new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            final GlobalClass gClass = (GlobalClass)getApplicationContext();
+             gClass.addFoodToBox(fSeen);
+            }
+        };
     }
 
 }

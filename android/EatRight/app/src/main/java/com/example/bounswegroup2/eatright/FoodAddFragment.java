@@ -3,6 +3,7 @@ package com.example.bounswegroup2.eatright;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
@@ -168,6 +169,8 @@ public class FoodAddFragment extends Fragment {
 
 
     }
+
+    @Nullable
     private Ingredient getIngredient(String name){
         for (Ingredient i: listOfIngr) {
             if (i.getName().equalsIgnoreCase(name)) return i;

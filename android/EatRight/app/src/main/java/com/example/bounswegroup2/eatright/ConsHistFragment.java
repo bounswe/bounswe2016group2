@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bounswegroup2.Models.Food;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +59,7 @@ public class ConsHistFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -63,6 +69,16 @@ public class ConsHistFragment extends Fragment {
         Log.d("CONS",mParam1);
         Log.d("CONS",mParam2);
         return inflater.inflate(R.layout.fragment_cons_hist, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstancesState) {
+        //onResume happens after onStart and onActivityCreate
+        super.onActivityCreated(savedInstancesState);
+        final GlobalClass gClass = (GlobalClass)getActivity().getApplicationContext();
+        ArrayList<Food> l = gClass.getFoodsInBox();
+        System.out.println(l);
+
     }
 
 }

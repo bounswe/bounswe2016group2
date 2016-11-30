@@ -120,7 +120,6 @@ public class SettingsFragment extends ListFragment implements AdapterView.OnItem
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
             intent.putExtra("food", food);
             startActivity(intent);
-            getActivity().finish();
         }
     }
 
