@@ -1,38 +1,159 @@
-class AddFood extends React.Component {
+class IngredientInput extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      ingredients: [{id:12,name:'asd'}]
+    }
+  }
+
+  componentDidMount() {
+    var self = this;
+    // fetch ingredeints
+    Api.getIngredients()
+    .then((data) => {
+      this.setState(
+        {
+          ingredients: data
+        }
+      );
+      // searchable semantic dropdown for ingredient select
+      $('#ingredientInput1 .ui.dropdown').dropdown({
+        onChange(index) {
+          self.setState({
+            ingredient: self.state.ingredients[index]
+          })
+        }
+      })
+    }).catch((err) => {
+      this.setState({errors: err});
+    })
+  }
+
+  render() {
+    // console.log(this.state.ingredients);
+    return (
+      <div id='ingredientInput1'>
+        <div className="ui search selection dropdown">
+          <input type="hidden" name="gender"/>
+          <i className="dropdown icon"></i>
+          <div className="default text">Gender</div>
+          <div className="menu">
+            {this.state.ingredients.map(function(ingredient, index){
+              return <div className="item" data-value={index} key={index}>{ingredient.name}</div>
+            })}
+          </div>
+        </div>
+        <div className="ui right labeled input">
+          <input type="text" placeholder="Find domain"/>
+          <div className="ui dropdown label">
+            <div className="text">g</div>
+            <i className="dropdown icon"></i>
+            <div className="menu">
+              <div className="item">mg</div>
+              <div className="item">kg</div>
+              <div className="item">l</div>
+              <div className="item">teaspoon</div>
+              <div className="item">dessertspoon</div>
+              <div className="item">tablespoon</div>
+              <div className="item">cup</div>
+              <div className="item">pint</div>
+              <div className="item">quart</div>
+              <div className="item">gallon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+class AddFoodPage extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
       data: null,
       errors: null,
-      ingredients: [{name: '', weight: '', list: '', id: '', errors: ''}]
+      ingredients: [],
+      ingredientInputs: [{}]
     }
-    this.nameChanged = this.nameChanged.bind(this)
-    this.urlChanged = this.urlChanged.bind(this)
-    this.submit = this.submit.bind(this)
-    this.ingredientNameChanged = this.ingredientNameChanged.bind(this)
-    this.ingredientWeightChanged = this.ingredientWeightChanged.bind(this)
-    this.appendIngredient = this.appendIngredient.bind(this)
-    this.removeIngredient = this.removeIngredient.bind(this)
   }
 
-  nameChanged(e) {this.setState({name: e.target.value})}
-  urlChanged(e) {this.setState({url: e.target.value})}
-  ingredientNameChanged(index, e) {
-    var ingArray = this.state.ingredients;
-    var currentIng = ingArray[index];
-    currentIng.name = e.target.value;
-    ingArray[index] = currentIng
-    this.setState({ingredients: ingArray});
-		this.ingredientSearch(currentIng.name, index);
+
+  render() {
+    let formClassName = 'ui form'
+    if (this.state.errors) formClassName += ' error'
+    return (
+      <div className="ui segments">
+        <div className="ui segment">
+          Add New Food
+        </div>
+        {/* food name and image */}
+        <div className="ui segment">
+          <form className={formClassName}>
+            <div className="field">
+              <label> Name </label>
+              <input type="text" name="name" placeholder="name" value={this.state.name} onChange={this.nameChanged}/>
+              { this.state.errors && this.state.errors.name &&
+                <div className="ui error message">
+                  <p>{this.state.errors.name[0]}</p>
+                </div>
+              }
+            </div>
+            <div className="field">
+              <label> Image </label>
+              <input type="url" name="image" placeholder="image url" value={this.state.url} onChange={this.urlChanged}/>
+            </div>
+          </form>
+        </div>
+        {/* ingredients */}
+        <div className="ui segment">
+          Ingredients
+        </div>
+
+        <div className="ui segment">
+          <IngredientInput key={0}/>
+        </div>
+      </div>
+    )
   }
+}
+
+class AddFood extends React.Component {
+
+  constructor (props) {
+  super(props)
+  this.state = {
+    data: null,
+    errors: null,
+    ingredients: [{name: '', weight: '', list: '', id: '', errors: ''}]
+  }
+  this.nameChanged = this.nameChanged.bind(this)
+  this.urlChanged = this.urlChanged.bind(this)
+  this.submit = this.submit.bind(this)
+  this.ingredientNameChanged = this.ingredientNameChanged.bind(this)
+  this.ingredientWeightChanged = this.ingredientWeightChanged.bind(this)
+  this.appendIngredient = this.appendIngredient.bind(this)
+  this.removeIngredient = this.removeIngredient.bind(this)
+}
+
+    nameChanged(e) {this.setState({name: e.target.value})}
+    urlChanged(e) {this.setState({url: e.target.value})}
+    ingredientNameChanged(index, e) {
+      var ingArray = this.state.ingredients;
+  var currentIng = ingArray[index];
+  currentIng.name = e.target.value;
+  ingArray[index] = currentIng
+  this.setState({ingredients: ingArray});
+  this.ingredientSearch(currentIng.name, index);
+}
   ingredientWeightChanged(index, e) {
-    var ingArray = this.state.ingredients;
-    var currentIng = ingArray[index];
-    currentIng.weight = e.target.value;
-    ingArray[index] = currentIng
-    this.setState({ingredients: ingArray});
-  }
+  var ingArray = this.state.ingredients;
+  var currentIng = ingArray[index];
+  currentIng.weight = e.target.value;
+  ingArray[index] = currentIng
+  this.setState({ingredients: ingArray});
+}
 
   appendIngredient(e){
     e.preventDefault();
@@ -46,8 +167,8 @@ class AddFood extends React.Component {
     this.setState({ingredients: ingArray});
   }
 
-	ingredientSearch(query, index) {
-    Api.searchIngredient(query)
+ingredientSearch(query, index) {
+  Api.searchIngredient(query)
     .then((ingres) => {
       const list = ingres.map((ing) => {
         this.setState({ingredientId: ing.id});
@@ -139,26 +260,26 @@ class AddFood extends React.Component {
             </div>
             {this.state.ingredients.map(function(ingredient, index){
               return (
-                  <div className="fields">
-                    <div className="field">
-                      <label> Ingredient </label>
-                      <input type="text" placeholder="ingredient" value={ingredient.name} onChange={this.ingredientNameChanged.bind(this, index)}/>
-                      <ul className='ui list'>{ingredient.list}</ul>
-                    </div>
-                    <div className="field">
-                      <label> Weight </label>
-                      <input type="text" placeholder="weight" value={ingredient.weight} onChange={this.ingredientWeightChanged.bind(this, index)}/>
-                      { ingredient.errors != '' &&
-                        <div className="ui error message">
-                          <p>{ingredient.errors}</p>
-                        </div>
-                      }
-                    </div>
-                    {index !== 0 &&
-                      <a href="javascript:void(0);" onClick={this.removeIngredient.bind(this, index)}>remove</a>
+                <div className="fields">
+                  <div className="field">
+                    <label> Ingredient </label>
+                    <input type="text" placeholder="ingredient" value={ingredient.name} onChange={this.ingredientNameChanged.bind(this, index)}/>
+                    <ul className='ui list'>{ingredient.list}</ul>
+                  </div>
+                  <div className="field">
+                    <label> Weight </label>
+                    <input type="text" placeholder="weight" value={ingredient.weight} onChange={this.ingredientWeightChanged.bind(this, index)}/>
+                    { ingredient.errors != '' &&
+                      <div className="ui error message">
+                        <p>{ingredient.errors}</p>
+                      </div>
                     }
                   </div>
-                )
+                  {index !== 0 &&
+                    <a href="javascript:void(0);" onClick={this.removeIngredient.bind(this, index)}>remove</a>
+                  }
+                </div>
+              )
             }, this)}
             <a href="javascript:void(0);" onClick={this.appendIngredient}>Append ingredient</a>
 

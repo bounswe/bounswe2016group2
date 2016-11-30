@@ -131,6 +131,11 @@ var Api = function () {
       return this.get('ingredientSearch?query=' + query);
     }
   }, {
+    key: 'getIngredients',
+    value: function getIngredients() {
+      return this.get('ingredients');
+    }
+  }, {
     key: 'searchFood',
     value: function searchFood(query) {
       return this.get('foodSearch?query=' + query);

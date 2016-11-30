@@ -102,6 +102,10 @@ class Api {
 		return this.get('ingredientSearch?query=' + query);
 	}
 
+  static getIngredients() {
+    return this.get('ingredients');
+  }
+
   static searchFood(query) {
 		return this.get('foodSearch?query=' + query);
 	}

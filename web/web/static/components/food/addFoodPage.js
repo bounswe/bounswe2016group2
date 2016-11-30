@@ -8,27 +8,253 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var AddFood = function (_React$Component) {
-  _inherits(AddFood, _React$Component);
+var IngredientInput = function (_React$Component) {
+  _inherits(IngredientInput, _React$Component);
+
+  function IngredientInput(props) {
+    _classCallCheck(this, IngredientInput);
+
+    var _this = _possibleConstructorReturn(this, (IngredientInput.__proto__ || Object.getPrototypeOf(IngredientInput)).call(this, props));
+
+    _this.state = {
+      ingredients: [{ id: 12, name: 'asd' }]
+    };
+    return _this;
+  }
+
+  _createClass(IngredientInput, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var self = this;
+      // fetch ingredeints
+      Api.getIngredients().then(function (data) {
+        _this2.setState({
+          ingredients: data
+        });
+        // searchable semantic dropdown for ingredient select
+        $('#ingredientInput1 .ui.dropdown').dropdown({
+          onChange: function onChange(index) {
+            self.setState({
+              ingredient: self.state.ingredients[index]
+            });
+          }
+        });
+      }).catch(function (err) {
+        _this2.setState({ errors: err });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      // console.log(this.state.ingredients);
+      return React.createElement(
+        'div',
+        { id: 'ingredientInput1' },
+        React.createElement(
+          'div',
+          { className: 'ui search selection dropdown' },
+          React.createElement('input', { type: 'hidden', name: 'gender' }),
+          React.createElement('i', { className: 'dropdown icon' }),
+          React.createElement(
+            'div',
+            { className: 'default text' },
+            'Gender'
+          ),
+          React.createElement(
+            'div',
+            { className: 'menu' },
+            this.state.ingredients.map(function (ingredient, index) {
+              return React.createElement(
+                'div',
+                { className: 'item', 'data-value': index, key: index },
+                ingredient.name
+              );
+            })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui right labeled input' },
+          React.createElement('input', { type: 'text', placeholder: 'Find domain' }),
+          React.createElement(
+            'div',
+            { className: 'ui dropdown label' },
+            React.createElement(
+              'div',
+              { className: 'text' },
+              'g'
+            ),
+            React.createElement('i', { className: 'dropdown icon' }),
+            React.createElement(
+              'div',
+              { className: 'menu' },
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'mg'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'kg'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'l'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'teaspoon'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'dessertspoon'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'tablespoon'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'cup'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'pint'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'quart'
+              ),
+              React.createElement(
+                'div',
+                { className: 'item' },
+                'gallon'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return IngredientInput;
+}(React.Component);
+
+var AddFoodPage = function (_React$Component2) {
+  _inherits(AddFoodPage, _React$Component2);
+
+  function AddFoodPage(props) {
+    _classCallCheck(this, AddFoodPage);
+
+    var _this3 = _possibleConstructorReturn(this, (AddFoodPage.__proto__ || Object.getPrototypeOf(AddFoodPage)).call(this, props));
+
+    _this3.state = {
+      data: null,
+      errors: null,
+      ingredients: [],
+      ingredientInputs: [{}]
+    };
+    return _this3;
+  }
+
+  _createClass(AddFoodPage, [{
+    key: 'render',
+    value: function render() {
+      var formClassName = 'ui form';
+      if (this.state.errors) formClassName += ' error';
+      return React.createElement(
+        'div',
+        { className: 'ui segments' },
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          'Add New Food'
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(
+            'form',
+            { className: formClassName },
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                ' Name '
+              ),
+              React.createElement('input', { type: 'text', name: 'name', placeholder: 'name', value: this.state.name, onChange: this.nameChanged }),
+              this.state.errors && this.state.errors.name && React.createElement(
+                'div',
+                { className: 'ui error message' },
+                React.createElement(
+                  'p',
+                  null,
+                  this.state.errors.name[0]
+                )
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                ' Image '
+              ),
+              React.createElement('input', { type: 'url', name: 'image', placeholder: 'image url', value: this.state.url, onChange: this.urlChanged })
+            )
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          'Ingredients'
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(IngredientInput, { key: 0 })
+        )
+      );
+    }
+  }]);
+
+  return AddFoodPage;
+}(React.Component);
+
+var AddFood = function (_React$Component3) {
+  _inherits(AddFood, _React$Component3);
 
   function AddFood(props) {
     _classCallCheck(this, AddFood);
 
-    var _this = _possibleConstructorReturn(this, (AddFood.__proto__ || Object.getPrototypeOf(AddFood)).call(this, props));
+    var _this4 = _possibleConstructorReturn(this, (AddFood.__proto__ || Object.getPrototypeOf(AddFood)).call(this, props));
 
-    _this.state = {
+    _this4.state = {
       data: null,
       errors: null,
       ingredients: [{ name: '', weight: '', list: '', id: '', errors: '' }]
     };
-    _this.nameChanged = _this.nameChanged.bind(_this);
-    _this.urlChanged = _this.urlChanged.bind(_this);
-    _this.submit = _this.submit.bind(_this);
-    _this.ingredientNameChanged = _this.ingredientNameChanged.bind(_this);
-    _this.ingredientWeightChanged = _this.ingredientWeightChanged.bind(_this);
-    _this.appendIngredient = _this.appendIngredient.bind(_this);
-    _this.removeIngredient = _this.removeIngredient.bind(_this);
-    return _this;
+    _this4.nameChanged = _this4.nameChanged.bind(_this4);
+    _this4.urlChanged = _this4.urlChanged.bind(_this4);
+    _this4.submit = _this4.submit.bind(_this4);
+    _this4.ingredientNameChanged = _this4.ingredientNameChanged.bind(_this4);
+    _this4.ingredientWeightChanged = _this4.ingredientWeightChanged.bind(_this4);
+    _this4.appendIngredient = _this4.appendIngredient.bind(_this4);
+    _this4.removeIngredient = _this4.removeIngredient.bind(_this4);
+    return _this4;
   }
 
   _createClass(AddFood, [{
@@ -78,29 +304,29 @@ var AddFood = function (_React$Component) {
   }, {
     key: 'ingredientSearch',
     value: function ingredientSearch(query, index) {
-      var _this2 = this;
+      var _this5 = this;
 
       Api.searchIngredient(query).then(function (ingres) {
         var list = ingres.map(function (ing) {
-          _this2.setState({ ingredientId: ing.id });
+          _this5.setState({ ingredientId: ing.id });
           return React.createElement(
             'div',
             { className: 'item' },
             ing.name
           );
         });
-        var ingArray = _this2.state.ingredients;
+        var ingArray = _this5.state.ingredients;
         var currentIng = ingArray[index];
         currentIng.list = list;
         currentIng.id = ingres[ingres.length - 1].id;
         ingArray[index] = currentIng;
-        _this2.setState({ ingredients: ingArray });
+        _this5.setState({ ingredients: ingArray });
       });
     }
   }, {
     key: 'submit',
     value: function submit(e) {
-      var _this3 = this;
+      var _this6 = this;
 
       e.preventDefault();
       this.setState({ errors: null });
@@ -110,8 +336,8 @@ var AddFood = function (_React$Component) {
       };
 
       Api.addFood(postData).then(function (data) {
-        _this3.state.ingredients.forEach(function (ingredient, index) {
-          var _this4 = this;
+        _this6.state.ingredients.forEach(function (ingredient, index) {
+          var _this7 = this;
 
           var currentIng = {
             weight: parseInt(ingredient.weight),
@@ -119,21 +345,21 @@ var AddFood = function (_React$Component) {
             food: data.id
           };
           Api.addIngredientToFood(currentIng.food, currentIng.ingredient, currentIng).then(function (data) {}).catch(function (err) {
-            var ingArray = _this4.state.ingredients;
+            var ingArray = _this7.state.ingredients;
             var currentIng = ingArray[index];
             currentIng.errors = err.data.weight[0];
             ingArray[index] = currentIng;
-            _this4.setState({ ingredients: ingArray, errors: err.data });
+            _this7.setState({ ingredients: ingArray, errors: err.data });
 
             Api.deleteFood(data.id).then().catch();
             return;
           });
-        }, _this3);
+        }, _this6);
 
         // TODO: redirect to the page of newly added food
         window.location.href = '/food/' + data.id;
       }).catch(function (err) {
-        _this3.setState({ errors: err.data });
+        _this6.setState({ errors: err.data });
       });
     }
   }, {

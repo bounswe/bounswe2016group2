@@ -27,6 +27,7 @@ class FoodPage extends React.Component {
     this.fetch = this.fetch.bind(this)
     this.ateThis = this.ateThis.bind(this)
   }
+
   componentWillMount(){
     this.fetch(this.state.id);
   }
