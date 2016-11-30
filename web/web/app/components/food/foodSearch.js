@@ -20,7 +20,7 @@ class FoodInput extends React.Component {
           </div>
         </form>
         <form className="ui form"></form>
-      </div>
+    </div>
     )
   }
 }

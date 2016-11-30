@@ -34,6 +34,6 @@ router.on("/addFood/", function () {
   ReactDOM.render(React.createElement(
     Layout,
     null,
-    React.createElement(FoodSearch, null)
+    React.createElement(HomePage, null)
   ), root);
 }).resolve();
