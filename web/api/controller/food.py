@@ -78,7 +78,7 @@ def createMocks(req):
     """
     Add default foods in mocks to database
     """
-    # FoodService.createDefaults()
+    FoodService.createDefaults()
     return HttpResponse(status=status.HTTP_201_CREATED)
 
 

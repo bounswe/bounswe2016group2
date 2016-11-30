@@ -9,6 +9,8 @@ class Ingredient(models.Model):
     slug = models.SlugField(max_length=64, unique=True)
     photo = models.URLField(max_length=255, null=True, blank=True)
 
+    measureValue = models.FloatField(null=True, blank=True)
+    measureUnit = models.CharField(null=True, blank=True, max_length=32)
     defaultValue = models.FloatField(null=True, blank=True)
     defaultUnit = models.CharField(max_length=32)
     energy = models.FloatField()
@@ -49,6 +51,8 @@ class IngredientSerializer(serializers.ModelSerializer):
     carb = serializers.FloatField(min_value=0)
     fat = serializers.FloatField(min_value=0)
 
+    measureValue = serializers.FloatField(default=100, min_value=0, required=False)
+    measureUnit = serializers.CharField(default='g')
     defaultValue = serializers.FloatField(min_value=0, required=False)
     defaultUnit = serializers.CharField(default='g')
 
