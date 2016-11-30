@@ -7,7 +7,7 @@ var router = new Navigo({root:'/', useHash:false});
 router
   .on("/addFood/", function() {
     ReactDOM.render(
-      <Layout><AddFood/></Layout>
+      <Layout><AddFoodPage/></Layout>
     , root);
   })
   .on("/food/:id", function(params) {
