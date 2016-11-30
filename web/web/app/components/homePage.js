@@ -19,7 +19,6 @@ class HomePage extends React.Component {
 
   // send search api call
   search(query) {
-    console.log('anan');
     Api.searchFood(query)
     .then((foods) => {
       const list = foods.map((food) => {
@@ -54,7 +53,9 @@ class HomePage extends React.Component {
             <form className="ui form"></form>
           </div>
           {/* search list */}
-          <ul className='ui list'>{this.state.list}</ul>
+          <div className="ui relaxed divided list">
+            {this.state.list}
+          </div>
         </div>
         <div className="ui bottom attached tab segment" data-tab="advancedSearch">
         </div>

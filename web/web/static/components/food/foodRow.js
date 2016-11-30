@@ -41,14 +41,22 @@ var FoodRow = function (_React$Component) {
     key: 'render',
     value: function render() {
       return React.createElement(
-        'a',
-        { className: 'item', onClick: this.click() },
+        'div',
+        { className: 'item' },
         React.createElement(
           'div',
-          { className: 'header' },
-          this.state.name
-        ),
-        this.state.ingredientStr
+          { className: 'content' },
+          React.createElement(
+            'a',
+            { className: 'header', onClick: this.click() },
+            this.state.name
+          ),
+          React.createElement(
+            'div',
+            { className: 'description' },
+            this.state.ingredientStr
+          )
+        )
       );
     }
   }]);

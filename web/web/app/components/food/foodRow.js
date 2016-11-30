@@ -21,10 +21,12 @@ class FoodRow extends React.Component {
   }
   render() {
     return (
-      <a className="item" onClick={this.click()}>
-        <div className="header">{this.state.name}</div>
-        {this.state.ingredientStr}
-      </a>
+      <div className="item">
+        <div className="content">
+          <a className="header" onClick={this.click()}>{this.state.name}</a>
+          <div className="description">{this.state.ingredientStr}</div>
+        </div>
+      </div>
     )
   }
 }
