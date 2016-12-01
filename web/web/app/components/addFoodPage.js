@@ -115,7 +115,7 @@ class AddFood extends React.Component {
            <a className="item">Favorites</a>
            <a className="item active">Add Food</a>
            <a className="item">Daily Analysis</a>
-           <a className="item">Search</a>
+           <a className="item" href="search/">Search</a>
            <a className="item">Advanced Search</a>
          </div>
         </div>
