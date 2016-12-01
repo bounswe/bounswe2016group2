@@ -17,7 +17,7 @@ var UserHomepage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (UserHomepage.__proto__ || Object.getPrototypeOf(UserHomepage)).call(this, props));
 
     _this.state = {
-      data: 'arda'
+      data: ''
     };
 
     _this.getConsumptionHistory = _this.getConsumptionHistory.bind(_this);

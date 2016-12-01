@@ -5,7 +5,7 @@ class UserHomepage extends React.Component
     super(props)
     this.state =
     {
-      data: 'arda'
+      data: ''
     }
 
     this.getConsumptionHistory = this.getConsumptionHistory.bind(this);
