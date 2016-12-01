@@ -119,42 +119,59 @@ var FoodPage = function (_React$Component2) {
         ),
         React.createElement(
           'div',
-          { className: 'content1', style: { position: 'absolute', top: "20%" } },
+          { className: 'pageContent', style: { position: 'absolute', top: "20%" } },
           React.createElement(
             'div',
-            { className: 'header' },
+            { className: 'imageDiv', style: { position: 'absolute' } },
             React.createElement(
-              'h1',
-              { className: 'ui header' },
-              ' ',
-              this.state.name || "Food not found",
-              ' '
+              'div',
+              { className: 'header' },
+              React.createElement(
+                'h1',
+                { className: 'ui header' },
+                ' ',
+                this.state.name || "Food not found",
+                ' '
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'content' },
+              React.createElement(
+                'div',
+                null,
+                React.createElement('img', { src: this.state.url, style: { width: 350, height: 350 } })
+              ),
+              userEmail && this.state.name && React.createElement(
+                'button',
+                { className: 'ui button', type: 'button', style: { width: '20%' }, onClick: this.ateThis },
+                'I ate this!'
+              )
             )
           ),
           React.createElement(
             'div',
-            { className: 'content' },
-            React.createElement(
-              'div',
-              null,
-              React.createElement('img', { src: this.state.url, style: { width: 400, height: 400 } })
-            ),
-            userEmail && this.state.name && React.createElement(
-              'button',
-              { className: 'ui button', type: 'button', style: { width: '20%' }, onClick: this.ateThis },
-              'I ate this!'
-            ),
+            { className: 'ingredientsDiv', style: { position: 'absolute', left: 500 } },
             React.createElement(
               'div',
               null,
               React.createElement(
-                'h2',
+                'h3',
                 { className: 'header' },
-                ' Ingredients'
+                'Ingredients'
               ),
               this.state.ingredients.map(function (ingredient, index) {
                 return React.createElement(Ingredient, { data: ingredient, key: index });
               }, this)
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'calorieInfoDiv', style: { position: 'absolute', left: 800, width: 1000 } },
+            React.createElement(
+              'h3',
+              { className: 'header' },
+              'Calorie Information'
             )
           )
         )
