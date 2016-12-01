@@ -10,7 +10,7 @@ router
       <Layout><AddFoodPage/></Layout>
     , root);
   })
-  .on("/food/:id", function(params) {
+  .on("/foods/:id", function(params) {
     ReactDOM.render(
       <Layout><FoodPage id={params.id}/></Layout>,
       root);

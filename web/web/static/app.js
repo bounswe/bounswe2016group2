@@ -12,7 +12,7 @@ router.on("/addFood/", function () {
     null,
     React.createElement(AddFoodPage, null)
   ), root);
-}).on("/food/:id", function (params) {
+}).on("/foods/:id", function (params) {
   ReactDOM.render(React.createElement(
     Layout,
     null,
