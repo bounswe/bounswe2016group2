@@ -16,6 +16,8 @@ var IngredientInput = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (IngredientInput.__proto__ || Object.getPrototypeOf(IngredientInput)).call(this, props));
 
+    _this.inclusion = props.inclusion;
+    _this.id = props.id;
     _this.state = {
       ingredients: [],
       ingredient: {
@@ -38,15 +40,15 @@ var IngredientInput = function (_React$Component) {
           ingredients: data
         });
         // searchable semantic dropdown for ingredient select
-        $('#ingredientInput1 .ui.dropdown').dropdown({
+        $('#ingredientInput' + _this2.id + ' .ui.dropdown').dropdown({
           onChange: function onChange(index) {
-            console.log(self.state.ingredients[index]);
             self.setState({
               ingredient: self.state.ingredients[index],
               value: self.state.ingredients[index].defaultValue,
               unit: self.state.ingredients[index].defaultUnit,
               measureValue: self.state.ingredients[index].measureValue
             });
+            self.inclusion.ingredientId = self.state.ingredients[index].id;
           }
         });
       }).catch(function (err) {
@@ -63,6 +65,7 @@ var IngredientInput = function (_React$Component) {
         value: newValue,
         measureValue: measureValue.toFixed(2)
       });
+      this.inclusion.value = newValue;
     }
   }, {
     key: 'measureValueChanged',
@@ -74,16 +77,14 @@ var IngredientInput = function (_React$Component) {
         measureValue: newMeasureValue,
         value: value.toFixed(2)
       });
+      this.inclusion.value = value;
     }
-  }, {
-    key: 'unitChanged',
-    value: function unitChanged(event) {}
   }, {
     key: 'render',
     value: function render() {
       return React.createElement(
         'div',
-        { id: 'ingredientInput1' },
+        { id: 'ingredientInput' + this.id, style: { marginBottom: 20 } },
         React.createElement(
           'div',
           { className: 'ui search selection dropdown' },
@@ -145,12 +146,19 @@ var AddFoodPage = function (_React$Component2) {
       data: null,
       errors: null,
       ingredients: [],
-      ingredientInputs: [{}]
+      inclusions: [{ 'ingredientId': null, 'unit': 'g' }]
     };
     return _this3;
   }
 
   _createClass(AddFoodPage, [{
+    key: 'addMoreIngredient',
+    value: function addMoreIngredient() {
+      this.setState({
+        inclusions: this.state.inclusions.concat([{ 'ingredientId': null, 'unit': 'g' }])
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var formClassName = 'ui form';
@@ -208,7 +216,14 @@ var AddFoodPage = function (_React$Component2) {
         React.createElement(
           'div',
           { className: 'ui segment' },
-          React.createElement(IngredientInput, { key: 0 })
+          this.state.inclusions.map(function (inclusion, index) {
+            return React.createElement(IngredientInput, { id: index, key: index, inclusion: inclusion });
+          }),
+          React.createElement(
+            'button',
+            { className: 'ui button', onClick: this.addMoreIngredient.bind(this) },
+            'Add more'
+          )
         )
       );
     }

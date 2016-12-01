@@ -1,6 +1,8 @@
 class IngredientInput extends React.Component {
   constructor(props) {
     super(props)
+    this.inclusion = props.inclusion
+    this.id = props.id
     this.state = {
       ingredients: [],
       ingredient: {
@@ -21,15 +23,15 @@ class IngredientInput extends React.Component {
         }
       );
       // searchable semantic dropdown for ingredient select
-      $('#ingredientInput1 .ui.dropdown').dropdown({
+      $('#ingredientInput'+this.id+' .ui.dropdown').dropdown({
         onChange(index) {
-          console.log(self.state.ingredients[index]);
           self.setState({
             ingredient: self.state.ingredients[index],
             value: self.state.ingredients[index].defaultValue,
             unit: self.state.ingredients[index].defaultUnit,
             measureValue: self.state.ingredients[index].measureValue
           })
+          self.inclusion.ingredientId = self.state.ingredients[index].id
         }
       })
     }).catch((err) => {
@@ -45,6 +47,7 @@ class IngredientInput extends React.Component {
       value: newValue,
       measureValue: measureValue.toFixed(2)
     });
+    this.inclusion.value = newValue;
   }
 
   measureValueChanged(event) {
@@ -55,15 +58,12 @@ class IngredientInput extends React.Component {
       measureValue: newMeasureValue,
       value: value.toFixed(2)
     });
-  }
-
-  unitChanged(event) {
-
+    this.inclusion.value = value
   }
 
   render() {
     return (
-      <div id='ingredientInput1'>
+      <div id={'ingredientInput'+this.id} style={{marginBottom:20}}>
         <div className="ui search selection dropdown">
           <input type="hidden" name="gender"/>
           <i className="dropdown icon"></i>
@@ -101,8 +101,14 @@ class AddFoodPage extends React.Component {
       data: null,
       errors: null,
       ingredients: [],
-      ingredientInputs: [{}]
+      inclusions: [{'ingredientId':null,'unit':'g'}]
     }
+  }
+
+  addMoreIngredient() {
+    this.setState({
+      inclusions: this.state.inclusions.concat([{'ingredientId':null,'unit':'g'}])
+    })
   }
 
 
@@ -138,7 +144,10 @@ class AddFoodPage extends React.Component {
         </div>
 
         <div className="ui segment">
-          <IngredientInput key={0}/>
+          {this.state.inclusions.map(function(inclusion, index){
+            return <IngredientInput id={index} key={index} inclusion={inclusion}/>
+          })}
+          <button className="ui button" onClick={this.addMoreIngredient.bind(this)}>Add more</button>
         </div>
       </div>
     )
