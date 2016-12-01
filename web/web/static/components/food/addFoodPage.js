@@ -17,7 +17,11 @@ var IngredientInput = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (IngredientInput.__proto__ || Object.getPrototypeOf(IngredientInput)).call(this, props));
 
     _this.state = {
-      ingredients: [{ id: 12, name: 'asd' }]
+      ingredients: [],
+      ingredient: {
+        measureValue: 0,
+        measureUnit: ''
+      }
     };
     return _this;
   }
@@ -36,8 +40,12 @@ var IngredientInput = function (_React$Component) {
         // searchable semantic dropdown for ingredient select
         $('#ingredientInput1 .ui.dropdown').dropdown({
           onChange: function onChange(index) {
+            console.log(self.state.ingredients[index]);
             self.setState({
-              ingredient: self.state.ingredients[index]
+              ingredient: self.state.ingredients[index],
+              value: self.state.ingredients[index].defaultValue,
+              unit: self.state.ingredients[index].defaultUnit,
+              measureValue: self.state.ingredients[index].measureValue
             });
           }
         });
@@ -46,9 +54,33 @@ var IngredientInput = function (_React$Component) {
       });
     }
   }, {
+    key: 'valueChanged',
+    value: function valueChanged(event) {
+      var newValue = event.target.value;
+      var defValue = this.state.ingredient.defaultValue;
+      var measureValue = this.state.ingredient.measureValue * (newValue / defValue);
+      this.setState({
+        value: newValue,
+        measureValue: measureValue.toFixed(2)
+      });
+    }
+  }, {
+    key: 'measureValueChanged',
+    value: function measureValueChanged(event) {
+      var newMeasureValue = event.target.value;
+      var defMeasureValue = this.state.ingredient.measureValue;
+      var value = this.state.ingredient.defaultValue * (newMeasureValue / defMeasureValue);
+      this.setState({
+        measureValue: newMeasureValue,
+        value: value.toFixed(2)
+      });
+    }
+  }, {
+    key: 'unitChanged',
+    value: function unitChanged(event) {}
+  }, {
     key: 'render',
     value: function render() {
-      // console.log(this.state.ingredients);
       return React.createElement(
         'div',
         { id: 'ingredientInput1' },
@@ -60,7 +92,7 @@ var IngredientInput = function (_React$Component) {
           React.createElement(
             'div',
             { className: 'default text' },
-            'Gender'
+            'Ingredient'
           ),
           React.createElement(
             'div',
@@ -76,71 +108,22 @@ var IngredientInput = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'ui right labeled input' },
-          React.createElement('input', { type: 'text', placeholder: 'Find domain' }),
+          { className: 'ui right labeled input', style: { marginLeft: 20 } },
+          React.createElement('input', { type: 'text', placeholder: 'Value', value: this.state.measureValue, onChange: this.measureValueChanged.bind(this), style: { width: 75 } }),
           React.createElement(
             'div',
-            { className: 'ui dropdown label' },
-            React.createElement(
-              'div',
-              { className: 'text' },
-              'g'
-            ),
-            React.createElement('i', { className: 'dropdown icon' }),
-            React.createElement(
-              'div',
-              { className: 'menu' },
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'mg'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'kg'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'l'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'teaspoon'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'dessertspoon'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'tablespoon'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'cup'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'pint'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'quart'
-              ),
-              React.createElement(
-                'div',
-                { className: 'item' },
-                'gallon'
-              )
-            )
+            { className: 'ui basic label' },
+            this.state.ingredient.measureUnit
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui right labeled input', style: { marginLeft: 20 } },
+          React.createElement('input', { type: 'text', placeholder: 'Value', value: this.state.value, onChange: this.valueChanged.bind(this), style: { width: 75 } }),
+          React.createElement(
+            'div',
+            { className: 'ui basic label' },
+            this.state.ingredient.defaultUnit
           )
         )
       );

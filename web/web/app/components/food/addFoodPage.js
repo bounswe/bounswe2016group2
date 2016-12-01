@@ -2,7 +2,11 @@ class IngredientInput extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      ingredients: [{id:12,name:'asd'}]
+      ingredients: [],
+      ingredient: {
+        measureValue: 0,
+        measureUnit: ''
+      }
     }
   }
 
@@ -19,8 +23,12 @@ class IngredientInput extends React.Component {
       // searchable semantic dropdown for ingredient select
       $('#ingredientInput1 .ui.dropdown').dropdown({
         onChange(index) {
+          console.log(self.state.ingredients[index]);
           self.setState({
-            ingredient: self.state.ingredients[index]
+            ingredient: self.state.ingredients[index],
+            value: self.state.ingredients[index].defaultValue,
+            unit: self.state.ingredients[index].defaultUnit,
+            measureValue: self.state.ingredients[index].measureValue
           })
         }
       })
@@ -29,37 +37,55 @@ class IngredientInput extends React.Component {
     })
   }
 
+  valueChanged(event) {
+    const newValue = event.target.value
+    const defValue = this.state.ingredient.defaultValue
+    const measureValue = this.state.ingredient.measureValue * (newValue/defValue)
+    this.setState({
+      value: newValue,
+      measureValue: measureValue.toFixed(2)
+    });
+  }
+
+  measureValueChanged(event) {
+    const newMeasureValue = event.target.value
+    const defMeasureValue = this.state.ingredient.measureValue
+    const value = this.state.ingredient.defaultValue * (newMeasureValue/defMeasureValue)
+    this.setState({
+      measureValue: newMeasureValue,
+      value: value.toFixed(2)
+    });
+  }
+
+  unitChanged(event) {
+
+  }
+
   render() {
-    // console.log(this.state.ingredients);
     return (
       <div id='ingredientInput1'>
         <div className="ui search selection dropdown">
           <input type="hidden" name="gender"/>
           <i className="dropdown icon"></i>
-          <div className="default text">Gender</div>
+          <div className="default text">Ingredient</div>
           <div className="menu">
             {this.state.ingredients.map(function(ingredient, index){
               return <div className="item" data-value={index} key={index}>{ingredient.name}</div>
             })}
           </div>
         </div>
-        <div className="ui right labeled input">
-          <input type="text" placeholder="Find domain"/>
-          <div className="ui dropdown label">
-            <div className="text">g</div>
-            <i className="dropdown icon"></i>
-            <div className="menu">
-              <div className="item">mg</div>
-              <div className="item">kg</div>
-              <div className="item">l</div>
-              <div className="item">teaspoon</div>
-              <div className="item">dessertspoon</div>
-              <div className="item">tablespoon</div>
-              <div className="item">cup</div>
-              <div className="item">pint</div>
-              <div className="item">quart</div>
-              <div className="item">gallon</div>
-            </div>
+        {/* measure */}
+        <div className="ui right labeled input" style={{marginLeft:20}}>
+          <input type="text" placeholder="Value" value={this.state.measureValue} onChange={this.measureValueChanged.bind(this)} style={{width:75}}/>
+          <div className="ui basic label">
+            {this.state.ingredient.measureUnit}
+          </div>
+        </div>
+        {/* value */}
+        <div className="ui right labeled input" style={{marginLeft:20}}>
+          <input type="text" placeholder="Value" value={this.state.value} onChange={this.valueChanged.bind(this)} style={{width:75}}/>
+          <div className="ui basic label">
+            {this.state.ingredient.defaultUnit}
           </div>
         </div>
       </div>
