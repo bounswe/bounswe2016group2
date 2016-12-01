@@ -14,7 +14,7 @@ class FoodRow extends React.Component {
   }
 
   click(){
-    var link = '/food/' + this.state.id;
+    var link = '/foods/' + this.state.id;
     return(
       function(){window.location.href = link}
     );

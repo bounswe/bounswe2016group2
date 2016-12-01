@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18,30 +18,30 @@ var Ingredient = function (_React$Component) {
   }
 
   _createClass(Ingredient, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'h3',
-          { className: 'header' },
-          ' ',
+          "h3",
+          { className: "header" },
+          " ",
           React.createElement(
-            'a',
+            "a",
             { href: '/ingredient/' + this.props.data.id },
             this.props.data.name,
-            ' '
+            " "
           )
         ),
         React.createElement(
-          'div',
+          "div",
           null,
-          ' ',
+          " ",
           this.props.data.defaultValue || 0,
-          ' ',
+          " ",
           this.props.data.defaultUnit,
-          ' '
+          " "
         )
       );
     }
@@ -60,10 +60,9 @@ var FoodPage = function (_React$Component2) {
 
     _this2.state = {
       id: props.id,
-      name: null,
-      data: null,
-      errors: null,
-      ingredients: []
+      food: {
+        ingredients: []
+      }
     };
     _this2.fetch = _this2.fetch.bind(_this2);
     _this2.ateThis = _this2.ateThis.bind(_this2);
@@ -71,21 +70,18 @@ var FoodPage = function (_React$Component2) {
   }
 
   _createClass(FoodPage, [{
-    key: 'componentWillMount',
+    key: "componentWillMount",
     value: function componentWillMount() {
       this.fetch(this.state.id);
     }
   }, {
-    key: 'fetch',
+    key: "fetch",
     value: function fetch(id) {
       var _this3 = this;
 
       Api.getFood(id).then(function (data) {
-        _this3.setState({
-          name: data.name,
-          url: data.photo,
-          ingredients: data.ingredients
-        });
+        console.log(data);
+        _this3.setState({ food: data });
       }).catch(function (err) {
         _this3.setState({ errors: err });
       });
@@ -94,7 +90,7 @@ var FoodPage = function (_React$Component2) {
     // TODO: currently not working
 
   }, {
-    key: 'ateThis',
+    key: "ateThis",
     value: function ateThis() {
       var query = {
         value: 1
@@ -106,44 +102,48 @@ var FoodPage = function (_React$Component2) {
       });
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       return React.createElement(
-        'div',
-        { id: 'FoodPage' },
+        "div",
+        { className: "ui segments" },
         React.createElement(
-          'div',
-          { className: 'header' },
+          "div",
+          { className: "ui segment" },
           React.createElement(
-            'h1',
-            { className: 'ui header' },
-            ' ',
-            this.state.name || "Food not found",
-            ' '
+            "h1",
+            { className: "ui header", style: { textAlign: 'center' } },
+            " ",
+            this.state.food.name || "Food not found",
+            " "
           )
         ),
         React.createElement(
-          'div',
-          { className: 'content' },
+          "div",
+          { className: "ui segment", style: { padding: 0, overflow: 'hidden', maxHeight: 400, textAlign: 'center', width: '100%' } },
+          React.createElement("img", { src: this.state.food.photo, className: "img-responsive" })
+        ),
+        React.createElement(
+          "div",
+          { className: "ui segment", style: { textAlign: 'right' } },
+          token && React.createElement(
+            "button",
+            { className: "ui button", type: "button", onClick: this.ateThis },
+            "I ate this!"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "ui segment" },
           React.createElement(
-            'div',
-            null,
-            React.createElement('img', { src: this.state.url, style: { width: 400, height: 400 } })
-          ),
-          userEmail && this.state.name && React.createElement(
-            'button',
-            { className: 'ui button', type: 'button', style: { width: '10%' }, onClick: this.ateThis },
-            'I ate this!'
-          ),
-          React.createElement(
-            'div',
+            "div",
             null,
             React.createElement(
-              'h2',
-              { className: 'header' },
-              ' Ingredients'
+              "h2",
+              { className: "header" },
+              " Ingredients"
             ),
-            this.state.ingredients.map(function (ingredient, index) {
+            this.state.food.ingredients.map(function (ingredient, index) {
               return React.createElement(Ingredient, { data: ingredient, key: index });
             }, this)
           )

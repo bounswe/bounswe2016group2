@@ -19,10 +19,9 @@ class FoodPage extends React.Component {
     super(props)
     this.state = {
       id: props.id,
-      name: null,
-      data: null,
-      errors: null,
-      ingredients: []
+      food: {
+        ingredients: []
+      }
     }
     this.fetch = this.fetch.bind(this)
     this.ateThis = this.ateThis.bind(this)
@@ -35,13 +34,8 @@ class FoodPage extends React.Component {
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
-        this.setState(
-          {
-            name: data.name,
-            url: data.photo,
-            ingredients: data.ingredients
-          }
-        );
+        console.log(data);
+        this.setState({food: data});
       }).catch((err) => {
         this.setState({errors: err});
       })
@@ -61,23 +55,24 @@ class FoodPage extends React.Component {
   }
   render() {
     return (
-      <div id='FoodPage'>
-        <div className="header">
-          <h1 className="ui header"> {this.state.name || "Food not found"} </h1>
+      <div className="ui segments">
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}> {this.state.food.name || "Food not found"} </h1>
         </div>
-        <div className="content">
-          <div>
-            <img src={this.state.url} style={{width: 400, height: 400}}/>
-          </div>
-          {
-            userEmail && this.state.name &&
-            <button className="ui button" type="button" style={{width:'10%'}} onClick={this.ateThis}>
+        <div className="ui segment" style={{padding:0,overflow:'hidden',maxHeight:400,textAlign:'center',width:'100%'}}>
+          <img src={this.state.food.photo} className='img-responsive'/>
+        </div>
+        <div className="ui segment" style={{textAlign:'right'}}>
+          { token &&
+            <button className="ui button" type="button" onClick={this.ateThis}>
               I ate this!
             </button>
           }
+        </div>
+        <div className="ui segment">
           <div>
             <h2 className="header"> Ingredients</h2>
-            {this.state.ingredients.map(function(ingredient, index){
+            {this.state.food.ingredients.map(function(ingredient, index){
               return <Ingredient data={ingredient} key={index}/>
             }, this)}
           </div>

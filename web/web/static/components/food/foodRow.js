@@ -32,7 +32,7 @@ var FoodRow = function (_React$Component) {
   _createClass(FoodRow, [{
     key: 'click',
     value: function click() {
-      var link = '/food/' + this.state.id;
+      var link = '/foods/' + this.state.id;
       return function () {
         window.location.href = link;
       };
