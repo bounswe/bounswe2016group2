@@ -170,8 +170,28 @@ var FoodPage = function (_React$Component2) {
             { className: 'calorieInfoDiv', style: { position: 'absolute', left: 800, width: 1000 } },
             React.createElement(
               'h3',
-              { className: 'header' },
+              { className: 'calorie' },
               'Calorie Information'
+            ),
+            React.createElement(
+              'h4',
+              { className: 'total' },
+              'Total calories in one serving:'
+            ),
+            React.createElement(
+              'h4',
+              { className: 'carbs' },
+              'Carbs:'
+            ),
+            React.createElement(
+              'h4',
+              { className: 'protein' },
+              'Protein:'
+            ),
+            React.createElement(
+              'h4',
+              { className: 'fat' },
+              'Fat:'
             )
           )
         )

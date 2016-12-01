@@ -186,11 +186,6 @@ var AddFood = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'header' },
-          'Add New Food'
-        ),
-        React.createElement(
-          'div',
           { className: 'content' },
           React.createElement(
             'form',

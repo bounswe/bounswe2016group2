@@ -91,7 +91,11 @@ class FoodPage extends React.Component {
             </div>
           </div>
           <div className="calorieInfoDiv" style={{position: 'absolute', left: 800, width: 1000}}>
-              <h3 className="header">Calorie Information</h3>
+              <h3 className="calorie">Calorie Information</h3>
+              <h4 className="total">Total calories in one serving:</h4>
+              <h4 className="carbs">Carbs:</h4>
+              <h4 className="protein">Protein:</h4>
+              <h4 className="fat">Fat:</h4>
           </div>
         </div>
       </div>

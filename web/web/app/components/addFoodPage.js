@@ -119,9 +119,6 @@ class AddFood extends React.Component {
            <a className="item">Advanced Search</a>
          </div>
         </div>
-        <div className="header">
-          Add New Food
-        </div>
         <div className="content">
           <form className={formClassName}>
             <div className="field">
