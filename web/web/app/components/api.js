@@ -30,14 +30,17 @@ class Api {
   static post(url, data) {
     return new Promise((resolve, reject) => {
       let status = null
-      fetch(this.path(url), {
+      let requestData = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authentication': 'Token ' + token
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-      }).then((res) => {
+      }
+      if (token) {
+        headers.Authorization = 'Token ' + token
+      }
+      fetch(this.path(url), requestData).then((res) => {
         status = res.status
         return res
       }).then((res) => {

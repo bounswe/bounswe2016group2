@@ -47,14 +47,17 @@ var Api = function () {
 
       return new Promise(function (resolve, reject) {
         var status = null;
-        fetch(_this2.path(url), {
+        var requestData = {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            'Authentication': 'Token ' + token
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
-        }).then(function (res) {
+        };
+        if (token) {
+          headers.Authorization = 'Token ' + token;
+        }
+        fetch(_this2.path(url), requestData).then(function (res) {
           status = res.status;
           return res;
         }).then(function (res) {
