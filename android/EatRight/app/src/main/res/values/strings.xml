@@ -63,4 +63,9 @@
     <string name="add">Add Ingredient+</string>
     <string name="amount">Amount</string>
     <string name="submit">Submit</string>
+    <string name="search_food">Search Food</string>
+    <string name="calorie_range">Calorie Range</string>
+    <string name="protein_range">Protein Range</string>
+    <string name="fat_range">Fat Range</string>
+    <string name="carbonhydrate_range">Carbonhydrate Range</string>
 </resources>

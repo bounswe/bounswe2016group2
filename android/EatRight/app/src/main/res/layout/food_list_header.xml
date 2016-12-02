@@ -41,6 +41,7 @@
             android:text="@string/image"
             android:textStyle="bold"
             android:layout_weight="1"
+            android:clickable="false"
             android:background="#c0c0c0"
             >
         </TextView>

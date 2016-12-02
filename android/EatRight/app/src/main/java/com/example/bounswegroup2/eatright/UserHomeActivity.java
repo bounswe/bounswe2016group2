@@ -187,7 +187,7 @@ public class UserHomeActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SettingsFragment settingsFragment = new SettingsFragment();
-                settingsFragment.setArgs(query);
+                //settingsFragment.setArgs(query);
                 FragmentManager manager = getSupportFragmentManager();
                 manager.beginTransaction().replace(R.id.content_user_home,
                         settingsFragment,settingsFragment.getTag()).commit();
@@ -230,8 +230,11 @@ public class UserHomeActivity extends AppCompatActivity
             FoodAddFragment foodAddFragment = new FoodAddFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_adv_search){
+            FoodSearchFragment foodSearchFragment = new FoodSearchFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_user_home,
+                    foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_cons_hist) {
@@ -239,7 +242,7 @@ public class UserHomeActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,consHistFragment,
                                                consHistFragment.getTag()).commit();
-        } else if (id == R.id.nav_foods) {
+        } else if (id == R.id.nav_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,
