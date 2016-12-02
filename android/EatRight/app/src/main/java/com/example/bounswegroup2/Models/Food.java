@@ -35,9 +35,13 @@ public class Food implements Serializable {
     @SerializedName("photo_links")
     @Expose
     private ArrayList<String> photoLinks = new ArrayList<>();
-
+    private int totalEnergy;
+    private int totalPro;
+    private int totalFat;
+    private int totalCab;
     public Food(String name, String slug) {
        this.name = name; this.slug = slug;
+        totalEnergy=0;totalCab=0;totalFat=0;totalPro = 0;
     }
 
     /**
@@ -110,6 +114,9 @@ public class Food implements Serializable {
      */
     public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
+        for (Ingredient i:ingredients) {
+            totalEnergy+= i.getEnergy(); totalCab+=i.getCarb(); totalFat+=i.getFat(); totalPro+=i.getProtein();
+        }
     }
 
     public double getRating() {
@@ -159,4 +166,19 @@ public class Food implements Serializable {
         }
     };
 
+    public int getTotalEnergy() {
+        return totalEnergy;
+    }
+
+    public int getTotalPro() {
+        return totalPro;
+    }
+
+    public int getTotalFat() {
+        return totalFat;
+    }
+
+    public int getTotalCab() {
+        return totalCab;
+    }
 }

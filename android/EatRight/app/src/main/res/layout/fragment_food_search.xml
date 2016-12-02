@@ -41,7 +41,7 @@
         android:text="@string/fat_range"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rangeSeekBar3"
+        android:layout_below="@+id/rangeSeekBarForPro"
         android:layout_alignStart="@+id/CalorieTExtView"
         android:layout_marginTop="11dp"
         android:id="@+id/textViewFatRange" />
@@ -74,7 +74,7 @@
         <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/rangeSeekBar3"
+            android:id="@+id/rangeSeekBarForPro"
             app:absoluteMaxValue="150"
             app:absoluteMinValue="25"
             android:layout_below="@+id/CalorieTExtView"
@@ -97,7 +97,7 @@
             app:absoluteMaxValue="150"
             app:absoluteMinValue="25"
             android:id="@+id/seekBarForFat"
-            android:layout_below="@+id/rangeSeekBar3"
+            android:layout_below="@+id/rangeSeekBarForPro"
             android:layout_alignParentStart="true" />
 
         <Button

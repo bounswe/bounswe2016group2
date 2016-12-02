@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Range;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.QueryWrapper;
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,6 +58,10 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private View headerView;
     private TextView tvName;
     private TextView tvRating;
+    private RangeSeekBar<Integer> calorieSeekBar;
+    private RangeSeekBar<Integer> proSeekBar;
+    private RangeSeekBar<Integer> fatSeekBar;
+    private RangeSeekBar<Integer> carbSeekBar;
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
@@ -84,6 +90,11 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
         tvRating = (TextView) headerView.findViewById(R.id.food_list_header_rating);
         lv = (ListView) rootView.findViewById(R.id.ingr_listview);
+        calorieSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekbarForCalorie);
+        fatSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForFat);
+        proSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.rangeSeekBarForPro);
+        carbSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForCab);
+
         //TableLayout headerView = (TableLayout) inflater.inflate(R.layout.ingr_list_header,null);
         //lv.addHeaderView(headerView);
 
@@ -123,28 +134,44 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         }
     }
 
-
+    //Revise after server deployment
     private void getAllFoods(String queryString, final List<String> allergic){
         if(queryString == null) queryString = "";
         ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
         Call<List<Food>> cb = test.getFoodsWithQuery(queryString);
+        int minCalorie = calorieSeekBar.getSelectedMinValue();
+        int maxCalorie = calorieSeekBar.getSelectedMaxValue();
+        final Range<Integer> r1 = new Range<Integer>(minCalorie,maxCalorie);
+        int minProtein = proSeekBar.getSelectedMinValue();
+        int maxProtein = proSeekBar.getSelectedMaxValue();
+        final Range<Integer> r2 = new Range<Integer>(minProtein,maxProtein);
+        final int minCarbon  = carbSeekBar.getSelectedMinValue();
+        final int maxCarbon  = carbSeekBar.getSelectedMaxValue();
+        final Range<Integer> r3 = new Range<Integer>(minCarbon,maxCarbon);
+        int minFat = fatSeekBar.getSelectedMinValue();
+        int maxFat = fatSeekBar.getSelectedMaxValue();
+        final Range<Integer> r4 = new Range<Integer>(minFat,maxFat);
         cb.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
                 ArrayList<Food> foodList = (ArrayList<Food>) response.body();
                 for (int i = 0;i<foodList.size();i++){
                     Food f = foodList.get(i);
-                    ArrayList<Ingredient> listOfIngredients = f.getIngredients();
-                    for (int j=0;j<listOfIngredients.size();j++){
-                        if (allergic.contains(listOfIngredients.get(j).getName())){
-                            j = listOfIngredients.size();
-                            foodList.remove(i);
-                            i--;
+                    if(!r1.contains(f.getTotalEnergy()) || !r2.contains(f.getTotalPro()) || !r3.contains(f.getTotalCab()) || !r4.contains(f.getTotalFat())){
+                        foodList.remove(i); i--;
+                    }else{
+                        ArrayList<Ingredient> listOfIngredients = f.getIngredients();
+                        for (int j=0;j<listOfIngredients.size();j++){
+                            if (allergic.contains(listOfIngredients.get(j).getName())){
+                                j = listOfIngredients.size();
+                                foodList.remove(i);
+                                i--;
+                            }
                         }
                     }
-                }
-                FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), foodList);
-                setListAdapter(adapter);
+                    FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), foodList);
+                    setListAdapter(adapter);
+                    }
             }
 
             @Override
