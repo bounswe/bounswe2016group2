@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # from api.service import food as FoodService
-from api.model.food import Food, FoodSerializer
+from api.model.food import Food
+from api.serializer.food import FoodSerializer
 
 
 @api_view(['GET', 'POST'])

@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
 
-from rest_framework import serializers
-
 from api.model.ingredient import Ingredient
 
 
@@ -18,13 +16,3 @@ class Food(models.Model):
         self.full_clean()
 
         super(Food, self).save(*args, **kwargs)
-
-
-class FoodSerializer(serializers.ModelSerializer):
-
-    slug = serializers.SlugField(read_only=True, allow_null=True)
-
-    class Meta:
-        model = Food
-        fields = '__all__'
-        depth = 1

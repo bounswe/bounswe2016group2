@@ -4,7 +4,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.model.ateFood import AteFood, AteFoodSerializer
+from api.model.ateFood import AteFood
+from api.serializer.ateFood import AteFoodSerializer
 from api.model.food import Food
 
 
