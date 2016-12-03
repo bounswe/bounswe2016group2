@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    <LinearLayout
+        android:id="@+id/llTextOuter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="4dp" >
+    <TextView
+        android:id="@+id/food_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:maxLines="1"
+        android:layout_gravity="start"
+        android:textSize="16sp"
+        android:background="#88FF0000"/>
+    <TextView
+        android:id="@+id/food_slug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:maxLines="1"
+        android:layout_gravity="start"
+        android:background="#8800FF00"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/comment_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/last_comment"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating:           "
+            android:layout_below="@id/comment_food"
+            android:id="@+id/ratingText"
+            />
+        <TextView
+            android:layout_below="@id/comment_food"
+            android:layout_alignEnd="@+id/ratingText"
+            android:id="@+id/rating_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/_4"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/food_image_view"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="55dp"
+        android:contentDescription="@string/food_image" />
+
+    </LinearLayout>
