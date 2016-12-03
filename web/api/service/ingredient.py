@@ -1,4 +1,6 @@
-from api.model.ingredient import Ingredient, IngredientSerializer
+from api.model.ingredient import Ingredient
+from api.serializer.ingredient import IngredientSerializer
+
 
 def createDefaults():
     fields = (
