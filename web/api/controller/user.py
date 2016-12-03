@@ -7,9 +7,11 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.model.user import UserSerializer
-from api.model.ateFood import AteFood, AteFoodDetailSerializer
-from api.model.ateIngredient import AteIngredient, AteIngredientDetailSerializer
+from api.serializer.user import UserSerializer
+from api.model.ateFood import AteFood
+from api.serializer.ateFood import AteFoodDetailSerializer
+from api.model.ateIngredient import AteIngredient
+from api.serializer.ateIngredient import AteIngredientDetailSerializer
 from api.service import user as UserService
 
 

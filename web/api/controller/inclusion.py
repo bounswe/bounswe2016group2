@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # from api.model.food import Food, FoodSerializer
-from api.model.inclusion import Inclusion, InclusionSerializer
+from api.model.inclusion import Inclusion
+from api.serializer.inclusion import InclusionSerializer
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])

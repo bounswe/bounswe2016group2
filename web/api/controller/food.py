@@ -6,7 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # from api.service import food as FoodService
-from api.model.food import Food, FoodSerializer
+from api.model.food import Food
+from api.serializer.food import FoodSerializer, FoodReadSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -16,7 +17,7 @@ def foods(req):
     """
     if req.method == 'GET':
         foods = Food.objects.all()
-        serializer = FoodSerializer(foods, many=True)
+        serializer = FoodReadSerializer(foods, many=True)
         return Response(serializer.data)
 
     elif req.method == 'POST':
@@ -38,7 +39,7 @@ def food(req, foodId):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if req.method == 'GET':
-        serializer = FoodSerializer(food)
+        serializer = FoodReadSerializer(food)
         return Response(serializer.data)
 
     elif req.method == 'PUT':
