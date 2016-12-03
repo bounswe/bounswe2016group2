@@ -55,7 +55,7 @@ var Api = function () {
           body: JSON.stringify(data)
         };
         if (token) {
-          headers.Authorization = 'Token ' + token;
+          requestData.headers.Authorization = 'Token ' + token;
         }
         fetch(_this2.path(url), requestData).then(function (res) {
           status = res.status;

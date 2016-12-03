@@ -38,7 +38,7 @@ class Api {
         body: JSON.stringify(data)
       }
       if (token) {
-        headers.Authorization = 'Token ' + token
+        requestData.headers.Authorization = 'Token ' + token
       }
       fetch(this.path(url), requestData).then((res) => {
         status = res.status

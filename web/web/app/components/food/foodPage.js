@@ -19,6 +19,7 @@ class FoodPage extends React.Component {
     super(props)
     this.state = {
       id: props.id,
+      servingSize: 1,
       food: {
         ingredients: [],
         inclusions: [],
@@ -27,6 +28,7 @@ class FoodPage extends React.Component {
     }
     this.fetch = this.fetch.bind(this)
     this.ateThis = this.ateThis.bind(this)
+    this.servingSizeChanged = this.servingSizeChanged.bind(this)
   }
 
   componentWillMount(){
@@ -43,14 +45,25 @@ class FoodPage extends React.Component {
       })
   }
 
-  // TODO: currently not working
-  ateThis() {
-    var query = {
-      value: 1
+  openAteFoodModal() {
+      $('#ateFoodModal').modal('show')
+  }
+
+  openSuccessModal() {
+    $('#ateFoodSuccModal').modal('show')
+  }
+
+  servingSizeChanged(e) {this.setState({servingSize: e.target.value}) }
+
+  ateThis(e) {
+    e.preventDefault()
+    var data = {
+      value: this.state.servingSize
     }
-    Api.foodAte(this.state.id, query)
+    Api.foodAte(this.state.id, data)
       .then((data) => {
-        console.log(data);
+        console.log('succ',data);
+        $('#ateFoodSuccModal').modal('show')
       }).catch((err) => {
         console.log(err);
       })
@@ -65,10 +78,39 @@ class FoodPage extends React.Component {
           <img src={this.state.food.photo} className='img-responsive'/>
         </div>
         <div className="ui segment" style={{textAlign:'right'}}>
+          {/* i ate this functionality here */}
           { token &&
-            <button className="ui button" type="button" onClick={this.ateThis}>
-              I ate this!
-            </button>
+            <div>
+              <button className="ui button" type="button" onClick={this.openAteFoodModal}>
+                I ate this!
+              </button>
+              <div id='ateFoodSuccModal' className="ui small modal">
+                <div className="ui message success">
+                  <i className="close icon"></i>
+                  <div className="header">
+                    Success!
+                  </div>
+                  <p>The food has been saved to your nutrition history</p>
+                </div>
+              </div>
+              <div id='ateFoodModal' className="ui small modal">
+                <i className="close icon"></i>
+                <div className="header">
+                  You ate this?
+                </div>
+                <div className="content">
+                  <form className="ui form">
+                    <div className="field">
+                      <label>Serving size</label>
+                      <input type="number" min="0" max="100" name="servingSize" value={this.state.servingSize} onChange={this.servingSizeChanged}/>
+                    </div>
+                    <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.ateThis}>
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
           }
         </div>
         {/* general info   */}

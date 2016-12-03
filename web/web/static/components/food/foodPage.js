@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18,30 +18,30 @@ var Ingredient = function (_React$Component) {
   }
 
   _createClass(Ingredient, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-          "h3",
-          { className: "header" },
-          " ",
+          'h3',
+          { className: 'header' },
+          ' ',
           React.createElement(
-            "a",
+            'a',
             { href: '/ingredient/' + this.props.data.id },
             this.props.data.name,
-            " "
+            ' '
           )
         ),
         React.createElement(
-          "div",
+          'div',
           null,
-          " ",
+          ' ',
           this.props.data.defaultValue || 0,
-          " ",
+          ' ',
           this.props.data.defaultUnit,
-          " "
+          ' '
         )
       );
     }
@@ -60,6 +60,7 @@ var FoodPage = function (_React$Component2) {
 
     _this2.state = {
       id: props.id,
+      servingSize: 1,
       food: {
         ingredients: [],
         inclusions: [],
@@ -68,16 +69,17 @@ var FoodPage = function (_React$Component2) {
     };
     _this2.fetch = _this2.fetch.bind(_this2);
     _this2.ateThis = _this2.ateThis.bind(_this2);
+    _this2.servingSizeChanged = _this2.servingSizeChanged.bind(_this2);
     return _this2;
   }
 
   _createClass(FoodPage, [{
-    key: "componentWillMount",
+    key: 'componentWillMount',
     value: function componentWillMount() {
       this.fetch(this.state.id);
     }
   }, {
-    key: "fetch",
+    key: 'fetch',
     value: function fetch(id) {
       var _this3 = this;
 
@@ -88,238 +90,308 @@ var FoodPage = function (_React$Component2) {
         _this3.setState({ errors: err });
       });
     }
-
-    // TODO: currently not working
-
   }, {
-    key: "ateThis",
-    value: function ateThis() {
-      var query = {
-        value: 1
+    key: 'openAteFoodModal',
+    value: function openAteFoodModal() {
+      $('#ateFoodModal').modal('show');
+    }
+  }, {
+    key: 'openSuccessModal',
+    value: function openSuccessModal() {
+      $('#ateFoodSuccModal').modal('show');
+    }
+  }, {
+    key: 'servingSizeChanged',
+    value: function servingSizeChanged(e) {
+      this.setState({ servingSize: e.target.value });
+    }
+  }, {
+    key: 'ateThis',
+    value: function ateThis(e) {
+      e.preventDefault();
+      var data = {
+        value: this.state.servingSize
       };
-      Api.foodAte(this.state.id, query).then(function (data) {
-        console.log(data);
+      Api.foodAte(this.state.id, data).then(function (data) {
+        console.log('succ', data);
+        $('#ateFoodSuccModal').modal('show');
       }).catch(function (err) {
         console.log(err);
       });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "ui segments" },
+        'div',
+        { className: 'ui segments' },
         React.createElement(
-          "div",
-          { className: "ui segment" },
+          'div',
+          { className: 'ui segment' },
           React.createElement(
-            "h1",
-            { className: "ui header", style: { textAlign: 'center' } },
-            " ",
+            'h1',
+            { className: 'ui header', style: { textAlign: 'center' } },
+            ' ',
             this.state.food.name || "Food not found",
-            " "
+            ' '
           )
         ),
         React.createElement(
-          "div",
-          { className: "ui segment", style: { padding: 0, overflow: 'hidden', maxHeight: 400, textAlign: 'center', width: '100%' } },
-          React.createElement("img", { src: this.state.food.photo, className: "img-responsive" })
+          'div',
+          { className: 'ui segment', style: { padding: 0, overflow: 'hidden', maxHeight: 400, textAlign: 'center', width: '100%' } },
+          React.createElement('img', { src: this.state.food.photo, className: 'img-responsive' })
         ),
         React.createElement(
-          "div",
-          { className: "ui segment", style: { textAlign: 'right' } },
+          'div',
+          { className: 'ui segment', style: { textAlign: 'right' } },
           token && React.createElement(
-            "button",
-            { className: "ui button", type: "button", onClick: this.ateThis },
-            "I ate this!"
-          )
-        ),
-        React.createElement(
-          "div",
-          { className: "ui segment" },
-          React.createElement(
-            "h1",
-            { className: "ui header", style: { textAlign: 'center' } },
-            "General Information"
-          )
-        ),
-        React.createElement(
-          "table",
-          { className: "ui segment celled table", style: { width: '100%' } },
-          React.createElement(
-            "thead",
+            'div',
             null,
             React.createElement(
-              "tr",
-              null,
-              React.createElement("th", null),
+              'button',
+              { className: 'ui button', type: 'button', onClick: this.openAteFoodModal },
+              'I ate this!'
+            ),
+            React.createElement(
+              'div',
+              { id: 'ateFoodSuccModal', className: 'ui small modal' },
               React.createElement(
-                "th",
-                null,
-                "Total"
+                'div',
+                { className: 'ui message success' },
+                React.createElement('i', { className: 'close icon' }),
+                React.createElement(
+                  'div',
+                  { className: 'header' },
+                  'Success!'
+                ),
+                React.createElement(
+                  'p',
+                  null,
+                  'The food has been saved to your nutrition history'
+                )
+              )
+            ),
+            React.createElement(
+              'div',
+              { id: 'ateFoodModal', className: 'ui small modal' },
+              React.createElement('i', { className: 'close icon' }),
+              React.createElement(
+                'div',
+                { className: 'header' },
+                'You ate this?'
               ),
               React.createElement(
-                "th",
+                'div',
+                { className: 'content' },
+                React.createElement(
+                  'form',
+                  { className: 'ui form' },
+                  React.createElement(
+                    'div',
+                    { className: 'field' },
+                    React.createElement(
+                      'label',
+                      null,
+                      'Serving size'
+                    ),
+                    React.createElement('input', { type: 'number', min: '0', max: '100', name: 'servingSize', value: this.state.servingSize, onChange: this.servingSizeChanged })
+                  ),
+                  React.createElement(
+                    'button',
+                    { className: 'ui button', type: 'submit', style: { width: '100%' }, onClick: this.ateThis },
+                    'Submit'
+                  )
+                )
+              )
+            )
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(
+            'h1',
+            { className: 'ui header', style: { textAlign: 'center' } },
+            'General Information'
+          )
+        ),
+        React.createElement(
+          'table',
+          { className: 'ui segment celled table', style: { width: '100%' } },
+          React.createElement(
+            'thead',
+            null,
+            React.createElement(
+              'tr',
+              null,
+              React.createElement('th', null),
+              React.createElement(
+                'th',
+                null,
+                'Total'
+              ),
+              React.createElement(
+                'th',
                 null,
                 Constants.macro.protein.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.macro.carb.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.macro.fat.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
-                "Other"
+                'Other'
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
-                "Energy"
+                'Energy'
               )
             )
           ),
           React.createElement(
-            "tr",
+            'tr',
             null,
             React.createElement(
-              "td",
+              'td',
               null,
-              "Weight"
+              'Weight'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               Number(this.state.food.details.weight).toFixed(2),
-              " g"
+              ' g'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2),
-              " g"
+              ' g'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2),
-              " g"
+              ' g'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2),
-              " g"
+              ' g'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2),
-              " g"
+              ' g'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               Number(this.state.food.details.energy).toFixed(2),
-              " kcal"
+              ' kcal'
             )
           ),
           React.createElement(
-            "tr",
+            'tr',
             null,
             React.createElement(
-              "td",
+              'td',
               null,
-              "Rate"
+              'Rate'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
-              "100 %"
+              '100 %'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.protein && Math.round(this.state.food.details.protein.weight / this.state.food.details.weight * 100),
-              " %"
+              ' %'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.carb && Math.round(this.state.food.details.carb.weight / this.state.food.details.weight * 100),
-              " %"
+              ' %'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.fat && Math.round(this.state.food.details.fat.weight / this.state.food.details.weight * 100),
-              " %"
+              ' %'
             ),
             React.createElement(
-              "td",
+              'td',
               null,
               this.state.food.details.other && Math.round(this.state.food.details.other.weight / this.state.food.details.weight * 100),
-              " %"
+              ' %'
             ),
-            React.createElement("td", null)
+            React.createElement('td', null)
           )
         ),
         React.createElement(
-          "div",
-          { className: "ui segment" },
+          'div',
+          { className: 'ui segment' },
           React.createElement(
-            "h1",
-            { className: "ui header", style: { textAlign: 'center' } },
-            "Ingredients"
+            'h1',
+            { className: 'ui header', style: { textAlign: 'center' } },
+            'Ingredients'
           )
         ),
         React.createElement(
-          "table",
-          { className: "ui segment celled table", style: { width: '100%' } },
+          'table',
+          { className: 'ui segment celled table', style: { width: '100%' } },
           React.createElement(
-            "thead",
+            'thead',
             null,
             React.createElement(
-              "tr",
+              'tr',
               null,
               React.createElement(
-                "th",
+                'th',
                 null,
-                "Name"
+                'Name'
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.value.weight.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
-                "Measure"
+                'Measure'
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.value.energy.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.macro.protein.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.macro.carb.name
               ),
               React.createElement(
-                "th",
+                'th',
                 null,
                 Constants.macro.fat.name
               )
@@ -327,54 +399,54 @@ var FoodPage = function (_React$Component2) {
           ),
           this.state.food.inclusions.map(function (inclusion, index) {
             return React.createElement(
-              "tr",
+              'tr',
               { key: index },
               React.createElement(
-                "td",
+                'td',
                 null,
                 React.createElement(
-                  "a",
+                  'a',
                   { href: '/ingredient/' + inclusion.ingredient.id },
                   inclusion.name
                 )
               ),
               React.createElement(
-                "td",
+                'td',
                 null,
                 Number(inclusion.value).toFixed(2),
-                " ",
+                ' ',
                 inclusion.unit
               ),
               React.createElement(
-                "td",
+                'td',
                 null,
                 Number(inclusion.ingredient.measureValue).toFixed(2),
-                " ",
+                ' ',
                 inclusion.ingredient.measureUnit
               ),
               React.createElement(
-                "td",
+                'td',
                 null,
                 Number(inclusion.ingredient.energy).toFixed(2),
-                " kcal"
+                ' kcal'
               ),
               React.createElement(
-                "td",
+                'td',
                 null,
                 Number(inclusion.ingredient.protein).toFixed(2),
-                " g"
+                ' g'
               ),
               React.createElement(
-                "td",
+                'td',
                 null,
                 Number(inclusion.ingredient.carb).toFixed(2),
-                " g"
+                ' g'
               ),
               React.createElement(
-                "td",
+                'td',
                 null,
                 Number(inclusion.ingredient.fat).toFixed(2),
-                " g"
+                ' g'
               )
             );
           })
