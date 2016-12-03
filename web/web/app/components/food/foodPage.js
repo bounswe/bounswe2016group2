@@ -21,7 +21,8 @@ class FoodPage extends React.Component {
       id: props.id,
       food: {
         ingredients: [],
-        inclusions: []
+        inclusions: [],
+        details: {}
       }
     }
     this.fetch = this.fetch.bind(this)
@@ -35,6 +36,7 @@ class FoodPage extends React.Component {
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
+        console.log(data);
         this.setState({food: data});
       }).catch((err) => {
         this.setState({errors: err});
@@ -69,9 +71,9 @@ class FoodPage extends React.Component {
             </button>
           }
         </div>
-        {/* macronutrients */}
+        {/* general info   */}
         <div className="ui segment">
-          <h1 className="ui header" style={{textAlign:'center'}}>Macronutrients</h1>
+          <h1 className="ui header" style={{textAlign:'center'}}>General Information</h1>
         </div>
         <table className="ui segment celled table" style={{width:'100%'}}>
           <thead>
@@ -82,16 +84,26 @@ class FoodPage extends React.Component {
               <th>{Constants.macro.carb.name}</th>
               <th>{Constants.macro.fat.name}</th>
               <th>Other</th>
+              <th>Energy</th>
             </tr>
           </thead>
           <tr>
             <td>Weight</td>
+            <td>{this.state.food.details.weight} g</td>
+            <td>{this.state.food.details.protein && this.state.food.details.protein.weight} g</td>
+            <td>{this.state.food.details.carb && this.state.food.details.carb.weight} g</td>
+            <td>{this.state.food.details.fat && this.state.food.details.fat.weight} g</td>
+            <td>{this.state.food.details.other && this.state.food.details.other.weight} g</td>
+            <td>{this.state.food.details.energy} kcal</td>
           </tr>
           <tr>
             <td>Rate</td>
-          </tr>
-          <tr>
-            <td>Energy</td>
+            <td>100 %</td>
+            <td>{this.state.food.details.protein && Math.round((this.state.food.details.protein.weight/this.state.food.details.weight)*100)} %</td>
+            <td>{this.state.food.details.carb && Math.round((this.state.food.details.carb.weight/this.state.food.details.weight)*100)} %</td>
+            <td>{this.state.food.details.fat && Math.round((this.state.food.details.fat.weight/this.state.food.details.weight)*100)} %</td>
+            <td>{this.state.food.details.other && Math.round((this.state.food.details.other.weight/this.state.food.details.weight)*100)} %</td>
+            <td></td>
           </tr>
         </table>
         {/* ingredients */}

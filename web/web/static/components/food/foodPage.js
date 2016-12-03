@@ -62,7 +62,8 @@ var FoodPage = function (_React$Component2) {
       id: props.id,
       food: {
         ingredients: [],
-        inclusions: []
+        inclusions: [],
+        details: {}
       }
     };
     _this2.fetch = _this2.fetch.bind(_this2);
@@ -81,6 +82,7 @@ var FoodPage = function (_React$Component2) {
       var _this3 = this;
 
       Api.getFood(id).then(function (data) {
+        console.log(data);
         _this3.setState({ food: data });
       }).catch(function (err) {
         _this3.setState({ errors: err });
@@ -138,7 +140,7 @@ var FoodPage = function (_React$Component2) {
           React.createElement(
             "h1",
             { className: "ui header", style: { textAlign: 'center' } },
-            "Macronutrients"
+            "General Information"
           )
         ),
         React.createElement(
@@ -175,6 +177,11 @@ var FoodPage = function (_React$Component2) {
                 "th",
                 null,
                 "Other"
+              ),
+              React.createElement(
+                "th",
+                null,
+                "Energy"
               )
             )
           ),
@@ -185,6 +192,42 @@ var FoodPage = function (_React$Component2) {
               "td",
               null,
               "Weight"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.weight,
+              " g"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.protein && this.state.food.details.protein.weight,
+              " g"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.carb && this.state.food.details.carb.weight,
+              " g"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.fat && this.state.food.details.fat.weight,
+              " g"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.other && this.state.food.details.other.weight,
+              " g"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.energy,
+              " kcal"
             )
           ),
           React.createElement(
@@ -194,16 +237,37 @@ var FoodPage = function (_React$Component2) {
               "td",
               null,
               "Rate"
-            )
-          ),
-          React.createElement(
-            "tr",
-            null,
+            ),
             React.createElement(
               "td",
               null,
-              "Energy"
-            )
+              "100 %"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.protein && Math.round(this.state.food.details.protein.weight / this.state.food.details.weight * 100),
+              " %"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.carb && Math.round(this.state.food.details.carb.weight / this.state.food.details.weight * 100),
+              " %"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.fat && Math.round(this.state.food.details.fat.weight / this.state.food.details.weight * 100),
+              " %"
+            ),
+            React.createElement(
+              "td",
+              null,
+              this.state.food.details.other && Math.round(this.state.food.details.other.weight / this.state.food.details.weight * 100),
+              " %"
+            ),
+            React.createElement("td", null)
           )
         ),
         React.createElement(
