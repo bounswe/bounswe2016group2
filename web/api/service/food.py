@@ -45,7 +45,7 @@ def calculateGeneralDetails(food):
         food['details']['energy'] += ingredient['energy']
 
         for macroField in macroFields:
-            food['details'][macroField]['weight'] = ingredient[macroField]
+            food['details'][macroField]['weight'] += ingredient[macroField]
             # food['details'][macroField]['energy'] = ingredient[macroField]['energy']
         # for microField in microFields:
         #     food['details']['other']['weight'] += ingredient[microField]
