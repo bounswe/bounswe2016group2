@@ -196,37 +196,37 @@ var FoodPage = function (_React$Component2) {
             React.createElement(
               "td",
               null,
-              this.state.food.details.weight,
+              Number(this.state.food.details.weight).toFixed(2),
               " g"
             ),
             React.createElement(
               "td",
               null,
-              this.state.food.details.protein && this.state.food.details.protein.weight,
+              this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2),
               " g"
             ),
             React.createElement(
               "td",
               null,
-              this.state.food.details.carb && this.state.food.details.carb.weight,
+              this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2),
               " g"
             ),
             React.createElement(
               "td",
               null,
-              this.state.food.details.fat && this.state.food.details.fat.weight,
+              this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2),
               " g"
             ),
             React.createElement(
               "td",
               null,
-              this.state.food.details.other && this.state.food.details.other.weight,
+              this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2),
               " g"
             ),
             React.createElement(
               "td",
               null,
-              this.state.food.details.energy,
+              Number(this.state.food.details.energy).toFixed(2),
               " kcal"
             )
           ),
@@ -341,39 +341,39 @@ var FoodPage = function (_React$Component2) {
               React.createElement(
                 "td",
                 null,
-                inclusion.value,
+                Number(inclusion.value).toFixed(2),
                 " ",
                 inclusion.unit
               ),
               React.createElement(
                 "td",
                 null,
-                inclusion.ingredient.measureValue,
+                Number(inclusion.ingredient.measureValue).toFixed(2),
                 " ",
                 inclusion.ingredient.measureUnit
               ),
               React.createElement(
                 "td",
                 null,
-                inclusion.ingredient.energy,
+                Number(inclusion.ingredient.energy).toFixed(2),
                 " kcal"
               ),
               React.createElement(
                 "td",
                 null,
-                inclusion.ingredient.protein,
+                Number(inclusion.ingredient.protein).toFixed(2),
                 " g"
               ),
               React.createElement(
                 "td",
                 null,
-                inclusion.ingredient.carb,
+                Number(inclusion.ingredient.carb).toFixed(2),
                 " g"
               ),
               React.createElement(
                 "td",
                 null,
-                inclusion.ingredient.fat,
+                Number(inclusion.ingredient.fat).toFixed(2),
                 " g"
               )
             );

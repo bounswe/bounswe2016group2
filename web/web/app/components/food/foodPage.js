@@ -89,12 +89,12 @@ class FoodPage extends React.Component {
           </thead>
           <tr>
             <td>Weight</td>
-            <td>{this.state.food.details.weight} g</td>
-            <td>{this.state.food.details.protein && this.state.food.details.protein.weight} g</td>
-            <td>{this.state.food.details.carb && this.state.food.details.carb.weight} g</td>
-            <td>{this.state.food.details.fat && this.state.food.details.fat.weight} g</td>
-            <td>{this.state.food.details.other && this.state.food.details.other.weight} g</td>
-            <td>{this.state.food.details.energy} kcal</td>
+            <td>{Number(this.state.food.details.weight).toFixed(2)} g</td>
+            <td>{this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2)} g</td>
+            <td>{this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2)} g</td>
+            <td>{this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2)} g</td>
+            <td>{this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2)} g</td>
+            <td>{Number(this.state.food.details.energy).toFixed(2)} kcal</td>
           </tr>
           <tr>
             <td>Rate</td>
@@ -126,17 +126,24 @@ class FoodPage extends React.Component {
             return (
               <tr key={index}>
                 <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
-                <td>{inclusion.value} {inclusion.unit}</td>
-                <td>{inclusion.ingredient.measureValue} {inclusion.ingredient.measureUnit}</td>
-                <td>{inclusion.ingredient.energy} kcal</td>
-                <td>{inclusion.ingredient.protein} g</td>
-                <td>{inclusion.ingredient.carb} g</td>
-                <td>{inclusion.ingredient.fat} g</td>
+                <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
+                <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
+                <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
+                <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
+                <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
+                <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
               </tr>
             )
           })}
         </table>
+        {/* micronutrients */}
+        {/* <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>micronutrients</h1>
+          </div>
+          <table className="ui segment celled table" style={{width:'100%'}}>
+          // TODO: micronutrients
+        </table> */}
       </div>
-    )
+        )
   }
 }
