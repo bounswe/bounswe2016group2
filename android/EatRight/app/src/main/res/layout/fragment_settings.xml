@@ -1,48 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/layout_setting_fragment">
-    <EditText
-        android:id="@+id/alergic_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/allergic_ingredients"
-        android:visibility="gone"/>
-    <MultiAutoCompleteTextView
-        android:id="@+id/multiAutoCompleteTextView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_below="@id/alergic_edit_text"
-        android:hint="Allergic ingredient" />
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ingr_listview"
-        android:layout_below="@+id/multiAutoCompleteTextView1"
-        android:choiceMode="multipleChoiceModal"></ListView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
-        android:id="@+id/searchFood"
-        android:layout_below="@+id/ingr_listview"/>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@id/ingr_listview"
-    tools:context="com.example.bounswegroup2.eatright.SettingsFragment"
-    >
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <ListView
+    tools:context="com.example.bounswegroup2.eatright.SettingsFragment">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/android:list"
-        android:layout_gravity="bottom"
-        />
+        android:layout_height="match_parent">
+
+        <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ingr_listview_settings"
+                android:layout_below="@+id/mAutoTVForSettings"
+                android:choiceMode="multipleChoiceModal"
+                android:visibility="gone"/>
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/mAutoTVForSettings"
+            android:hint="@string/allergic_ingredients"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <CheckBox
+            android:text="Vegan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:id="@+id/checkBox"
+            android:layout_below="@+id/mAutoTVForSettings"
+            android:layout_toStartOf="@+id/mAutoTVForSettings" />
+
+        <Button
+            android:text="SAVE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_save_settings"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 </FrameLayout>
-</RelativeLayout>
