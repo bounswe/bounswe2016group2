@@ -23,8 +23,10 @@ class InclusionReadSerializer(serializers.HyperlinkedModelSerializer):
     value = serializers.FloatField(min_value=0, default=1)
     unit = serializers.CharField(default='g')
     food = serializers.ReadOnlyField(source='food.id')
+    name = serializers.ReadOnlyField(source='ingredient.name')
+    slug = serializers.ReadOnlyField(source='ingredient.slug')
     ingredient = IngredientSerializer()
 
     class Meta:
         model = Inclusion
-        fields = ('food', 'ingredient', 'value', 'unit')
+        fields = ('food', 'value', 'unit', 'name', 'slug', 'ingredient')
