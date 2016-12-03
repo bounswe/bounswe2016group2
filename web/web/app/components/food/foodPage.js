@@ -20,7 +20,8 @@ class FoodPage extends React.Component {
     this.state = {
       id: props.id,
       food: {
-        ingredients: []
+        ingredients: [],
+        inclusions: []
       }
     }
     this.fetch = this.fetch.bind(this)
@@ -34,7 +35,6 @@ class FoodPage extends React.Component {
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
-        console.log(data);
         this.setState({food: data});
       }).catch((err) => {
         this.setState({errors: err});
@@ -70,12 +70,35 @@ class FoodPage extends React.Component {
           }
         </div>
         <div className="ui segment">
-          <div>
-            <h2 className="header"> Ingredients</h2>
-            {this.state.food.ingredients.map(function(ingredient, index){
-              return <Ingredient data={ingredient} key={index}/>
-            }, this)}
-          </div>
+          <h1 className="ui header" style={{textAlign:'center'}}>Ingredients</h1>
+        </div>
+        <div className="ui segment">
+          <table className="ui celled table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>{Constants.value.weight.name}</th>
+                <th>Measure</th>
+                <th>{Constants.value.energy.name}</th>
+                <th>{Constants.macro.protein.name}</th>
+                <th>{Constants.macro.carb.name}</th>
+                <th>{Constants.macro.fat.name}</th>
+              </tr>
+            </thead>
+            {this.state.food.inclusions.map((inclusion, index) => {
+              return (
+                <tr key={index}>
+                  <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
+                  <td>{inclusion.value} {inclusion.unit}</td>
+                  <td>{inclusion.ingredient.measureValue} {inclusion.ingredient.measureUnit}</td>
+                  <td>{inclusion.ingredient.energy} kcal</td>
+                  <td>{inclusion.ingredient.protein} g</td>
+                  <td>{inclusion.ingredient.carb} g</td>
+                  <td>{inclusion.ingredient.fat} g</td>
+                </tr>
+              )
+            })}
+          </table>
         </div>
       </div>
     )

@@ -61,7 +61,8 @@ var FoodPage = function (_React$Component2) {
     _this2.state = {
       id: props.id,
       food: {
-        ingredients: []
+        ingredients: [],
+        inclusions: []
       }
     };
     _this2.fetch = _this2.fetch.bind(_this2);
@@ -80,7 +81,6 @@ var FoodPage = function (_React$Component2) {
       var _this3 = this;
 
       Api.getFood(id).then(function (data) {
-        console.log(data);
         _this3.setState({ food: data });
       }).catch(function (err) {
         _this3.setState({ errors: err });
@@ -136,16 +136,113 @@ var FoodPage = function (_React$Component2) {
           "div",
           { className: "ui segment" },
           React.createElement(
-            "div",
-            null,
+            "h1",
+            { className: "ui header", style: { textAlign: 'center' } },
+            "Ingredients"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "ui segment" },
+          React.createElement(
+            "table",
+            { className: "ui celled table" },
             React.createElement(
-              "h2",
-              { className: "header" },
-              " Ingredients"
+              "thead",
+              null,
+              React.createElement(
+                "tr",
+                null,
+                React.createElement(
+                  "th",
+                  null,
+                  "Name"
+                ),
+                React.createElement(
+                  "th",
+                  null,
+                  Constants.value.weight.name
+                ),
+                React.createElement(
+                  "th",
+                  null,
+                  "Measure"
+                ),
+                React.createElement(
+                  "th",
+                  null,
+                  Constants.value.energy.name
+                ),
+                React.createElement(
+                  "th",
+                  null,
+                  Constants.macro.protein.name
+                ),
+                React.createElement(
+                  "th",
+                  null,
+                  Constants.macro.carb.name
+                ),
+                React.createElement(
+                  "th",
+                  null,
+                  Constants.macro.fat.name
+                )
+              )
             ),
-            this.state.food.ingredients.map(function (ingredient, index) {
-              return React.createElement(Ingredient, { data: ingredient, key: index });
-            }, this)
+            this.state.food.inclusions.map(function (inclusion, index) {
+              return React.createElement(
+                "tr",
+                { key: index },
+                React.createElement(
+                  "td",
+                  null,
+                  React.createElement(
+                    "a",
+                    { href: '/ingredient/' + inclusion.ingredient.id },
+                    inclusion.name
+                  )
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  inclusion.value,
+                  " ",
+                  inclusion.unit
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  inclusion.ingredient.measureValue,
+                  " ",
+                  inclusion.ingredient.measureUnit
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  inclusion.ingredient.energy,
+                  " kcal"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  inclusion.ingredient.protein,
+                  " g"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  inclusion.ingredient.carb,
+                  " g"
+                ),
+                React.createElement(
+                  "td",
+                  null,
+                  inclusion.ingredient.fat,
+                  " g"
+                )
+              );
+            })
           )
         )
       );
