@@ -6,7 +6,7 @@ def createDefaults():
     fields = (
         'name',
         'measureValue',
-        'muasureUnit',
+        'measureUnit',
         'defaultValue',
         'defaultUnit',
         'energy',

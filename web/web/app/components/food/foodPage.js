@@ -19,14 +19,15 @@ class FoodPage extends React.Component {
     super(props)
     this.state = {
       id: props.id,
-      name: null,
-      data: null,
-      errors: null,
-      ingredients: []
+      food: {
+        ingredients: [],
+        inclusions: []
+      }
     }
     this.fetch = this.fetch.bind(this)
     this.ateThis = this.ateThis.bind(this)
   }
+
   componentWillMount(){
     this.fetch(this.state.id);
   }
@@ -34,13 +35,7 @@ class FoodPage extends React.Component {
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
-        this.setState(
-          {
-            name: data.name,
-            url: data.photo,
-            ingredients: data.ingredients
-          }
-        );
+        this.setState({food: data});
       }).catch((err) => {
         this.setState({errors: err});
       })
@@ -60,27 +55,75 @@ class FoodPage extends React.Component {
   }
   render() {
     return (
-      <div id='FoodPage'>
-        <div className="header">
-          <h1 className="ui header"> {this.state.name || "Food not found"} </h1>
+      <div className="ui segments">
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}> {this.state.food.name || "Food not found"} </h1>
         </div>
-        <div className="content">
-          <div>
-            <img src={this.state.url} style={{width: 400, height: 400}}/>
-          </div>
-          {
-            userEmail && this.state.name &&
-            <button className="ui button" type="button" style={{width:'10%'}} onClick={this.ateThis}>
+        <div className="ui segment" style={{padding:0,overflow:'hidden',maxHeight:400,textAlign:'center',width:'100%'}}>
+          <img src={this.state.food.photo} className='img-responsive'/>
+        </div>
+        <div className="ui segment" style={{textAlign:'right'}}>
+          { token &&
+            <button className="ui button" type="button" onClick={this.ateThis}>
               I ate this!
             </button>
           }
-          <div>
-            <h2 className="header"> Ingredients</h2>
-            {this.state.ingredients.map(function(ingredient, index){
-              return <Ingredient data={ingredient} key={index}/>
-            }, this)}
-          </div>
         </div>
+        {/* macronutrients */}
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>Macronutrients</h1>
+        </div>
+        <table className="ui segment celled table" style={{width:'100%'}}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Total</th>
+              <th>{Constants.macro.protein.name}</th>
+              <th>{Constants.macro.carb.name}</th>
+              <th>{Constants.macro.fat.name}</th>
+              <th>Other</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>Weight</td>
+          </tr>
+          <tr>
+            <td>Rate</td>
+          </tr>
+          <tr>
+            <td>Energy</td>
+          </tr>
+        </table>
+        {/* ingredients */}
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>Ingredients</h1>
+        </div>
+        <table className="ui segment celled table" style={{width:'100%'}}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>{Constants.value.weight.name}</th>
+              <th>Measure</th>
+              <th>{Constants.value.energy.name}</th>
+              <th>{Constants.macro.protein.name}</th>
+              <th>{Constants.macro.carb.name}</th>
+              <th>{Constants.macro.fat.name}</th>
+            </tr>
+          </thead>
+          {this.state.food.inclusions.map((inclusion, index) => {
+            return (
+              <tr key={index}>
+                <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
+                <td>{inclusion.value} {inclusion.unit}</td>
+                <td>{inclusion.ingredient.measureValue} {inclusion.ingredient.measureUnit}</td>
+                <td>{inclusion.ingredient.energy} kcal</td>
+                <td>{inclusion.ingredient.protein} g</td>
+                <td>{inclusion.ingredient.carb} g</td>
+                <td>{inclusion.ingredient.fat} g</td>
+              </tr>
+            )
+          })}
+        </table>
       </div>
     )
   }
