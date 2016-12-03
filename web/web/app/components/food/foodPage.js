@@ -69,37 +69,61 @@ class FoodPage extends React.Component {
             </button>
           }
         </div>
+        {/* macronutrients */}
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>Macronutrients</h1>
+        </div>
+        <table className="ui segment celled table" style={{width:'100%'}}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Total</th>
+              <th>{Constants.macro.protein.name}</th>
+              <th>{Constants.macro.carb.name}</th>
+              <th>{Constants.macro.fat.name}</th>
+              <th>Other</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>Weight</td>
+          </tr>
+          <tr>
+            <td>Rate</td>
+          </tr>
+          <tr>
+            <td>Energy</td>
+          </tr>
+        </table>
+        {/* ingredients */}
         <div className="ui segment">
           <h1 className="ui header" style={{textAlign:'center'}}>Ingredients</h1>
         </div>
-        <div className="ui segment">
-          <table className="ui celled table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>{Constants.value.weight.name}</th>
-                <th>Measure</th>
-                <th>{Constants.value.energy.name}</th>
-                <th>{Constants.macro.protein.name}</th>
-                <th>{Constants.macro.carb.name}</th>
-                <th>{Constants.macro.fat.name}</th>
+        <table className="ui segment celled table" style={{width:'100%'}}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>{Constants.value.weight.name}</th>
+              <th>Measure</th>
+              <th>{Constants.value.energy.name}</th>
+              <th>{Constants.macro.protein.name}</th>
+              <th>{Constants.macro.carb.name}</th>
+              <th>{Constants.macro.fat.name}</th>
+            </tr>
+          </thead>
+          {this.state.food.inclusions.map((inclusion, index) => {
+            return (
+              <tr key={index}>
+                <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
+                <td>{inclusion.value} {inclusion.unit}</td>
+                <td>{inclusion.ingredient.measureValue} {inclusion.ingredient.measureUnit}</td>
+                <td>{inclusion.ingredient.energy} kcal</td>
+                <td>{inclusion.ingredient.protein} g</td>
+                <td>{inclusion.ingredient.carb} g</td>
+                <td>{inclusion.ingredient.fat} g</td>
               </tr>
-            </thead>
-            {this.state.food.inclusions.map((inclusion, index) => {
-              return (
-                <tr key={index}>
-                  <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
-                  <td>{inclusion.value} {inclusion.unit}</td>
-                  <td>{inclusion.ingredient.measureValue} {inclusion.ingredient.measureUnit}</td>
-                  <td>{inclusion.ingredient.energy} kcal</td>
-                  <td>{inclusion.ingredient.protein} g</td>
-                  <td>{inclusion.ingredient.carb} g</td>
-                  <td>{inclusion.ingredient.fat} g</td>
-                </tr>
-              )
-            })}
-          </table>
-        </div>
+            )
+          })}
+        </table>
       </div>
     )
   }

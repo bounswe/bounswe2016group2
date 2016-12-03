@@ -138,112 +138,182 @@ var FoodPage = function (_React$Component2) {
           React.createElement(
             "h1",
             { className: "ui header", style: { textAlign: 'center' } },
-            "Ingredients"
+            "Macronutrients"
+          )
+        ),
+        React.createElement(
+          "table",
+          { className: "ui segment celled table", style: { width: '100%' } },
+          React.createElement(
+            "thead",
+            null,
+            React.createElement(
+              "tr",
+              null,
+              React.createElement("th", null),
+              React.createElement(
+                "th",
+                null,
+                "Total"
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.macro.protein.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.macro.carb.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.macro.fat.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                "Other"
+              )
+            )
+          ),
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "td",
+              null,
+              "Weight"
+            )
+          ),
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "td",
+              null,
+              "Rate"
+            )
+          ),
+          React.createElement(
+            "tr",
+            null,
+            React.createElement(
+              "td",
+              null,
+              "Energy"
+            )
           )
         ),
         React.createElement(
           "div",
           { className: "ui segment" },
           React.createElement(
-            "table",
-            { className: "ui celled table" },
+            "h1",
+            { className: "ui header", style: { textAlign: 'center' } },
+            "Ingredients"
+          )
+        ),
+        React.createElement(
+          "table",
+          { className: "ui segment celled table", style: { width: '100%' } },
+          React.createElement(
+            "thead",
+            null,
             React.createElement(
-              "thead",
+              "tr",
               null,
               React.createElement(
-                "tr",
+                "th",
+                null,
+                "Name"
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.value.weight.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                "Measure"
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.value.energy.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.macro.protein.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.macro.carb.name
+              ),
+              React.createElement(
+                "th",
+                null,
+                Constants.macro.fat.name
+              )
+            )
+          ),
+          this.state.food.inclusions.map(function (inclusion, index) {
+            return React.createElement(
+              "tr",
+              { key: index },
+              React.createElement(
+                "td",
                 null,
                 React.createElement(
-                  "th",
-                  null,
-                  "Name"
-                ),
-                React.createElement(
-                  "th",
-                  null,
-                  Constants.value.weight.name
-                ),
-                React.createElement(
-                  "th",
-                  null,
-                  "Measure"
-                ),
-                React.createElement(
-                  "th",
-                  null,
-                  Constants.value.energy.name
-                ),
-                React.createElement(
-                  "th",
-                  null,
-                  Constants.macro.protein.name
-                ),
-                React.createElement(
-                  "th",
-                  null,
-                  Constants.macro.carb.name
-                ),
-                React.createElement(
-                  "th",
-                  null,
-                  Constants.macro.fat.name
+                  "a",
+                  { href: '/ingredient/' + inclusion.ingredient.id },
+                  inclusion.name
                 )
+              ),
+              React.createElement(
+                "td",
+                null,
+                inclusion.value,
+                " ",
+                inclusion.unit
+              ),
+              React.createElement(
+                "td",
+                null,
+                inclusion.ingredient.measureValue,
+                " ",
+                inclusion.ingredient.measureUnit
+              ),
+              React.createElement(
+                "td",
+                null,
+                inclusion.ingredient.energy,
+                " kcal"
+              ),
+              React.createElement(
+                "td",
+                null,
+                inclusion.ingredient.protein,
+                " g"
+              ),
+              React.createElement(
+                "td",
+                null,
+                inclusion.ingredient.carb,
+                " g"
+              ),
+              React.createElement(
+                "td",
+                null,
+                inclusion.ingredient.fat,
+                " g"
               )
-            ),
-            this.state.food.inclusions.map(function (inclusion, index) {
-              return React.createElement(
-                "tr",
-                { key: index },
-                React.createElement(
-                  "td",
-                  null,
-                  React.createElement(
-                    "a",
-                    { href: '/ingredient/' + inclusion.ingredient.id },
-                    inclusion.name
-                  )
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  inclusion.value,
-                  " ",
-                  inclusion.unit
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  inclusion.ingredient.measureValue,
-                  " ",
-                  inclusion.ingredient.measureUnit
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  inclusion.ingredient.energy,
-                  " kcal"
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  inclusion.ingredient.protein,
-                  " g"
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  inclusion.ingredient.carb,
-                  " g"
-                ),
-                React.createElement(
-                  "td",
-                  null,
-                  inclusion.ingredient.fat,
-                  " g"
-                )
-              );
-            })
-          )
+            );
+          })
         )
       );
     }
