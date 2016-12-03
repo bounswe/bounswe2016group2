@@ -5,9 +5,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-# from api.service import food as FoodService
 from api.model.food import Food
 from api.serializer.food import FoodSerializer, FoodReadSerializer
+from api.service import food as FoodService
 
 
 @api_view(['GET', 'POST'])
@@ -40,7 +40,8 @@ def food(req, foodId):
 
     if req.method == 'GET':
         serializer = FoodReadSerializer(food)
-        return Response(serializer.data)
+        food = FoodService.calculateDetails(serializer.data)
+        return Response(food)
 
     elif req.method == 'PUT':
         serializer = FoodSerializer(food, data=req.data)
