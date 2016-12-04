@@ -56,6 +56,7 @@ class NavbarUser extends React.Component {
           <a className='item' onClick={this.openSignupModal}>
             Sign Up
           </a>*/}
+          <SignInModal/>
           <a className='item' onClick={this.openSigninModal}>
             Sign In
           </a>

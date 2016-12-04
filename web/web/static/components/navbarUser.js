@@ -73,6 +73,7 @@ var NavbarUser = function (_React$Component) {
         return React.createElement(
           'div',
           { className: 'right menu' },
+          React.createElement(SignInModal, null),
           React.createElement(
             'a',
             { className: 'item', onClick: this.openSigninModal },
