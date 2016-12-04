@@ -46,4 +46,26 @@
     <string name="user_image">User Image</string>
     <string name="allergic_ingredients">Allergic Ingredients</string>
     <string name="search">Search</string>
+    <string name="image">Image</string>
+    <string name="name">Name/Slug</string>
+    <string name="slug">Slug</string>
+    <string name="carbohydrate">Carbohydrate</string>
+    <string name="energy">Energy</string>
+    <string name="fat">Fat</string>
+    <string name="protein">Protein</string>
+    <string name="food_image">Food Image</string>
+    <string name="rating">Rating</string>
+    <string name="allergic_ingredient">Allergic ingredient</string>
+    <string name="_4">4</string>
+    <string name="last_comment">Last Comment</string>
+    <string name="add_food">Add Food</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="add">Add Ingredient+</string>
+    <string name="amount">Amount</string>
+    <string name="submit">Submit</string>
+    <string name="search_food">Search Food</string>
+    <string name="calorie_range">Calorie Range</string>
+    <string name="protein_range">Protein Range</string>
+    <string name="fat_range">Fat Range</string>
+    <string name="carbonhydrate_range">Carbonhydrate Range</string>
 </resources>

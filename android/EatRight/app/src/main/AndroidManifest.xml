@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
     <application
+        android:name="GlobalClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -34,17 +35,26 @@
             android:parentActivityName=".LoginActivity" />
         <activity
             android:name=".UserHomeActivity"
+            android:exported="true"
             android:label="@string/title_activity_user_home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
-            <meta-data android:name="android.app.searchable"
-            android:resource="@xml/searchable" /></activity>
-
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".FoodPageActivity"
             android:exported="true"
-            android:label="FoodPageActivity" />
-
+            android:label="FoodPageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bounswegroup2.eatright.UserHomeActivity" />
+        </activity>
+        <activity android:name=".IngredientPage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bounswegroup2.eatright.FoodPageActivity" />
+        </activity>
     </application>
 
 </manifest>

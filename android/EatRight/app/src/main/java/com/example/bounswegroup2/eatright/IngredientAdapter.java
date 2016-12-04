@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
@@ -27,6 +28,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         this.ingredients = ingredients;
         this.suggestions = new ArrayList<Ingredient>();
         this.tempItems = new ArrayList<Ingredient>(this.ingredients);
+
     }
 
 
@@ -40,10 +42,17 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         }
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.ingr_name);
-        TextView tvSlug = (TextView) convertView.findViewById(R.id.ingr_slug);
+        TextView tvEnergy = (TextView) convertView.findViewById(R.id.ingr_energy);
+        TextView tvPro = (TextView) convertView.findViewById(R.id.ingr_pro);
+        TextView tvCab = (TextView) convertView.findViewById(R.id.ingr_cab);
+        TextView tvFat = (TextView) convertView.findViewById(R.id.ingr_fat);
         // Populate the data into the template view using the data object
         tvName.setText(ingr.getName());
-        tvSlug.setText(ingr.getSlug());
+        tvEnergy.setText(Integer.toString(ingr.getEnergy()));
+        tvPro.setText(Integer.toString(ingr.getProtein()));
+        tvCab.setText(Integer.toString(ingr.getCarb()));
+        tvFat.setText(Integer.toString(ingr.getFat()));
+
         // Return the completed view to render on screen
         return convertView;
     }

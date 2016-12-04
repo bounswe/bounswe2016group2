@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollViewSearch"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calorie_range"
+            android:id="@+id/CalorieTExtView"
+            android:layout_alignTop="@+id/seekbarForCalorie"
+            android:layout_centerHorizontal="true" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekbarForCalorie"
+            app:absoluteMaxValue="150"
+            app:absoluteMinValue="25" />
+    <TextView
+        android:text="@string/protein_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbarForCalorie"
+        android:layout_alignEnd="@+id/CalorieTExtView"
+        android:layout_marginTop="13dp" />
+
+        <TextView
+        android:text="@string/fat_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rangeSeekBarForPro"
+        android:layout_alignStart="@+id/CalorieTExtView"
+        android:layout_marginTop="11dp"
+        android:id="@+id/textViewFatRange" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ingr_listview"
+            android:layout_below="@+id/multiAutoCompleteTextView1"
+            android:choiceMode="multipleChoiceModal"
+            android:visibility="gone"/>
+
+        <TextView
+            android:text="@string/carbonhydrate_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:layout_below="@+id/seekBarForFat"
+            android:layout_alignStart="@+id/textViewFatRange" />
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/multiAutoCompleteTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/allergic_ingredient"
+            android:layout_below="@+id/seekBarForCab"
+            android:layout_alignParentStart="true" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rangeSeekBarForPro"
+            app:absoluteMaxValue="150"
+            app:absoluteMinValue="25"
+            android:layout_below="@+id/CalorieTExtView"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:absoluteMaxValue="150"
+            app:absoluteMinValue="25"
+            android:id="@+id/seekBarForCab"
+            android:layout_marginTop="19dp"
+            android:layout_below="@+id/textViewFatRange"
+            android:layout_alignParentStart="true" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:absoluteMaxValue="150"
+            app:absoluteMinValue="25"
+            android:id="@+id/seekBarForFat"
+            android:layout_below="@+id/rangeSeekBarForPro"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:gravity="bottom"
+            android:id="@+id/searchFood"
+            android:layout_below="@+id/seekBarForCab"
+            android:layout_toEndOf="@+id/textView8"
+            android:textAlignment="center"/>
+
+    </RelativeLayout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout_food_search_fragment"
+        android:layout_below="@id/scrollViewSearch">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@id/android:list" />
+    </FrameLayout>
+</RelativeLayout>
+
+
+
+
+
