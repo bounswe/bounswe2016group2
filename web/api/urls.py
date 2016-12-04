@@ -34,6 +34,8 @@ urlpatterns = [
     # DIET ROUTES
     url(r'^diets$', diet.diets),
     url(r'^diets/(?P<dietId>[0-9]+)$', diet.diet),
+    url(r'^myDiets$', diet.myDiets),
+    url(r'^myDiets/(?P<dietId>[0-9]+)$', diet.myDiet),
     # ADMIN ROUTES
     url(r'^admin/', admin.site.urls),
     url(r'^docs', include('rest_framework_docs.urls'))

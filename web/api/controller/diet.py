@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -24,6 +25,40 @@ def diets(req):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def myDiets(req):
+    user = User.objects.get(id=req.user.id)
+    print(user.diet_set)
+    if req.method == 'GET':
+        serializer = DietReadSerializer(user.diet_set, many=True)
+        return Response(serializer.data)
+    if req.method == 'PUT':
+        pass
+    print(req.user.id)
+    return Response()
+
+
+@api_view(['POST', 'DELETE'])
+def myDiet(req, dietId):
+    try:
+        user = User.objects.get(id=req.user.id)
+        diet = Diet.objects.get(id=dietId)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    except Diet.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    # print(user.diet_set)
+    if req.method == 'POST':
+        user.diet_set.add(diet)
+        # serializer = DietReadSerializer(user.diet_set, many=True)
+        return Response(status=status.HTTP_201_CREATED)
+    if req.method == 'DELETE':
+        user.diet_set.remove(diet)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    # print(req.user.id)
+    # return Response()
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
