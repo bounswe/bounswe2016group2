@@ -34,6 +34,11 @@ var NavbarUser = function (_React$Component) {
       $('#signUpModal.ui.modal').modal('show');
     }
   }, {
+    key: 'openDropdown',
+    value: function openDropdown() {
+      $('.ui.dropdown').dropdown('show');
+    }
+  }, {
     key: 'signout',
     value: function signout() {
       reactCookie.remove('email');
@@ -62,17 +67,40 @@ var NavbarUser = function (_React$Component) {
         return React.createElement(
           'div',
           { className: 'right menu' },
-          React.createElement(SignInModal, null),
           React.createElement(
             'a',
             { className: 'item', onClick: this.openSigninModal },
             'Sign In'
           ),
-          React.createElement(SignUpModal, null),
           React.createElement(
             'a',
-            { className: 'item', onClick: this.openSignupModal },
-            'Sign Up'
+            { className: 'item' },
+            React.createElement(
+              'div',
+              { className: 'ui dropdown' },
+              React.createElement(
+                'div',
+                { className: 'text', onClick: this.openDropdown },
+                'Sign Up'
+              ),
+              React.createElement('i', { className: 'dropdown icon' }),
+              React.createElement(
+                'div',
+                { className: 'menu' },
+                React.createElement(SignInModal, null),
+                React.createElement(
+                  'a',
+                  { className: 'item', onClick: this.openSignupModal },
+                  'User'
+                ),
+                React.createElement(SignUpModal, null),
+                React.createElement(
+                  'a',
+                  { className: 'item', onClick: this.openSignupServerModal },
+                  'Server'
+                )
+              )
+            )
           )
         );
       }
