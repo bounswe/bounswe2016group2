@@ -19,6 +19,7 @@ var NavbarUser = function (_React$Component) {
     _this.state = { userEmail: props.userEmail };
     _this.openSigninModal = _this.openSigninModal.bind(_this);
     _this.openSignupModal = _this.openSignupModal.bind(_this);
+    _this.openSignupServerModal = _this.openSignupServerModal.bind(_this);
     _this.signout = _this.signout.bind(_this);
     return _this;
   }
@@ -32,6 +33,11 @@ var NavbarUser = function (_React$Component) {
     key: 'openSignupModal',
     value: function openSignupModal() {
       $('#signUpModal.ui.modal').modal('show');
+    }
+  }, {
+    key: 'openSignupServerModal',
+    value: function openSignupServerModal() {
+      $('#signUpServerModal.ui.modal').modal('show');
     }
   }, {
     key: 'openDropdown',
@@ -87,15 +93,15 @@ var NavbarUser = function (_React$Component) {
               React.createElement(
                 'div',
                 { className: 'menu' },
-                React.createElement(SignInModal, null),
+                React.createElement(SignUpModal, null),
                 React.createElement(
-                  'a',
+                  'div',
                   { className: 'item', onClick: this.openSignupModal },
                   'User'
                 ),
-                React.createElement(SignUpModal, null),
+                React.createElement(SignUpServerModal, null),
                 React.createElement(
-                  'a',
+                  'div',
                   { className: 'item', onClick: this.openSignupServerModal },
                   'Server'
                 )

@@ -107,6 +107,7 @@ var Api = function () {
     }
 
     /**
+     * USER SIGNUP
      * {email: String, password: String, first_name: String, last_name: String}
      */
 
@@ -115,6 +116,15 @@ var Api = function () {
     value: function signup(data) {
       return this.post('users/signup', data);
     }
+
+    /***********************  TODO
+     * SERVER SIGNUP
+     * {email: String, password: String, server_name: String, phoneNumber: String}
+     *
+    static signupServer(data) {
+      return this.post('users/signupServer', data)
+    }*/
+
   }, {
     key: 'addFood',
     value: function addFood(data) {

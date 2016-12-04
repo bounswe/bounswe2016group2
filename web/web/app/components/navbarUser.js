@@ -1,10 +1,12 @@
 class NavbarUser extends React.Component {
 
-  constructor(props) {
+  constructor(props)
+  {
     super(props)
     this.state = {userEmail: props.userEmail}
     this.openSigninModal = this.openSigninModal.bind(this);
     this.openSignupModal = this.openSignupModal.bind(this);
+    this.openSignupServerModal = this.openSignupServerModal.bind(this);
     this.signout = this.signout.bind(this);
   }
 
@@ -14,6 +16,10 @@ class NavbarUser extends React.Component {
 
   openSignupModal() {
     $('#signUpModal.ui.modal').modal('show')
+  }
+
+  openSignupServerModal() {
+    $('#signUpServerModal.ui.modal').modal('show')
   }
 
   openDropdown()
@@ -56,19 +62,19 @@ class NavbarUser extends React.Component {
           <a className='item'>
           <div className='ui dropdown'>
             <div className='text' onClick={this.openDropdown}>Sign Up</div>
-            <i className="dropdown icon"></i>
-            <div className='menu'>
-              <SignInModal/>
-              <a className='item' onClick={this.openSignupModal}>
-                User
-              </a>
-              <SignUpModal/>
-              <a className='item' onClick={this.openSignupServerModal}>
-                Server
-              </a>
-            </div>
+              <i className="dropdown icon"></i>
+              <div className='menu'>
+                <SignUpModal/>
+                <div className='item' onClick={this.openSignupModal}>
+                  User
+                </div>
+                <SignUpServerModal/>
+                <div className='item' onClick={this.openSignupServerModal}>
+                  Server
+                </div>
+              </div>
           </div>
-        </a>
+          </a>
         </div>
       )
     }

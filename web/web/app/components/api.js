@@ -84,11 +84,20 @@ class Api {
   }
 
   /**
+   * USER SIGNUP
    * {email: String, password: String, first_name: String, last_name: String}
    */
   static signup(data) {
     return this.post('users/signup', data)
   }
+
+  /***********************  TODO
+   * SERVER SIGNUP
+   * {email: String, password: String, server_name: String, phoneNumber: String}
+   *
+  static signupServer(data) {
+    return this.post('users/signupServer', data)
+  }*/
 
   static addFood(data) {
 		return this.post('foods', data);
