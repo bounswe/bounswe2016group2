@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from api.controller import ingredient, user, food, inclusion, ateFood, ateIngredient
+from api.controller import ingredient, user, food, inclusion, ateFood, ateIngredient, restaurant
 
 urlpatterns = [
     # USER ROUTES
@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^foodMocks$', food.createMocks),
     # INCLUSION ROUTES
     url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
+    # RESTAURANT ROUTES
+    url(r'^restaurants$', restaurant.restaurants),
     # ADMIN ROUTES
     url(r'^admin/', admin.site.urls),
     url(r'^docs', include('rest_framework_docs.urls'))
