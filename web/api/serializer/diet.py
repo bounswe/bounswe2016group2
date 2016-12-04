@@ -8,8 +8,6 @@ class DietSerializer(serializers.ModelSerializer):
 
     slug = serializers.SlugField(read_only=True, allow_null=True)
 
-    energy = serializers.FloatField(min_value=0)
-
     minEnergy = serializers.FloatField(min_value=0, max_value=9999, default=0)
     maxEnergy = serializers.FloatField(min_value=0, max_value=9999, default=9999)
 
@@ -35,7 +33,7 @@ class DietSerializer(serializers.ModelSerializer):
 
 class DietReadSerializer(serializers.ModelSerializer):
 
-    ingredients = IngredientSerializer(source='ingredient_set', many=True)
+    ingredients = IngredientSerializer(many=True)
 
     class Meta:
         model = Diet

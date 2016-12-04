@@ -28,7 +28,7 @@ class Diet(models.Model):
     maxFatRate = models.FloatField()
 
     ingredients = models.ManyToManyField(Ingredient)
-    user = models.ManyToManyField(User)
+    users = models.ManyToManyField(User)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

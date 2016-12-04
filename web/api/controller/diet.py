@@ -1,15 +1,11 @@
 from django.http import HttpResponse
-from django.utils.text import slugify
 
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.model.food import Food
 from api.model.diet import Diet
-from api.serializer.food import FoodSerializer, FoodReadSerializer
 from api.serializer.diet import DietSerializer, DietReadSerializer
-from api.service import food as FoodService
 
 
 @api_view(['GET', 'POST'])
@@ -28,3 +24,30 @@ def diets(req):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def diet(req, dietId):
+    """
+    Retrive, modify or delete single diet by id
+    """
+    try:
+        diet = Diet.objects.get(id=dietId)
+    except Diet.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if req.method == 'GET':
+        serializer = DietReadSerializer(diet)
+        return Response(serializer.data)
+
+    elif req.method == 'PUT':
+        serializer = DietSerializer(diet, data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif req.method == 'DELETE':
+        diet.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
