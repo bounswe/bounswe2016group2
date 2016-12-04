@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
     # RESTAURANT ROUTES
     url(r'^restaurants$', restaurant.restaurants),
+    url(r'^restaurants/(?P<restaurantId>[0-9]+)$', restaurant.restaurant),
     # ADMIN ROUTES
     url(r'^admin/', admin.site.urls),
     url(r'^docs', include('rest_framework_docs.urls'))
