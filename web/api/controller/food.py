@@ -21,6 +21,8 @@ def foods(req):
         return Response(serializer.data)
 
     elif req.method == 'POST':
+        if(req.user.id):
+            req.data['user'] = req.user.id
         serializer = FoodSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
@@ -44,6 +46,8 @@ def food(req, foodId):
         return Response(food)
 
     elif req.method == 'PUT':
+        if(req.user.id):
+            req.data['user'] = req.user.id
         serializer = FoodSerializer(food, data=req.data)
         if serializer.is_valid():
             serializer.save()
@@ -73,15 +77,6 @@ def slug(req, slug):
     elif req.method == 'DELETE':
         food.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(['POST'])
-def createMocks(req):
-    """
-    Add default foods in mocks to database
-    """
-    FoodService.createDefaults()
-    return HttpResponse(status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])

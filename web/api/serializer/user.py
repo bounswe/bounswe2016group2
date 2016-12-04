@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from api.serializer.restaurant import RestaurantSerializer
+from api.serializer.diet import DietReadSerializer
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -28,3 +31,15 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'username', 'password', 'first_name', 'last_name')
+
+
+class UserReadSerializer(serializers.HyperlinkedModelSerializer):
+
+    username = serializers.CharField(required=False, read_only=True)
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+    restaurants = RestaurantSerializer(source='restaurant_set', many=True)
+    diets = DietReadSerializer(source='diet_set', many=True)
+
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'restaurants', 'diets')

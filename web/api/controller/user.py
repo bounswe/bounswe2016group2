@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.serializer.user import UserSerializer
+from api.serializer.user import UserSerializer, UserReadSerializer
 from api.model.ateFood import AteFood
 from api.serializer.ateFood import AteFoodDetailSerializer
 from api.model.ateIngredient import AteIngredient
@@ -65,7 +65,7 @@ def me(req):
     get current user if authenticated
     """
     user = User.objects.get(id=req.user.id)
-    serializer = UserSerializer(user)
+    serializer = UserReadSerializer(user)
     return Response(serializer.data)
 
 
@@ -90,7 +90,7 @@ def user(req, userId):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if req.method == 'GET':
-        serializer = UserSerializer(user)
+        serializer = UserReadSerializer(user)
         return Response(serializer.data)
 
     elif req.method == 'PUT':
