@@ -1,10 +1,6 @@
 import api.service.constants as Constants
 
 
-def createDefaults():
-    pass
-
-
 def calculateDetails(food):
     food['weight'] = 0
     food['details'] = {'value': 0}

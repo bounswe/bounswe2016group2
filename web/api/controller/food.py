@@ -79,15 +79,6 @@ def slug(req, slug):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['POST'])
-def createMocks(req):
-    """
-    Add default foods in mocks to database
-    """
-    FoodService.createDefaults()
-    return HttpResponse(status=status.HTTP_201_CREATED)
-
-
 @api_view(['GET'])
 def search(req):
     """

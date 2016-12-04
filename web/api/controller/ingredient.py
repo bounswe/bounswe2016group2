@@ -5,7 +5,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.service import ingredient as IngredientService
 from api.model.ingredient import Ingredient
 from api.serializer.ingredient import IngredientSerializer
 
@@ -72,15 +71,6 @@ def slug(req, slug):
     elif req.method == 'DELETE':
         ingredient.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(['POST'])
-def createMocks(req):
-    """
-    Add default ingredients in mocks to database
-    """
-    IngredientService.createDefaults()
-    return HttpResponse(status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
