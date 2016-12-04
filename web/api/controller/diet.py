@@ -49,16 +49,12 @@ def myDiet(req, dietId):
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     except Diet.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    # print(user.diet_set)
     if req.method == 'POST':
         user.diet_set.add(diet)
-        # serializer = DietReadSerializer(user.diet_set, many=True)
         return Response(status=status.HTTP_201_CREATED)
     if req.method == 'DELETE':
         user.diet_set.remove(diet)
         return Response(status=status.HTTP_204_NO_CONTENT)
-    # print(req.user.id)
-    # return Response()
 
 
 @api_view(['GET', 'PUT', 'DELETE'])

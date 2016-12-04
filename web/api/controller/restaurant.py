@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.model.restaurant import Restaurant
+from api.model.food import Food
 from api.serializer.restaurant import RestaurantSerializer, RestaurantDetailSerializer
 
 
@@ -56,3 +57,23 @@ def restaurant(req, restaurantId):
     elif req.method == 'DELETE':
         restaurant.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST', 'DELETE'])
+def restaurantFood(req, restaurantId, foodId):
+    try:
+        restaurant = Restaurant.objects.get(id=restaurantId)
+        food = Food.objects.get(id=foodId)
+    except Restaurant.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Food.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if req.method == 'POST':
+        restaurant.food_set.add(food)
+        return Response(status=status.HTTP_201_CREATED)
+    if req.method == 'DELETE':
+        try:
+            restaurant.food_set.remove(food)
+        except Restaurant.DoesNotExist as e:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_204_NO_CONTENT)
