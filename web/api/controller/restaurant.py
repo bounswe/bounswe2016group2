@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.model.restaurant import Restaurant
-from api.serializer.restaurant import RestaurantSerializer
+from api.serializer.restaurant import RestaurantSerializer, RestaurantDetailSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -15,7 +15,7 @@ def restaurants(req):
     """
     if req.method == 'GET':
         restaurants = Restaurant.objects.all()
-        serializer = RestaurantSerializer(restaurants, many=True)
+        serializer = RestaurantDetailSerializer(restaurants, many=True)
         return Response(serializer.data)
 
     elif req.method == 'POST':
@@ -41,7 +41,7 @@ def restaurant(req, restaurantId):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if req.method == 'GET':
-        serializer = RestaurantSerializer(restaurant)
+        serializer = RestaurantDetailSerializer(restaurant)
         return Response(serializer.data)
 
     elif req.method == 'PUT':
