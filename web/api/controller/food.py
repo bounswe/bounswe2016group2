@@ -21,6 +21,8 @@ def foods(req):
         return Response(serializer.data)
 
     elif req.method == 'POST':
+        if(req.user.id):
+            req.data['user'] = req.user.id
         serializer = FoodSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
@@ -44,6 +46,8 @@ def food(req, foodId):
         return Response(food)
 
     elif req.method == 'PUT':
+        if(req.user.id):
+            req.data['user'] = req.user.id
         serializer = FoodSerializer(food, data=req.data)
         if serializer.is_valid():
             serializer.save()
