@@ -11,7 +11,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     username = serializers.CharField(required=False)
     email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(write_only=True, min_length=6)
-    restaurants = RestaurantSerializer(source='restaurant_set', many=True)
 
     def create(self, validated_data):
         user = User.objects.create(
@@ -27,6 +26,17 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         user.save()
         return user
+
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'password', 'first_name', 'last_name')
+
+
+class UserReadSerializer(serializers.HyperlinkedModelSerializer):
+
+    username = serializers.CharField(required=False, read_only=True)
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+    restaurants = RestaurantSerializer(source='restaurant_set', many=True)
 
     class Meta:
         model = User
