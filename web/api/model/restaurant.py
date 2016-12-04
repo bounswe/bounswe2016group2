@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Restaurant(models.Model):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
     photo = models.URLField(max_length=255, null=True, blank=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
