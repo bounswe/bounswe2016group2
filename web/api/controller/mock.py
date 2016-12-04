@@ -17,6 +17,7 @@ def createMocks(req):
 
     Ingredient.objects.all().delete()
     User.objects.all().delete()
+    Restaurant.objects.all().delete()
 
     RiceFlour      = Ingredient(name='Rice flour'     ,measureValue=125 ,measureUnit='ml'     ,defaultValue=83  ,defaultUnit='g'   ,energy=305 ,protein=5   ,carb=67  ,sugar=1   ,fibre=0.3  ,fat=0    ,saturatedFat=8    ,cholesterol=0.3  ,calcium=0    ,iron=63.0 ,sodium=29.0 ,potassium=82.0 ,magnesium=0.1   ,phosphorus=0.02  ,thiamin=3.2  ,riboflavin=3    ,niacin=0    ,folate=1   )
     SoyFlour       = Ingredient(name='Soy flour'      ,measureValue=125 ,measureUnit='ml'     ,defaultValue=53  ,defaultUnit='g'   ,energy=174 ,protein=25  ,carb=20  ,sugar=11  ,fibre=9.2  ,fat=1    ,saturatedFat=0.1  ,cholesterol=0    ,calcium=127  ,iron=4.9  ,sodium=11.0 ,potassium=1259 ,magnesium=153   ,phosphorus=356   ,thiamin=0.4  ,riboflavin=0.13 ,niacin=7.4  ,folate=161 )
@@ -78,22 +79,33 @@ def createMocks(req):
     CoffeeLatte    = Ingredient(name='Coffee latte'   ,measureValue=250 ,measureUnit='ml'     ,defaultValue=256 ,defaultUnit='g'   ,energy=101 ,protein=5   ,carb=7   ,sugar=9   ,fibre=0    ,fat=6    ,saturatedFat=3.5  ,cholesterol=16   ,calcium=188  ,iron=0.2  ,sodium=79   ,potassium=340  ,magnesium=89    ,phosphorus=156   ,thiamin=46   ,riboflavin=0    ,niacin=0    ,folate=93  )
     Tea            = Ingredient(name='Tea'            ,measureValue=250 ,measureUnit='ml'     ,defaultValue=250 ,defaultUnit='g'   ,energy=3   ,protein=0   ,carb=1   ,sugar=0   ,fibre=0    ,fat=0    ,saturatedFat=0    ,cholesterol=0    ,calcium=0    ,iron=0.1  ,sodium=8    ,potassium=93   ,magnesium=8     ,phosphorus=3     ,thiamin=0    ,riboflavin=0    ,niacin=0    ,folate=0   )
 
-    kagan           = User(first_name='Kagan', last_name='Sari',       username='kagannsari@gmail.com', email='kagannsari@gmail.com')
-    erkam           = User(first_name='Erkam', last_name='Uyanik',     username='erkam@hotmail.com', email='erkam@hotmail.com')
-    arda            = User(first_name='Arda',  last_name='Yoruk',      username='arda@hotmail.com', email='arda@hotmail.com')
-    murat           = User(first_name='Murat', last_name='Aclan',      username='murat@hotmail.com', email='murat@hotmail.com')
-    yigit           = User(first_name='Yigit', last_name='Ozgumus',    username='yigit@hotmail.com', email='yigit@hotmail.com')
-    gozde           = User(first_name='Gozde', last_name='Berk',       username='gozde@hotmail.com', email='gozde@hotmail.com')
-    enes            = User(first_name='Enes',  last_name='Ozipek',     username='enes@hotmail.com', email='enes@hotmail.com')
-    ahmetMcdonalds  = User(first_name='Ahmet', last_name='McDonalds',  username='noreply@mcdonalds.com', email='noreply@mcdonalds.com')
-    ahmetBurgerKing = User(first_name='Ahmet', last_name='BurgerKing', username='noreply@burgerking.com', email='noreply@burgerking.com')
-    ahmetMutfak     = User(first_name='Ahmet', last_name='Mutfak',     username='noreply@mutfak.com', email='noreply@mutfak.com')
-
     for ingredient in [RiceFlour, SoyFlour, WheatBran, Bread, Biscuit, GranolaBar, ChocolateChip, BeanSprouts, Cabbage, Carrot, Cucumber, Eggplant, Lettuce, Mushrooms, Onion, Potato, Radishes, Tomatoe, Apple, Banana, Figs, Grapes, Mango, Orange, Peach, Pear, Raspberries, Strawberries, Buttermilk, Milk, Yogourt, Cheddar, CottageCheese, CreamCheese, FetaCheese, Mozzarella, SourCream, Egg, Beef, Veal, Pork, Lamb, Chicken, Falafel, Beans, Lentils, Peas, Soybeans, PeanutButter, Almonds, Hazelnuts, Walnuts, BrownSugar, WhiteSugar, BrownSugar, Cola, Coffee, CoffeeLatte, Tea]:
         ingredient.save()
 
-    for user in [kagan, erkam, arda, murat, yigit, gozde, enes, ahmetMcdonalds, ahmetBurgerKing, ahmetMutfak]:
+    Kagan           = User(first_name='Kagan', last_name='Sari',       username='kagannsari@gmail.com',   email='kagannsari@gmail.com')
+    Erkam           = User(first_name='Erkam', last_name='Uyanik',     username='erkam@hotmail.com',      email='erkam@hotmail.com')
+    Arda            = User(first_name='Arda',  last_name='Yoruk',      username='arda@hotmail.com',       email='arda@hotmail.com')
+    Murat           = User(first_name='Murat', last_name='Aclan',      username='murat@hotmail.com',      email='murat@hotmail.com')
+    Yigit           = User(first_name='Yigit', last_name='Ozgumus',    username='yigit@hotmail.com',      email='yigit@hotmail.com')
+    Gozde           = User(first_name='Gozde', last_name='Berk',       username='gozde@hotmail.com',      email='gozde@hotmail.com')
+    Enes            = User(first_name='Enes',  last_name='Ozipek',     username='enes@hotmail.com',       email='enes@hotmail.com')
+    AhmetMcDonalds  = User(first_name='Ahmet', last_name='McDonalds',  username='info@mcdonalds.com',     email='info@mcdonalds.com')
+    AhmetBurgerKing = User(first_name='Ahmet', last_name='BurgerKing', username='info@burgerking.com',    email='info@burgerking.com')
+    AhmetMutfak     = User(first_name='Ahmet', last_name='Mutfak',     username='info@mutfak.com',        email='info@mutfak.com')
+    NecmiAbi        = User(first_name='Necmi', last_name='Abi',        username='info@kuzeykantin.com',   email='info@kuzeykantin.com')
+    OmerAybak       = User(first_name='Omer' , last_name='Aybak',      username='cigkofte02@hotmail.com', email='cigkofte02@hotmail.com')
+
+    for user in [Kagan, Erkam, Arda, Murat, Yigit, Gozde, Enes, AhmetMcDonalds, AhmetBurgerKing, AhmetMutfak]:
         user.set_password('123456')
         user.save()
+
+    Mcdonalds   = Restaurant(user=AhmetMcDonalds,  name='McDonalds Bebek',       description='McDonalds gibisi yok',          photo='http://www.commondreams.org/sites/default/files/styles/cd_large/public/views-article/mcdonald_0.jpg?itok=IWMtMwHS')
+    BurgerKing  = Restaurant(user=AhmetBurgerKing, name='Burger King Hisarustu', description='Ates seni cagriyo',             photo='http://images.techtimes.com/data/images/full/142491/burger-king.jpg')
+    Mutfak      = Restaurant(user=AhmetMutfak,     name='Mutfak',                description=None,                            photo='https://lalgeziyor.files.wordpress.com/2016/07/ekran-resmi-2016-07-18-18-29-36.png')
+    KuzeyKantin = Restaurant(user=NecmiAbi,        name='Kuzey Kantin',          description=None,                            photo='http://www.otk.boun.edu.tr/lisans/sites/default/files/14249692_611736205671349_6342629255368353570_o.jpg')
+    Adiyaman    = Restaurant(user=OmerAybak,       name='Adiyaman',              description='Meshur adiyaman cig koctecisi', photo='https://lh3.googleusercontent.com/7qDc8280Y4obPJfxmYAAI3EdWiQ_spw1Ywhuar8_RsGdUyRIVQCWPP6Ys8mxemsTIzT2jX4=s630-fcrop64=1,00000000fd5afdfa')
+
+    for restaurant in [Mcdonalds, BurgerKing, Mutfak]:
+        restaurant.save()
 
     return Response()
