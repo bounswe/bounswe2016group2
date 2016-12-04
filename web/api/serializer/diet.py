@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from api.model.diet import Diet
+from api.model.ingredient import Ingredient
 from api.serializer.ingredient import IngredientSerializer
 
 
@@ -24,6 +25,8 @@ class DietSerializer(serializers.ModelSerializer):
     maxCarbRate = serializers.FloatField(min_value=0, max_value=1, default=0)
     minFatRate = serializers.FloatField(min_value=0, max_value=1, default=0)
     maxFatRate = serializers.FloatField(min_value=0, max_value=1, default=1)
+
+    ingredients = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all(), many=True)
 
     class Meta:
         model = Diet
