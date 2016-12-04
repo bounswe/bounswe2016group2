@@ -3,12 +3,15 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
+from api.serializer.restaurant import RestaurantSerializer
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     username = serializers.CharField(required=False)
     email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
     password = serializers.CharField(write_only=True, min_length=6)
+    restaurants = RestaurantSerializer(source='restaurant_set', many=True)
 
     def create(self, validated_data):
         user = User.objects.create(
@@ -27,4 +30,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'first_name', 'last_name')
+        fields = ('email', 'username', 'password', 'first_name', 'last_name', 'restaurants')
