@@ -4,3 +4,4 @@ from api.model.inclusion import Inclusion
 from api.model.ateIngredient import AteIngredient
 from api.model.ateFood import AteFood
 from api.model.restaurant import Restaurant
+from api.model.diet import Diet
