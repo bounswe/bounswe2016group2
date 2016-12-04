@@ -18,6 +18,10 @@ def createMocks(req):
     Ingredient.objects.all().delete()
     User.objects.all().delete()
     Restaurant.objects.all().delete()
+    Food.objects.all().delete()
+    Diet.objects.all().delete()
+    AteFood.objects.all().delete()
+    AteIngredient.objects.all().delete()
 
     RiceFlour      = Ingredient(name='Rice flour'     ,measureValue=125 ,measureUnit='ml'     ,defaultValue=83  ,defaultUnit='g'   ,energy=305 ,protein=5   ,carb=67  ,sugar=1   ,fibre=0.3  ,fat=0    ,saturatedFat=8    ,cholesterol=0.3  ,calcium=0    ,iron=63.0 ,sodium=29.0 ,potassium=82.0 ,magnesium=0.1   ,phosphorus=0.02  ,thiamin=3.2  ,riboflavin=3    ,niacin=0    ,folate=1   )
     SoyFlour       = Ingredient(name='Soy flour'      ,measureValue=125 ,measureUnit='ml'     ,defaultValue=53  ,defaultUnit='g'   ,energy=174 ,protein=25  ,carb=20  ,sugar=11  ,fibre=9.2  ,fat=1    ,saturatedFat=0.1  ,cholesterol=0    ,calcium=127  ,iron=4.9  ,sodium=11.0 ,potassium=1259 ,magnesium=153   ,phosphorus=356   ,thiamin=0.4  ,riboflavin=0.13 ,niacin=7.4  ,folate=161 )
@@ -78,8 +82,21 @@ def createMocks(req):
     Coffee         = Ingredient(name='Coffee'         ,measureValue=250 ,measureUnit='ml'     ,defaultValue=250 ,defaultUnit='g'   ,energy=3   ,protein=0   ,carb=0   ,sugar=0   ,fibre=0    ,fat=0    ,saturatedFat=0    ,cholesterol=0    ,calcium=5    ,iron=0    ,sodium=5    ,potassium=123  ,magnesium=8     ,phosphorus=8     ,thiamin=0    ,riboflavin=0    ,niacin=0    ,folate=100 )
     CoffeeLatte    = Ingredient(name='Coffee latte'   ,measureValue=250 ,measureUnit='ml'     ,defaultValue=256 ,defaultUnit='g'   ,energy=101 ,protein=5   ,carb=7   ,sugar=9   ,fibre=0    ,fat=6    ,saturatedFat=3.5  ,cholesterol=16   ,calcium=188  ,iron=0.2  ,sodium=79   ,potassium=340  ,magnesium=89    ,phosphorus=156   ,thiamin=46   ,riboflavin=0    ,niacin=0    ,folate=93  )
     Tea            = Ingredient(name='Tea'            ,measureValue=250 ,measureUnit='ml'     ,defaultValue=250 ,defaultUnit='g'   ,energy=3   ,protein=0   ,carb=1   ,sugar=0   ,fibre=0    ,fat=0    ,saturatedFat=0    ,cholesterol=0    ,calcium=0    ,iron=0.1  ,sodium=8    ,potassium=93   ,magnesium=8     ,phosphorus=3     ,thiamin=0    ,riboflavin=0    ,niacin=0    ,folate=0   )
+    Ketchup        = Ingredient(name='Ketchup'        ,measureValue=15  ,measureUnit='ml'     ,defaultValue=15  ,defaultUnit='g'   ,energy=15  ,protein=0   ,carb=4   ,sugar=3   ,fibre=0    ,fat=0    ,saturatedFat=0    ,cholesterol=0    ,calcium=0    ,iron=3    ,sodium=0.1  ,potassium=169  ,magnesium=57    ,phosphorus=3     ,thiamin=5    ,riboflavin=7    ,niacin=0    ,folate=2586)
+    Mustard        = Ingredient(name='Mustard'        ,measureValue=15  ,measureUnit='ml'     ,defaultValue=16  ,defaultUnit='g'   ,energy=11  ,protein=1   ,carb=1   ,sugar=0   ,fibre=1    ,fat=0    ,saturatedFat=0.4  ,cholesterol=0.2  ,calcium=0    ,iron=9    ,sodium=0.2  ,potassium=180  ,magnesium=22    ,phosphorus=8     ,thiamin=17   ,riboflavin=1    ,niacin=0    ,folate=0   )
+    Mayonnaise     = Ingredient(name='Mayonnaise'     ,measureValue=15  ,measureUnit='ml'     ,defaultValue=14  ,defaultUnit='g'   ,energy=100 ,protein=0   ,carb=1   ,sugar=11  ,fibre=1.7  ,fat=2.7  ,saturatedFat=6.0  ,cholesterol=0    ,calcium=5    ,iron=3    ,sodium=0.1  ,potassium=79   ,magnesium=5     ,phosphorus=0     ,thiamin=4    ,riboflavin=11   ,niacin=0    ,folate=0   )
+    Ranch          = Ingredient(name='Ranch'          ,measureValue=15  ,measureUnit='ml'     ,defaultValue=15  ,defaultUnit='g'   ,energy=71  ,protein=0   ,carb=1   ,sugar=8   ,fibre=1.2  ,fat=1.7  ,saturatedFat=4.2  ,cholesterol=0    ,calcium=5    ,iron=5    ,sodium=0.1  ,potassium=120  ,magnesium=9     ,phosphorus=1     ,thiamin=24   ,riboflavin=1    ,niacin=0    ,folate=0   )
+    GreenPepper    = Ingredient(name='Green Pepper'   ,measureValue=0.5 ,measureUnit='count'  ,defaultValue=82  ,defaultUnit='g'   ,energy=16  ,protein=1   ,carb=4   ,sugar=2   ,fibre=1.2  ,fat=0    ,saturatedFat=8    ,cholesterol=0.3  ,calcium=2    ,iron=144  ,sodium=8    ,potassium=16   ,magnesium=15    ,phosphorus=171   ,thiamin=0    ,riboflavin=9    ,niacin=0    ,folate=66  )
+    RedPepper      = Ingredient(name='Red Pepper'     ,measureValue=0.5 ,measureUnit='count'  ,defaultValue=60  ,defaultUnit='g'   ,energy=15  ,protein=1   ,carb=4   ,sugar=2   ,fibre=0.8  ,fat=0    ,saturatedFat=4    ,cholesterol=0.3  ,calcium=1    ,iron=126  ,sodium=7    ,potassium=15   ,magnesium=93    ,phosphorus=966   ,thiamin=183  ,riboflavin=11   ,niacin=0    ,folate=113 )
+    BlackPepper    = Ingredient(name='Black Pepper'   ,measureValue=125 ,measureUnit='ml'     ,defaultValue=74  ,defaultUnit='g'   ,energy=99  ,protein=1   ,carb=5   ,sugar=3   ,fibre=1.3  ,fat=9    ,saturatedFat=5    ,cholesterol=0.4  ,calcium=16   ,iron=144  ,sodium=9    ,potassium=17   ,magnesium=98    ,phosphorus=1169  ,thiamin=361  ,riboflavin=1    ,niacin=0    ,folate=121 )
+    Butter         = Ingredient(name='Butter'         ,measureValue=5   ,measureUnit='ml'     ,defaultValue=5   ,defaultUnit='g'   ,energy=34  ,protein=0   ,carb=0   ,sugar=4   ,fibre=2.5  ,fat=1.0  ,saturatedFat=0.1  ,cholesterol=0.2  ,calcium=10   ,iron=1    ,sodium=0    ,potassium=28   ,magnesium=1     ,phosphorus=0     ,thiamin=1    ,riboflavin=33   ,niacin=0    ,folate=0   )
+    Margarine      = Ingredient(name='Margarine'      ,measureValue=5   ,measureUnit='ml'     ,defaultValue=5   ,defaultUnit='g'   ,energy=34  ,protein=0   ,carb=0   ,sugar=4   ,fibre=0.6  ,fat=1.7  ,saturatedFat=1.3  ,cholesterol=0    ,calcium=1    ,iron=0    ,sodium=52   ,potassium=2    ,magnesium=0     ,phosphorus=1     ,thiamin=48   ,riboflavin=0.6  ,niacin=0    ,folate=0.2 )
+    SunflowerOil   = Ingredient(name='Sunflower Oil'  ,measureValue=15  ,measureUnit='ml'     ,defaultValue=14  ,defaultUnit='g'   ,energy=122 ,protein=0   ,carb=0   ,sugar=14  ,fibre=1.4  ,fat=2.7  ,saturatedFat=9.1  ,cholesterol=0.1  ,calcium=0    ,iron=0    ,sodium=0    ,potassium=0    ,magnesium=0     ,phosphorus=0     ,thiamin=0    ,riboflavin=0    ,niacin=0    ,folate=5.7 )
+    Sesame         = Ingredient(name='Sesame'         ,measureValue=15  ,measureUnit='ml'     ,defaultValue=14  ,defaultUnit='g'   ,energy=122 ,protein=0   ,carb=0   ,sugar=14  ,fibre=2.0  ,fat=5.5  ,saturatedFat=5.7  ,cholesterol=0    ,calcium=0    ,iron=0    ,sodium=0    ,potassium=0    ,magnesium=0     ,phosphorus=0     ,thiamin=0    ,riboflavin=0    ,niacin=0    ,folate=0.2 )
+    Salt           = Ingredient(name='Salt'           ,measureValue=15  ,measureUnit='ml'     ,defaultValue=14  ,defaultUnit='g'   ,energy=122 ,protein=0   ,carb=0   ,sugar=14  ,fibre=2.0  ,fat=5.5  ,saturatedFat=5.7  ,cholesterol=0    ,calcium=0    ,iron=0    ,sodium=0    ,potassium=0    ,magnesium=0     ,phosphorus=0     ,thiamin=0    ,riboflavin=0    ,niacin=0    ,folate=0.2 )
+    ChickenBreast  = Ingredient(name='Chicken breast' ,measureValue=75  ,measureUnit='g'      ,defaultValue=75  ,defaultUnit='g'   ,energy=142 ,protein=19  ,carb=0   ,sugar=7   ,fibre=1.8  ,fat=2.6  ,saturatedFat=1.4  ,cholesterol=63   ,calcium=0.4  ,iron=45   ,sodium=241  ,potassium=20   ,magnesium=0     ,phosphorus=20    ,thiamin=0.2  ,riboflavin=0.24 ,niacin=0    ,folate=3   )
 
-    for ingredient in [RiceFlour, SoyFlour, WheatBran, Bread, Biscuit, GranolaBar, ChocolateChip, BeanSprouts, Cabbage, Carrot, Cucumber, Eggplant, Lettuce, Mushrooms, Onion, Potato, Radishes, Tomatoe, Apple, Banana, Figs, Grapes, Mango, Orange, Peach, Pear, Raspberries, Strawberries, Buttermilk, Milk, Yogourt, Cheddar, CottageCheese, CreamCheese, FetaCheese, Mozzarella, SourCream, Egg, Beef, Veal, Pork, Lamb, Chicken, Falafel, Beans, Lentils, Peas, Soybeans, PeanutButter, Almonds, Hazelnuts, Walnuts, BrownSugar, WhiteSugar, BrownSugar, Cola, Coffee, CoffeeLatte, Tea]:
+    for ingredient in [RiceFlour, SoyFlour, WheatBran, Bread, Biscuit, GranolaBar, ChocolateChip, BeanSprouts, Cabbage, Carrot, Cucumber, Eggplant, Lettuce, Mushrooms, Onion, Potato, Radishes, Tomatoe, Apple, Banana, Figs, Grapes, Mango, Orange, Peach, Pear, Raspberries, Strawberries, Buttermilk, Milk, Yogourt, Cheddar, CottageCheese, CreamCheese, FetaCheese, Mozzarella, SourCream, Egg, Beef, Veal, Pork, Lamb, Chicken, Falafel, Beans, Lentils, Peas, Soybeans, PeanutButter, Almonds, Hazelnuts, Walnuts, BrownSugar, WhiteSugar, BrownSugar, Cola, Coffee, CoffeeLatte, Tea, Ketchup, Mustard, Mayonnaise, Ranch, GreenPepper, RedPepper, BlackPepper, Butter, Margarine, SunflowerOil, Sesame, Salt, ChickenBreast]:
         ingredient.save()
 
     Kagan           = User(first_name='Kagan', last_name='Sari',       username='kagannsari@gmail.com',   email='kagannsari@gmail.com')
@@ -107,5 +124,42 @@ def createMocks(req):
 
     for restaurant in [Mcdonalds, BurgerKing, Mutfak]:
         restaurant.save()
+
+    BigKingMenu = Food(name='Big King Menu', restaurant=BurgerKing, photo='https://www.burgerking.com.tr/cmsfiles/products/big-king-menu-1.png?v=96')
+    BigKingMenu.save()
+    BigKingMenu.inclusion_set.add(Inclusion(ingredient=Beef, value=150, unit='g'), bulk=False)
+    BigKingMenu.inclusion_set.add(Inclusion(ingredient=Bread, value=300, unit='g'), bulk=False)
+    BigKingMenu.inclusion_set.add(Inclusion(ingredient=Potato, value=200, unit='g'), bulk=False)
+    BigKingMenu.inclusion_set.add(Inclusion(ingredient=Cola, value=300, unit='g'), bulk=False)
+    BigKingMenu.inclusion_set.add(Inclusion(ingredient=Onion, value=50, unit='g'), bulk=False)
+    BigKingMenu.inclusion_set.add(Inclusion(ingredient=Lettuce, value=30, unit='g'), bulk=False)
+
+    WhopperMenu = Food(name='Whopper Menu', user=AhmetBurgerKing, restaurant=BurgerKing, photo='https://www.burgerking.com.tr/cmsfiles/products/double-whopper-menu.png?v=96')
+    WhopperMenu.save()
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Beef, value=120, unit='g'), bulk=False)
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Bread, value=300, unit='g'), bulk=False)
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Potato, value=300, unit='g'), bulk=False)
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Cola, value=400, unit='g'), bulk=False)
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Onion, value=30, unit='g'), bulk=False)
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Ketchup, value=20, unit='g'), bulk=False)
+    WhopperMenu.inclusion_set.add(Inclusion(ingredient=Mayonnaise, value=20, unit='g'), bulk=False)
+
+    Manti = Food(name='Manti', user=AhmetMutfak, restaurant=Mutfak, photo='http://img.nefisyemektarifleri.net/2008/07/manti-tarifi1-500x333.jpg')
+    Manti.save()
+    Manti.inclusion_set.add(Inclusion(ingredient=RiceFlour, value=120, unit='g'), bulk=False)
+    Manti.inclusion_set.add(Inclusion(ingredient=Beef, value=30, unit='g'), bulk=False)
+    Manti.inclusion_set.add(Inclusion(ingredient=Onion, value=30, unit='g'), bulk=False)
+    Manti.inclusion_set.add(Inclusion(ingredient=RedPepper, value=10, unit='g'), bulk=False)
+    Manti.inclusion_set.add(Inclusion(ingredient=Yogourt, value=10, unit='g'), bulk=False)
+
+
+    Vegan = Diet(name="Vegan", minEnergy=0, maxEnergy=9999, minProteinVal=0, maxProteinVal=9999, minCarbVal=0, maxCarbVal=9999, minFatVal=0, maxFatVal=9999, minProteinRate=0, maxProteinRate=1, minCarbRate=0, maxCarbRate=1, minFatRate=0, maxFatRate=1)
+    Vegan.save()
+
+    Vegetarian = Diet(name="Vegetarian", minEnergy=0, maxEnergy=9999, minProteinVal=0, maxProteinVal=9999, minCarbVal=0, maxCarbVal=9999, minFatVal=0, maxFatVal=9999, minProteinRate=0, maxProteinRate=1, minCarbRate=0, maxCarbRate=1, minFatRate=0, maxFatRate=1)
+    Vegetarian.save()
+
+    Gozde.diet_set = [Vegan, Vegetarian]
+    Gozde.save()
 
     return Response()
