@@ -1,4 +1,4 @@
-class FoodRow extends React.Component {
+export default class FoodRow extends React.Component {
   constructor(props) {
     super(props)
     let ingredientStr = ''

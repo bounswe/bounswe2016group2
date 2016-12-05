@@ -1,4 +1,7 @@
-class NavbarUser extends React.Component {
+import SignInModal from 'user/SignInModal.js'
+import SignUpModal from 'user/SignUpModal.js'
+
+export default class NavbarUser extends React.Component {
 
   constructor(props) {
     super(props)

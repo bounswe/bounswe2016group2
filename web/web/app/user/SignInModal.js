@@ -1,4 +1,4 @@
-class SignInModal extends React.Component {
+export default class SignInModal extends React.Component {
 
   constructor (props) {
     super(props)

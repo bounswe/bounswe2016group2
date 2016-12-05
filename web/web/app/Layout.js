@@ -1,4 +1,6 @@
-class Layout extends React.Component {
+import NavbarUser from 'user/NavbarUser.js'
+
+export default class Layout extends React.Component {
   render() {
     return (
       <div>

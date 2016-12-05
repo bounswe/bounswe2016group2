@@ -1,4 +1,4 @@
-class IngrPage extends React.Component {
+export default class IngredientPage extends React.Component {
 
   constructor (props) {
     super(props)
@@ -47,7 +47,7 @@ class IngrPage extends React.Component {
     this.setState({ingrProps: result});
   }
 
-// TODO: currently nor working
+  // TODO: currently nor working
   ateThis() {
     var query = {
       value: 1

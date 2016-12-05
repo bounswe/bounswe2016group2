@@ -1,4 +1,6 @@
-class HomePage extends React.Component {
+import FoodRow from 'food/FoodRow.js'
+
+export default class Homepage extends React.Component {
 
   constructor(props) {
     super(props)

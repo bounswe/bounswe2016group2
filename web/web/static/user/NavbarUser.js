@@ -1,6 +1,20 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _SignInModal = require('user/SignInModal.js');
+
+var _SignInModal2 = _interopRequireDefault(_SignInModal);
+
+var _SignUpModal = require('user/SignUpModal.js');
+
+var _SignUpModal2 = _interopRequireDefault(_SignUpModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -62,13 +76,13 @@ var NavbarUser = function (_React$Component) {
         return React.createElement(
           'div',
           { className: 'right menu' },
-          React.createElement(SignInModal, null),
+          React.createElement(_SignInModal2.default, null),
           React.createElement(
             'a',
             { className: 'item', onClick: this.openSigninModal },
             'Sign In'
           ),
-          React.createElement(SignUpModal, null),
+          React.createElement(_SignUpModal2.default, null),
           React.createElement(
             'a',
             { className: 'item', onClick: this.openSignupModal },
@@ -81,3 +95,5 @@ var NavbarUser = function (_React$Component) {
 
   return NavbarUser;
 }(React.Component);
+
+exports.default = NavbarUser;
