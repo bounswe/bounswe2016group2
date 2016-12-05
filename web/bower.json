@@ -21,6 +21,6 @@
     "fetch": "^1.0.0",
     "react-cookie": "^0.4.8",
     "navigo": "^3.0.0",
-    "systemjs": "*"
+    "system.js": "^0.19.41"
   }
 }
