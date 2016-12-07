@@ -5,13 +5,13 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_add_food"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/add_food" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_adv_search"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/search_food" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
@@ -25,9 +25,9 @@
     <item android:title="Application" >
         <menu>
             <item
-                android:id="@+id/nav_foods"
+                android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_settings"
-                android:title="@string/foods" />
+                android:title="@string/action_settings" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

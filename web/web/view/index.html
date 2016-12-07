@@ -18,16 +18,20 @@
   <script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
   <script src="{% static 'bower_components/semantic/dist/semantic.js' %}"></script>
   <script src="{% static 'bower_components/fetch/fetch.js' %}"></script>
-  <script src="{% static 'components/api.js' %}"></script>
-  <script src="{% static 'components/addFood.js' %}"></script>
-  <script src="{% static 'components/signInModal.js' %}"></script>
-  <script src="{% static 'components/layout.js' %}"></script>
-  <script src="{% static 'components/signUpModal.js' %}"></script>
-  <script src="{% static 'components/navbarUser.js' %}"></script>
-  <script src="{% static 'components/food.js' %}"></script>
-  <script src="{% static 'components/foodPage.js' %}"></script>
-  <script src="{% static 'components/ingrPage.js' %}"></script>
-  <script src="{% static 'components/userHomepage.js' %}"></script>
-  <script src="{% static 'app.js' %}"></script>
+  <script src="{% static 'bower_components/system.js/dist/system.js' %}"></script>
+  <script src="{% static 'service/Constants.js' %}"></script>
+  <script src="{% static 'service/Api.js' %}"></script>
+  <script>
+    const root = document.getElementById('root')
+    const token = reactCookie.load('token')
+    const userEmail = reactCookie.load('email')
+    const router = new Navigo({root:'/', useHash:false});
+
+    SystemJS.config({
+      baseURL: '/app'
+    });
+
+    SystemJS.import('app.js');
+  </script>
 </body>
 </html>

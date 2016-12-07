@@ -139,7 +139,10 @@ public class UserHomeActivity extends AppCompatActivity
                 foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
                     @Override
                     public void onItemClick(int position, View v) {
-
+                        Food food = HistoryFoods.get(position);
+                        Intent intent = new Intent(UserHomeActivity.this, FoodPageActivity.class);
+                        intent.putExtra("food", food);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -184,7 +187,7 @@ public class UserHomeActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
                 SettingsFragment settingsFragment = new SettingsFragment();
-                settingsFragment.setArgs(query);
+                //settingsFragment.setArgs(query);
                 FragmentManager manager = getSupportFragmentManager();
                 manager.beginTransaction().replace(R.id.content_user_home,
                         settingsFragment,settingsFragment.getTag()).commit();
@@ -223,10 +226,15 @@ public class UserHomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
+        if (id == R.id.nav_add_food) {
+            FoodAddFragment foodAddFragment = new FoodAddFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
+        } else if (id == R.id.nav_adv_search){
+            FoodSearchFragment foodSearchFragment = new FoodSearchFragment();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_user_home,
+                    foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_cons_hist) {
@@ -234,17 +242,21 @@ public class UserHomeActivity extends AppCompatActivity
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,consHistFragment,
                                                consHistFragment.getTag()).commit();
-        } else if (id == R.id.nav_foods) {
+        } else if (id == R.id.nav_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_user_home,
                                                settingsFragment,settingsFragment.getTag()).commit();
+
+
         } else if (id == R.id.nav_send) {
 
         }
-
+        findViewById(R.id.yigitLinear).setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

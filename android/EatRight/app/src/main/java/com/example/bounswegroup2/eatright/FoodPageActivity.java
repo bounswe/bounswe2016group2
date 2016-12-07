@@ -1,13 +1,13 @@
 package com.example.bounswegroup2.eatright;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.view.Gravity;
+import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 import android.widget.PopupWindow;
@@ -31,19 +31,21 @@ public class FoodPageActivity extends AppCompatActivity {
     private Integer pro;
     private Integer carb;
     private Integer fat;
+    private Food fSeen;
+    private ListView listView;
     Button btnOpenIngredients;
-    Button btnCloseIngredients;
+    Button btnTastedIt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_page);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         Food food = (Food)intent.getExtras().getSerializable("food");
-
+        listView = (ListView)findViewById(R.id.ingredientForFoodPage);
         ingredients=new ArrayList<Ingredient>();
         ingredients=food.getIngredients();
-
+        fSeen = food;
         pro=0;
         carb=0;
         fat=0;
@@ -74,34 +76,24 @@ public class FoodPageActivity extends AppCompatActivity {
         btnOpenIngredients.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v){
-                initiatePopupWindow();
+                Intent inten = new Intent(FoodPageActivity.this,IngredientPage.class);
+                inten.putExtra("ingredients",ingredients);
+                startActivity(inten);
+                finish();
             }
         });
-    }
-    private PopupWindow popupIngredients;
-
-    private void initiatePopupWindow() {
-        try {
-            // We need to get the instance of the LayoutInflater
-            LayoutInflater inflater = (LayoutInflater) FoodPageActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.ingredients_popup,
-                    (ViewGroup) findViewById(R.id.popup_element));
-            popupIngredients = new PopupWindow(layout, 300, 370, true);
-            popupIngredients.showAtLocation(layout, Gravity.CENTER, 0, 0);
-
-            btnCloseIngredients = (Button) layout.findViewById(R.id.btn_close_ingredients_popup);
-            btnCloseIngredients.setOnClickListener(cancel_button_click_listener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        btnTastedIt = (Button) findViewById(R.id.tasted_it_button);
+        btnTastedIt.setOnClickListener(tastedButtonclicked());
     }
 
-    private OnClickListener cancel_button_click_listener = new OnClickListener() {
-        public void onClick(View v) {
-            popupIngredients.dismiss();
-
-        }
-    };
+    private OnClickListener tastedButtonclicked() {
+        return new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            final GlobalClass gClass = (GlobalClass)getApplicationContext();
+             gClass.addFoodToBox(fSeen);
+            }
+        };
+    }
 
 }

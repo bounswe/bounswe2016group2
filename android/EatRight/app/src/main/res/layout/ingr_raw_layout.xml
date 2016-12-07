@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/ingr_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""
@@ -12,13 +12,39 @@
         android:background="#88FF0000"/>
 
     <TextView
-        android:id="@+id/ingr_slug"
-        android:layout_width="0dp"
+        android:id="@+id/ingr_energy"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text=""
         android:layout_gravity="end"
         android:background="#8800FF00"/>
 
+    <TextView
+        android:id="@+id/ingr_cab"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="end"
+        android:background="#4169e1"/>
+
+    <TextView
+        android:id="@+id/ingr_pro"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="end"
+        android:background="#ffbf00"/>
+
+    <TextView
+        android:id="@+id/ingr_fat"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="end"
+        android:background="#a0a737"/>
 
 </LinearLayout>

@@ -43,6 +43,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
             foodImage.setOnClickListener(this);
             foodImage.setOnLongClickListener(this);
             foodTitle = (TextView) view.findViewById(R.id.food_title);
+            foodTitle.setOnClickListener(this);
+            foodTitle.setOnLongClickListener(this);
+
         }
 
         @Override

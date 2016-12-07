@@ -1,23 +1,37 @@
-const root = document.getElementById('root')
-const token = reactCookie.load('token')
-const userEmail = reactCookie.load('email')
+import Layout from 'Layout.js'
+import AddFoodPage from 'food/AddFoodPage.js'
+import FoodPage from 'food/FoodPage.js'
+import RestaurantPage from 'restaurant/RestaurantPage.js'
+import AddRestaurantPage from 'restaurant/AddRestaurantPage.js'
+import IngredientPage from 'ingredient/IngredientPage.js'
+import UserHomepage from 'user/UserHomepage.js'
+import Homepage from 'Homepage.js'
 
-var router = new Navigo({root:'/', useHash:false});
 
 router
   .on("/addFood/", function() {
     ReactDOM.render(
-      <Layout><AddFood/></Layout>
+      <Layout><AddFoodPage/></Layout>
     , root);
   })
-  .on("/food/:id", function(params) {
+  .on("/foods/:id", function(params) {
     ReactDOM.render(
       <Layout><FoodPage id={params.id}/></Layout>,
       root);
   })
   .on("/ingredient/:id", function(params) {
     ReactDOM.render(
-      <Layout><IngrPage id={params.id}/></Layout>,
+      <Layout><IngredientPage id={params.id}/></Layout>,
+      root);
+  })
+  .on("/addRestaurant", function(params) {
+    ReactDOM.render(
+      <Layout><AddRestaurantPage/></Layout>,
+      root);
+  })
+  .on("/restaurants/:id", function(params) {
+    ReactDOM.render(
+      <Layout><RestaurantPage id={params.id}/></Layout>,
       root);
   })
   .on("/profile/", function(params) {
@@ -27,7 +41,7 @@ router
   })
   .on("*",function () {
     ReactDOM.render(
-      <Layout><FoodSearch/></Layout>
+      <Layout><Homepage/></Layout>
     , root);
   })
   .resolve()

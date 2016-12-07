@@ -1,39 +1,79 @@
 'use strict';
 
-var root = document.getElementById('root');
-var token = reactCookie.load('token');
-var userEmail = reactCookie.load('email');
+var _Layout = require('Layout.js');
 
-var router = new Navigo({ root: '/', useHash: false });
+var _Layout2 = _interopRequireDefault(_Layout);
+
+var _AddFoodPage = require('food/AddFoodPage.js');
+
+var _AddFoodPage2 = _interopRequireDefault(_AddFoodPage);
+
+var _FoodPage = require('food/FoodPage.js');
+
+var _FoodPage2 = _interopRequireDefault(_FoodPage);
+
+var _RestaurantPage = require('restaurant/RestaurantPage.js');
+
+var _RestaurantPage2 = _interopRequireDefault(_RestaurantPage);
+
+var _AddRestaurantPage = require('restaurant/AddRestaurantPage.js');
+
+var _AddRestaurantPage2 = _interopRequireDefault(_AddRestaurantPage);
+
+var _IngredientPage = require('ingredient/IngredientPage.js');
+
+var _IngredientPage2 = _interopRequireDefault(_IngredientPage);
+
+var _UserHomepage = require('user/UserHomepage.js');
+
+var _UserHomepage2 = _interopRequireDefault(_UserHomepage);
+
+var _Homepage = require('Homepage.js');
+
+var _Homepage2 = _interopRequireDefault(_Homepage);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 router.on("/addFood/", function () {
   ReactDOM.render(React.createElement(
-    Layout,
+    _Layout2.default,
     null,
-    React.createElement(AddFood, null)
+    React.createElement(_AddFoodPage2.default, null)
   ), root);
-}).on("/food/:id", function (params) {
+}).on("/foods/:id", function (params) {
   ReactDOM.render(React.createElement(
-    Layout,
+    _Layout2.default,
     null,
-    React.createElement(FoodPage, { id: params.id })
+    React.createElement(_FoodPage2.default, { id: params.id })
   ), root);
 }).on("/ingredient/:id", function (params) {
   ReactDOM.render(React.createElement(
-    Layout,
+    _Layout2.default,
     null,
-    React.createElement(IngrPage, { id: params.id })
+    React.createElement(_IngredientPage2.default, { id: params.id })
+  ), root);
+}).on("/addRestaurant", function (params) {
+  ReactDOM.render(React.createElement(
+    _Layout2.default,
+    null,
+    React.createElement(_AddRestaurantPage2.default, null)
+  ), root);
+}).on("/restaurants/:id", function (params) {
+  ReactDOM.render(React.createElement(
+    _Layout2.default,
+    null,
+    React.createElement(_RestaurantPage2.default, { id: params.id })
   ), root);
 }).on("/profile/", function (params) {
   ReactDOM.render(React.createElement(
-    Layout,
+    _Layout2.default,
     null,
-    React.createElement(UserHomepage, null)
+    React.createElement(_UserHomepage2.default, null)
   ), root);
 }).on("*", function () {
   ReactDOM.render(React.createElement(
-    Layout,
+    _Layout2.default,
     null,
-    React.createElement(FoodSearch, null)
+    React.createElement(_Homepage2.default, null)
   ), root);
 }).resolve();
