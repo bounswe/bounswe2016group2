@@ -119,9 +119,18 @@ class Api {
   static getFood(id){
     return this.get('foods/' + id);
   }
+  static getFoods(id){
+    return this.get('foods');
+  }
   static getRestaurant(id){
     return this.get('restaurants/' + id);
   }
+  static addRestaurant(data) {
+		return this.post('restaurants', data);
+	}
+  static addFoodToRestaurant(restaurantId, foodId) {
+		return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
+	}
   static getIngr(id){
     return this.get('ingredients/' + id);
   }
