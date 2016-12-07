@@ -23,7 +23,6 @@ export default class FoodPage extends React.Component {
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
-        console.log(data);
         this.setState({food: data});
       }).catch((err) => {
         this.setState({errors: err});
@@ -124,24 +123,26 @@ export default class FoodPage extends React.Component {
               <th>Energy</th>
             </tr>
           </thead>
-          <tr>
-            <td>Weight</td>
-            <td>{Number(this.state.food.details.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2)} g</td>
-            <td>{Number(this.state.food.details.energy).toFixed(2)} kcal</td>
-          </tr>
-          <tr>
-            <td>Rate</td>
-            <td>100 %</td>
-            <td>{this.state.food.details.protein && Math.round((this.state.food.details.protein.weight/this.state.food.details.weight)*100)} %</td>
-            <td>{this.state.food.details.carb && Math.round((this.state.food.details.carb.weight/this.state.food.details.weight)*100)} %</td>
-            <td>{this.state.food.details.fat && Math.round((this.state.food.details.fat.weight/this.state.food.details.weight)*100)} %</td>
-            <td>{this.state.food.details.other && Math.round((this.state.food.details.other.weight/this.state.food.details.weight)*100)} %</td>
-            <td></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Weight</td>
+              <td>{Number(this.state.food.details.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2)} g</td>
+              <td>{Number(this.state.food.details.energy).toFixed(2)} kcal</td>
+            </tr>
+            <tr>
+              <td>Rate</td>
+              <td>100 %</td>
+              <td>{this.state.food.details.protein && Math.round((this.state.food.details.protein.weight/this.state.food.details.weight)*100)} %</td>
+              <td>{this.state.food.details.carb && Math.round((this.state.food.details.carb.weight/this.state.food.details.weight)*100)} %</td>
+              <td>{this.state.food.details.fat && Math.round((this.state.food.details.fat.weight/this.state.food.details.weight)*100)} %</td>
+              <td>{this.state.food.details.other && Math.round((this.state.food.details.other.weight/this.state.food.details.weight)*100)} %</td>
+              <td></td>
+            </tr>
+          </tbody>
         </table>
         {/* ingredients */}
         <div className="ui segment">
