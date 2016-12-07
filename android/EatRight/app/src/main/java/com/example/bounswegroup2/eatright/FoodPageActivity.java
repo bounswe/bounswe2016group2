@@ -44,18 +44,18 @@ public class FoodPageActivity extends AppCompatActivity {
         Food food = (Food)intent.getExtras().getSerializable("food");
         listView = (ListView)findViewById(R.id.ingredientForFoodPage);
         ingredients=new ArrayList<Ingredient>();
-        ingredients=food.getIngredients();
+        //ingredients=food.getIngredients();
         fSeen = food;
         pro=0;
         carb=0;
         fat=0;
         cal=0;
-        for(int i=0; i<ingredients.size(); i++){
+       /* for(int i=0; i<ingredients.size(); i++){
             pro = pro + ingredients.get(i).getProtein();
             carb = carb + ingredients.get(i).getCarb();
             fat = fat + ingredients.get(i).getFat();
             cal = cal + ingredients.get(i).getEnergy();
-        }
+        }*/
 
         foodName = (TextView) findViewById(R.id.food_name_text);
         foodName.setText(food.getName());

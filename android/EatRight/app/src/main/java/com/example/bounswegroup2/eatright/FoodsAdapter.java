@@ -42,17 +42,17 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
         TextView tvRating = (TextView) convertView.findViewById(R.id.rating_food);
-        tvRating.setText(Double.toString(food.getRating()));
+        //tvRating.setText(Double.toString(food.getRating()));
         tvComment.setText(food.getSlug());
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());
         tvSlug.setText(food.getSlug());
-        Picasso.with(getContext())
+       /* Picasso.with(getContext())
                 .load(food.getPhotoLinks().get(0))
                 .placeholder(R.drawable.eatright)
                 .fit()
                 .centerInside()
-                .into(imageView);
+                .into(imageView);*/
         // Return the completed view to render on screen
         return convertView;
     }

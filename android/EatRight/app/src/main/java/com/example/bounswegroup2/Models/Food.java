@@ -1,48 +1,44 @@
 package com.example.bounswegroup2.Models;
 
-/**
- * Created by yigitozgumus on 11/12/16.
- */
-
-import android.view.ViewDebug;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Food implements Serializable {
+
+public class Food implements Serializable
+{
 
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("inclusions")
+    @Expose
+    private List<Inclusion> inclusions = null;
+    @SerializedName("restaurant")
+    @Expose
+    private Restaurant restaurant;
+    @SerializedName("user")
+    @Expose
+    private User user;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("slug")
     @Expose
     private String slug;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
     @SerializedName("ingredients")
     @Expose
-    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-    @SerializedName("rating")
-    @Expose
-    private double rating;
-
-    @SerializedName("photo_links")
-    @Expose
-    private ArrayList<String> photoLinks = new ArrayList<>();
-    private int totalEnergy;
-    private int totalPro;
-    private int totalFat;
-    private int totalCab;
-    public Food(String name, String slug) {
-       this.name = name; this.slug = slug;
-        totalEnergy=0;totalCab=0;totalFat=0;totalPro = 0;
-    }
+    private List<Ingredient> ingredients = null;
+    private final static long serialVersionUID = -5801180318491867932L;
 
     /**
      *
@@ -60,6 +56,60 @@ public class Food implements Serializable {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     *
+     * @return
+     * The inclusions
+     */
+    public List<Inclusion> getInclusions() {
+        return inclusions;
+    }
+
+    /**
+     *
+     * @param inclusions
+     * The inclusions
+     */
+    public void setInclusions(List<Inclusion> inclusions) {
+        this.inclusions = inclusions;
+    }
+
+    /**
+     *
+     * @return
+     * The restaurant
+     */
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    /**
+     *
+     * @param restaurant
+     * The restaurant
+     */
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    /**
+     *
+     * @return
+     * The user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     *
+     * @param user
+     * The user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**
@@ -101,9 +151,45 @@ public class Food implements Serializable {
     /**
      *
      * @return
+     * The description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     *
+     * @param description
+     * The description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     *
+     * @return
+     * The photo
+     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    /**
+     *
+     * @param photo
+     * The photo
+     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    /**
+     *
+     * @return
      * The ingredients
      */
-    public ArrayList<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
@@ -112,30 +198,9 @@ public class Food implements Serializable {
      * @param ingredients
      * The ingredients
      */
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-        for (Ingredient i:ingredients) {
-            totalEnergy+= i.getEnergy(); totalCab+=i.getCarb(); totalFat+=i.getFat(); totalPro+=i.getProtein();
-        }
     }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public ArrayList<String> getPhotoLinks() {
-        return photoLinks;
-    }
-
-    public void setPhotoLinks(ArrayList<String> photoLinks) {
-        this.photoLinks = photoLinks;
-    }
-
-
 
     public static Comparator<Food> caToZ = new Comparator<Food>() {
         @Override
@@ -152,33 +217,18 @@ public class Food implements Serializable {
     public static Comparator<Food> caToZRating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            if(food.getRating() < t1.getRating()) return 1;
-            if(food.getRating() > t1.getRating()) return -1;
+            //if(food.getRating() < t1.getRating()) return 1;
+            //if(food.getRating() > t1.getRating()) return -1;
             return 0;
         }
     };
     public static Comparator<Food> czToARating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            if(food.getRating() > t1.getRating()) return 1;
-            if(food.getRating() < t1.getRating()) return -1;
+            //if(food.getRating() > t1.getRating()) return 1;
+            //if(food.getRating() < t1.getRating()) return -1;
             return 0;
         }
     };
 
-    public int getTotalEnergy() {
-        return totalEnergy;
-    }
-
-    public int getTotalPro() {
-        return totalPro;
-    }
-
-    public int getTotalFat() {
-        return totalFat;
-    }
-
-    public int getTotalCab() {
-        return totalCab;
-    }
 }
