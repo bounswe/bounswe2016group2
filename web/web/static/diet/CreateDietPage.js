@@ -10,6 +10,10 @@ var _IntervalSelection = require('diet/IntervalSelection.js');
 
 var _IntervalSelection2 = _interopRequireDefault(_IntervalSelection);
 
+var _MultipleIngredientInput = require('diet/MultipleIngredientInput.js');
+
+var _MultipleIngredientInput2 = _interopRequireDefault(_MultipleIngredientInput);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,9 +31,7 @@ var CreateDietPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (CreateDietPage.__proto__ || Object.getPrototypeOf(CreateDietPage)).call(this, props));
 
     _this.state = {
-      data: null,
-      errors: null,
-      ingredients: []
+      errors: null
     };
 
     _this.energy = {};
@@ -39,6 +41,7 @@ var CreateDietPage = function (_React$Component) {
     _this.proteinRate = {};
     _this.carbRate = {};
     _this.fatRate = {};
+    _this.ingredients = {};
     return _this;
   }
 
@@ -81,13 +84,10 @@ var CreateDietPage = function (_React$Component) {
         maxCarbRate: this.carbRate.max,
         minFatRate: this.fatRate.min,
         maxFatRate: this.fatRate.max,
-        ingredients: this.state.ingredients
+        ingredients: this.ingredients.list
       };
-
-      Api.createDiet(postData).then(function (data) {
-        console.log(data);
-      }).catch(function (err) {
-        console.log(err);
+      console.log(postData);
+      Api.createDiet(postData).then(function (data) {}).catch(function (err) {
         _this2.setState({ errors: err.data });
       });
     }
@@ -171,7 +171,11 @@ var CreateDietPage = function (_React$Component) {
           { className: 'ui segment' },
           'Selected Ingredients'
         ),
-        React.createElement('div', { className: 'ui segment' }),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(_MultipleIngredientInput2.default, { ingredients: this.ingredients })
+        ),
         React.createElement(
           'div',
           { className: 'ui segment', style: { textAlign: 'center' } },

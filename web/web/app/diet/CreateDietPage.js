@@ -1,12 +1,11 @@
 import IntervalSelection from 'diet/IntervalSelection.js'
+import MultipleIngredientInput from 'diet/MultipleIngredientInput.js'
 
 export default class CreateDietPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      errors: null,
-      ingredients: []
+      errors: null
     };
 
     this.energy = {};
@@ -16,6 +15,7 @@ export default class CreateDietPage extends React.Component {
     this.proteinRate = {};
     this.carbRate = {};
     this.fatRate = {};
+    this.ingredients = {};
   }
 
   nameChanged(event) {
@@ -51,14 +51,12 @@ export default class CreateDietPage extends React.Component {
       maxCarbRate: this.carbRate.max,
       minFatRate: this.fatRate.min,
       maxFatRate: this.fatRate.max,
-      ingredients: this.state.ingredients
+      ingredients: this.ingredients.list
     }
-
+    console.log(postData);
     Api.createDiet(postData)
       .then((data) => {
-        console.log(data);
       }).catch((err) => {
-        console.log(err);
         this.setState({errors: err.data})
       })
   }
@@ -112,6 +110,7 @@ export default class CreateDietPage extends React.Component {
           Selected Ingredients
         </div>
         <div className="ui segment">
+          <MultipleIngredientInput ingredients={this.ingredients}/>
         </div>
         <div className="ui segment" style={{textAlign:'center'}}>
           <button className="ui button" type='submit' onClick={this.submit.bind(this)}>Submit</button>
