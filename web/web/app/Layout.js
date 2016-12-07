@@ -5,11 +5,14 @@ export default class Layout extends React.Component {
     return (
       <div>
         <div className='ui secondary pointing menu' style={{paddingTop: 10}}>
-          <a href="/" className='item active'>
+          <a href="/" className='item'>
             Home
           </a>
           <a href="/addFood" className='item'>
             Add Food
+          </a>
+          <a href="/addRestaurant" className='item'>
+            Become a server
           </a>
           <NavbarUser userEmail={userEmail}/>
         </div>

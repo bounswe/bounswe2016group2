@@ -62,7 +62,17 @@ export default class FoodPage extends React.Component {
         <div className="ui segment" style={{padding:0,overflow:'hidden',maxHeight:400,textAlign:'center',width:'100%'}}>
           <img src={this.state.food.photo} className='img-responsive'/>
         </div>
-        <div className="ui segment" style={{textAlign:'right'}}>
+        <div className="ui segment" style={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
+          { this.state.food.restaurant &&
+            <div>
+              <span style={{marginRight: 5}}>
+                Restaurant:
+              </span>
+              <a href={"/restaurants/" + this.state.food.restaurant.id}>
+                {this.state.food.restaurant.name}
+              </a>
+            </div>
+          }
           {/* i ate this functionality here */}
           { token &&
             <div>

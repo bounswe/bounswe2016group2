@@ -21,38 +21,30 @@ var FoodRow = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (FoodRow.__proto__ || Object.getPrototypeOf(FoodRow)).call(this, props));
 
     var ingredientStr = '';
-    props.data.ingredients.forEach(function (ingredient) {
-      ingredientStr += ' ' + ingredient.name;
+    props.data.ingredients.forEach(function (ingredient, i) {
+      if (i != 0) ingredientStr += ', ';
+      ingredientStr += ingredient.name;
     });
     _this.state = {
       name: props.data.name,
       id: props.data.id,
       ingredientStr: ingredientStr
     };
-    _this.click = _this.click.bind(_this);
     return _this;
   }
 
   _createClass(FoodRow, [{
-    key: 'click',
-    value: function click() {
-      var link = '/foods/' + this.state.id;
-      return function () {
-        window.location.href = link;
-      };
-    }
-  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
         'div',
-        { className: 'item' },
+        { className: 'item', style: { marginBottom: 10 } },
         React.createElement(
           'div',
           { className: 'content' },
           React.createElement(
             'a',
-            { className: 'header', onClick: this.click() },
+            { className: 'header', style: { fontSize: 16 }, href: "/foods/" + this.state.id },
             this.state.name
           ),
           React.createElement(

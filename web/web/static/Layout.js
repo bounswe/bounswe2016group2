@@ -38,13 +38,18 @@ var Layout = function (_React$Component) {
           { className: 'ui secondary pointing menu', style: { paddingTop: 10 } },
           React.createElement(
             'a',
-            { href: '/', className: 'item active' },
+            { href: '/', className: 'item' },
             'Home'
           ),
           React.createElement(
             'a',
             { href: '/addFood', className: 'item' },
             'Add Food'
+          ),
+          React.createElement(
+            'a',
+            { href: '/addRestaurant', className: 'item' },
+            'Become a server'
           ),
           React.createElement(_NavbarUser2.default, { userEmail: userEmail })
         ),

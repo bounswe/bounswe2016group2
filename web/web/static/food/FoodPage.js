@@ -105,7 +105,21 @@ var FoodPage = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'ui segment', style: { textAlign: 'right' } },
+          { className: 'ui segment', style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+          this.state.food.restaurant && React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'span',
+              { style: { marginRight: 5 } },
+              'Restaurant:'
+            ),
+            React.createElement(
+              'a',
+              { href: "/restaurants/" + this.state.food.restaurant.id },
+              this.state.food.restaurant.name
+            )
+          ),
           token && React.createElement(
             'div',
             null,
