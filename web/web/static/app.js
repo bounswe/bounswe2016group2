@@ -24,6 +24,10 @@ var _Homepage = require('Homepage.js');
 
 var _Homepage2 = _interopRequireDefault(_Homepage);
 
+var _CreateDietPage = require('diet/CreateDietPage.js');
+
+var _CreateDietPage2 = _interopRequireDefault(_CreateDietPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = new Navigo({ root: '/', useHash: false });
@@ -51,6 +55,12 @@ router.on("/addFood/", function () {
     _Layout2.default,
     null,
     React.createElement(_UserHomepage2.default, null)
+  ), root);
+}).on("createDiet/", function () {
+  ReactDOM.render(React.createElement(
+    _Layout2.default,
+    null,
+    React.createElement(_CreateDietPage2.default, null)
   ), root);
 }).on("*", function () {
   ReactDOM.render(React.createElement(

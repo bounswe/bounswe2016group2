@@ -4,6 +4,7 @@ import FoodPage from 'food/FoodPage.js'
 import IngredientPage from 'ingredient/IngredientPage.js'
 import UserHomepage from 'user/UserHomepage.js'
 import Homepage from 'Homepage.js'
+import CreateDietPage from 'diet/CreateDietPage.js'
 
 var router = new Navigo({root:'/', useHash:false});
 
@@ -27,6 +28,11 @@ router
   .on("/profile/", function(params) {
     ReactDOM.render(
       <Layout><UserHomepage/></Layout>,
+      root);
+  })
+  .on("createDiet/", function(){
+    ReactDOM.render(
+      <Layout><CreateDietPage/></Layout>,
       root);
   })
   .on("*",function () {

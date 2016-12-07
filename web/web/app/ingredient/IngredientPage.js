@@ -17,7 +17,7 @@ export default class IngredientPage extends React.Component {
   }
 
   fetch(id) {
-    Api.getIngr(id)
+    Api.getIngredient(id)
       .then((data) => {
         this.setState(
           {
