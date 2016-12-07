@@ -41,7 +41,7 @@ var IngredientPage = function (_React$Component) {
     value: function fetch(id) {
       var _this2 = this;
 
-      Api.getIngr(id).then(function (data) {
+      Api.getIngredient(id).then(function (data) {
         _this2.setState({
           name: data.name,
           url: data.photo,

@@ -174,8 +174,8 @@ var Api = function () {
       return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
     }
   }, {
-    key: 'getIngr',
-    value: function getIngr(id) {
+    key: 'getIngredient',
+    value: function getIngredient(id) {
       return this.get('ingredients/' + id);
     }
   }, {
@@ -192,6 +192,11 @@ var Api = function () {
     key: 'consumptionHistory',
     value: function consumptionHistory(data) {
       return this.get('users/history');
+    }
+  }, {
+    key: 'createDiet',
+    value: function createDiet(data) {
+      return this.post('diets', data);
     }
   }]);
 

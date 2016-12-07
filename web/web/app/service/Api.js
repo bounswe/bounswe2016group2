@@ -131,7 +131,7 @@ class Api {
   static addFoodToRestaurant(restaurantId, foodId) {
 		return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
 	}
-  static getIngr(id){
+  static getIngredient(id){
     return this.get('ingredients/' + id);
   }
   static foodAte(id, data){
@@ -142,5 +142,8 @@ class Api {
   }
   static consumptionHistory(data){
     return this.get('users/history');
+  }
+  static createDiet(data){
+    return this.post('diets', data);
   }
 }
