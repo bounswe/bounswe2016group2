@@ -1,3 +1,5 @@
+import FoodRow from '../food/FoodRow.js'
+
 export default class FoodPage extends React.Component {
 
   constructor (props) {
@@ -5,6 +7,7 @@ export default class FoodPage extends React.Component {
     this.state = {
       id: props.id,
       restaurant: {
+        foods: []
       }
     }
     this.fetch = this.fetch.bind(this)
@@ -32,6 +35,20 @@ export default class FoodPage extends React.Component {
         </div>
         <div className="ui segment" style={{padding:0,overflow:'hidden',maxHeight:400,textAlign:'center',width:'100%'}}>
           <img src={this.state.restaurant.photo} className='img-responsive'/>
+        </div>
+        { this.state.restaurant.description &&
+          <div className="ui segment" style={{textAlign:'center'}}>
+            <h2 className="ui header">Description</h2>
+            <p>{this.state.restaurant.description}</p>
+          </div>
+        }
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>Foods</h1>
+        </div>
+        <div className="ui segment">
+          { this.state.restaurant.foods.map((food) => {
+            return <FoodRow key={food.id} data={food}/>
+          })}
         </div>
       </div>
     )
