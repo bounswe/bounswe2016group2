@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _IngredientInput = require('ingredient/IngredientInput.js');
+var _MultipleSelect = require('../service/MultipleSelect.js');
 
-var _IngredientInput2 = _interopRequireDefault(_IngredientInput);
+var _MultipleSelect2 = _interopRequireDefault(_MultipleSelect);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,26 +27,50 @@ var AddFoodPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (AddFoodPage.__proto__ || Object.getPrototypeOf(AddFoodPage)).call(this, props));
 
     _this.state = {
-      data: null,
       errors: null,
-      ingredients: [],
-      inclusions: [{ 'ingredientId': null, 'unit': 'g' }]
+      foods: []
     };
     return _this;
   }
 
   _createClass(AddFoodPage, [{
+    key: 'setFoodSelectOptions',
+    value: function setFoodSelectOptions() {
+      var self = this;
+      Api.getFoods().then(function (data) {
+        self.setState({
+          options: data
+        });
+      });
+    }
+  }, {
     key: 'submit',
     value: function submit(e) {
       var _this2 = this;
 
       e.preventDefault();
-      this.setState({ errors: null });
       var postData = {
         name: this.state.name,
         photo: this.state.photo
       };
-      Api.addRestaurant(postData).then(function (data) {}).catch(function (err) {
+      Api.addRestaurant(postData).then(function (data) {
+        console.log(data);
+        var foodPromises = [];
+        var restaurantId = data.id;
+        _this2.state.foods.forEach(function (food, index) {
+          foodPromises.push(Api.addFoodToRestaurant(restaurantId, food));
+        });
+
+        // Evenly, it's possible to use .catch
+        Promise.all(foodPromises).then(function () {
+          console.log('lan');
+          router.navigate('../restaurants/' + data.id);
+        }).catch(function (reason) {
+          console.log('lansad');
+          console.log('error', reason);
+          router.navigate('../restaurants/' + data.id);
+        });
+      }).catch(function (err) {
         console.log(err);
         _this2.setState({ errors: err.data });
       });
@@ -74,9 +98,9 @@ var AddFoodPage = function (_React$Component) {
     }
   }, {
     key: 'foodsChanged',
-    value: function foodsChanged(event) {
+    value: function foodsChanged(foods) {
       this.setState({
-        photo: event.target.value
+        foods: foods
       });
     }
   }, {
@@ -163,9 +187,9 @@ var AddFoodPage = function (_React$Component) {
                 null,
                 'Foods'
               ),
-              React.createElement('input', { type: 'url', name: 'foods', placeholder: 'image url', value: this.state.foods, onChange: this.foodsChanged.bind(this) })
+              React.createElement(_MultipleSelect2.default, { onChange: this.foodsChanged.bind(this), setOptions: this.setFoodSelectOptions, name: 'foods', placeholder: 'Select foods' })
             ),
-            this.state.errors && this.state.errors.photo && React.createElement(
+            this.state.errors && this.state.errors.foods && React.createElement(
               'div',
               { className: 'ui error message' },
               React.createElement(
