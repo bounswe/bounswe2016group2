@@ -20,6 +20,17 @@ export default class FoodPage extends React.Component {
     this.fetch(this.state.id);
   }
 
+  componentDidMount() {
+    $('#foodRating .ui.rating').rating(
+      {
+        maxRating: 5,
+        onRate: (value) => {
+          this.setState({rating: value})
+        }
+      }
+    );
+  }
+
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
@@ -42,7 +53,8 @@ export default class FoodPage extends React.Component {
   ateThis(e) {
     e.preventDefault()
     var data = {
-      value: this.state.servingSize
+      value: this.state.servingSize,
+      rating: this.state.rating
     }
     Api.foodAte(this.state.id, data)
       .then((data) => {
@@ -97,6 +109,10 @@ export default class FoodPage extends React.Component {
                     <div className="field">
                       <label>Serving size</label>
                       <input type="number" min="0" max="100" name="servingSize" value={this.state.servingSize} onChange={this.servingSizeChanged}/>
+                    </div>
+                    <div  id="foodRating" className="field">
+                      <label> Your rating </label>
+                      <div className="ui star rating"></div>
                     </div>
                     <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.ateThis}>
                       Submit
@@ -160,19 +176,21 @@ export default class FoodPage extends React.Component {
               <th>{Constants.macro.fat.name}</th>
             </tr>
           </thead>
-          {this.state.food.inclusions.map((inclusion, index) => {
-            return (
-              <tr key={index}>
-                <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
-                <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
-                <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
-                <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
-                <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
-                <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
-                <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
-              </tr>
-            )
-          })}
+          <tbody>
+            {this.state.food.inclusions.map((inclusion, index) => {
+              return (
+                <tr key={index}>
+                  <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
+                  <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
+                  <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
+                  <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
+                  <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
+                  <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
+                  <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
+                </tr>
+              )
+            })}
+          </tbody>
         </table>
         {/* micronutrients */}
         {/* <div className="ui segment">

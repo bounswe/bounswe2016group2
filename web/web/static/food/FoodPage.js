@@ -41,14 +41,26 @@ var FoodPage = function (_React$Component) {
       this.fetch(this.state.id);
     }
   }, {
-    key: 'fetch',
-    value: function fetch(id) {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       var _this2 = this;
 
+      $('#foodRating .ui.rating').rating({
+        maxRating: 5,
+        onRate: function onRate(value) {
+          _this2.setState({ rating: value });
+        }
+      });
+    }
+  }, {
+    key: 'fetch',
+    value: function fetch(id) {
+      var _this3 = this;
+
       Api.getFood(id).then(function (data) {
-        _this2.setState({ food: data });
+        _this3.setState({ food: data });
       }).catch(function (err) {
-        _this2.setState({ errors: err });
+        _this3.setState({ errors: err });
       });
     }
   }, {
@@ -71,7 +83,8 @@ var FoodPage = function (_React$Component) {
     value: function ateThis(e) {
       e.preventDefault();
       var data = {
-        value: this.state.servingSize
+        value: this.state.servingSize,
+        rating: this.state.rating
       };
       Api.foodAte(this.state.id, data).then(function (data) {
         console.log('succ', data);
@@ -170,6 +183,16 @@ var FoodPage = function (_React$Component) {
                       'Serving size'
                     ),
                     React.createElement('input', { type: 'number', min: '0', max: '100', name: 'servingSize', value: this.state.servingSize, onChange: this.servingSizeChanged })
+                  ),
+                  React.createElement(
+                    'div',
+                    { id: 'foodRating', className: 'field' },
+                    React.createElement(
+                      'label',
+                      null,
+                      ' Your rating '
+                    ),
+                    React.createElement('div', { className: 'ui star rating' })
                   ),
                   React.createElement(
                     'button',
@@ -376,59 +399,63 @@ var FoodPage = function (_React$Component) {
               )
             )
           ),
-          this.state.food.inclusions.map(function (inclusion, index) {
-            return React.createElement(
-              'tr',
-              { key: index },
-              React.createElement(
-                'td',
-                null,
+          React.createElement(
+            'tbody',
+            null,
+            this.state.food.inclusions.map(function (inclusion, index) {
+              return React.createElement(
+                'tr',
+                { key: index },
                 React.createElement(
-                  'a',
-                  { href: '/ingredient/' + inclusion.ingredient.id },
-                  inclusion.name
+                  'td',
+                  null,
+                  React.createElement(
+                    'a',
+                    { href: '/ingredient/' + inclusion.ingredient.id },
+                    inclusion.name
+                  )
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.value).toFixed(2),
+                  ' ',
+                  inclusion.unit
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.measureValue).toFixed(2),
+                  ' ',
+                  inclusion.ingredient.measureUnit
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.energy).toFixed(2),
+                  ' kcal'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.protein).toFixed(2),
+                  ' g'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.carb).toFixed(2),
+                  ' g'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.fat).toFixed(2),
+                  ' g'
                 )
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.value).toFixed(2),
-                ' ',
-                inclusion.unit
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.measureValue).toFixed(2),
-                ' ',
-                inclusion.ingredient.measureUnit
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.energy).toFixed(2),
-                ' kcal'
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.protein).toFixed(2),
-                ' g'
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.carb).toFixed(2),
-                ' g'
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.fat).toFixed(2),
-                ' g'
-              )
-            );
-          })
+              );
+            })
+          )
         )
       );
     }
