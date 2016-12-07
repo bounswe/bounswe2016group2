@@ -119,6 +119,9 @@ class Api {
   static getFood(id){
     return this.get('foods/' + id);
   }
+  static getRestaurant(id){
+    return this.get('restaurants/' + id);
+  }
   static getIngr(id){
     return this.get('ingredients/' + id);
   }

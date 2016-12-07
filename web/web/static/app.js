@@ -12,6 +12,10 @@ var _FoodPage = require('food/FoodPage.js');
 
 var _FoodPage2 = _interopRequireDefault(_FoodPage);
 
+var _RestaurantPage = require('restaurant/RestaurantPage.js');
+
+var _RestaurantPage2 = _interopRequireDefault(_RestaurantPage);
+
 var _IngredientPage = require('ingredient/IngredientPage.js');
 
 var _IngredientPage2 = _interopRequireDefault(_IngredientPage);
@@ -45,6 +49,12 @@ router.on("/addFood/", function () {
     _Layout2.default,
     null,
     React.createElement(_IngredientPage2.default, { id: params.id })
+  ), root);
+}).on("/restaurants/:id", function (params) {
+  ReactDOM.render(React.createElement(
+    _Layout2.default,
+    null,
+    React.createElement(_RestaurantPage2.default, { id: params.id })
   ), root);
 }).on("/profile/", function (params) {
   ReactDOM.render(React.createElement(
