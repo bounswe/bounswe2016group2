@@ -34,8 +34,6 @@ var _Homepage2 = _interopRequireDefault(_Homepage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var router = new Navigo({ root: '/', useHash: false });
-
 router.on("/addFood/", function () {
   ReactDOM.render(React.createElement(
     _Layout2.default,

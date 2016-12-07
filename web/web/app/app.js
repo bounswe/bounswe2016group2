@@ -7,8 +7,6 @@ import IngredientPage from 'ingredient/IngredientPage.js'
 import UserHomepage from 'user/UserHomepage.js'
 import Homepage from 'Homepage.js'
 
-var router = new Navigo({root:'/', useHash:false});
-
 
 router
   .on("/addFood/", function() {
