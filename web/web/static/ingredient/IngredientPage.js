@@ -22,6 +22,7 @@ var IngredientPage = function (_React$Component) {
 
     _this.state = {
       id: props.id,
+      servingSize: 1,
       data: [{}],
       errors: null
     };
@@ -59,24 +60,26 @@ var IngredientPage = function (_React$Component) {
       var result = [];
       for (var prop in this.state.data) {
         var propValue = this.state.data[prop];
-        result.push(React.createElement(
-          "div",
-          null,
-          React.createElement(
-            "label",
-            { style: { "font-weight": "bold" } },
-            " ",
-            prop,
-            " "
-          ),
-          React.createElement(
-            "label",
-            null,
-            " ",
-            propValue,
-            " "
-          )
-        ));
+        if (propValue) {
+          result.push(React.createElement(
+            "div",
+            { key: prop },
+            React.createElement(
+              "label",
+              { style: { "fontWeight": "bold" } },
+              " ",
+              prop,
+              " "
+            ),
+            React.createElement(
+              "label",
+              null,
+              " ",
+              propValue,
+              " "
+            )
+          ));
+        }
       }
       this.setState({ ingrProps: result });
     }
@@ -85,15 +88,33 @@ var IngredientPage = function (_React$Component) {
 
   }, {
     key: "ateThis",
-    value: function ateThis() {
+    value: function ateThis(e) {
+      e.preventDefault();
       var query = {
-        value: 1
+        value: this.state.servingSize,
+        unit: this.state.data.measureUnit
       };
       Api.ingredientAte(this.state.id, query).then(function (data) {
         console.log(data);
+        $('#ateFoodSuccModal').modal('show');
       }).catch(function (err) {
         console.log(err);
       });
+    }
+  }, {
+    key: "openAteFoodModal",
+    value: function openAteFoodModal() {
+      $('#ateFoodModal').modal('show');
+    }
+  }, {
+    key: "openSuccessModal",
+    value: function openSuccessModal() {
+      $('#ateFoodSuccModal').modal('show');
+    }
+  }, {
+    key: "servingSizeChanged",
+    value: function servingSizeChanged(e) {
+      this.setState({ servingSize: e.target.value });
     }
   }, {
     key: "render",
@@ -120,10 +141,66 @@ var IngredientPage = function (_React$Component) {
             null,
             this.state.url && React.createElement("img", { src: this.state.url, style: { width: 400, height: 400 } })
           ),
-          userEmail && this.state.name && React.createElement(
-            "button",
-            { className: "ui button", type: "button", style: { width: '10%' }, onClick: this.ateThis },
-            "I ate this!"
+          token && React.createElement(
+            "div",
+            null,
+            React.createElement(
+              "button",
+              { className: "ui button", type: "button", onClick: this.openAteFoodModal },
+              "I ate this!"
+            ),
+            React.createElement(
+              "div",
+              { id: "ateFoodSuccModal", className: "ui small modal" },
+              React.createElement(
+                "div",
+                { className: "ui message success" },
+                React.createElement("i", { className: "close icon" }),
+                React.createElement(
+                  "div",
+                  { className: "header" },
+                  "Success!"
+                ),
+                React.createElement(
+                  "p",
+                  null,
+                  "The food has been saved to your nutrition history"
+                )
+              )
+            ),
+            React.createElement(
+              "div",
+              { id: "ateFoodModal", className: "ui small modal" },
+              React.createElement("i", { className: "close icon" }),
+              React.createElement(
+                "div",
+                { className: "header" },
+                "You ate this?"
+              ),
+              React.createElement(
+                "div",
+                { className: "content" },
+                React.createElement(
+                  "form",
+                  { className: "ui form" },
+                  React.createElement(
+                    "div",
+                    { className: "field" },
+                    React.createElement(
+                      "label",
+                      null,
+                      "Serving size"
+                    ),
+                    React.createElement("input", { type: "number", min: "0", max: "100", name: "servingSize", value: this.state.servingSize, onChange: this.servingSizeChanged })
+                  ),
+                  React.createElement(
+                    "button",
+                    { className: "ui button", type: "submit", style: { width: '100%' }, onClick: this.ateThis },
+                    "Submit"
+                  )
+                )
+              )
+            )
           ),
           React.createElement(
             "div",
