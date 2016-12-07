@@ -3,10 +3,8 @@ package com.example.bounswegroup2.Models;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 
 public class Food implements Serializable
 {
@@ -14,21 +12,18 @@ public class Food implements Serializable
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("inclusions")
-    @Expose
-    private List<Inclusion> inclusions = null;
-    @SerializedName("restaurant")
-    @Expose
-    private Restaurant restaurant;
-    @SerializedName("user")
-    @Expose
-    private User user;
-    @SerializedName("name")
-    @Expose
-    private String name;
     @SerializedName("slug")
     @Expose
     private String slug;
+    @SerializedName("user")
+    @Expose
+    private Integer user;
+    @SerializedName("restaurant")
+    @Expose
+    private Integer restaurant;
+    @SerializedName("name")
+    @Expose
+    private String name;
     @SerializedName("description")
     @Expose
     private String description;
@@ -38,7 +33,12 @@ public class Food implements Serializable
     @SerializedName("ingredients")
     @Expose
     private List<Ingredient> ingredients = null;
-    private final static long serialVersionUID = -5801180318491867932L;
+
+    private  int energy = 0;
+    private  int pro = 0;
+    private  int carb = 0;
+    private  int fat = 0;
+    private final static long serialVersionUID = 697699670771933128L;
 
     /**
      *
@@ -61,37 +61,19 @@ public class Food implements Serializable
     /**
      *
      * @return
-     * The inclusions
+     * The slug
      */
-    public List<Inclusion> getInclusions() {
-        return inclusions;
+    public String getSlug() {
+        return slug;
     }
 
     /**
      *
-     * @param inclusions
-     * The inclusions
+     * @param slug
+     * The slug
      */
-    public void setInclusions(List<Inclusion> inclusions) {
-        this.inclusions = inclusions;
-    }
-
-    /**
-     *
-     * @return
-     * The restaurant
-     */
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    /**
-     *
-     * @param restaurant
-     * The restaurant
-     */
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     /**
@@ -99,7 +81,7 @@ public class Food implements Serializable
      * @return
      * The user
      */
-    public User getUser() {
+    public Integer getUser() {
         return user;
     }
 
@@ -108,8 +90,26 @@ public class Food implements Serializable
      * @param user
      * The user
      */
-    public void setUser(User user) {
+    public void setUser(Integer user) {
         this.user = user;
+    }
+
+    /**
+     *
+     * @return
+     * The restaurant
+     */
+    public Integer getRestaurant() {
+        return restaurant;
+    }
+
+    /**
+     *
+     * @param restaurant
+     * The restaurant
+     */
+    public void setRestaurant(Integer restaurant) {
+        this.restaurant = restaurant;
     }
 
     /**
@@ -128,24 +128,6 @@ public class Food implements Serializable
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     *
-     * @return
-     * The slug
-     */
-    public String getSlug() {
-        return slug;
-    }
-
-    /**
-     *
-     * @param slug
-     * The slug
-     */
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     /**
@@ -202,6 +184,16 @@ public class Food implements Serializable
         this.ingredients = ingredients;
     }
 
+    public  void setFields(){
+        for (Ingredient i : this.ingredients) {
+            energy+=i.getEnergy();
+            pro+=i.getProtein();
+            carb+=i.getCarb();
+            fat+=i.getFat();
+        }
+    }
+
+
     public static Comparator<Food> caToZ = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
@@ -231,4 +223,19 @@ public class Food implements Serializable
         }
     };
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getPro() {
+        return pro;
+    }
+
+    public int getCarb() {
+        return carb;
+    }
+
+    public int getFat() {
+        return fat;
+    }
 }

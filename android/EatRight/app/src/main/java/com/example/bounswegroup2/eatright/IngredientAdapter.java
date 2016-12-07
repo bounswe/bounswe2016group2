@@ -48,10 +48,10 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         TextView tvFat = (TextView) convertView.findViewById(R.id.ingr_fat);
         // Populate the data into the template view using the data object
         tvName.setText(ingr.getName());
-       /* tvEnergy.setText(Integer.toString(ingr.getEnergy()));
-        tvPro.setText(Integer.toString(ingr.getProtein()));
-        tvCab.setText(Integer.toString(ingr.getCarb()));
-        tvFat.setText(Integer.toString(ingr.getFat()));*/
+        tvEnergy.setText(""+ingr.getEnergy());
+        tvPro.setText(""+ingr.getProtein());
+        tvCab.setText(""+ingr.getCarb());
+        tvFat.setText(""+ingr.getFat());
 
         // Return the completed view to render on screen
         return convertView;

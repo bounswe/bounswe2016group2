@@ -91,7 +91,7 @@ public interface ApiInterface {
 //    @POST("api/ingredientMocks")
     @Headers("Content-Type: application/json")
     @GET("api/foods")
-    Call<List<Food>> getFoods(@QueryMap Map<String, String> options);
+    Call<List<Food>> getFoods();
 
 //    @POST("api/foods")
 //

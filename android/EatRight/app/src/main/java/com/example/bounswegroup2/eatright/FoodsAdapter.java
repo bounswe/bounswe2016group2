@@ -47,12 +47,12 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());
         tvSlug.setText(food.getSlug());
-       /* Picasso.with(getContext())
-                .load(food.getPhotoLinks().get(0))
+        Picasso.with(getContext())
+                .load(food.getPhoto())
                 .placeholder(R.drawable.eatright)
                 .fit()
                 .centerInside()
-                .into(imageView);*/
+                .into(imageView);
         // Return the completed view to render on screen
         return convertView;
     }
