@@ -70,7 +70,7 @@ def restaurantFood(req, restaurantId, foodId):
         return Response(status=status.HTTP_404_NOT_FOUND)
     if req.method == 'POST':
         restaurant.food_set.add(food)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({}, status=status.HTTP_201_CREATED)
     if req.method == 'DELETE':
         try:
             restaurant.food_set.remove(food)

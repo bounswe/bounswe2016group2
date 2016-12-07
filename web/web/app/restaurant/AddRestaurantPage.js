@@ -1,26 +1,49 @@
-import IngredientInput from 'ingredient/IngredientInput.js'
+import MultipleSelect from '../service/MultipleSelect.js'
 
 export default class AddFoodPage extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      data: null,
       errors: null,
-      ingredients: [],
-      inclusions: [{'ingredientId':null,'unit':'g'}]
+      foods: []
     }
+  }
+
+  setFoodSelectOptions() {
+    const self = this
+    Api.getFoods()
+      .then((data) => {
+        self.setState({
+          options: data
+        })
+      })
   }
 
   submit(e) {
     e.preventDefault()
-    this.setState({errors: null})
     const postData = {
       name: this.state.name,
       photo: this.state.photo
     }
     Api.addRestaurant(postData)
       .then((data) => {
+        console.log(data);
+        let foodPromises = []
+        let restaurantId = data.id
+        this.state.foods.forEach((food,index) => {
+          foodPromises.push(Api.addFoodToRestaurant(restaurantId, food))
+        });
+
+        // Evenly, it's possible to use .catch
+        Promise.all(foodPromises).then(() => {
+          console.log('lan');
+          router.navigate('../restaurants/' + data.id)
+        }).catch(reason => {
+          console.log('lansad');
+          console.log('error', reason)
+          router.navigate('../restaurants/' + data.id)
+        })
 
       }).catch((err) => {
         console.log(err);
@@ -46,9 +69,9 @@ export default class AddFoodPage extends React.Component {
     })
   }
 
-  foodsChanged(event) {
+  foodsChanged(foods) {
     this.setState({
-      photo: event.target.value
+      foods: foods
     })
   }
 
@@ -92,9 +115,9 @@ export default class AddFoodPage extends React.Component {
             }
             <div className="field">
               <label>Foods</label>
-              <input type="url" name="foods" placeholder="image url" value={this.state.foods} onChange={this.foodsChanged.bind(this)}/>
+              <MultipleSelect onChange={this.foodsChanged.bind(this)} setOptions={this.setFoodSelectOptions} name="foods" placeholder="Select foods"/>
             </div>
-            { this.state.errors && this.state.errors.photo &&
+            { this.state.errors && this.state.errors.foods &&
               <div className="ui error message">
                 <p>{this.state.errors.foods[0]}</p>
               </div>

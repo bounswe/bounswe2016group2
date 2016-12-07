@@ -154,9 +154,24 @@ var Api = function () {
       return this.get('foods/' + id);
     }
   }, {
+    key: 'getFoods',
+    value: function getFoods(id) {
+      return this.get('foods');
+    }
+  }, {
     key: 'getRestaurant',
     value: function getRestaurant(id) {
       return this.get('restaurants/' + id);
+    }
+  }, {
+    key: 'addRestaurant',
+    value: function addRestaurant(data) {
+      return this.post('restaurants', data);
+    }
+  }, {
+    key: 'addFoodToRestaurant',
+    value: function addFoodToRestaurant(restaurantId, foodId) {
+      return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
     }
   }, {
     key: 'getIngredient',
