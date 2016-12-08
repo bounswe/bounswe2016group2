@@ -83,7 +83,7 @@ def calculateDetails(food):
     return food
 
 
-def calculateHistory(userId):
+def calculateHistory(userId, startDateStr, endDateStr):
     total = getAnalyticTemplate()  # total values
     total['ateFoods'] = []
     daily = {}  # daily values
