@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^foods$', food.foods),
     url(r'^foods/(?P<foodId>[0-9]+)$', food.food),
     url(r'^foods/(?P<foodId>[0-9]+)/ate$', ateFood.ateFood),
+    url(r'^foods/(?P<foodId>[0-9]+)/comment$', food.comment),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
     url(r'^foodSearch$', food.search),
     # INCLUSION ROUTES

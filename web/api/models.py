@@ -1,4 +1,5 @@
 from api.model.food import Food
+from api.model.foodComment import FoodComment
 from api.model.ingredient import Ingredient
 from api.model.inclusion import Inclusion
 from api.model.ateIngredient import AteIngredient

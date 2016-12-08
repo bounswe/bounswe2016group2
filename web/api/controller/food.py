@@ -6,7 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.model.food import Food
+from api.model.foodComment import FoodComment
 from api.serializer.food import FoodSerializer, FoodReadSerializer
+from api.serializer.foodComment import FoodCommentSerializer
 from api.service import food as FoodService
 
 
@@ -88,3 +90,35 @@ def search(req):
     foods = Food.objects.filter(slug__startswith=q)
     seriealizer = FoodSerializer(foods, many=True)
     return Response(seriealizer.data)
+
+
+@api_view(['POST', 'DELETE'])
+def comment(req, foodId):
+    """
+    Add, modify or delete comment on food
+    """
+    data = {
+        'food': foodId,
+        'user': req.user.id,
+        'comment': req.data['comment']
+    }
+    if req.method == 'POST':
+        try:
+            comment = FoodComment.objects.get(user=req.user.id, food=foodId)
+            serializer = FoodCommentSerializer(comment, data=data)
+        except FoodComment.DoesNotExist:
+            serializer = FoodCommentSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if req.method == 'DELETE':
+        try:
+            FoodComment.objects.get(food=foodId, user=req.user.id).delete()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except FoodComment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    return Response(serializer.data)
