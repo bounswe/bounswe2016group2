@@ -152,17 +152,18 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
                  final ArrayList<Food> foodList = (ArrayList<Food>) response.body();
+                int maxE=0,maxP=0,maxC= 0,maxF = 0;
                 for (int i = 0;i<foodList.size();i++) {
                     Food f = foodList.get(i);
                     f.setFields();
-                    int energy = f.getEnergy();
-                    int pro = f.getPro();
-                    int carb = f.getCarb();
-                    int fat = f.getFat();
+                    int energy = f.getEnergy(); if (energy > maxE) maxE = energy;
+                    int pro = f.getPro(); if (pro > maxP) maxP = pro;
+                    int carb = f.getCarb(); if (carb > maxC) maxC = carb;
+                    int fat = f.getFat(); if (fat > maxF) maxF = fat;
                     System.out.println(f.getName());
                     //REvise true values and then set max min values in rangeseekbars
                     if(!r1.contains(energy) || !r2.contains(pro) || !r3.contains(carb) || !r4.contains(fat)){
-                        //foodList.remove(i); i--;
+                        foodList.remove(i); i--;
                     }else{
                     ArrayList<Ingredient> listOfIngredients = (ArrayList<Ingredient>) f.getIngredients();
                     for (int j = 0; j < listOfIngredients.size(); j++) {

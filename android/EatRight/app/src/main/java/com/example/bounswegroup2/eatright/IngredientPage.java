@@ -23,8 +23,9 @@ private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
         setContentView(R.layout.activity_ingredient_page);
        ingredients = (ArrayList<Ingredient>) getIntent().getExtras().get("ingredients");
         listView = (ListView) findViewById(R.id.ingr_list);
-        View header = getLayoutInflater().inflate(R.layout.ingr_list_header,null);
-        listView.addHeaderView(header);
+        //View header = getLayoutInflater().inflate(R.layout.ingr_list_header,null);
+
+        //listView.addHeaderView(header);
         IngredientAdapter ingr = new IngredientAdapter(IngredientPage.this,ingredients);
         listView.setAdapter(ingr);
     }

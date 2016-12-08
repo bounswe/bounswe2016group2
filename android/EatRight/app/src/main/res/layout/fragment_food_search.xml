@@ -27,8 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/seekbarForCalorie"
-            app:absoluteMaxValue="150"
-            app:absoluteMinValue="25" />
+            app:absoluteMaxValue="750"
+            app:absoluteMinValue="100" />
     <TextView
         android:text="@string/protein_range"
         android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/rangeSeekBarForPro"
             app:absoluteMaxValue="150"
-            app:absoluteMinValue="25"
+            app:absoluteMinValue="0"
             android:layout_below="@+id/CalorieTExtView"
             android:layout_alignParentStart="true"
             android:layout_marginTop="33dp" />
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:absoluteMaxValue="150"
-            app:absoluteMinValue="25"
+            app:absoluteMinValue="0"
             android:id="@+id/seekBarForCab"
             android:layout_marginTop="19dp"
             android:layout_below="@+id/textViewFatRange"
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:absoluteMaxValue="150"
-            app:absoluteMinValue="25"
+            app:absoluteMinValue="0"
             android:id="@+id/seekBarForFat"
             android:layout_below="@+id/rangeSeekBarForPro"
             android:layout_alignParentStart="true" />
