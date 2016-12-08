@@ -1,8 +1,13 @@
+import datetime
+
 import api.service.constants as Constants
 
+from api.model.ateFood import AteFood
+from api.serializer.ateFood import AteFoodDetailSerializer
 
-def calculateGeneralDetails(food):
-    food['details'] = {
+
+def getAnalyticTemplate():
+    return {
         'weight': 0,
         'energy': 0,
         'rate': 1,
@@ -28,6 +33,10 @@ def calculateGeneralDetails(food):
             'details': {}
         }
     }
+
+
+def calculateGeneralDetails(food):
+    food['details'] = getAnalyticTemplate()
 
     macroFields = ('protein', 'carb', 'fat')
     # microFields = (
@@ -72,3 +81,34 @@ def calculateDetails(food):
 
     calculateGeneralDetails(food)
     return food
+
+
+def calculateHistory(userId):
+    total = getAnalyticTemplate()  # total values
+    total['ateFoods'] = []
+    daily = {}  # daily values
+    ateFoods = AteFood.objects.filter(user=userId)
+    ateFoodSerializer = AteFoodDetailSerializer(ateFoods, many=True)
+    ateFoodArr = ateFoodSerializer.data
+
+    for ateFood in ateFoodArr:
+        dateStr = datetime.datetime.strptime(ateFood['created'], "%Y-%m-%dT%H:%M:%S.%fZ").strftime('%d-%m-%Y')
+        if dateStr not in daily:
+            daily[dateStr] = getAnalyticTemplate()
+            daily[dateStr]['ateFoods'] = []
+
+        food = ateFood['food']
+        calculateDetails(food)
+
+        for analytic in [total, daily[dateStr]]:
+            analytic['ateFoods'].append(ateFood)
+            analytic['weight'] += food['details']['weight']
+            analytic['energy'] += food['details']['energy']
+            analytic['protein']['weight'] += food['details']['protein']['weight']
+            analytic['carb']['weight'] += food['details']['carb']['weight']
+            analytic['fat']['weight'] += food['details']['fat']['weight']
+
+    return {
+        'total': total,
+        'daily': daily
+    }

@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
@@ -8,11 +9,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.serializer.user import UserSerializer, UserReadSerializer
-from api.model.ateFood import AteFood
-from api.serializer.ateFood import AteFoodDetailSerializer
-from api.model.ateIngredient import AteIngredient
-from api.serializer.ateIngredient import AteIngredientDetailSerializer
 from api.service import user as UserService
+from api.service import food as FoodService
 
 
 @api_view(['POST'])
@@ -136,11 +134,7 @@ def history(req):
     """
     get current user's eaten food and ingredient history
     """
-    ateFoods = AteFood.objects.filter(user=req.user.id)
-    ateIngredients = AteIngredient.objects.filter(user=req.user.id)
-    foodSerializer = AteFoodDetailSerializer(ateFoods, many=True)
-    ingredientSerializer = AteIngredientDetailSerializer(ateIngredients, many=True)
-    return Response({
-        'foods': foodSerializer.data,
-        'ingredients': ingredientSerializer.data
-    })
+    startDate = datetime.datetime.now().strftime('%d-%m-%Y')
+    endDate = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime('%d-%m-%Y')
+    foodHistory = FoodService.calculateHistory(req.user.id, startDate, endDate)
+    return Response(foodHistory)
