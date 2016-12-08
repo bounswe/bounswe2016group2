@@ -1,5 +1,6 @@
 class Api {
 
+
   static path(relativePath) {
     return '/api/' + relativePath
   }
@@ -79,70 +80,74 @@ class Api {
 		})
 	}
 
+  // USER ROUTES
   /**
    * {email: String, password: String}
    */
   static signin(credentials) {
     return this.post('users/signin', credentials)
   }
-
   /**
    * {email: String, password: String, first_name: String, last_name: String}
    */
   static signup(data) {
     return this.post('users/signup', data)
   }
+  static consumptionHistory(){
+    return this.get('users/history');
+  }
 
-  static addFood(data) {
-		return this.post('foods', data);
-	}
-
-	static addIngredientToFood(foodId, ingId, data) {
-		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
-	}
-
-	static searchIngredient(query) {
-		return this.get('ingredientSearch?query=' + query);
-	}
-
+  // INGREDIENT ROUTES
+  static searchIngredient(query) {
+    return this.get('ingredientSearch?query=' + query);
+  }
   static getIngredients() {
     return this.get('ingredients');
   }
-
-  static searchFood(query) {
-		return this.get('foodSearch?query=' + query);
-	}
-
-	static deleteFood(data){
-		return this.delete('foods/' + data);
-	}
-  static getFood(id){
-    return this.get('foods/' + id);
-  }
-  static getFoods(id){
-    return this.get('foods');
-  }
-  static getRestaurant(id){
-    return this.get('restaurants/' + id);
-  }
-  static addRestaurant(data) {
-		return this.post('restaurants', data);
-	}
-  static addFoodToRestaurant(restaurantId, foodId) {
-		return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
-	}
   static getIngredient(id){
     return this.get('ingredients/' + id);
-  }
-  static foodAte(id, data){
-    return this.post('foods/' + id + "/ate", data);
   }
   static ingredientAte(id, data){
     return this.post('ingredients/' + id + "/ate", data);
   }
-  static consumptionHistory(){
-    return this.get('users/history');
+
+  // FOOD ROUTES
+  static addFood(data) {
+		return this.post('foods', data);
+	}
+  static getFoods(id){
+    return this.get('foods');
   }
+  static getFood(id){
+    return this.get('foods/' + id);
+  }
+  static searchFood(query) {
+		return this.get('foodSearch?query=' + query);
+	}
+  static addIngredientToFood(foodId, ingId, data) {
+		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
+	}
+  static foodAte(id, data){
+    return this.post('foods/' + id + "/ate", data);
+  }
+  static deleteFood(data){
+		return this.delete('foods/' + data);
+	}
+
+  // INCLUSION ROUTES
+  static addRestaurant(data) {
+		return this.post('restaurants', data);
+	}
+  // RESTAURANT ROUTES
+
+  static getRestaurant(id){
+    return this.get('restaurants/' + id);
+  }
+  static addFoodToRestaurant(restaurantId, foodId) {
+    return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
+  }
+
+  // DIET ROUTES
   static createDiet(data){
     return this.post('diets', data);
   }
