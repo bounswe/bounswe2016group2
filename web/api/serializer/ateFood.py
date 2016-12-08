@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from api.model.food import Food
 from api.model.ateFood import AteFood
-from api.serializer.food import FoodSerializer
+from api.serializer.food import FoodReadSerializer
 from django.contrib.auth.models import User
 
 
@@ -18,8 +18,9 @@ class AteFoodSerializer(serializers.ModelSerializer):
 
 
 class AteFoodDetailSerializer(serializers.ModelSerializer):
-    food = FoodSerializer()
+
+    food = FoodReadSerializer()
 
     class Meta:
         model = AteFood
-        fields = ('food', 'value')
+        fields = ('food', 'value', 'created')
