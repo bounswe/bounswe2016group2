@@ -1,3 +1,5 @@
+import Comments from 'comment/Comments.js'
+
 export default class FoodPage extends React.Component {
 
   constructor (props) {
@@ -20,10 +22,20 @@ export default class FoodPage extends React.Component {
     this.fetch(this.state.id);
   }
 
+  componentDidMount() {
+    $('#foodRating .ui.rating').rating(
+      {
+        maxRating: 5,
+        onRate: (value) => {
+          this.setState({rating: value})
+        }
+      }
+    );
+  }
+
   fetch(id) {
     Api.getFood(id)
       .then((data) => {
-        console.log(data);
         this.setState({food: data});
       }).catch((err) => {
         this.setState({errors: err});
@@ -43,7 +55,8 @@ export default class FoodPage extends React.Component {
   ateThis(e) {
     e.preventDefault()
     var data = {
-      value: this.state.servingSize
+      value: this.state.servingSize,
+      rating: this.state.rating
     }
     Api.foodAte(this.state.id, data)
       .then((data) => {
@@ -99,6 +112,10 @@ export default class FoodPage extends React.Component {
                       <label>Serving size</label>
                       <input type="number" min="0" max="100" name="servingSize" value={this.state.servingSize} onChange={this.servingSizeChanged}/>
                     </div>
+                    <div  id="foodRating" className="field">
+                      <label> Your rating </label>
+                      <div className="ui star rating"></div>
+                    </div>
                     <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.ateThis}>
                       Submit
                     </button>
@@ -124,24 +141,26 @@ export default class FoodPage extends React.Component {
               <th>Energy</th>
             </tr>
           </thead>
-          <tr>
-            <td>Weight</td>
-            <td>{Number(this.state.food.details.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2)} g</td>
-            <td>{this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2)} g</td>
-            <td>{Number(this.state.food.details.energy).toFixed(2)} kcal</td>
-          </tr>
-          <tr>
-            <td>Rate</td>
-            <td>100 %</td>
-            <td>{this.state.food.details.protein && Math.round((this.state.food.details.protein.weight/this.state.food.details.weight)*100)} %</td>
-            <td>{this.state.food.details.carb && Math.round((this.state.food.details.carb.weight/this.state.food.details.weight)*100)} %</td>
-            <td>{this.state.food.details.fat && Math.round((this.state.food.details.fat.weight/this.state.food.details.weight)*100)} %</td>
-            <td>{this.state.food.details.other && Math.round((this.state.food.details.other.weight/this.state.food.details.weight)*100)} %</td>
-            <td></td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Weight</td>
+              <td>{Number(this.state.food.details.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2)} g</td>
+              <td>{this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2)} g</td>
+              <td>{Number(this.state.food.details.energy).toFixed(2)} kcal</td>
+            </tr>
+            <tr>
+              <td>Rate</td>
+              <td>100 %</td>
+              <td>{this.state.food.details.protein && Math.round((this.state.food.details.protein.weight/this.state.food.details.weight)*100)} %</td>
+              <td>{this.state.food.details.carb && Math.round((this.state.food.details.carb.weight/this.state.food.details.weight)*100)} %</td>
+              <td>{this.state.food.details.fat && Math.round((this.state.food.details.fat.weight/this.state.food.details.weight)*100)} %</td>
+              <td>{this.state.food.details.other && Math.round((this.state.food.details.other.weight/this.state.food.details.weight)*100)} %</td>
+              <td></td>
+            </tr>
+          </tbody>
         </table>
         {/* ingredients */}
         <div className="ui segment">
@@ -159,19 +178,21 @@ export default class FoodPage extends React.Component {
               <th>{Constants.macro.fat.name}</th>
             </tr>
           </thead>
-          {this.state.food.inclusions.map((inclusion, index) => {
-            return (
-              <tr key={index}>
-                <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
-                <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
-                <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
-                <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
-                <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
-                <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
-                <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
-              </tr>
-            )
-          })}
+          <tbody>
+            {this.state.food.inclusions.map((inclusion, index) => {
+              return (
+                <tr key={index}>
+                  <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
+                  <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
+                  <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
+                  <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
+                  <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
+                  <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
+                  <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
+                </tr>
+              )
+            })}
+          </tbody>
         </table>
         {/* micronutrients */}
         {/* <div className="ui segment">
@@ -180,7 +201,12 @@ export default class FoodPage extends React.Component {
           <table className="ui segment celled table" style={{width:'100%'}}>
           // TODO: micronutrients
         </table> */}
+
+        {/* comments section */}
+        <div className="ui segment">
+          <Comments/>
+        </div>
       </div>
-        )
+    )
   }
 }

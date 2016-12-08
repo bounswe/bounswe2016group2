@@ -190,13 +190,28 @@ var Api = function () {
     }
   }, {
     key: 'consumptionHistory',
-    value: function consumptionHistory(data) {
+    value: function consumptionHistory() {
       return this.get('users/history');
     }
   }, {
     key: 'createDiet',
     value: function createDiet(data) {
       return this.post('diets', data);
+    }
+  }, {
+    key: 'getMyDiets',
+    value: function getMyDiets() {
+      return this.get('myDiets');
+    }
+  }, {
+    key: 'getDiets',
+    value: function getDiets() {
+      return this.get('diets');
+    }
+  }, {
+    key: 'addDiet',
+    value: function addDiet(dietId) {
+      return this.post('myDiets/' + dietId);
     }
   }]);
 

@@ -1,10 +1,16 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _MyDiets = require('diet/MyDiets.js');
+
+var _MyDiets2 = _interopRequireDefault(_MyDiets);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -21,16 +27,34 @@ var ConsumptionHistory = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (ConsumptionHistory.__proto__ || Object.getPrototypeOf(ConsumptionHistory)).call(this, props));
 
     _this.state = {};
+
+    _this.fetch = _this.fetch.bind(_this);
     return _this;
   }
 
   _createClass(ConsumptionHistory, [{
-    key: "render",
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.fetch();
+    }
+  }, {
+    key: 'fetch',
+    value: function fetch() {
+      var _this2 = this;
+
+      Api.consumptionHistory().then(function (data) {
+        _this2.setState({ data: data });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "ui segment" },
-        "consumption history"
+        'div',
+        { className: 'ui segment' },
+        'consumption history'
       );
     }
   }]);
@@ -48,39 +72,49 @@ var UserHomepage = function (_React$Component2) {
   }
 
   _createClass(UserHomepage, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       $('#userHomepage .item').tab();
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { id: "userHomepage", className: "ui-container" },
+        'div',
+        { id: 'userHomepage', className: 'ui-container' },
         React.createElement(
-          "div",
-          { className: "ui pointing menu" },
+          'div',
+          { className: 'ui pointing menu' },
           React.createElement(
-            "a",
-            { className: "item", "data-tab": "consumptionHistory" },
-            "Consumption History"
+            'a',
+            { className: 'item', 'data-tab': 'consumptionHistory' },
+            'Consumption History'
           ),
           React.createElement(
-            "a",
-            { className: "item", "data-tab": "favFoods" },
-            "Favorite Foods"
+            'a',
+            { className: 'item', 'data-tab': 'myDiets' },
+            'My Diets'
           ),
           React.createElement(
-            "a",
-            { className: "item", "data-tab": "favRestaurants" },
-            "Favorite Restaurants"
+            'a',
+            { className: 'item', 'data-tab': 'favFoods' },
+            'Favorite Foods'
+          ),
+          React.createElement(
+            'a',
+            { className: 'item', 'data-tab': 'favRestaurants' },
+            'Favorite Restaurants'
           )
         ),
         React.createElement(
-          "div",
-          { className: "ui tab", "data-tab": "consumptionHistory" },
+          'div',
+          { className: 'ui tab', 'data-tab': 'consumptionHistory' },
           React.createElement(ConsumptionHistory, null)
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui tab', 'data-tab': 'myDiets' },
+          React.createElement(_MyDiets2.default, null)
         )
       );
     }
