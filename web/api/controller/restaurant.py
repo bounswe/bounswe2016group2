@@ -6,7 +6,9 @@ from rest_framework.response import Response
 
 from api.model.restaurant import Restaurant
 from api.model.food import Food
+from api.model.restaurantComment import RestaurantComment
 from api.serializer.restaurant import RestaurantSerializer, RestaurantDetailSerializer
+from api.serializer.restaurantComment import RestaurantCommentSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -77,3 +79,35 @@ def restaurantFood(req, restaurantId, foodId):
         except Restaurant.DoesNotExist as e:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST', 'DELETE'])
+def comment(req, restaurantId):
+    """
+    Add, modify or delete comment on restaurant
+    """
+    data = {
+        'restaurant': restaurantId,
+        'user': req.user.id,
+        'comment': req.data['comment']
+    }
+    if req.method == 'POST':
+        try:
+            comment = RestaurantComment.objects.get(user=req.user.id, restaurant=restaurantId)
+            serializer = RestaurantCommentSerializer(comment, data=data)
+        except RestaurantComment.DoesNotExist:
+            serializer = RestaurantCommentSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if req.method == 'DELETE':
+        try:
+            RestaurantComment.objects.get(restaurant=restaurantId, user=req.user.id).delete()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except RestaurantComment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    return Response(serializer.data)

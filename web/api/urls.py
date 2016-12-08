@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^restaurants$', restaurant.restaurants),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)$', restaurant.restaurant),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/foods/(?P<foodId>[0-9]+)$', restaurant.restaurantFood),
+    url(r'^restaurants/(?P<restaurantId>[0-9]+)/comment', restaurant.comment),
     # DIET ROUTES
     url(r'^diets$', diet.diets),
     url(r'^diets/(?P<dietId>[0-9]+)$', diet.diet),
