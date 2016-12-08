@@ -8,12 +8,16 @@ class Api {
   static get(url) {
     return new Promise((resolve, reject) => {
       let status = null
-      fetch(this.path(url), {
+      let requestData = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then((res) => {
+      }
+      if (token) {
+        requestData.headers.Authorization = 'Token ' + token
+      }
+      fetch(this.path(url), requestData).then((res) => {
         status = res.status
         return res
       }).then((res) => {
