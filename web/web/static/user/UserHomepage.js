@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _DatePicker = require('service/DatePicker.js');
+
+var _DatePicker2 = _interopRequireDefault(_DatePicker);
+
 var _MyDiets = require('diet/MyDiets.js');
 
 var _MyDiets2 = _interopRequireDefault(_MyDiets);
@@ -53,8 +57,9 @@ var ConsumptionHistory = function (_React$Component) {
     value: function render() {
       return React.createElement(
         'div',
-        { className: 'ui segment' },
-        'consumption history'
+        { className: 'ui segment', style: { display: 'flex' } },
+        React.createElement(_DatePicker2.default, { name: 'consumptionStartDate', placeholder: 'Start Date', 'default': moment().subtract(1, 'month').toDate() }),
+        React.createElement(_DatePicker2.default, { name: 'consumptionEndDate', placeholder: 'End Date', 'default': moment().toDate() })
       );
     }
   }]);
@@ -87,7 +92,7 @@ var UserHomepage = function (_React$Component2) {
           { className: 'ui pointing menu' },
           React.createElement(
             'a',
-            { className: 'item', 'data-tab': 'consumptionHistory' },
+            { className: 'item active', 'data-tab': 'consumptionHistory' },
             'Consumption History'
           ),
           React.createElement(
@@ -108,7 +113,7 @@ var UserHomepage = function (_React$Component2) {
         ),
         React.createElement(
           'div',
-          { className: 'ui tab', 'data-tab': 'consumptionHistory' },
+          { className: 'ui tab active', 'data-tab': 'consumptionHistory' },
           React.createElement(ConsumptionHistory, null)
         ),
         React.createElement(
