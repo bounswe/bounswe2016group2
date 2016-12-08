@@ -3,7 +3,26 @@ class ConsumptionHistory extends React.Component {
     super(props)
     this.state = {
     }
+
+    this.fetch = this.fetch.bind(this);
   }
+
+  componentWillMount() {
+    this.fetch();
+  }
+
+  fetch(){
+    Api.consumptionHistory().then(
+      (data) => {
+        this.setState({data: data})
+      }
+    ).catch(
+      (error) => {
+        console.log(error);
+      }
+    )
+  }
+
   render() {
     return (
       <div className="ui segment">
@@ -12,6 +31,8 @@ class ConsumptionHistory extends React.Component {
     )
   }
 }
+
+import MyDiets from 'diet/MyDiets.js'
 
 export default class UserHomepage extends React.Component
 {
@@ -31,6 +52,9 @@ export default class UserHomepage extends React.Component
           <a className="item" data-tab="consumptionHistory">
             Consumption History
           </a>
+          <a className="item" data-tab="myDiets">
+            My Diets
+          </a>
           <a className="item" data-tab="favFoods">
             Favorite Foods
           </a>
@@ -40,6 +64,9 @@ export default class UserHomepage extends React.Component
         </div>
         <div className="ui tab" data-tab="consumptionHistory">
           <ConsumptionHistory/>
+        </div>
+        <div className="ui tab" data-tab="myDiets">
+          <MyDiets/>
         </div>
       </div>
     )

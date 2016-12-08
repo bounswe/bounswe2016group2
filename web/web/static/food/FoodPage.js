@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _Comments = require('comment/Comments.js');
+
+var _Comments2 = _interopRequireDefault(_Comments);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -41,15 +47,26 @@ var FoodPage = function (_React$Component) {
       this.fetch(this.state.id);
     }
   }, {
-    key: 'fetch',
-    value: function fetch(id) {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       var _this2 = this;
 
+      $('#foodRating .ui.rating').rating({
+        maxRating: 5,
+        onRate: function onRate(value) {
+          _this2.setState({ rating: value });
+        }
+      });
+    }
+  }, {
+    key: 'fetch',
+    value: function fetch(id) {
+      var _this3 = this;
+
       Api.getFood(id).then(function (data) {
-        console.log(data);
-        _this2.setState({ food: data });
+        _this3.setState({ food: data });
       }).catch(function (err) {
-        _this2.setState({ errors: err });
+        _this3.setState({ errors: err });
       });
     }
   }, {
@@ -72,7 +89,8 @@ var FoodPage = function (_React$Component) {
     value: function ateThis(e) {
       e.preventDefault();
       var data = {
-        value: this.state.servingSize
+        value: this.state.servingSize,
+        rating: this.state.rating
       };
       Api.foodAte(this.state.id, data).then(function (data) {
         console.log('succ', data);
@@ -173,6 +191,16 @@ var FoodPage = function (_React$Component) {
                     React.createElement('input', { type: 'number', min: '0', max: '100', name: 'servingSize', value: this.state.servingSize, onChange: this.servingSizeChanged })
                   ),
                   React.createElement(
+                    'div',
+                    { id: 'foodRating', className: 'field' },
+                    React.createElement(
+                      'label',
+                      null,
+                      ' Your rating '
+                    ),
+                    React.createElement('div', { className: 'ui star rating' })
+                  ),
+                  React.createElement(
                     'button',
                     { className: 'ui button', type: 'submit', style: { width: '100%' }, onClick: this.ateThis },
                     'Submit'
@@ -234,88 +262,92 @@ var FoodPage = function (_React$Component) {
             )
           ),
           React.createElement(
-            'tr',
+            'tbody',
             null,
             React.createElement(
-              'td',
+              'tr',
               null,
-              'Weight'
+              React.createElement(
+                'td',
+                null,
+                'Weight'
+              ),
+              React.createElement(
+                'td',
+                null,
+                Number(this.state.food.details.weight).toFixed(2),
+                ' g'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2),
+                ' g'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2),
+                ' g'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2),
+                ' g'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2),
+                ' g'
+              ),
+              React.createElement(
+                'td',
+                null,
+                Number(this.state.food.details.energy).toFixed(2),
+                ' kcal'
+              )
             ),
             React.createElement(
-              'td',
+              'tr',
               null,
-              Number(this.state.food.details.weight).toFixed(2),
-              ' g'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.protein && Number(this.state.food.details.protein.weight).toFixed(2),
-              ' g'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.carb && Number(this.state.food.details.carb.weight).toFixed(2),
-              ' g'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.fat && Number(this.state.food.details.fat.weight).toFixed(2),
-              ' g'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.other && Number(this.state.food.details.other.weight).toFixed(2),
-              ' g'
-            ),
-            React.createElement(
-              'td',
-              null,
-              Number(this.state.food.details.energy).toFixed(2),
-              ' kcal'
+              React.createElement(
+                'td',
+                null,
+                'Rate'
+              ),
+              React.createElement(
+                'td',
+                null,
+                '100 %'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.protein && Math.round(this.state.food.details.protein.weight / this.state.food.details.weight * 100),
+                ' %'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.carb && Math.round(this.state.food.details.carb.weight / this.state.food.details.weight * 100),
+                ' %'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.fat && Math.round(this.state.food.details.fat.weight / this.state.food.details.weight * 100),
+                ' %'
+              ),
+              React.createElement(
+                'td',
+                null,
+                this.state.food.details.other && Math.round(this.state.food.details.other.weight / this.state.food.details.weight * 100),
+                ' %'
+              ),
+              React.createElement('td', null)
             )
-          ),
-          React.createElement(
-            'tr',
-            null,
-            React.createElement(
-              'td',
-              null,
-              'Rate'
-            ),
-            React.createElement(
-              'td',
-              null,
-              '100 %'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.protein && Math.round(this.state.food.details.protein.weight / this.state.food.details.weight * 100),
-              ' %'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.carb && Math.round(this.state.food.details.carb.weight / this.state.food.details.weight * 100),
-              ' %'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.fat && Math.round(this.state.food.details.fat.weight / this.state.food.details.weight * 100),
-              ' %'
-            ),
-            React.createElement(
-              'td',
-              null,
-              this.state.food.details.other && Math.round(this.state.food.details.other.weight / this.state.food.details.weight * 100),
-              ' %'
-            ),
-            React.createElement('td', null)
           )
         ),
         React.createElement(
@@ -373,59 +405,68 @@ var FoodPage = function (_React$Component) {
               )
             )
           ),
-          this.state.food.inclusions.map(function (inclusion, index) {
-            return React.createElement(
-              'tr',
-              { key: index },
-              React.createElement(
-                'td',
-                null,
+          React.createElement(
+            'tbody',
+            null,
+            this.state.food.inclusions.map(function (inclusion, index) {
+              return React.createElement(
+                'tr',
+                { key: index },
                 React.createElement(
-                  'a',
-                  { href: '/ingredient/' + inclusion.ingredient.id },
-                  inclusion.name
+                  'td',
+                  null,
+                  React.createElement(
+                    'a',
+                    { href: '/ingredient/' + inclusion.ingredient.id },
+                    inclusion.name
+                  )
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.value).toFixed(2),
+                  ' ',
+                  inclusion.unit
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.measureValue).toFixed(2),
+                  ' ',
+                  inclusion.ingredient.measureUnit
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.energy).toFixed(2),
+                  ' kcal'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.protein).toFixed(2),
+                  ' g'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.carb).toFixed(2),
+                  ' g'
+                ),
+                React.createElement(
+                  'td',
+                  null,
+                  Number(inclusion.ingredient.fat).toFixed(2),
+                  ' g'
                 )
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.value).toFixed(2),
-                ' ',
-                inclusion.unit
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.measureValue).toFixed(2),
-                ' ',
-                inclusion.ingredient.measureUnit
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.energy).toFixed(2),
-                ' kcal'
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.protein).toFixed(2),
-                ' g'
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.carb).toFixed(2),
-                ' g'
-              ),
-              React.createElement(
-                'td',
-                null,
-                Number(inclusion.ingredient.fat).toFixed(2),
-                ' g'
-              )
-            );
-          })
+              );
+            })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(_Comments2.default, null)
         )
       );
     }
