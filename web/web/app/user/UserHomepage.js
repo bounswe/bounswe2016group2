@@ -1,3 +1,5 @@
+import MyDiets from 'diet/MyDiets.js'
+
 class ConsumptionHistory extends React.Component {
   constructor(props) {
     super(props)
@@ -31,8 +33,6 @@ class ConsumptionHistory extends React.Component {
     )
   }
 }
-
-import MyDiets from 'diet/MyDiets.js'
 
 export default class UserHomepage extends React.Component
 {
