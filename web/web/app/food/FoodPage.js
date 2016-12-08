@@ -1,3 +1,5 @@
+import Comments from 'comment/Comments.js'
+
 export default class FoodPage extends React.Component {
 
   constructor (props) {
@@ -199,7 +201,12 @@ export default class FoodPage extends React.Component {
           <table className="ui segment celled table" style={{width:'100%'}}>
           // TODO: micronutrients
         </table> */}
+
+        {/* comments section */}
+        <div className="ui segment">
+          <Comments/>
+        </div>
       </div>
-        )
+    )
   }
 }
