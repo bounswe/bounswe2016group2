@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^foods/(?P<foodId>[0-9]+)$', food.food),
     url(r'^foods/(?P<foodId>[0-9]+)/ate$', ateFood.ateFood),
     url(r'^foods/(?P<foodId>[0-9]+)/comment$', food.comment),
+    url(r'^foods/(?P<foodId>[0-9]+)/rate$', food.rate),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
     url(r'^foodSearch$', food.search),
     # INCLUSION ROUTES
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^restaurants/(?P<restaurantId>[0-9]+)$', restaurant.restaurant),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/foods/(?P<foodId>[0-9]+)$', restaurant.restaurantFood),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/comment', restaurant.comment),
+    url(r'^restaurants/(?P<restaurantId>[0-9]+)/rate', restaurant.rate),
     # DIET ROUTES
     url(r'^diets$', diet.diets),
     url(r'^diets/(?P<dietId>[0-9]+)$', diet.diet),

@@ -7,8 +7,10 @@ from rest_framework.response import Response
 from api.model.restaurant import Restaurant
 from api.model.food import Food
 from api.model.restaurantComment import RestaurantComment
+from api.model.restaurantRate import RestaurantRate
 from api.serializer.restaurant import RestaurantSerializer, RestaurantDetailSerializer
 from api.serializer.restaurantComment import RestaurantCommentSerializer
+from api.serializer.restaurantRate import RestaurantRateSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -86,17 +88,14 @@ def comment(req, restaurantId):
     """
     Add, modify or delete comment on restaurant
     """
-    data = {
-        'restaurant': restaurantId,
-        'user': req.user.id,
-        'comment': req.data['comment']
-    }
+    req['restaurant'] = restaurantId
+    req['user'] = req.user.id
     if req.method == 'POST':
         try:
             comment = RestaurantComment.objects.get(user=req.user.id, restaurant=restaurantId)
-            serializer = RestaurantCommentSerializer(comment, data=data)
+            serializer = RestaurantCommentSerializer(comment, data=req.data)
         except RestaurantComment.DoesNotExist:
-            serializer = RestaurantCommentSerializer(data=data)
+            serializer = RestaurantCommentSerializer(data=req.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -108,6 +107,34 @@ def comment(req, restaurantId):
             RestaurantComment.objects.get(restaurant=restaurantId, user=req.user.id).delete()
             return Response({}, status=status.HTTP_204_NO_CONTENT)
         except RestaurantComment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST', 'DELETE'])
+def rate(req, restaurantId):
+    """
+    Add, modify or delete rate on restaurant
+    """
+    req.data['restaurant'] = restaurantId
+    req.data['user'] = req.user.id
+    if req.method == 'POST':
+        try:
+            comment = RestaurantRate.objects.get(user=req.user.id, restaurant=restaurantId)
+            serializer = RestaurantRateSerializer(comment, data=req.data)
+        except RestaurantRate.DoesNotExist:
+            serializer = RestaurantRateSerializer(data=req.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if req.method == 'DELETE':
+        try:
+            RestaurantRate.objects.get(restaurant=restaurantId, user=req.user.id).delete()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except RestaurantRate.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     return Response(serializer.data)
