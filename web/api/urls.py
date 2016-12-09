@@ -11,7 +11,8 @@ urlpatterns = [
     url(r'^users/me$', user.me),
     url(r'^users$', user.users),
     url(r'^users/(?P<userId>[0-9]+)$', user.user),
-    url(r'^users/history$', user.history),
+    url(r'^users/me/history$', user.history),
+    url(r'^users/me/restaurantHistory$', user.restaurantHistory),
     # INGREDIENT ROUTES
     url(r'^ingredients$', ingredient.ingredients),
     url(r'^ingredients/(?P<ingredientId>[0-9]+)$', ingredient.ingredient),
