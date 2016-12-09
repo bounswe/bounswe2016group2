@@ -83,11 +83,13 @@ def calculateDetails(food):
     return food
 
 
-def calculateHistory(userId):
+def calculateHistory(userId, startDate, endDate):
+    print(startDate)
+    print(endDate)
     total = getAnalyticTemplate()  # total values
     total['ateFoods'] = []
     daily = {}  # daily values
-    ateFoods = AteFood.objects.filter(user=userId)
+    ateFoods = AteFood.objects.filter(user=userId, created__gte=startDate, created__lte=endDate)
     ateFoodSerializer = AteFoodDetailSerializer(ateFoods, many=True)
     ateFoodArr = ateFoodSerializer.data
 
