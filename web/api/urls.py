@@ -1,9 +1,11 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from api.controller import ingredient, user, food, inclusion, ateFood, ateIngredient, restaurant, diet, mock
+from api.controller import search, ingredient, user, food, inclusion, ateFood, ateIngredient, restaurant, diet, mock
 
 urlpatterns = [
+    # SEARCH ROUTES
+    url(r'^search$', search.search),
     # USER ROUTES
     url(r'^users/signup$', user.signup),
     url(r'^users/signin$', user.signin),
@@ -26,7 +28,6 @@ urlpatterns = [
     url(r'^foods/(?P<foodId>[0-9]+)/comment$', food.comment),
     url(r'^foods/(?P<foodId>[0-9]+)/rate$', food.rate),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
-    url(r'^foodSearch$', food.search),
     # INCLUSION ROUTES
     url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
     # RESTAURANT ROUTES

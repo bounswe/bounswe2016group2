@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from django.utils.text import slugify
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -81,17 +80,6 @@ def slug(req, slug):
     elif req.method == 'DELETE':
         food.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
-
-
-@api_view(['GET'])
-def search(req):
-    """
-    Search food
-    """
-    q = slugify(req.GET.get('query', ''))
-    foods = Food.objects.filter(slug__startswith=q)
-    seriealizer = FoodSerializer(foods, many=True)
-    return Response(seriealizer.data)
 
 
 @api_view(['POST', 'DELETE'])
