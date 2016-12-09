@@ -82,8 +82,7 @@ public class FoodPageActivity extends AppCompatActivity {
         return new OnClickListener() {
             @Override
             public void onClick(View view) {
-            final GlobalClass gClass = (GlobalClass)getApplicationContext();
-             gClass.addFoodToBox(fSeen);
+                //TODO: use ate api
             }
         };
     }

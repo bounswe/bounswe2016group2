@@ -6,23 +6,35 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.example.bounswegroup2.Models.Ingredient;
+import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.QueryWrapper;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -38,9 +50,11 @@ public class FoodAddFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private TableLayout mLayout;
     private AutoCompleteTextView mAutoCompleteTextView;
+    private EditText amounEditTExt;
     private Button mButton;
     private Button mButtonSubmit;
     private IngredientAdapter adapter;
+    private ImageButton removeRowBut;
     private IngredientAdapter adapter2;
     private ArrayList<Ingredient> listOfIngr ;
     // TODO: Rename and change types of parameters
@@ -77,7 +91,6 @@ public class FoodAddFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     private View.OnClickListener buttonClicked(){
@@ -90,8 +103,10 @@ public class FoodAddFragment extends Fragment {
                     TableRow tr = new TableRow(getContext());
                     tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 /* Add Button to row. */
-                    tr.addView(createNewTextView());
-                    tr.addView(createNewEditTextView());
+                    EditText et = (EditText) createNewEditTextView();
+                    tr.addView(createNewTextView(et));
+                    tr.addView(et);
+                    tr.addView(createNewImageBut(et));
 /* Add row to TableLayout. */
 //tr.setBackgroundResource(R.drawable.sf_gradient_03);
                     mLayout.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
@@ -105,9 +120,8 @@ public class FoodAddFragment extends Fragment {
                             for (int x = 0; x < j; x+=2) {
                                 AutoCompleteTextView tView = (AutoCompleteTextView) row.getChildAt(x);
                                 String s =tView.getText().toString();
-                                Ingredient ingredient = getIngredient(s);
                                 EditText eView = (EditText) row.getChildAt(x+1);
-                                System.out.println(ingredient.getEnergy().toString()+" "+eView.getText().toString());
+                                System.out.println(s+" "+eView.getText().toString());
                             }
                         }
                     }
@@ -120,17 +134,47 @@ public class FoodAddFragment extends Fragment {
         final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         final EditText eText = new EditText(this.getContext());
         eText.setHint(R.string.amount);
+        eText.setEms(4);
         eText.setLayoutParams(lparams);
         return eText;
     }
 
-    private AutoCompleteTextView createNewTextView() {
+    private ImageButton createNewImageBut(final EditText et){
+        final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        final ImageButton iBut = new ImageButton(this.getContext());
+        iBut.setImageResource(android.R.drawable.ic_delete);
+        iBut.setLayoutParams(lparams);
+        iBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // row is your row, the parent of the clicked button
+                View row = (View) et.getParent();
+                // container contains all the rows, you could keep a variable somewhere else to the container which you can refer to here
+                ViewGroup container = ((ViewGroup)row.getParent());
+                // delete the row and invalidate your view so it gets redrawn
+                container.removeView(row);
+                container.invalidate();
+            }
+        });
+
+        return iBut;
+    }
+
+    private AutoCompleteTextView createNewTextView(final EditText et) {
         final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         final AutoCompleteTextView textView = new AutoCompleteTextView(this.getContext());
-        textView.setEms(8);
+        textView.setEms(11);
         textView.setHint(R.string.add_ingredient);
         textView.setLayoutParams(lparams);
         textView.setAdapter(adapter);
+        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Ingredient ingr = (Ingredient) adapterView.getAdapter().getItem(i);
+                et.setHint("in unit of  "+ingr.getDefaultUnit());
+                System.out.println(ingr.getMeasureUnit()+" "+ingr.getDefaultUnit());
+            }
+        });
         return textView;
     }
 
@@ -140,16 +184,30 @@ public class FoodAddFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_add, container, false);
         mLayout = (TableLayout) rootView.findViewById(R.id.tableLayoutAddFood);
+        amounEditTExt = (EditText) rootView.findViewById(R.id.amountEText);
         mAutoCompleteTextView = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextViewIngr);
-        //Ingredient i1  = new Ingredient("bread","bread"); i1.setCarb(100);i1.setFat(100);i1.setProtein(100); i1.setEnergy(300);
-        //Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
-       // Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
-        //ArrayList<Ingredient> ingList = new ArrayList<Ingredient>(); ingList.add(i1);ingList.add(i2);ingList.add(i3);
-        listOfIngr = new ArrayList<Ingredient>();
-        //for (Ingredient i:ingList) listOfIngr.add(i);
-        //adapter = new IngredientAdapter(FoodAddFragment.this.getContext(), ingList);
-        //adapter2 = new IngredientAdapter(FoodAddFragment.this.getContext(), ingList);
-        mAutoCompleteTextView.setAdapter(adapter);
+        mAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Ingredient ingr = (Ingredient) adapterView.getAdapter().getItem(i);
+                amounEditTExt.setHint("in unit of  "+ingr.getDefaultUnit());
+                System.out.println(ingr.getMeasureUnit()+" "+ingr.getDefaultUnit());
+
+            }
+        });
+        removeRowBut = (ImageButton) rootView.findViewById(R.id.removeRow);
+        removeRowBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // row is your row, the parent of the clicked button
+                View row = (View) view.getParent();
+                // container contains all the rows, you could keep a variable somewhere else to the container which you can refer to here
+                ViewGroup container = ((ViewGroup)row.getParent());
+                // delete the row and invalidate your view so it gets redrawn
+                container.removeView(row);
+                container.invalidate();
+            }
+        });
         mButton = (Button) rootView.findViewById(R.id.buttonAdd);
         mButtonSubmit = (Button) rootView.findViewById(R.id.addFoodSubmitBut);
         mButtonSubmit.setOnClickListener(buttonClicked());
@@ -166,16 +224,26 @@ public class FoodAddFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstancesState) {
         //onResume happens after onStart and onActivityCreate
         super.onActivityCreated(savedInstancesState);
-
-
+        getAllIngredients();
     }
 
-    @Nullable
-    private Ingredient getIngredient(String name){
-        for (Ingredient i: listOfIngr) {
-            if (i.getName().equalsIgnoreCase(name)) return i;
-        }
-        return null;
+    private void getAllIngredients(){
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        Call<List<Ingredient>> cb = test.getIngredients(queryWrapper.getOptions());
+        cb.enqueue(new Callback<List<Ingredient>>() {
+            @Override
+            public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
+
+                adapter = new IngredientAdapter(FoodAddFragment.this.getContext(), (ArrayList<Ingredient>) response.body());
+                mAutoCompleteTextView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Ingredient>> call, Throwable t) {
+            }
+        });
     }
 
 }

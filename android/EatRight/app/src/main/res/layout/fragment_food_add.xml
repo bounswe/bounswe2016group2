@@ -14,15 +14,21 @@
         <TableRow>
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewIngr"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="8"
+            android:ems="11"
             android:hint="@string/add_ingredient" />
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/amountEText"
-            android:hint="@string/amount"/>
+            android:hint="@string/amount"
+            android:ems="4"/>
+         <ImageButton
+             android:id="@+id/removeRow"
+             android:src="@android:drawable/ic_delete"
+             android:layout_width="wrap_content"
+              />
         </TableRow>
     </TableLayout>
     </ScrollView>

@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        SessionManager.clearCredet(this);
+        //SessionManager.clearCredet(this);
         if (SessionManager.isUserLoggedIn(this, "usermail") && SessionManager.isUserLoggedIn(this, "userpass")) {
             // User is already logged in
             Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
