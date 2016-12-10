@@ -43,20 +43,26 @@ def searchRestaurants(q):
 
 # foods: food dict array
 # diet: diet dict
-def searchFoodByDiet(foods, diet):
+def searchFoodByDiet(foods, diets):
     result = []
     for food in foods:
         FoodService.calculateDetails(food)
         exclude = False
 
-        if not diet['minEnergy'] < food['details']['energy'] < diet['maxEnergy']:
-            exclude = True
-        if not diet['minProteinVal'] < food['details']['protein']['weight'] < diet['maxProteinVal']:
-            exclude = True
-        if not diet['minCarbVal'] < food['details']['carb']['weight'] < diet['maxCarbVal']:
-            exclude = True
-        if not diet['minFatVal'] < food['details']['fat']['weight'] < diet['maxFatVal']:
-            exclude = True
+        for diet in diets:
+            if not diet['minEnergy'] < food['details']['energy'] < diet['maxEnergy']:
+                exclude = True
+            if not diet['minProteinVal'] < food['details']['protein']['weight'] < diet['maxProteinVal']:
+                exclude = True
+            if not diet['minCarbVal'] < food['details']['carb']['weight'] < diet['maxCarbVal']:
+                exclude = True
+            if not diet['minFatVal'] < food['details']['fat']['weight'] < diet['maxFatVal']:
+                exclude = True
+
+        for ingredient in food['ingredients']:
+            for diet in diets:
+                if ingredient['id'] in diet['ingredients']:
+                    exclude = True
 
         if not exclude:
             result.append(food)
@@ -102,6 +108,6 @@ def searchFood(req):
     foods = FoodReadSerializer(foods, many=True).data
     diet = dietSerializer.data
 
-    result = searchFoodByDiet(foods, diet)
+    result = searchFoodByDiet(foods, [diet])
 
     return Response(result)
