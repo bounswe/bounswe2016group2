@@ -1,29 +1,22 @@
 package com.example.bounswegroup2.eatright;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.MultiAutoCompleteTextView;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Utils.ApiInterface;
@@ -51,15 +44,21 @@ public class FoodAddFragment extends Fragment {
     private TableLayout mLayout;
     private AutoCompleteTextView mAutoCompleteTextView;
     private EditText amounEditTExt;
+    private EditText valueEditTExt;
+    private TextView unitTV;
+    private TextView valueTV;
     private Button mButton;
     private Button mButtonSubmit;
     private IngredientAdapter adapter;
     private ImageButton removeRowBut;
-    private IngredientAdapter adapter2;
-    private ArrayList<Ingredient> listOfIngr ;
+
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    private boolean addColour = true;
+    private double firstVal;
+    private double secondVAl;
+    private EditText et;
+    private EditText et2;
 
 
     public FoodAddFragment() {
@@ -88,8 +87,8 @@ public class FoodAddFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+           // mParam1 = getArguments().getString(ARG_PARAM1);
+           // mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -103,25 +102,88 @@ public class FoodAddFragment extends Fragment {
                     TableRow tr = new TableRow(getContext());
                     tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 /* Add Button to row. */
-                    EditText et = (EditText) createNewEditTextView();
+                     et = (EditText) createNewEditTextView(); et.setTag("M");
+                     et2 = (EditText) createNewEditTextView(); et2.setTag("V");
                     tr.addView(createNewTextView(et));
                     tr.addView(et);
+                    tr.addView(createTV("UTV"));
+                    tr.addView(et2);
+                    tr.addView(createTV("VTV"));
                     tr.addView(createNewImageBut(et));
-/* Add row to TableLayout. */
-//tr.setBackgroundResource(R.drawable.sf_gradient_03);
+                    if(addColour)
+                    tr.setBackgroundResource(android.R.color.holo_green_light);
+                    et.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            String s = et.getText().toString();
+                            if(s.isEmpty()) return;
+                            firstVal = Double.parseDouble(s);
+                            String s2 = et2.getText().toString();
+                            if(s2.isEmpty()) return;
+                            secondVAl = Double.parseDouble(s2);
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            String s = et.getText().toString();
+                            String s2 = et2.getText().toString();
+                            if(et.isFocused() &&  !s.isEmpty() && !s2.isEmpty() ){
+                                double valMeasure = Double.parseDouble(s);
+                                double newVal = (secondVAl/firstVal)*valMeasure;
+                                et2.setText(""+newVal);
+                            }
+                        }
+                    });
+                    et2.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            String s = et.getText().toString();
+                            if(s.isEmpty()) return;
+                            firstVal = Double.parseDouble(s);
+                            String s2 = et2.getText().toString();
+                            if(s2.isEmpty()) return;
+                            secondVAl = Double.parseDouble(s2);
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            String s = et.getText().toString();
+                            String s2 = et2.getText().toString();
+                            if(et2.isFocused() && !s.isEmpty() && !s2.isEmpty()){
+                                double val = Double.parseDouble(s2);
+                                double newVal = (firstVal/secondVAl)*val;
+                                et.setText(""+newVal);
+                            }
+                        }
+                    });
+
+                    addColour = !addColour;
                     mLayout.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
                 }else {
+                    // This is when submit clicked
                     for (int i = 0; i < mLayout.getChildCount(); i++) {
                         View child = mLayout.getChildAt(i);
 
                         if (child instanceof TableRow) {
                             TableRow row = (TableRow) child;
                             int j = row.getChildCount();
-                            for (int x = 0; x < j; x+=2) {
+                            for (int x = 0; x < j; x+=3) {
                                 AutoCompleteTextView tView = (AutoCompleteTextView) row.getChildAt(x);
-                                String s =tView.getText().toString();
+                                String s = tView.getText().toString();
+                                Ingredient ingr = adapter.getIngredient(s);
                                 EditText eView = (EditText) row.getChildAt(x+1);
-                                System.out.println(s+" "+eView.getText().toString());
+                                String s2 = eView.getText().toString();
+                                System.out.println(s+" "+s2);
                             }
                         }
                     }
@@ -130,11 +192,19 @@ public class FoodAddFragment extends Fragment {
         };
     }
 
+    private View createTV(String tag) {
+        final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        final TextView eText = new TextView(this.getContext());
+        lparams.weight = 1;
+        eText.setLayoutParams(lparams);
+        eText.setTag(tag);
+        return eText;
+    }
+
     private View createNewEditTextView() {
         final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         final EditText eText = new EditText(this.getContext());
-        eText.setHint(R.string.amount);
-        eText.setEms(4);
+        lparams.weight = 2;
         eText.setLayoutParams(lparams);
         return eText;
     }
@@ -143,6 +213,7 @@ public class FoodAddFragment extends Fragment {
         final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         final ImageButton iBut = new ImageButton(this.getContext());
         iBut.setImageResource(android.R.drawable.ic_delete);
+        lparams.weight = 1;
         iBut.setLayoutParams(lparams);
         iBut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +225,7 @@ public class FoodAddFragment extends Fragment {
                 // delete the row and invalidate your view so it gets redrawn
                 container.removeView(row);
                 container.invalidate();
+                addColour = !addColour;
             }
         });
 
@@ -163,7 +235,7 @@ public class FoodAddFragment extends Fragment {
     private AutoCompleteTextView createNewTextView(final EditText et) {
         final TableRow.LayoutParams lparams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
         final AutoCompleteTextView textView = new AutoCompleteTextView(this.getContext());
-        textView.setEms(11);
+        lparams.weight = 10;
         textView.setHint(R.string.add_ingredient);
         textView.setLayoutParams(lparams);
         textView.setAdapter(adapter);
@@ -171,8 +243,8 @@ public class FoodAddFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Ingredient ingr = (Ingredient) adapterView.getAdapter().getItem(i);
-                et.setHint("in unit of  "+ingr.getDefaultUnit());
-                System.out.println(ingr.getMeasureUnit()+" "+ingr.getDefaultUnit());
+                ViewGroup vg= (ViewGroup) textView.getParent();
+                setETsForUnits(ingr.getMeasureUnit(),ingr.getMeasureValue(),ingr.getDefaultUnit(),ingr.getDefaultValue(),vg);
             }
         });
         return textView;
@@ -185,14 +257,70 @@ public class FoodAddFragment extends Fragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_add, container, false);
         mLayout = (TableLayout) rootView.findViewById(R.id.tableLayoutAddFood);
         amounEditTExt = (EditText) rootView.findViewById(R.id.amountEText);
+        amounEditTExt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = amounEditTExt.getText().toString();
+                if(s.isEmpty()) return;
+                firstVal = Double.parseDouble(s);
+                String s2 = valueEditTExt.getText().toString();
+                if(s2.isEmpty()) return;
+                secondVAl = Double.parseDouble(s2);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String s = amounEditTExt.getText().toString();
+                String s2 = valueEditTExt.getText().toString();
+                if(amounEditTExt.isFocused() &&  !s.isEmpty() && !s2.isEmpty() ){
+                    double valMeasure = Double.parseDouble(s);
+                    double newVal = (secondVAl/firstVal)*valMeasure;
+                    valueEditTExt.setText(""+newVal);
+                }
+            }
+        });
         mAutoCompleteTextView = (AutoCompleteTextView) rootView.findViewById(R.id.autoCompleteTextViewIngr);
+        valueTV = (TextView) rootView.findViewById(R.id.valueTV);
+        valueEditTExt = (EditText)rootView.findViewById(R.id.valueEText);
+        valueEditTExt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String s = amounEditTExt.getText().toString();
+                if(s.isEmpty()) return;
+                firstVal = Double.parseDouble(s);
+                String s2 = valueEditTExt.getText().toString();
+                if(s2.isEmpty()) return;
+                secondVAl = Double.parseDouble(s2);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String s = amounEditTExt.getText().toString();
+                String s2 = valueEditTExt.getText().toString();
+                if(valueEditTExt.isFocused() && !s.isEmpty() && !s2.isEmpty()){
+                    double val = Double.parseDouble(s2);
+                    double newVal = (firstVal/secondVAl)*val;
+                    amounEditTExt.setText(""+newVal);
+                }
+            }
+        });
+        unitTV = (TextView)rootView.findViewById(R.id.unitTV);
         mAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Ingredient ingr = (Ingredient) adapterView.getAdapter().getItem(i);
-                amounEditTExt.setHint("in unit of  "+ingr.getDefaultUnit());
-                System.out.println(ingr.getMeasureUnit()+" "+ingr.getDefaultUnit());
-
+                ViewGroup vg= (ViewGroup) valueEditTExt.getParent();
+                setETsForUnits(ingr.getMeasureUnit(),ingr.getMeasureValue(),ingr.getDefaultUnit(),ingr.getDefaultValue(), vg);
             }
         });
         removeRowBut = (ImageButton) rootView.findViewById(R.id.removeRow);
@@ -206,6 +334,7 @@ public class FoodAddFragment extends Fragment {
                 // delete the row and invalidate your view so it gets redrawn
                 container.removeView(row);
                 container.invalidate();
+                addColour = !addColour;
             }
         });
         mButton = (Button) rootView.findViewById(R.id.buttonAdd);
@@ -214,6 +343,12 @@ public class FoodAddFragment extends Fragment {
         mButton.setOnClickListener(buttonClicked());
         return  rootView;
     }
+
+    private void setETsForUnits(String measureUnit, Double measureValue, String defaultUnit, Double defaultValue, ViewGroup vg) {
+        ((EditText)vg.findViewWithTag("M")).setText(measureValue.toString()); ((TextView)vg.findViewWithTag("UTV")).setText(measureUnit);
+        ((EditText)vg.findViewWithTag("V")).setText(defaultValue.toString()); ((TextView)vg.findViewWithTag("VTV")).setText(defaultUnit);
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

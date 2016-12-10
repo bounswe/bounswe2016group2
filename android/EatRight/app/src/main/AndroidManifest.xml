@@ -36,7 +36,8 @@
             android:name=".UserHomeActivity"
             android:exported="true"
             android:label="@string/title_activity_user_home"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
