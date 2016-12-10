@@ -7,6 +7,7 @@ from rest_framework import status
 from api.model.ingredient import Ingredient
 from api.model.food import Food
 from api.model.restaurant import Restaurant
+from api.model.diet import Diet
 from api.serializer.food import FoodSerializer, FoodReadSerializer
 from api.serializer.ingredient import IngredientSerializer
 from api.serializer.restaurant import RestaurantSerializer
@@ -104,10 +105,19 @@ def searchFood(req):
     if not dietSerializer.is_valid():
         return Response(dietSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    diets = [dietSerializer.data]
+    if 'diets' in req.data:
+        for dietId in req.data['diets']:
+            print(dietId)
+            try:
+                dietDict = DietFilterSerializer(Diet.objects.get(id=dietId)).data
+                diets.append(dietDict)
+            except Diet.DoesNotExists as e:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
     foods = Food.objects.filter(slug__contains=q)
     foods = FoodReadSerializer(foods, many=True).data
-    diet = dietSerializer.data
 
-    result = searchFoodByDiet(foods, [diet])
+    result = searchFoodByDiet(foods, diets)
 
     return Response(result)
