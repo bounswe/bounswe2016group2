@@ -6,6 +6,7 @@ from api.controller import search, ingredient, user, food, inclusion, ateFood, a
 urlpatterns = [
     # SEARCH ROUTES
     url(r'^search$', search.search),
+    url(r'^searchFood$', search.searchFood),
     # USER ROUTES
     url(r'^users/signup$', user.signup),
     url(r'^users/signin$', user.signin),
