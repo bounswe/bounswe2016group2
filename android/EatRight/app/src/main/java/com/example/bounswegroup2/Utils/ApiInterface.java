@@ -31,7 +31,7 @@ import retrofit2.http.QueryMap;
 
 public interface ApiInterface {
 
-    String BASE_URL="http://52.208.59.70/";
+    String BASE_URL="http://52.213.193.130/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiInterface.BASE_URL)
@@ -89,9 +89,9 @@ public interface ApiInterface {
 //    @DELETE("api/ingredients/{sluq}")
 //
 //    @POST("api/ingredientMocks")
-
+    @Headers("Content-Type: application/json")
     @GET("api/foods")
-    Call<List<Food>> getFoods(@QueryMap Map<String, String> options);
+    Call<List<Food>> getFoods();
 
 //    @POST("api/foods")
 //

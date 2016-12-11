@@ -3,83 +3,93 @@ package com.example.bounswegroup2.Models;
 /**
  * Created by yigitozgumus on 11/12/16.
  */
+
+import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
-public class Ingredient implements Serializable {
+public class Ingredient implements Serializable
+{
 
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("weight")
+    @SerializedName("slug")
     @Expose
-    private Integer weight;
+    private String slug;
     @SerializedName("energy")
     @Expose
-    private Integer energy;
+    private Double energy;
     @SerializedName("protein")
     @Expose
-    private Integer protein;
+    private Double protein;
     @SerializedName("carb")
     @Expose
-    private Integer carb;
+    private Double carb;
     @SerializedName("fat")
     @Expose
-    private Integer fat;
+    private Double fat;
+    @SerializedName("measureValue")
+    @Expose
+    private Double measureValue;
+    @SerializedName("measureUnit")
+    @Expose
+    private String measureUnit;
+    @SerializedName("defaultValue")
+    @Expose
+    private Double defaultValue;
+    @SerializedName("defaultUnit")
+    @Expose
+    private String defaultUnit;
     @SerializedName("saturatedFat")
     @Expose
-    private Integer saturatedFat;
+    private Double saturatedFat;
     @SerializedName("sugar")
     @Expose
-    private Integer sugar;
+    private Double sugar;
     @SerializedName("fibre")
     @Expose
     private Double fibre;
     @SerializedName("cholesterol")
     @Expose
-    private Integer cholesterol;
+    private Double cholesterol;
     @SerializedName("calcium")
     @Expose
-    private Integer calcium;
+    private Double calcium;
     @SerializedName("iron")
     @Expose
     private Double iron;
     @SerializedName("sodium")
     @Expose
-    private Integer sodium;
+    private Double sodium;
     @SerializedName("potassium")
     @Expose
-    private Integer potassium;
+    private Double potassium;
     @SerializedName("magnesium")
     @Expose
-    private Integer magnesium;
+    private Double magnesium;
     @SerializedName("phosphorus")
     @Expose
-    private Integer phosphorus;
+    private Double phosphorus;
     @SerializedName("thiamin")
     @Expose
     private Double thiamin;
     @SerializedName("riboflavin")
     @Expose
-    private Integer riboflavin;
+    private Double riboflavin;
     @SerializedName("niacin")
     @Expose
     private Double niacin;
     @SerializedName("folate")
     @Expose
-    private Integer folate;
+    private Double folate;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("slug")
+    @SerializedName("photo")
     @Expose
-    private String slug;
-
-    public Ingredient(String name, String slug) {
-    this.name = name; this.slug = slug;
-    }
+    private Object photo;
+    private final static long serialVersionUID = 8877731895154071859L;
 
     /**
      *
@@ -102,19 +112,19 @@ public class Ingredient implements Serializable {
     /**
      *
      * @return
-     * The weight
+     * The slug
      */
-    public Integer getWeight() {
-        return weight;
+    public String getSlug() {
+        return slug;
     }
 
     /**
      *
-     * @param weight
-     * The weight
+     * @param slug
+     * The slug
      */
-    public void setWeight(Integer weight) {
-        this.weight = weight;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     /**
@@ -122,7 +132,7 @@ public class Ingredient implements Serializable {
      * @return
      * The energy
      */
-    public Integer getEnergy() {
+    public Double getEnergy() {
         return energy;
     }
 
@@ -131,7 +141,7 @@ public class Ingredient implements Serializable {
      * @param energy
      * The energy
      */
-    public void setEnergy(Integer energy) {
+    public void setEnergy(Double energy) {
         this.energy = energy;
     }
 
@@ -140,7 +150,7 @@ public class Ingredient implements Serializable {
      * @return
      * The protein
      */
-    public Integer getProtein() {
+    public Double getProtein() {
         return protein;
     }
 
@@ -149,7 +159,7 @@ public class Ingredient implements Serializable {
      * @param protein
      * The protein
      */
-    public void setProtein(Integer protein) {
+    public void setProtein(Double protein) {
         this.protein = protein;
     }
 
@@ -158,7 +168,7 @@ public class Ingredient implements Serializable {
      * @return
      * The carb
      */
-    public Integer getCarb() {
+    public Double getCarb() {
         return carb;
     }
 
@@ -167,7 +177,7 @@ public class Ingredient implements Serializable {
      * @param carb
      * The carb
      */
-    public void setCarb(Integer carb) {
+    public void setCarb(Double carb) {
         this.carb = carb;
     }
 
@@ -176,7 +186,7 @@ public class Ingredient implements Serializable {
      * @return
      * The fat
      */
-    public Integer getFat() {
+    public Double getFat() {
         return fat;
     }
 
@@ -185,8 +195,80 @@ public class Ingredient implements Serializable {
      * @param fat
      * The fat
      */
-    public void setFat(Integer fat) {
+    public void setFat(Double fat) {
         this.fat = fat;
+    }
+
+    /**
+     *
+     * @return
+     * The measureValue
+     */
+    public Double getMeasureValue() {
+        return measureValue;
+    }
+
+    /**
+     *
+     * @param measureValue
+     * The measureValue
+     */
+    public void setMeasureValue(Double measureValue) {
+        this.measureValue = measureValue;
+    }
+
+    /**
+     *
+     * @return
+     * The measureUnit
+     */
+    public String getMeasureUnit() {
+        return measureUnit;
+    }
+
+    /**
+     *
+     * @param measureUnit
+     * The measureUnit
+     */
+    public void setMeasureUnit(String measureUnit) {
+        this.measureUnit = measureUnit;
+    }
+
+    /**
+     *
+     * @return
+     * The defaultValue
+     */
+    public Double getDefaultValue() {
+        return defaultValue;
+    }
+
+    /**
+     *
+     * @param defaultValue
+     * The defaultValue
+     */
+    public void setDefaultValue(Double defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    /**
+     *
+     * @return
+     * The defaultUnit
+     */
+    public String getDefaultUnit() {
+        return defaultUnit;
+    }
+
+    /**
+     *
+     * @param defaultUnit
+     * The defaultUnit
+     */
+    public void setDefaultUnit(String defaultUnit) {
+        this.defaultUnit = defaultUnit;
     }
 
     /**
@@ -194,7 +276,7 @@ public class Ingredient implements Serializable {
      * @return
      * The saturatedFat
      */
-    public Integer getSaturatedFat() {
+    public Double getSaturatedFat() {
         return saturatedFat;
     }
 
@@ -203,7 +285,7 @@ public class Ingredient implements Serializable {
      * @param saturatedFat
      * The saturatedFat
      */
-    public void setSaturatedFat(Integer saturatedFat) {
+    public void setSaturatedFat(Double saturatedFat) {
         this.saturatedFat = saturatedFat;
     }
 
@@ -212,7 +294,7 @@ public class Ingredient implements Serializable {
      * @return
      * The sugar
      */
-    public Integer getSugar() {
+    public Double getSugar() {
         return sugar;
     }
 
@@ -221,7 +303,7 @@ public class Ingredient implements Serializable {
      * @param sugar
      * The sugar
      */
-    public void setSugar(Integer sugar) {
+    public void setSugar(Double sugar) {
         this.sugar = sugar;
     }
 
@@ -248,7 +330,7 @@ public class Ingredient implements Serializable {
      * @return
      * The cholesterol
      */
-    public Integer getCholesterol() {
+    public Double getCholesterol() {
         return cholesterol;
     }
 
@@ -257,7 +339,7 @@ public class Ingredient implements Serializable {
      * @param cholesterol
      * The cholesterol
      */
-    public void setCholesterol(Integer cholesterol) {
+    public void setCholesterol(Double cholesterol) {
         this.cholesterol = cholesterol;
     }
 
@@ -266,7 +348,7 @@ public class Ingredient implements Serializable {
      * @return
      * The calcium
      */
-    public Integer getCalcium() {
+    public Double getCalcium() {
         return calcium;
     }
 
@@ -275,7 +357,7 @@ public class Ingredient implements Serializable {
      * @param calcium
      * The calcium
      */
-    public void setCalcium(Integer calcium) {
+    public void setCalcium(Double calcium) {
         this.calcium = calcium;
     }
 
@@ -302,7 +384,7 @@ public class Ingredient implements Serializable {
      * @return
      * The sodium
      */
-    public Integer getSodium() {
+    public Double getSodium() {
         return sodium;
     }
 
@@ -311,7 +393,7 @@ public class Ingredient implements Serializable {
      * @param sodium
      * The sodium
      */
-    public void setSodium(Integer sodium) {
+    public void setSodium(Double sodium) {
         this.sodium = sodium;
     }
 
@@ -320,7 +402,7 @@ public class Ingredient implements Serializable {
      * @return
      * The potassium
      */
-    public Integer getPotassium() {
+    public Double getPotassium() {
         return potassium;
     }
 
@@ -329,7 +411,7 @@ public class Ingredient implements Serializable {
      * @param potassium
      * The potassium
      */
-    public void setPotassium(Integer potassium) {
+    public void setPotassium(Double potassium) {
         this.potassium = potassium;
     }
 
@@ -338,7 +420,7 @@ public class Ingredient implements Serializable {
      * @return
      * The magnesium
      */
-    public Integer getMagnesium() {
+    public Double getMagnesium() {
         return magnesium;
     }
 
@@ -347,7 +429,7 @@ public class Ingredient implements Serializable {
      * @param magnesium
      * The magnesium
      */
-    public void setMagnesium(Integer magnesium) {
+    public void setMagnesium(Double magnesium) {
         this.magnesium = magnesium;
     }
 
@@ -356,7 +438,7 @@ public class Ingredient implements Serializable {
      * @return
      * The phosphorus
      */
-    public Integer getPhosphorus() {
+    public Double getPhosphorus() {
         return phosphorus;
     }
 
@@ -365,7 +447,7 @@ public class Ingredient implements Serializable {
      * @param phosphorus
      * The phosphorus
      */
-    public void setPhosphorus(Integer phosphorus) {
+    public void setPhosphorus(Double phosphorus) {
         this.phosphorus = phosphorus;
     }
 
@@ -392,7 +474,7 @@ public class Ingredient implements Serializable {
      * @return
      * The riboflavin
      */
-    public Integer getRiboflavin() {
+    public Double getRiboflavin() {
         return riboflavin;
     }
 
@@ -401,7 +483,7 @@ public class Ingredient implements Serializable {
      * @param riboflavin
      * The riboflavin
      */
-    public void setRiboflavin(Integer riboflavin) {
+    public void setRiboflavin(Double riboflavin) {
         this.riboflavin = riboflavin;
     }
 
@@ -428,7 +510,7 @@ public class Ingredient implements Serializable {
      * @return
      * The folate
      */
-    public Integer getFolate() {
+    public Double getFolate() {
         return folate;
     }
 
@@ -437,7 +519,7 @@ public class Ingredient implements Serializable {
      * @param folate
      * The folate
      */
-    public void setFolate(Integer folate) {
+    public void setFolate(Double folate) {
         this.folate = folate;
     }
 
@@ -462,19 +544,19 @@ public class Ingredient implements Serializable {
     /**
      *
      * @return
-     * The slug
+     * The photo
      */
-    public String getSlug() {
-        return slug;
+    public Object getPhoto() {
+        return photo;
     }
 
     /**
      *
-     * @param slug
-     * The slug
+     * @param photo
+     * The photo
      */
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setPhoto(Object photo) {
+        this.photo = photo;
     }
 
 }

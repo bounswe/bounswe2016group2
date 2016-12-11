@@ -3,46 +3,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.bounswegroup2.eatright.FoodAddFragment">
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tableLayoutAddFood">
-        <TableRow>
-        <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextViewIngr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="8"
-            android:hint="@string/add_ingredient" />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/amountEText"
-            android:hint="@string/amount"/>
-        </TableRow>
-    </TableLayout>
-    </ScrollView>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        <ScrollView
+            android:scrollbarStyle="outsideOverlay"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/buttonLayouts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tableLayoutAddFood">
+                <TableRow android:layout_height="wrap_content">
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextViewIngr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:hint="@string/add_ingredient" />
+                    <EditText
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/amountEText"
+                        android:textColorHint="@color/transparent"
+                        android:inputType="numberDecimal"
+                        android:tag="M"
+                        android:maxLines="1" />
+                        />
+                    <TextView android:id="@+id/unitTV"
+                        android:tag="UTV"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
+                    <EditText
+                        android:tag="V"
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/valueEText"
+                        android:textColorHint="@color/transparent"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1" />
+                    <TextView android:id="@+id/valueTV"
+                        android:tag="VTV"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"/>
 
-        <Button
-            android:id="@+id/buttonAdd"
+                    <ImageButton
+                        android:layout_weight="1"
+                        android:id="@+id/removeRow"
+                        android:src="@android:drawable/ic_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="end"
+                        />
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
+        <LinearLayout
+            android:id="@+id/buttonLayouts"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add" />
+            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/addFoodSubmitBut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/submit"/>
+            <Button
+                android:id="@+id/buttonAdd"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add" />
 
-    </LinearLayout>
+            <Button
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                android:id="@+id/addFoodSubmitBut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/submit"/>
+        </LinearLayout>
+    </RelativeLayout>
+
 </FrameLayout>

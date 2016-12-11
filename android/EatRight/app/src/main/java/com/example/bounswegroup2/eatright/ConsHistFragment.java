@@ -75,9 +75,6 @@ public class ConsHistFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstancesState) {
         //onResume happens after onStart and onActivityCreate
         super.onActivityCreated(savedInstancesState);
-        final GlobalClass gClass = (GlobalClass)getActivity().getApplicationContext();
-        ArrayList<Food> l = gClass.getFoodsInBox();
-        System.out.println(l);
 
     }
 

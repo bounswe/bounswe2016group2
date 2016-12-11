@@ -129,7 +129,7 @@ public class UserHomeActivity extends AppCompatActivity
         ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
         QueryWrapper query = new QueryWrapper();
 
-        Call<List<Food>> cb = foodCall.getFoods(query.getOptions());
+        Call<List<Food>> cb = foodCall.getFoods();
         cb.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {

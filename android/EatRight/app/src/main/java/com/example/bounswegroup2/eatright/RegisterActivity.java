@@ -127,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity {
                 focusView = passAgainText;
                 cancel = true;
             }
-
             if (!isEmailValid(email)) {
                 emailText.setError(getString(R.string.error_invalid_email));
                 focusView = emailText;

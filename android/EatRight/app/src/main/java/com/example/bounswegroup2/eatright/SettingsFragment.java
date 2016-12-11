@@ -45,11 +45,7 @@ public class SettingsFragment extends Fragment {
         super.onActivityCreated(savedInstancesState);
         //getAllIngredients();
         saveBut.setOnClickListener(saveButClicked());
-        Ingredient i  = new Ingredient("bread","bread"); i.setCarb(100);i.setFat(100);i.setProtein(100); i.setEnergy(300);
-        Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
-        Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
-        ArrayList<Ingredient> foodList = new ArrayList<Ingredient>(); foodList.add(i);foodList.add(i2);foodList.add(i3);
-        IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), foodList);
+        IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), null);
         mtext1.setAdapter(adapter);
         mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
