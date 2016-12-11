@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from api.serializer.ingredient import IngredientPureSerializer
 from api.serializer.inclusion import InclusionReadSerializer
 from api.serializer.restaurant import RestaurantSerializer
-from api.serializer.foodComment import FoodCommentReadSerializer
+from api.serializer.foodComment import FoodCommentPureSerializer
+from api.serializer.foodRate import FoodRatePureSerializer
 from api.serializer.user import UserSerializer
 
 
@@ -25,7 +26,8 @@ class FoodSerializer(serializers.ModelSerializer):
 class FoodReadSerializer(serializers.ModelSerializer):
 
     inclusions = InclusionReadSerializer(source='inclusion_set', many=True)
-    comments = FoodCommentReadSerializer(source='foodcomment_set', many=True)
+    comments = FoodCommentPureSerializer(source='foodcomment_set', many=True)
+    rates = FoodRatePureSerializer(source='foodrate_set', many=True)
     restaurant = RestaurantSerializer()
     user = UserSerializer()
 
@@ -41,4 +43,4 @@ class FoodPureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Food
-        fields = ('id', 'name', 'ingredients')
+        fields = ('id', 'name', 'description', 'photo', 'ingredients')
