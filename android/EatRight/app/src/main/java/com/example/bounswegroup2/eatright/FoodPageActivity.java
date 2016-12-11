@@ -17,12 +17,14 @@ import android.view.ViewGroup;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
+import com.example.bounswegroup2.Models.Restaurant;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class FoodPageActivity extends AppCompatActivity {
 
+    private TextView serverName;
     private TextView foodName;
     private TextView totalCalories;
     private TextView totalCarbohydrate;
@@ -49,6 +51,8 @@ public class FoodPageActivity extends AppCompatActivity {
                 .centerInside()
                 .into(imageView);
         ingredients= (ArrayList<Ingredient>) fSeen.getIngredients();
+        //serverName = (TextView) findViewById(R.id.server_button);
+        //serverName.setText(fSeen.getRestaurant());
         foodName = (TextView) findViewById(R.id.food_name_text);
         foodName.setText(fSeen.getName());
         fSeen.setFields();

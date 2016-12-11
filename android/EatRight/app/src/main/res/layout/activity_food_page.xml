@@ -19,6 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/restaurant_button" />-->
+    <Button
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:id="@+id/server_button" />
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
