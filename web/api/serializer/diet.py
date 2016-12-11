@@ -5,6 +5,16 @@ from api.model.ingredient import Ingredient
 from api.serializer.ingredient import IngredientSerializer
 
 
+class DietReadSerializer(serializers.ModelSerializer):
+
+    ingredients = IngredientSerializer(many=True)
+
+    class Meta:
+        model = Diet
+        fields = '__all__'
+        depth = 2
+
+
 class DietSerializer(serializers.ModelSerializer):
 
     slug = serializers.SlugField(read_only=True, allow_null=True)
@@ -32,16 +42,6 @@ class DietSerializer(serializers.ModelSerializer):
         model = Diet
         fields = '__all__'
         depth = 1
-
-
-class DietReadSerializer(serializers.ModelSerializer):
-
-    ingredients = IngredientSerializer(many=True)
-
-    class Meta:
-        model = Diet
-        fields = '__all__'
-        depth = 2
 
 
 class DietFilterSerializer(serializers.ModelSerializer):
