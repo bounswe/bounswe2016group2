@@ -3,6 +3,7 @@ package com.example.bounswegroup2.eatright;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -55,8 +56,6 @@ public class FoodAddFragment extends Fragment {
     // TODO: Rename and change types of parameters
 
     private boolean addColour = true;
-    private double firstVal;
-    private double secondVAl;
     private EditText et;
     private EditText et2;
 
@@ -115,26 +114,19 @@ public class FoodAddFragment extends Fragment {
                     et.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            String s = et.getText().toString();
-                            if(s.isEmpty()) return;
-                            firstVal = Double.parseDouble(s);
-                            String s2 = et2.getText().toString();
-                            if(s2.isEmpty()) return;
-                            secondVAl = Double.parseDouble(s2);
                         }
-
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                         }
-
                         @Override
                         public void afterTextChanged(Editable editable) {
                             String s = et.getText().toString();
                             String s2 = et2.getText().toString();
                             if(et.isFocused() &&  !s.isEmpty() && !s2.isEmpty() ){
+                                double v1 = Double.parseDouble(et.getHint().toString());
+                                double v2 = Double.parseDouble(et2.getHint().toString());
                                 double valMeasure = Double.parseDouble(s);
-                                double newVal = (secondVAl/firstVal)*valMeasure;
+                                double newVal = (v2/v1)*valMeasure;
                                 et2.setText(""+newVal);
                             }
                         }
@@ -142,26 +134,19 @@ public class FoodAddFragment extends Fragment {
                     et2.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            String s = et.getText().toString();
-                            if(s.isEmpty()) return;
-                            firstVal = Double.parseDouble(s);
-                            String s2 = et2.getText().toString();
-                            if(s2.isEmpty()) return;
-                            secondVAl = Double.parseDouble(s2);
                         }
-
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                         }
-
                         @Override
                         public void afterTextChanged(Editable editable) {
                             String s = et.getText().toString();
                             String s2 = et2.getText().toString();
                             if(et2.isFocused() && !s.isEmpty() && !s2.isEmpty()){
+                                double v1 = Double.parseDouble(et.getHint().toString());
+                                double v2 = Double.parseDouble(et2.getHint().toString());
                                 double val = Double.parseDouble(s2);
-                                double newVal = (firstVal/secondVAl)*val;
+                                double newVal = (v1/v2)*val;
                                 et.setText(""+newVal);
                             }
                         }
@@ -177,13 +162,15 @@ public class FoodAddFragment extends Fragment {
                         if (child instanceof TableRow) {
                             TableRow row = (TableRow) child;
                             int j = row.getChildCount();
-                            for (int x = 0; x < j; x+=3) {
+                            for (int x = 0; x < j; x+=6) {
                                 AutoCompleteTextView tView = (AutoCompleteTextView) row.getChildAt(x);
                                 String s = tView.getText().toString();
                                 Ingredient ingr = adapter.getIngredient(s);
-                                EditText eView = (EditText) row.getChildAt(x+1);
-                                String s2 = eView.getText().toString();
-                                System.out.println(s+" "+s2);
+                                EditText amountET = (EditText) row.getChildAt(x+1);
+                                String s2 = amountET.getText().toString();
+                                EditText valueET = (EditText) row.getChildAt(x+3);
+                                String s3 = valueET.getText().toString();
+                                System.out.println(s+" "+s2+" "+s3);
                             }
                         }
                     }
@@ -260,26 +247,20 @@ public class FoodAddFragment extends Fragment {
         amounEditTExt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String s = amounEditTExt.getText().toString();
-                if(s.isEmpty()) return;
-                firstVal = Double.parseDouble(s);
-                String s2 = valueEditTExt.getText().toString();
-                if(s2.isEmpty()) return;
-                secondVAl = Double.parseDouble(s2);
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 String s = amounEditTExt.getText().toString();
                 String s2 = valueEditTExt.getText().toString();
+
                 if(amounEditTExt.isFocused() &&  !s.isEmpty() && !s2.isEmpty() ){
+                    double v1 = Double.parseDouble(amounEditTExt.getHint().toString());
+                    double v2 = Double.parseDouble(valueEditTExt.getHint().toString());
                     double valMeasure = Double.parseDouble(s);
-                    double newVal = (secondVAl/firstVal)*valMeasure;
+                    double newVal = (v2/v1)*valMeasure;
                     valueEditTExt.setText(""+newVal);
                 }
             }
@@ -290,26 +271,20 @@ public class FoodAddFragment extends Fragment {
         valueEditTExt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String s = amounEditTExt.getText().toString();
-                if(s.isEmpty()) return;
-                firstVal = Double.parseDouble(s);
-                String s2 = valueEditTExt.getText().toString();
-                if(s2.isEmpty()) return;
-                secondVAl = Double.parseDouble(s2);
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 String s = amounEditTExt.getText().toString();
                 String s2 = valueEditTExt.getText().toString();
+
                 if(valueEditTExt.isFocused() && !s.isEmpty() && !s2.isEmpty()){
+                    double v1 = Double.parseDouble(amounEditTExt.getHint().toString());
+                    double v2 = Double.parseDouble(valueEditTExt.getHint().toString());
                     double val = Double.parseDouble(s2);
-                    double newVal = (firstVal/secondVAl)*val;
+                    double newVal = (v1/v2)*val;
                     amounEditTExt.setText(""+newVal);
                 }
             }
@@ -347,6 +322,7 @@ public class FoodAddFragment extends Fragment {
     private void setETsForUnits(String measureUnit, Double measureValue, String defaultUnit, Double defaultValue, ViewGroup vg) {
         ((EditText)vg.findViewWithTag("M")).setText(measureValue.toString()); ((TextView)vg.findViewWithTag("UTV")).setText(measureUnit);
         ((EditText)vg.findViewWithTag("V")).setText(defaultValue.toString()); ((TextView)vg.findViewWithTag("VTV")).setText(defaultUnit);
+        ((EditText)vg.findViewWithTag("M")).setHint(measureValue.toString()); ((EditText)vg.findViewWithTag("V")).setHint(defaultValue.toString());
     }
 
 

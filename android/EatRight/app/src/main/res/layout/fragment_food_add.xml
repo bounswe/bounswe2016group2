@@ -30,9 +30,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/amountEText"
-                        android:hint="@string/amount"
+                        android:textColorHint="@color/transparent"
                         android:inputType="numberDecimal"
                         android:tag="M"
+                        android:maxLines="1" />
                         />
                     <TextView android:id="@+id/unitTV"
                         android:tag="UTV"
@@ -45,9 +46,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/valueEText"
-                        android:hint="@string/amount"
+                        android:textColorHint="@color/transparent"
                         android:inputType="numberDecimal"
-                        />
+                        android:maxLines="1" />
                     <TextView android:id="@+id/valueTV"
                         android:tag="VTV"
                         android:layout_weight="1"
