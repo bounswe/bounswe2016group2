@@ -38,52 +38,40 @@ var _CreateDietPage2 = _interopRequireDefault(_CreateDietPage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-router.on("/addFood/", function () {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_AddFoodPage2.default, null)
-  ), root);
-}).on("/foods/:id", function (params) {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_FoodPage2.default, { id: params.id })
-  ), root);
-}).on("/ingredient/:id", function (params) {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_IngredientPage2.default, { id: params.id })
-  ), root);
-}).on("/addRestaurant", function (params) {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_AddRestaurantPage2.default, null)
-  ), root);
-}).on("/restaurants/:id", function (params) {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_RestaurantPage2.default, { id: params.id })
-  ), root);
-}).on("/profile/", function (params) {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_UserHomepage2.default, null)
-  ), root);
-}).on("createDiet/", function () {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_CreateDietPage2.default, null)
-  ), root);
-}).on("*", function () {
-  ReactDOM.render(React.createElement(
-    _Layout2.default,
-    null,
-    React.createElement(_Homepage2.default, null)
-  ), root);
-}).resolve();
+var route = function route(path, callback) {
+  router.on(path, function (params) {
+    var component = callback(params);
+    ReactDOM.render(React.createElement(
+      _Layout2.default,
+      null,
+      component
+    ), root);
+  });
+};
+
+route("/addFood/", function () {
+  return React.createElement(_AddFoodPage2.default, null);
+});
+route("/foods/:id", function (params) {
+  return React.createElement(_FoodPage2.default, { id: params.id });
+});
+route("/ingredient/:id", function (params) {
+  return React.createElement(_IngredientPage2.default, { id: params.id });
+});
+route("/addRestaurant", function (params) {
+  return React.createElement(_AddRestaurantPage2.default, null);
+});
+route("/restaurants/:id", function (params) {
+  return React.createElement(_RestaurantPage2.default, { id: params.id });
+});
+route("/profile/", function (params) {
+  return React.createElement(_UserHomepage2.default, null);
+});
+route("createDiet/", function () {
+  return React.createElement(_CreateDietPage2.default, null);
+});
+route("*", function () {
+  return React.createElement(_Homepage2.default, null);
+});
+
+router.resolve();

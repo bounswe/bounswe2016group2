@@ -99,6 +99,7 @@ var Api = function () {
       });
     }
 
+    // USER ROUTES
     /**
      * {email: String, password: String}
      */
@@ -108,7 +109,6 @@ var Api = function () {
     value: function signin(credentials) {
       return this.post('users/signin', credentials);
     }
-
     /**
      * {email: String, password: String, first_name: String, last_name: String}
      */
@@ -119,15 +119,13 @@ var Api = function () {
       return this.post('users/signup', data);
     }
   }, {
-    key: 'addFood',
-    value: function addFood(data) {
-      return this.post('foods', data);
+    key: 'consumptionHistory',
+    value: function consumptionHistory() {
+      return this.get('users/history');
     }
-  }, {
-    key: 'addIngredientToFood',
-    value: function addIngredientToFood(foodId, ingId, data) {
-      return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
-    }
+
+    // INGREDIENT ROUTES
+
   }, {
     key: 'searchIngredient',
     value: function searchIngredient(query) {
@@ -139,19 +137,22 @@ var Api = function () {
       return this.get('ingredients');
     }
   }, {
-    key: 'searchFood',
-    value: function searchFood(query) {
-      return this.get('foodSearch?query=' + query);
+    key: 'getIngredient',
+    value: function getIngredient(id) {
+      return this.get('ingredients/' + id);
     }
   }, {
-    key: 'deleteFood',
-    value: function deleteFood(data) {
-      return this.delete('foods/' + data);
+    key: 'ingredientAte',
+    value: function ingredientAte(id, data) {
+      return this.post('ingredients/' + id + "/ate", data);
     }
+
+    // FOOD ROUTES
+
   }, {
-    key: 'getFood',
-    value: function getFood(id) {
-      return this.get('foods/' + id);
+    key: 'addFood',
+    value: function addFood(data) {
+      return this.post('foods', data);
     }
   }, {
     key: 'getFoods',
@@ -159,24 +160,19 @@ var Api = function () {
       return this.get('foods');
     }
   }, {
-    key: 'getRestaurant',
-    value: function getRestaurant(id) {
-      return this.get('restaurants/' + id);
+    key: 'getFood',
+    value: function getFood(id) {
+      return this.get('foods/' + id);
     }
   }, {
-    key: 'addRestaurant',
-    value: function addRestaurant(data) {
-      return this.post('restaurants', data);
+    key: 'searchFood',
+    value: function searchFood(query) {
+      return this.get('foodSearch?query=' + query);
     }
   }, {
-    key: 'addFoodToRestaurant',
-    value: function addFoodToRestaurant(restaurantId, foodId) {
-      return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
-    }
-  }, {
-    key: 'getIngredient',
-    value: function getIngredient(id) {
-      return this.get('ingredients/' + id);
+    key: 'addIngredientToFood',
+    value: function addIngredientToFood(foodId, ingId, data) {
+      return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
     }
   }, {
     key: 'foodAte',
@@ -184,15 +180,33 @@ var Api = function () {
       return this.post('foods/' + id + "/ate", data);
     }
   }, {
-    key: 'ingredientAte',
-    value: function ingredientAte(id, data) {
-      return this.post('ingredients/' + id + "/ate", data);
+    key: 'deleteFood',
+    value: function deleteFood(data) {
+      return this.delete('foods/' + data);
+    }
+
+    // INCLUSION ROUTES
+
+  }, {
+    key: 'addRestaurant',
+    value: function addRestaurant(data) {
+      return this.post('restaurants', data);
+    }
+    // RESTAURANT ROUTES
+
+  }, {
+    key: 'getRestaurant',
+    value: function getRestaurant(id) {
+      return this.get('restaurants/' + id);
     }
   }, {
-    key: 'consumptionHistory',
-    value: function consumptionHistory() {
-      return this.get('users/history');
+    key: 'addFoodToRestaurant',
+    value: function addFoodToRestaurant(restaurantId, foodId) {
+      return this.post('restaurants/' + restaurantId + '/foods/' + foodId);
     }
+
+    // DIET ROUTES
+
   }, {
     key: 'createDiet',
     value: function createDiet(data) {
