@@ -2,12 +2,12 @@ from rest_framework import serializers
 
 from api.model.diet import Diet
 from api.model.ingredient import Ingredient
-from api.serializer.ingredient import IngredientSerializer
+from api.serializer.ingredient import IngredientPureSerializer
 
 
 class DietReadSerializer(serializers.ModelSerializer):
 
-    ingredients = IngredientSerializer(many=True)
+    ingredients = IngredientPureSerializer(many=True)
 
     class Meta:
         model = Diet
