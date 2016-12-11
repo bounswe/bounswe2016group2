@@ -88,14 +88,18 @@ def comment(req, restaurantId):
     """
     Add, modify or delete comment on restaurant
     """
-    req['restaurant'] = restaurantId
-    req['user'] = req.user.id
+    data = {}
+    data['user'] = req.user.id
+    data['restaurant'] = restaurantId
+    if 'comment' in req.data:
+        data['comment'] = req.data['comment']
+
     if req.method == 'POST':
         try:
             comment = RestaurantComment.objects.get(user=req.user.id, restaurant=restaurantId)
-            serializer = RestaurantCommentSerializer(comment, data=req.data)
+            serializer = RestaurantCommentSerializer(comment, data=data)
         except RestaurantComment.DoesNotExist:
-            serializer = RestaurantCommentSerializer(data=req.data)
+            serializer = RestaurantCommentSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -117,14 +121,20 @@ def rate(req, restaurantId):
     """
     Add, modify or delete rate on restaurant
     """
+    data = {}
+    data['user'] = req.user.id
+    data['restaurant'] = restaurantId
+    if 'score' in req.data:
+        data['score'] = req.data['score']
+
     req.data['restaurant'] = restaurantId
     req.data['user'] = req.user.id
     if req.method == 'POST':
         try:
             comment = RestaurantRate.objects.get(user=req.user.id, restaurant=restaurantId)
-            serializer = RestaurantRateSerializer(comment, data=req.data)
+            serializer = RestaurantRateSerializer(comment, data=data)
         except RestaurantRate.DoesNotExist:
-            serializer = RestaurantRateSerializer(data=req.data)
+            serializer = RestaurantRateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

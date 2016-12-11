@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from api.model.food import Food
 from api.model.foodComment import FoodComment
 from api.model.foodRate import FoodRate
-from api.serializer.food import FoodSerializer, FoodReadSerializer
+from api.serializer.food import FoodSerializer, FoodReadSerializer, FoodPureSerializer
 from api.serializer.foodComment import FoodCommentSerializer
 from api.serializer.foodRate import FoodRateSerializer
 from api.service import food as FoodService
@@ -20,7 +20,7 @@ def foods(req):
     """
     if req.method == 'GET':
         foods = Food.objects.all()
-        serializer = FoodReadSerializer(foods, many=True)
+        serializer = FoodPureSerializer(foods, many=True)
         return Response(serializer.data)
 
     elif req.method == 'POST':
@@ -87,14 +87,18 @@ def comment(req, foodId):
     """
     Add, modify or delete comment on food
     """
-    req.data['food'] = foodId,
-    req.data['user'] = req.user.id
+    data = {}
+    data['user'] = req.user.id
+    data['food'] = foodId
+    if 'comment' in req.data:
+        data['comment'] = req.data['comment']
+
     if req.method == 'POST':
         try:
             comment = FoodComment.objects.get(user=req.user.id, food=foodId)
-            serializer = FoodCommentSerializer(comment, data=req.data)
+            serializer = FoodCommentSerializer(comment, data=data)
         except FoodComment.DoesNotExist:
-            serializer = FoodCommentSerializer(data=req.data)
+            serializer = FoodCommentSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -116,14 +120,18 @@ def rate(req, foodId):
     """
     Add, modify or delete rate on food
     """
-    req.data['food'] = foodId,
-    req.data['user'] = req.user.id
+    data = {}
+    data['user'] = req.user.id
+    data['food'] = foodId
+    if 'score' in req.data:
+        data['score'] = req.data['score']
+
     if req.method == 'POST':
         try:
             comment = FoodRate.objects.get(user=req.user.id, food=foodId)
-            serializer = FoodRateSerializer(comment, data=req.data)
+            serializer = FoodRateSerializer(comment, data=data)
         except FoodRate.DoesNotExist:
-            serializer = FoodRateSerializer(data=req.data)
+            serializer = FoodRateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
