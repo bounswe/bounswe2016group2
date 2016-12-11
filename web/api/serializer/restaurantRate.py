@@ -27,3 +27,14 @@ class RestaurantRateReadSerializer(serializers.ModelSerializer):
         model = RestaurantRate
         fields = '__all__'
         depth = 1
+
+
+class RestaurantRatePureSerializer(serializers.ModelSerializer):
+
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())
+
+    class Meta:
+        model = RestaurantRate
+        fields = ('score', 'user', 'restaurant')
+        depth = 1

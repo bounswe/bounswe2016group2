@@ -28,3 +28,14 @@ class FoodCommentReadSerializer(serializers.ModelSerializer):
         model = FoodComment
         fields = '__all__'
         depth = 1
+
+
+class FoodCommentPureSerializer(serializers.ModelSerializer):
+
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    food = serializers.PrimaryKeyRelatedField(queryset=Food.objects.all())
+
+    class Meta:
+        model = FoodComment
+        fields = ('comment', 'user', 'food')
+        depth = 1

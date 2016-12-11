@@ -28,3 +28,14 @@ class RestaurantCommentReadSerializer(serializers.ModelSerializer):
         model = RestaurantComment
         fields = '__all__'
         depth = 1
+
+
+class RestaurantCommentPureSerializer(serializers.ModelSerializer):
+
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())
+
+    class Meta:
+        model = RestaurantComment
+        fields = ('comment', 'photo', 'user', 'restaurant')
+        depth = 1
