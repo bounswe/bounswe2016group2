@@ -13,6 +13,7 @@ from api.serializer.ingredient import IngredientPureSerializer
 from api.serializer.restaurant import RestaurantPureSerializer
 from api.serializer.diet import DietFilterSerializer
 from api.service import food as FoodService
+from api.service import restaurant as RestaurantService
 
 
 # q: query string
@@ -21,7 +22,10 @@ def searchFoods(q):
     if len(foods) == 0:
         foods = Food.objects.filter(slug__contains=q)
     serializer = FoodPureSerializer(foods, many=True)
-    return serializer.data
+    data = serializer.data
+    for food in data:
+        FoodService.calculateRate(food)
+    return data
 
 
 # q: query string
@@ -39,6 +43,9 @@ def searchRestaurants(q):
     if len(restaurants) == 0:
         restaurants = Restaurant.objects.filter(slug__contains=q)
     serializer = RestaurantPureSerializer(restaurants, many=True)
+    data = serializer.data
+    for restaurant in data:
+        RestaurantService.calculateRate(restaurant)
     return serializer.data
 
 

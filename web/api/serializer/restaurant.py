@@ -43,7 +43,8 @@ class RestaurantDetailSerializer(serializers.ModelSerializer):
 
 
 class RestaurantPureSerializer(serializers.ModelSerializer):
+    rates = RestaurantRatePureSerializer(source='restaurantrate_set', many=True)
 
     class Meta:
         model = Food
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'rates')

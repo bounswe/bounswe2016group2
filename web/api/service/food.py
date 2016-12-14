@@ -77,7 +77,21 @@ def calculateDetails(food):
             ingredient[field] *= ratio
 
     calculateGeneralDetails(food)
+    calculateRate(food)
     return food
+
+
+def calculateRate(food):
+    total = 0
+    count = 0
+    if len(food['rates']) == 0:
+        count = 1
+    for rate in food['rates']:
+        print(rate['score'])
+        total += rate['score']
+        count += 1
+    food.pop('rates', None)
+    food['rate'] = total / count
 
 
 def calculateUserHistory(userId, startDate, endDate):

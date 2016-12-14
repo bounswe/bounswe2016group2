@@ -21,7 +21,10 @@ def foods(req):
     if req.method == 'GET':
         foods = Food.objects.all()
         serializer = FoodPureSerializer(foods, many=True)
-        return Response(serializer.data)
+        data = serializer.data
+        for food in data:
+            FoodService.calculateRate(food)
+        return Response(data)
 
     elif req.method == 'POST':
         if(req.user.id):
