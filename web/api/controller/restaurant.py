@@ -154,3 +154,17 @@ def rate(req, restaurantId):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def myRestaurants(req):
+    """
+    Get all restaurants, or create a new one
+    """
+    if req.method == 'GET':
+        restaurants = Restaurant.objects.filter(user=req.user.id)
+        serializer = RestaurantDetailSerializer(restaurants, many=True)
+        data = serializer.data
+        for restaurant in data:
+            RestaurantService.calculateRate(restaurant)
+        return Response(data)
