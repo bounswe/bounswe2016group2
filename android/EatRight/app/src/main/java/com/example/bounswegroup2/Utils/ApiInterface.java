@@ -3,6 +3,7 @@ package com.example.bounswegroup2.Utils;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.Restaurant;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -117,8 +119,8 @@ public interface ApiInterface {
 //
 //    @DELETE("api/foods/{food}/ingredients/{ingredient}")
 
-
-
+    @GET("api/restaurants/{restaurantId}")
+    Call<Restaurant> getRestaurant(@Path("restaurantId") Integer restaurantId);
 
 
 
