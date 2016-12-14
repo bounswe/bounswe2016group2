@@ -171,7 +171,7 @@ var Api = function () {
   }, {
     key: 'searchFood',
     value: function searchFood(query) {
-      return this.get('foodSearch?query=' + query);
+      return this.get('search?query=' + query);
     }
   }, {
     key: 'addIngredientToFood',
