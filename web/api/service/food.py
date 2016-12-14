@@ -116,7 +116,7 @@ def calculateUserHistory(userId, startDate, endDate):
 
     return {
         'total': total,
-        'daily': daily
+        'daily': daily.values()
     }
 
 
@@ -164,7 +164,7 @@ def calculateServerHistory(userId, startDate, endDate):
                 'name': restaurant.name
             },
             'total': total,
-            'daily': daily
+            'daily': daily.values()
         })
 
     return analytics
