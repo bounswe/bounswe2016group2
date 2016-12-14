@@ -81,9 +81,6 @@ def calculateDetails(food):
     return food
 
 
-<<<<<<< HEAD
-def calculateHistory(userId, startDateStr, endDateStr):
-=======
 def calculateRate(food):
     total = 0
     count = 0
@@ -98,7 +95,6 @@ def calculateRate(food):
 
 
 def calculateUserHistory(userId, startDate, endDate):
->>>>>>> master
     total = getAnalyticTemplate()  # total values
     total['ateFoods'] = []
     daily = {}  # daily values
