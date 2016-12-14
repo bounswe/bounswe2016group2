@@ -148,3 +148,16 @@ def rate(req, foodId):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def myFoods(req):
+    """
+    Get all foods, or create a new one
+    """
+    foods = Food.objects.filter(user=req.user.id)
+    serializer = FoodPureSerializer(foods, many=True)
+    data = serializer.data
+    for food in data:
+        FoodService.calculateRate(food)
+    return Response(data)
