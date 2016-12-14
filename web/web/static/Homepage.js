@@ -54,8 +54,8 @@ var Homepage = function (_React$Component) {
     value: function search(query) {
       var _this2 = this;
 
-      Api.searchFood(query).then(function (foods) {
-        var list = foods.map(function (food) {
+      Api.searchFood(query).then(function (data) {
+        var list = data.foods.map(function (food) {
           return React.createElement(_FoodRow2.default, { key: food.id, data: food });
         });
         _this2.setState({ list: list });

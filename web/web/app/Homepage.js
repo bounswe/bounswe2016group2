@@ -22,8 +22,8 @@ export default class Homepage extends React.Component {
   // send search api call
   search(query) {
     Api.searchFood(query)
-    .then((foods) => {
-      const list = foods.map((food) => {
+    .then((data) => {
+      const list = data.foods.map((food) => {
         return <FoodRow key={food.id} data={food}/>
       })
       this.setState({list: list})
