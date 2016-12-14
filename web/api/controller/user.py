@@ -134,7 +134,50 @@ def history(req):
     """
     get current user's eaten food and ingredient history
     """
-    startDate = datetime.datetime.now().strftime('%d-%m-%Y')
-    endDate = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime('%d-%m-%Y')
-    foodHistory = FoodService.calculateHistory(req.user.id, startDate, endDate)
+    if 'startDate' in req.GET:
+        try:
+            startDate = (datetime.datetime.now() - datetime.timedelta(days=30)).date()
+        except Exception as e:
+            return Response({'startDate': 'Invalid format (DD-MM-YYYY)'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        startDate = (datetime.datetime.now() - datetime.timedelta(days=30)).date()
+
+    if 'endDate' in req.GET:
+        try:
+            endDate = datetime.datetime.strptime(req.GET['endDate'], '%d-%m-%Y').date()
+        except Exception as e:
+            return Response({'endDate': 'Invalid format (DD-MM-YYYY)'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        endDate = datetime.date.today()
+
+    endDate += datetime.timedelta(days=1)
+
+    foodHistory = FoodService.calculateUserHistory(req.user.id, startDate, endDate)
+    return Response(foodHistory)
+
+
+@api_view(['GET'])
+def restaurantHistory(req):
+    """
+    get current user's eaten food history for his/her each restaurant
+    """
+    if 'startDate' in req.GET:
+        try:
+            startDate = (datetime.datetime.now() - datetime.timedelta(days=30)).date()
+        except Exception as e:
+            return Response({'startDate': 'Invalid format (DD-MM-YYYY)'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        startDate = (datetime.datetime.now() - datetime.timedelta(days=30)).date()
+
+    if 'endDate' in req.GET:
+        try:
+            endDate = datetime.datetime.strptime(req.GET['endDate'], '%d-%m-%Y').date()
+        except Exception as e:
+            return Response({'endDate': 'Invalid format (DD-MM-YYYY)'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        endDate = datetime.date.today()
+
+    endDate += datetime.timedelta(days=1)
+
+    foodHistory = FoodService.calculateServerHistory(req.user.id, startDate, endDate)
     return Response(foodHistory)

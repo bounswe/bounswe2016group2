@@ -4,14 +4,19 @@ from api.model.restaurant import Restaurant
 from api.model.food import Food
 from django.contrib.auth.models import User
 
+from api.serializer.restaurantComment import RestaurantCommentPureSerializer
+from api.serializer.restaurantRate import RestaurantRatePureSerializer
+from api.serializer.user import UserPureSerializer
+from api.serializer.ingredient import IngredientPureSerializer
 
-class SingleFoodSerializer(serializers.ModelSerializer):
-    slug = serializers.SlugField(read_only=True, allow_null=True)
+
+class FoodPureSerializer(serializers.ModelSerializer):
+
+    ingredients = IngredientPureSerializer(many=True)
 
     class Meta:
         model = Food
-        fields = '__all__'
-        depth = 1
+        fields = ('id', 'name', 'description', 'photo', 'ingredients')
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -26,9 +31,20 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
 
 class RestaurantDetailSerializer(serializers.ModelSerializer):
-    foods = SingleFoodSerializer(source='food_set', many=True)
+    foods = FoodPureSerializer(source='food_set', many=True)
+    comments = RestaurantCommentPureSerializer(source='restaurantcomment_set', many=True)
+    rates = RestaurantRatePureSerializer(source='restaurantrate_set', many=True)
+    user = UserPureSerializer()
 
     class Meta:
         model = Restaurant
         fields = '__all__'
         depth = 1
+
+
+class RestaurantPureSerializer(serializers.ModelSerializer):
+    rates = RestaurantRatePureSerializer(source='restaurantrate_set', many=True)
+
+    class Meta:
+        model = Food
+        fields = ('id', 'name', 'rates')
