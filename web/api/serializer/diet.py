@@ -66,7 +66,7 @@ class DietFilterSerializer(serializers.ModelSerializer):
     minFatRate = serializers.FloatField(min_value=0, max_value=1, default=0)
     maxFatRate = serializers.FloatField(min_value=0, max_value=1, default=1)
 
-    ingredients = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all(), many=True)
+    ingredients = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all(), many=True, default=[])
 
     class Meta:
         model = Diet
