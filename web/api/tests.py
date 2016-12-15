@@ -233,17 +233,58 @@ class Test(TestCase):
         )
 
     def setUpFoods(self):
+        ahmetBurgerking = User.objects.get(username='info@burgerking.com')
         burgerking = Restaurant.objects.get(name='Burger King Hisarustu')
-        Food.objects.create(name='Big King Menu', restaurant=burgerking)
+        Food.objects.create(name='Big King Menu', restaurant=burgerking, user=ahmetBurgerking)
+        Food.objects.create(name='Whopper Menu', restaurant=burgerking)
+
+    def setUpComments(self):
+        burgerking = Restaurant.objects.get(name='Burger King Hisarustu')
+        bigking = Food.objects.get(name='Big King Menu')
+        whopper = Food.objects.get(name='Whopper Menu')
+        aclan = User.objects.get(username='aclan@hotmail.com')
+        FoodComment.objects.create(comment='Super', user=aclan, food=bigking)
+        FoodComment.objects.create(comment='Efso', user=aclan, food=whopper)
+        RestaurantComment.objects.create(comment='cogzel bi yer', user=aclan, restaurant=burgerking)
+
+    def setUpRates(self):
+        burgerking = Restaurant.objects.get(name='Burger King Hisarustu')
+        bigking = Food.objects.get(name='Big King Menu')
+        aclan = User.objects.get(username='aclan@hotmail.com')
+        kagan = User.objects.get(username='kagannsari@gmail.com')
+        FoodRate.objects.create(score=4.2, user=aclan, food=bigking)
+        FoodRate.objects.create(score=1, user=kagan, food=bigking)
+        RestaurantRate.objects.create(score=3, user=aclan, restaurant=burgerking)
 
     def setUp(self):
         self.setUpIngredients()
         self.setUpUsers()
         self.setUpRestaurants()
         self.setUpFoods()
+        self.setUpComments()
+        self.setUpRates()
 
     def test(self):
+        kagan = User.objects.get(username='kagannsari@gmail.com')
+        aclan = User.objects.get(username='aclan@hotmail.com')
+        ahmetBurgerking = User.objects.get(username='info@burgerking.com')
         burgerking = Restaurant.objects.get(name='Burger King Hisarustu')
         bigking = Food.objects.get(name='Big King Menu')
+        whopper = Food.objects.get(name='Whopper Menu')
+        query = FoodRate.objects.filter(user=aclan)
+        aclansFoodRates = [rate for rate in query]
+        query = FoodComment.objects.filter(user=aclan)
+        aclansFoodComments = [comment for comment in query]
+        query = FoodRate.objects.filter(user=kagan)
+        kagansFoodRates = [rate for rate in query]
+        query = FoodRate.objects.filter(user=aclan)
+        aclansFoodRates = [rate for rate in query]
 
         self.assertEqual(burgerking, bigking.restaurant)
+        self.assertEqual(burgerking.user, ahmetBurgerking)
+        self.assertEqual(bigking.user, ahmetBurgerking)
+        self.assertNotEqual(whopper.user, ahmetBurgerking)
+        self.assertEqual(len(aclansFoodRates), 1)
+        self.assertEqual(kagansFoodRates[0].food, bigking)
+        self.assertEqual(aclansFoodRates[0].score, 4.2)
+        self.assertEqual(aclansFoodComments[1].comment, 'Efso')
