@@ -57,18 +57,8 @@ def signout(req):
     return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET', 'POST'])
-def me(req):
-    """
-    get current user if authenticated
-    """
-    user = User.objects.get(id=req.user.id)
-    serializer = UserReadSerializer(user)
-    return Response(serializer.data)
-
-
 @api_view(['GET'])
-def meDetail(req):
+def me(req):
     user = UserService.getDetailedUser(id=req.user.id)
     return Response(user)
 
