@@ -107,7 +107,7 @@ def searchFood(req):
     """
     Search food with filtering options
     """
-    q = slugify(req.POST.get('query', ''))
+    q = slugify(req.data['query'] if 'query' in req.data else '')
     dietSerializer = DietFilterSerializer(data=req.data)
 
     if not dietSerializer.is_valid():
