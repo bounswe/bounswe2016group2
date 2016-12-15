@@ -6,6 +6,79 @@ Authorization: "Token {Token}"
 
 ***
 
+## api/search?query=String
+##### GET
+Search food, restaurant and ingredient
+
+  **Response**
+
+    200
+
+      {
+        "foods": [Food],
+        "restaurants": [Restaurant],
+        "ingredients": [ingredient]
+      }
+
+***
+
+## api/searchFood
+##### GET
+Search food with filtering options
+
+  **Request**
+
+    {
+      "query": String,
+      "minEnergy": Float,
+      "maxEnergy": Float,
+      "minProteinVal": Float,
+      "maxProteinVal": Float,
+      "minCarbVal": Float,
+      "maxCarbVal": Float,
+      "minFatVal": Float,
+      "maxFatVal": Float,
+      "minProteinPerc": Float,
+      "maxProteinPerc": Float,
+      "minCarbPerc": Float,
+      "maxCarbPerc": Float,
+      "minFatPerc": Float,
+      "maxFatPerc": Float,
+      "ingredients": [id],
+      "tags": [{name:String}],
+      "diets": [id],
+      "tags"(optional): String
+    }
+
+  **Response**
+
+    200
+
+      [Food]
+
+
+    400 Bad Request
+
+      { field: [error] }      
+
+***
+
+## api/searchTag?query=String
+##### GET
+Search semantic tag
+
+  **Response**
+
+    200
+
+      {
+        "foods": [Food],
+        "restaurants": [Restaurant],
+        "ingredients": [ingredient]
+      }
+
+***
+
 ## api/users/signup
 ##### POST
 Create user and return
@@ -34,6 +107,8 @@ Create user and return
     400 Bad Request
 
     { field: [error] }
+
+***
 
 ## api/users/signin
 ##### POST
@@ -86,7 +161,15 @@ get current user if authenticated
       "email": String,
       "password": String,
       "first_name" (optional): String,
-      "last_name" (optional): String
+      "last_name" (optional): String,
+      "foods": [Food],
+      "restaurants": [Restaurant],
+      "diets": [Diet],
+      "foodComments": [FoodComment],
+      "foodRates": [FoodRate],
+      "restaurantComments": [RestaurantComment],
+      "restaurantRates": [RestaurantRate],
+      "isServer": Boolean
     }
 
 
@@ -132,12 +215,7 @@ retrieve, modify or delete single user by id
 
     200
 
-      {
-        "email": String,
-        "username": String,
-        "first_name": String,
-        "last_name": String
-      }
+      User
 
 
 
@@ -230,16 +308,6 @@ Retrive or delete single ingredient by slug
       { field: [error] }
 
     404 Not Found
-
-***
-
-## api/ingredientMocks
-##### POST
-Add default ingredients in mocks to database
-
-  **Response**
-
-    200
 
 ***
 
