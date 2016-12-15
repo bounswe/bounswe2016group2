@@ -98,7 +98,7 @@ class Api {
     return this.post('users/signup', data)
   }
   static consumptionHistory(){
-    return this.get('users/history');
+    return this.get('users/me/history');
   }
 
   // INGREDIENT ROUTES

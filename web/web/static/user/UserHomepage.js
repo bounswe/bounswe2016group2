@@ -41,6 +41,11 @@ var ConsumptionHistory = function (_React$Component) {
       }
     };
 
+    _this.input = {
+      fromDate: moment().subtract(1, 'month').format('DD-MM-YYYY'),
+      toDate: moment().format('DD-MM-YYYY')
+    };
+
     _this.fetch = _this.fetch.bind(_this);
     return _this;
   }
@@ -63,10 +68,18 @@ var ConsumptionHistory = function (_React$Component) {
       });
     }
   }, {
+    key: 'fromDateChanged',
+    value: function fromDateChanged(e) {
+      this.input.fromDate = moment(e).format('DD-MM-YYYY');
+    }
+  }, {
+    key: 'toDateChanged',
+    value: function toDateChanged(e) {
+      this.input.toDate = moment(e).format('DD-MM-YYYY');
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
       return React.createElement(
         'div',
         { className: 'ui segment' },
@@ -78,27 +91,32 @@ var ConsumptionHistory = function (_React$Component) {
             { style: { marginLeft: 10, marginRight: 10 } },
             'From'
           ),
-          React.createElement(_DatePicker2.default, { name: 'consumptionStartDate', placeholder: 'Start Date', 'default': moment().subtract(1, 'month').toDate() }),
+          React.createElement(_DatePicker2.default, { name: 'consumptionStartDate', placeholder: 'Start Date', 'default': this.input.fromDate, onChange: this.fromDateChanged.bind(this) }),
           React.createElement(
             'span',
             { style: { marginLeft: 10, marginRight: 10 } },
             'to'
           ),
-          React.createElement(_DatePicker2.default, { name: 'consumptionEndDate', placeholder: 'End Date', 'default': moment().toDate() })
+          React.createElement(_DatePicker2.default, { name: 'consumptionEndDate', placeholder: 'End Date', 'default': this.input.toDate, onChange: this.toDateChanged.bind(this) }),
+          React.createElement(
+            'button',
+            { className: 'ui button', style: { marginLeft: 10, marginRight: 10 } },
+            'Refresh'
+          )
         ),
         React.createElement(
           'div',
           { style: { marginTop: 20 } },
-          Object.keys(this.state.data.daily).map(function (key) {
+          this.state.data.daily.map(function (dailyData) {
             return React.createElement(
               'div',
-              null,
+              { key: dailyData.date },
               React.createElement(
                 'h3',
-                { key: key },
-                key
+                null,
+                dailyData.date
               ),
-              _this3.state.data.daily[key].ateFoods.map(function (ateFood) {
+              dailyData.ateFoods.map(function (ateFood) {
                 return React.createElement(_FoodRow2.default, { key: ateFood.created, data: ateFood.food });
               })
             );

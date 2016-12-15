@@ -125,7 +125,7 @@ var Api = function () {
   }, {
     key: 'consumptionHistory',
     value: function consumptionHistory() {
-      return this.get('users/history');
+      return this.get('users/me/history');
     }
 
     // INGREDIENT ROUTES
