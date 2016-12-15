@@ -12,185 +12,146 @@ public class Food implements Serializable
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("slug")
+    @SerializedName("inclusions")
     @Expose
-    private String slug;
-    @SerializedName("user")
+    private List<Inclusion> inclusions = null;
+    @SerializedName("comments")
     @Expose
-    private Integer user;
+    private List<Object> comments = null;
+    @SerializedName("rates")
+    @Expose
+    private List<Object> rates = null;
     @SerializedName("restaurant")
     @Expose
-    private Integer restaurant;
+    private Restaurant restaurant;
+    @SerializedName("user")
+    @Expose
+    private Object user;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("slug")
+    @Expose
+    private String slug;
     @SerializedName("description")
     @Expose
-    private String description;
+    private Object description;
     @SerializedName("photo")
     @Expose
     private String photo;
     @SerializedName("ingredients")
     @Expose
     private List<Ingredient> ingredients = null;
+    @SerializedName("weight")
+    @Expose
+    private Integer weight;
+    @SerializedName("details")
+    @Expose
+    private Details details;
+    private final static long serialVersionUID = -1659623804730649438L;
 
-    private  int energy = 0;
-    private  int pro = 0;
-    private  int carb = 0;
-    private  int fat = 0;
-    private final static long serialVersionUID = 697699670771933128L;
-
-    /**
-     *
-     * @return
-     * The id
-     */
     public Integer getId() {
         return id;
     }
 
-    /**
-     *
-     * @param id
-     * The id
-     */
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     *
-     * @return
-     * The slug
-     */
-    public String getSlug() {
-        return slug;
+    public List<Inclusion> getInclusions() {
+        return inclusions;
     }
 
-    /**
-     *
-     * @param slug
-     * The slug
-     */
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setInclusions(List<Inclusion> inclusions) {
+        this.inclusions = inclusions;
     }
 
-    /**
-     *
-     * @return
-     * The user
-     */
-    public Integer getUser() {
-        return user;
+    public List<Object> getComments() {
+        return comments;
     }
 
-    /**
-     *
-     * @param user
-     * The user
-     */
-    public void setUser(Integer user) {
-        this.user = user;
+    public void setComments(List<Object> comments) {
+        this.comments = comments;
     }
 
-    /**
-     *
-     * @return
-     * The restaurant
-     */
-    public Integer getRestaurant() {
+    public List<Object> getRates() {
+        return rates;
+    }
+
+    public void setRates(List<Object> rates) {
+        this.rates = rates;
+    }
+
+    public Restaurant getRestaurant() {
         return restaurant;
     }
 
-    /**
-     *
-     * @param restaurant
-     * The restaurant
-     */
-    public void setRestaurant(Integer restaurant) {
+    public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 
-    /**
-     *
-     * @return
-     * The name
-     */
+    public Object getUser() {
+        return user;
+    }
+
+    public void setUser(Object user) {
+        this.user = user;
+    }
+
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @param name
-     * The name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     *
-     * @return
-     * The description
-     */
-    public String getDescription() {
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public Object getDescription() {
         return description;
     }
 
-    /**
-     *
-     * @param description
-     * The description
-     */
-    public void setDescription(String description) {
+    public void setDescription(Object description) {
         this.description = description;
     }
 
-    /**
-     *
-     * @return
-     * The photo
-     */
     public String getPhoto() {
         return photo;
     }
 
-    /**
-     *
-     * @param photo
-     * The photo
-     */
     public void setPhoto(String photo) {
         this.photo = photo;
     }
 
-    /**
-     *
-     * @return
-     * The ingredients
-     */
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    /**
-     *
-     * @param ingredients
-     * The ingredients
-     */
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public  void setFields(){
-        for (Ingredient i : this.ingredients) {
-            energy+=i.getEnergy();
-            pro+=i.getProtein();
-            carb+=i.getCarb();
-            fat+=i.getFat();
-        }
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Details getDetails() {
+        return details;
+    }
+
+    public void setDetails(Details details) {
+        this.details = details;
     }
 
 
@@ -222,7 +183,7 @@ public class Food implements Serializable
             return 0;
         }
     };
-
+/*
     public int getEnergy() {
         return energy;
     }
@@ -237,5 +198,5 @@ public class Food implements Serializable
 
     public int getFat() {
         return fat;
-    }
+    }*/
 }

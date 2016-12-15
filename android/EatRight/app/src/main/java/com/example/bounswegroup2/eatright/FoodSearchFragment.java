@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.util.Range;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -114,6 +115,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         getListView().setOnItemClickListener(this);
         lv.setOnItemClickListener(this);
         getAllIngredients();
+        getFood(1);
         getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(FoodSearchFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
@@ -146,36 +148,48 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         int maxFat = fatSeekBar.getSelectedMaxValue();
         final Range<Integer> r4 = new Range<Integer>(minFat,maxFat);
         ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-        Call<List<Food>> cb = test.getFoodsWithQuery("");
+        Call<List<Food>> cb = test.searchFood("");
 
         cb.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
-                 final ArrayList<Food> foodList = (ArrayList<Food>) response.body();
-                int maxE=0,maxP=0,maxC= 0,maxF = 0;
+                final ArrayList<Food> foodList = (ArrayList<Food>) response.body();
+                ArrayList<Ingredient> listIngr = ((IngredientAdapter)lv.getAdapter()).getIngredients();
+                ArrayList<Food> nFl = new ArrayList<Food>();
+                ArrayList<Ingredient> finalIngList = new ArrayList<Ingredient>();
                 for (int i = 0;i<foodList.size();i++) {
                     Food f = foodList.get(i);
+                   /* ArrayList<Ingredient> ingrOfFood = (ArrayList<Ingredient>) f.getIngredients();
+                    for (Ingredient ing: ingrOfFood) {
+                        for(int j = 0;j<listIngr.size(); j++){
+                            if (listIngr.get(j).getId() == ing.getId()){
+                                finalIngList.add(listIngr.get(j)); j=listIngr.size();
+                            }
+                        }
+                    }*/
+               /*     f.setIngredients(finalIngList);
                     f.setFields();
-                    int energy = f.getEnergy(); if (energy > maxE) maxE = energy;
-                    int pro = f.getPro(); if (pro > maxP) maxP = pro;
-                    int carb = f.getCarb(); if (carb > maxC) maxC = carb;
-                    int fat = f.getFat(); if (fat > maxF) maxF = fat;
+                    int energy = f.getEnergy();
+                    int pro = f.getPro();
+                    int carb = f.getCarb();
+                    int fat = f.getFat();*/
                     System.out.println(f.getName());
                     //REvise true values and then set max min values in rangeseekbars
-                    if(!r1.contains(energy) || !r2.contains(pro) || !r3.contains(carb) || !r4.contains(fat)){
+                  /*  if(!r1.contains(energy) || !r2.contains(pro) || !r3.contains(carb) || !r4.contains(fat)){
                         foodList.remove(i); i--;
-                    }else{
-                    ArrayList<Ingredient> listOfIngredients = (ArrayList<Ingredient>) f.getIngredients();
-                    for (int j = 0; j < listOfIngredients.size(); j++) {
-                        if (allergic.contains(listOfIngredients.get(j).getName())) {
-                            j = listOfIngredients.size();
+                    }else{*/
+                    nFl.add(f);
+                    for (int j = 0; j < finalIngList.size(); j++) {
+                        if (allergic.contains(finalIngList.get(j).getName())) {
+                            j = finalIngList.size();
                             foodList.remove(i);
                             i--;
                         }
                     }
+                    //}
+                    finalIngList.clear();
                     }
-                    }
-                   final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), foodList);
+                   final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), nFl);
                     setListAdapter(adapter);
                    tvName.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -214,8 +228,6 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             @Override
             public void onFailure(Call<List<Food>> call, Throwable t) {
                 System.out.println("HATA VAR");
-
-
             }
         });
     }
@@ -244,5 +256,28 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
+    }
+    private void getFood(int id){
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        Call<Food> cb = test.getFoodWithId(id);
+        Log.d("A1", String.valueOf(cb.request().url()));
+        Log.d("A2", String.valueOf(cb.request().body()));
+        cb.enqueue(new Callback<Food>() {
+            @Override
+            public void onResponse(Call<Food> call, Response<Food> response) {
+                String s = response.raw().toString();
+                Food f = response.body();
+                System.out.println(f.getName());
+               // List<Inclusion> inc = f.getInclusions();
+              //  ArrayList<Ingredient> ingList = (ArrayList<Ingredient>) inc.getIngredient();
+                System.out.println("asdas");
+            }
+
+            @Override
+            public void onFailure(Call<Food> call, Throwable t) {
+
+            }
+        });
     }
 }

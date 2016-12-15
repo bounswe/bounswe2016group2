@@ -48,7 +48,7 @@ public class FoodPageActivity extends AppCompatActivity {
                 .fit()
                 .centerInside()
                 .into(imageView);
-        ingredients= (ArrayList<Ingredient>) fSeen.getIngredients();
+       /* ingredients= (ArrayList<Ingredient>) fSeen.getIngredients();
         foodName = (TextView) findViewById(R.id.food_name_text);
         foodName.setText(fSeen.getName());
         fSeen.setFields();
@@ -62,7 +62,7 @@ public class FoodPageActivity extends AppCompatActivity {
         totalFat.setText(""+fSeen.getFat());
 
         totalProtein = (TextView) findViewById(R.id.protein_result_text);
-        totalProtein.setText(""+fSeen.getPro());
+        totalProtein.setText(""+fSeen.getPro());*/
 
         btnOpenIngredients = (Button) findViewById(R.id.ingredients_button);
         btnOpenIngredients.setOnClickListener(new OnClickListener() {

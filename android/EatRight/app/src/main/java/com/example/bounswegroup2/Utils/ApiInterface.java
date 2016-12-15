@@ -14,6 +14,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -21,6 +22,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -72,6 +74,7 @@ public interface ApiInterface {
     @DELETE("api/users/{userId}")
     void deleteUserWithId();
 
+    @Headers("Content-Type: application/json")
     @GET("api/ingredients")
     Call<List<Ingredient>> getIngredients(@QueryMap Map<String, String> options);
 
@@ -94,8 +97,9 @@ public interface ApiInterface {
     Call<List<Food>> getFoods();
 
 //    @POST("api/foods")
-//
-//    @GET("api/foods/{foodId}")
+    @Headers("Content-Type: application/json")
+    @GET("api/foods/{foodId}")
+    Call<Food> getFoodWithId(@Path("foodId") int foodId);
 //
 //    @PUT("api/foods/{foodId}")
 //
@@ -105,8 +109,9 @@ public interface ApiInterface {
 //
 //    @DELETE("api/foods/{slug}")
 //
-     @GET("api/foodSearch")
-     Call<List<Food>> getFoodsWithQuery(@Query("query") String query);
+     @Headers("Content-Type: application/json")
+     @POST("api/searchFood")
+     Call<List<Food>> searchFood(@Query("query") String query);
 //    @POST("api/foodMocks")
 //
 //    @GET("api/foods/{food}/ingredients/{ingredient}")
