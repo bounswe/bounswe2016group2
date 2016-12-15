@@ -52,6 +52,7 @@ def getDetailedUser(id):
     for restaurant in data:
         RestaurantService.calculateRate(restaurant)
     user['restaurants'] = data
+    user['isServer'] = len(data) > 0
 
     serializer = DietReadSerializer(userModelObj.diet_set, many=True)
     user['diets'] = serializer.data
