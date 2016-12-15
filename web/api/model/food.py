@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 from api.model.ingredient import Ingredient
 from api.model.restaurant import Restaurant
-from django.contrib.auth.models import User
+from api.model.tag import Tag
 
 
 class Food(models.Model):
@@ -15,6 +16,7 @@ class Food(models.Model):
     ingredients = models.ManyToManyField(Ingredient, through='Inclusion')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True)
+    tags = models.ManyToManyField(Tag)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

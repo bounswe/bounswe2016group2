@@ -7,6 +7,7 @@ urlpatterns = [
     # SEARCH ROUTES
     url(r'^search$', search.search),
     url(r'^searchFood$', search.searchFood),
+    url(r'^searchTag$', search.searchTag),
     # USER ROUTES
     url(r'^users/signup$', user.signup),
     url(r'^users/signin$', user.signin),
@@ -28,6 +29,7 @@ urlpatterns = [
     url(r'^foods/(?P<foodId>[0-9]+)/ate$', ateFood.ateFood),
     url(r'^foods/(?P<foodId>[0-9]+)/comment$', food.comment),
     url(r'^foods/(?P<foodId>[0-9]+)/rate$', food.rate),
+    url(r'^foods/(?P<foodId>[0-9]+)/tag$', food.tag),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
     url(r'^myFoods$', food.myFoods),
     # INCLUSION ROUTES

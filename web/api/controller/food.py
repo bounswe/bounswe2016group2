@@ -7,9 +7,11 @@ from rest_framework.response import Response
 from api.model.food import Food
 from api.model.foodComment import FoodComment
 from api.model.foodRate import FoodRate
+from api.model.tag import Tag
 from api.serializer.food import FoodSerializer, FoodReadSerializer, FoodPureSerializer
 from api.serializer.foodComment import FoodCommentSerializer
 from api.serializer.foodRate import FoodRateSerializer
+from api.serializer.tag import TagSerializer
 from api.service import food as FoodService
 
 
@@ -148,6 +150,39 @@ def rate(req, foodId):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     return Response(serializer.data)
+
+
+@api_view(['POST', 'DELETE'])
+def tag(req, foodId):
+    """
+    Add or delete tag on food
+    """
+    name = req.data['name'] if 'name' in req.data else ''
+
+    try:
+        food = Food.objects.get(id=foodId)
+    except Food.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    try:
+        tag = Tag.objects.get(name=name)
+    except Tag.DoesNotExist:
+        serializer = TagSerializer(data={'name': name})
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    tag = Tag.objects.get(name=name)
+
+    if req.method == 'POST':
+        food.tags.add(tag)
+
+    if req.method == 'DELETE':
+        food.tags.remove(tag)
+
+    food.save()
+    return Response({})
 
 
 @api_view(['GET'])
