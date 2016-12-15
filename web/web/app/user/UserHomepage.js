@@ -12,6 +12,11 @@ class ConsumptionHistory extends React.Component {
       }
     }
 
+    this.input = {
+      fromDate: moment().subtract(1, 'month').format('DD-MM-YYYY'),
+      toDate: moment().format('DD-MM-YYYY')
+    }
+
     this.fetch = this.fetch.bind(this);
   }
 
@@ -32,21 +37,30 @@ class ConsumptionHistory extends React.Component {
     )
   }
 
+  fromDateChanged(e) {
+    this.input.fromDate = moment(e).format('DD-MM-YYYY');
+  }
+
+  toDateChanged(e) {
+    this.input.toDate = moment(e).format('DD-MM-YYYY');
+  }
+
   render() {
     return (
       <div className="ui segment">
         <div style={{display:'flex', alignItems: 'center'}}>
           <span style={{marginLeft:10, marginRight:10}}>From</span>
-          <DatePicker name="consumptionStartDate" placeholder="Start Date" default={moment().subtract(1, 'month').toDate()}/>
+          <DatePicker name="consumptionStartDate" placeholder="Start Date" default={this.input.fromDate} onChange={this.fromDateChanged.bind(this)}/>
           <span style={{marginLeft:10, marginRight:10}}>to</span>
-          <DatePicker name="consumptionEndDate" placeholder="End Date" default={moment().toDate()}/>
+          <DatePicker name="consumptionEndDate" placeholder="End Date" default={this.input.toDate} onChange={this.toDateChanged.bind(this)}/>
+          <button className="ui button" style={{marginLeft:10, marginRight:10}}>Refresh</button>
         </div>
         <div style={{marginTop:20}}>
-          {Object.keys(this.state.data.daily).map((key) => {
+          {this.state.data.daily.map((dailyData) => {
             return (
-              <div>
-                <h3 key={key}>{key}</h3>
-                {this.state.data.daily[key].ateFoods.map((ateFood) => {
+              <div key={dailyData.date}>
+                <h3>{dailyData.date}</h3>
+                {dailyData.ateFoods.map((ateFood) => {
                   return <FoodRow key={ateFood.created} data={ateFood.food}/>
                 })}
               </div>

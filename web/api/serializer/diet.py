@@ -11,7 +11,12 @@ class DietReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Diet
-        fields = '__all__'
+        fields = (
+            'id', 'ingredients', 'name', 'description',
+            'minEnergy', 'maxEnergy',
+            'minProteinVal', 'maxProteinVal', 'minCarbVal', 'maxCarbVal', 'minFatVal', 'maxFatVal',
+            'minProteinRate', 'maxProteinRate', 'minCarbRate', 'maxCarbRate', 'minFatRate', 'maxFatRate'
+        )
         depth = 2
 
 

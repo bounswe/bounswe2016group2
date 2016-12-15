@@ -98,7 +98,7 @@ class Api {
     return this.post('users/signup', data)
   }
   static consumptionHistory(){
-    return this.get('users/history');
+    return this.get('users/me/history');
   }
 
   // INGREDIENT ROUTES
@@ -126,7 +126,7 @@ class Api {
     return this.get('foods/' + id);
   }
   static searchFood(query) {
-		return this.get('foodSearch?query=' + query);
+		return this.get('search?query=' + query);
 	}
   static addIngredientToFood(foodId, ingId, data) {
 		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
