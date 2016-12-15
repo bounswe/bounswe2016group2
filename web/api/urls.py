@@ -7,6 +7,7 @@ urlpatterns = [
     # SEARCH ROUTES
     url(r'^search$', search.search),
     url(r'^searchFood$', search.searchFood),
+    url(r'^searchTag$', search.searchTag),
     # USER ROUTES
     url(r'^users/signup$', user.signup),
     url(r'^users/signin$', user.signin),

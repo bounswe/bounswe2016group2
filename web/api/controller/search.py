@@ -14,6 +14,7 @@ from api.serializer.restaurant import RestaurantPureSerializer
 from api.serializer.diet import DietFilterSerializer
 from api.service import food as FoodService
 from api.service import restaurant as RestaurantService
+from api.service import tag as TagService
 
 
 # q: query string
@@ -128,3 +129,17 @@ def searchFood(req):
     result = searchFoodByDiet(foods, diets)
 
     return Response(result)
+
+
+@api_view(['GET'])
+def searchTag(req):
+    """
+    Search food
+    """
+    q = slugify(req.GET.get('query', ''))
+    if q == '':
+        return Response([])
+
+    tags = TagService.search(q)
+
+    return Response(tags)
