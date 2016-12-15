@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Eat Right</title>
-  <link rel="stylesheet" href="{% static 'bower_components/semantic/dist/semantic.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bower_components/semantic/dist/semantic.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'bower_components/semantic-ui-calendar/dist/calendar.min.css' %}"/>
 </head>
 <body>
   <div id="root">
@@ -15,12 +16,15 @@
   <script src="{% static 'bower_components/react/react.js' %}"></script>
   <script src="{% static 'bower_components/react/react-dom.js' %}"></script>
   <script src="{% static 'bower_components/react-cookie/dist/react-cookie.js' %}"></script>
+  <script src="{% static 'bower_components/moment/moment.js' %}"></script>
   <script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+  <script src="{% static 'bower_components/semantic-ui-calendar/dist/calendar.min.js' %}"></script>
   <script src="{% static 'bower_components/semantic/dist/semantic.js' %}"></script>
   <script src="{% static 'bower_components/fetch/fetch.js' %}"></script>
   <script src="{% static 'bower_components/system.js/dist/system.js' %}"></script>
   <script src="{% static 'service/Constants.js' %}"></script>
   <script src="{% static 'service/Api.js' %}"></script>
+
   <script>
     const root = document.getElementById('root')
     const token = reactCookie.load('token')

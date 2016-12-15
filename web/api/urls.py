@@ -11,9 +11,9 @@ urlpatterns = [
     url(r'^users/signup$', user.signup),
     url(r'^users/signin$', user.signin),
     url(r'^users/signout$', user.signout),
-    url(r'^users/me$', user.me),
     url(r'^users$', user.users),
     url(r'^users/(?P<userId>[0-9]+)$', user.user),
+    url(r'^users/me$', user.me),
     url(r'^users/me/history$', user.history),
     url(r'^users/me/restaurantHistory$', user.restaurantHistory),
     # INGREDIENT ROUTES
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^foods/(?P<foodId>[0-9]+)/comment$', food.comment),
     url(r'^foods/(?P<foodId>[0-9]+)/rate$', food.rate),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
+    url(r'^myFoods$', food.myFoods),
     # INCLUSION ROUTES
     url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
     # RESTAURANT ROUTES
@@ -37,6 +38,7 @@ urlpatterns = [
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/foods/(?P<foodId>[0-9]+)$', restaurant.restaurantFood),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/comment', restaurant.comment),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/rate', restaurant.rate),
+    url(r'^myRestaurants$', restaurant.myRestaurants),
     # DIET ROUTES
     url(r'^diets$', diet.diets),
     url(r'^diets/(?P<dietId>[0-9]+)$', diet.diet),

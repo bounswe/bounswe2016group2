@@ -21,12 +21,16 @@ var Api = function () {
 
       return new Promise(function (resolve, reject) {
         var status = null;
-        fetch(_this.path(url), {
+        var requestData = {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(function (res) {
+        };
+        if (token) {
+          requestData.headers.Authorization = 'Token ' + token;
+        }
+        fetch(_this.path(url), requestData).then(function (res) {
           status = res.status;
           return res;
         }).then(function (res) {
@@ -121,7 +125,7 @@ var Api = function () {
   }, {
     key: 'consumptionHistory',
     value: function consumptionHistory() {
-      return this.get('users/history');
+      return this.get('users/me/history');
     }
 
     // INGREDIENT ROUTES
@@ -167,7 +171,7 @@ var Api = function () {
   }, {
     key: 'searchFood',
     value: function searchFood(query) {
-      return this.get('foodSearch?query=' + query);
+      return this.get('search?query=' + query);
     }
   }, {
     key: 'addIngredientToFood',

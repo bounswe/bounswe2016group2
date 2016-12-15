@@ -40,7 +40,8 @@ class FoodReadSerializer(serializers.ModelSerializer):
 class FoodPureSerializer(serializers.ModelSerializer):
 
     ingredients = IngredientPureSerializer(many=True)
+    rates = FoodRatePureSerializer(source='foodrate_set', many=True)
 
     class Meta:
         model = Food
-        fields = ('id', 'name', 'description', 'photo', 'ingredients')
+        fields = ('id', 'name', 'description', 'photo', 'ingredients', 'rates')

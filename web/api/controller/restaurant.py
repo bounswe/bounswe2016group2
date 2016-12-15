@@ -11,6 +11,7 @@ from api.model.restaurantRate import RestaurantRate
 from api.serializer.restaurant import RestaurantSerializer, RestaurantDetailSerializer
 from api.serializer.restaurantComment import RestaurantCommentSerializer
 from api.serializer.restaurantRate import RestaurantRateSerializer
+from api.service import restaurant as RestaurantService
 
 
 @api_view(['GET', 'POST'])
@@ -21,7 +22,10 @@ def restaurants(req):
     if req.method == 'GET':
         restaurants = Restaurant.objects.all()
         serializer = RestaurantDetailSerializer(restaurants, many=True)
-        return Response(serializer.data)
+        data = serializer.data
+        for restaurant in data:
+            RestaurantService.calculateRate(restaurant)
+        return Response(data)
 
     elif req.method == 'POST':
         req.data['user'] = req.user.id
@@ -47,7 +51,9 @@ def restaurant(req, restaurantId):
 
     if req.method == 'GET':
         serializer = RestaurantDetailSerializer(restaurant)
-        return Response(serializer.data)
+        data = serializer.data
+        RestaurantService.calculateRate(data)
+        return Response(data)
 
     elif req.method == 'PUT':
         req.data['user'] = req.user.id
@@ -148,3 +154,17 @@ def rate(req, restaurantId):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def myRestaurants(req):
+    """
+    Get all restaurants, or create a new one
+    """
+    if req.method == 'GET':
+        restaurants = Restaurant.objects.filter(user=req.user.id)
+        serializer = RestaurantDetailSerializer(restaurants, many=True)
+        data = serializer.data
+        for restaurant in data:
+            RestaurantService.calculateRate(restaurant)
+        return Response(data)

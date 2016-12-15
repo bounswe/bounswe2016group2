@@ -8,12 +8,16 @@ class Api {
   static get(url) {
     return new Promise((resolve, reject) => {
       let status = null
-      fetch(this.path(url), {
+      let requestData = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then((res) => {
+      }
+      if (token) {
+        requestData.headers.Authorization = 'Token ' + token
+      }
+      fetch(this.path(url), requestData).then((res) => {
         status = res.status
         return res
       }).then((res) => {
@@ -94,7 +98,7 @@ class Api {
     return this.post('users/signup', data)
   }
   static consumptionHistory(){
-    return this.get('users/history');
+    return this.get('users/me/history');
   }
 
   // INGREDIENT ROUTES
@@ -122,7 +126,7 @@ class Api {
     return this.get('foods/' + id);
   }
   static searchFood(query) {
-		return this.get('foodSearch?query=' + query);
+		return this.get('search?query=' + query);
 	}
   static addIngredientToFood(foodId, ingId, data) {
 		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
