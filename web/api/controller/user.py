@@ -68,6 +68,12 @@ def me(req):
 
 
 @api_view(['GET'])
+def meDetail(req):
+    user = UserService.getDetailedUser(id=req.user.id)
+    return Response(user)
+
+
+@api_view(['GET'])
 def users(req):
     """
     retrieve all users
