@@ -1,9 +1,15 @@
 package com.example.bounswegroup2.Utils;
 
+import com.example.bounswegroup2.Models.Diet;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
+import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +41,6 @@ import retrofit2.http.QueryMap;
 public interface ApiInterface {
 
     String BASE_URL="http://52.213.193.130/";
-
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiInterface.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -82,54 +87,58 @@ public interface ApiInterface {
     @POST("api/ingredients")
     void sendIngredients();
 
-//    @GET("api/ingredients/{ingredientId}")
-//
-//    @PUT("api/ingredients/{ingredientId}")
-//
-//    @DELETE("api/ingredients/{ingredientId}")
-//
-//    @GET("api/ingredients/{sluq}")
-//
-//    @DELETE("api/ingredients/{sluq}")
-//
-//    @POST("api/ingredientMocks")
     @Headers("Content-Type: application/json")
     @GET("api/foods")
     Call<List<FoodLess>> getFoods();
 
-//    @POST("api/foods")
+
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/foods/{foodId}/ate")
+    Call<Response> eatFood(@Path("foodId") int foodId);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/foods/{foodId}/comment")
+    Call<Response> commentFood(@Path("foodId") int foodId);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/foods/{foodId}/rate")
+    Call<Food> rateFood(@Path("foodId") int foodId);
+
     @Headers("Content-Type: application/json")
     @GET("api/foods/{foodId}")
     Call<Food> getFoodWithId(@Path("foodId") int foodId);
-//
-//    @PUT("api/foods/{foodId}")
-//
-//    @DELETE("api/foods/{foodId}")
-//
-//    @GET("api/foods/{slug}")
-//
-//    @DELETE("api/foods/{slug}")
-//
      @Headers("Content-Type: application/json")
      @POST("api/searchFood")
      Call<List<Food>> searchFood(@Query("query") String query);
-//    @POST("api/foodMocks")
-//
-//    @GET("api/foods/{food}/ingredients/{ingredient}")
-//
-//    @POST("api/foods/{food}/ingredients/{ingredient}")
-//
-//    @PUT("api/foods/{food}/ingredients/{ingredient}")
-//
-//    @DELETE("api/foods/{food}/ingredients/{ingredient}")
 
 
+    @Headers("Content-Type: application/json")
+    @GET("api/diets")
+    Call<List<Diet>> getDiets();
 
+    @Headers("Content-Type: application/json")
+    @GET("api/myDiets")
+    Call<List<Diet>> getMyDiets();
 
+    @Headers("Content-Type: application/json")
+    @POST("api/myDiets/{dietId}")
+    Call<List<Diet>> setMyDiet(@Path("dietId") int dietId);
 
+    @Headers("Content-Type: application/json")
+    @GET("api/restaurants")
+    Call<List<Restaurant>> getRestaurants();
 
+    @Headers("Content-Type: application/json")
+    @GET("api/restaurants/{restaurantId}")
+    Call<Restaurant> getRestaurantWithId(@Path("restaurantId") int restaurantId);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/restaurants/{restaurantId}/comment")
+    Call<Response> commentRestaurant(@Path("restaurantId") int restaurantId);
 
-
+    @Headers("Content-Type: application/json")
+    @POST("api/restaurants/{restaurantId}/rate")
+    Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
 
 }
