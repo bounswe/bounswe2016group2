@@ -123,6 +123,11 @@ var Api = function () {
       return this.post('users/signup', data);
     }
   }, {
+    key: 'me',
+    value: function me(data) {
+      return this.get('users/me', data);
+    }
+  }, {
     key: 'consumptionHistory',
     value: function consumptionHistory() {
       return this.get('users/me/history');
