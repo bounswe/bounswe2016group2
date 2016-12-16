@@ -124,6 +124,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             b.putSerializable("photo",food.getPhoto());
             b.putSerializable("resta",food.getRestaurant());
             b.putSerializable("foodid",food.getId());
+            //b.putSerializable("rate",food.getRates().get(0));
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
             intent.putExtras(b);
             startActivity(intent);

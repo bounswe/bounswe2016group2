@@ -54,6 +54,7 @@ public class FoodPageActivity extends AppCompatActivity {
     private Button btnOpenIngredients;
     private Button btnTastedIt;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,7 @@ public class FoodPageActivity extends AppCompatActivity {
         foodName.setText(name);
         totalCalories = (TextView) findViewById(R.id.total_calories_result_text);
         totalCalories.setText(details.getEnergy().toString());
-
+        commentText = (EditText) findViewById(R.id.comment_text);
         totalCarbohydrate = (TextView) findViewById(R.id.carb_result_text);
         totalCarbohydrate.setText(details.getCarb().getWeight().toString());
 
@@ -85,10 +86,12 @@ public class FoodPageActivity extends AppCompatActivity {
         totalProtein = (TextView) findViewById(R.id.protein_result_text);
         totalProtein.setText(details.getProtein().getWeight().toString());
         showRatingBar = (RatingBar)findViewById(R.id.food_taste_ratingBar);
+       // showRatingBar.setRating((float)b.getSerializable("rate"));
         setRatingBar = (RatingBar)findViewById(R.id.rate_food_taste_ratingBar) ;
         restaurant = (Restaurant) b.getSerializable("resta");
         restBut = (Button) findViewById(R.id.restBut);
         restBut.setText(restaurant.getName());
+        restBut.setOnClickListener(restButClicked());
         evalBut = (Button) findViewById(R.id.save_eval);
         evalBut.setOnClickListener(saveButtonClicked());
         btnOpenIngredients = (Button) findViewById(R.id.ingredients_button);
@@ -103,6 +106,19 @@ public class FoodPageActivity extends AppCompatActivity {
         });
         btnTastedIt = (Button) findViewById(R.id.tasted_it_button);
         btnTastedIt.setOnClickListener(tastedButtonclicked());
+    }
+
+    private OnClickListener restButClicked() {
+    return new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        Intent i = new Intent(FoodPageActivity.this,ServerPageActivity.class);
+            Bundle b = new Bundle();
+            b.putSerializable("resta",restaurant);
+            i.putExtras(b);
+            startActivity(i);
+        }
+    };
     }
 
     private OnClickListener saveButtonClicked() {
