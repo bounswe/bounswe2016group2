@@ -42,7 +42,7 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
         TextView tvRating = (TextView) convertView.findViewById(R.id.rating_food);
-        //tvRating.setText(Double.toString(food.getRating()));
+        //tvRating.setText(food.getRates().get(0));
         tvComment.setText(food.getSlug());
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());

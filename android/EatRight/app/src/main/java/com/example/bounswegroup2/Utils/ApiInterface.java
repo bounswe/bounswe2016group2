@@ -1,6 +1,7 @@
 package com.example.bounswegroup2.Utils;
 
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.User;
 
@@ -94,7 +95,7 @@ public interface ApiInterface {
 //    @POST("api/ingredientMocks")
     @Headers("Content-Type: application/json")
     @GET("api/foods")
-    Call<List<Food>> getFoods();
+    Call<List<FoodLess>> getFoods();
 
 //    @POST("api/foods")
     @Headers("Content-Type: application/json")

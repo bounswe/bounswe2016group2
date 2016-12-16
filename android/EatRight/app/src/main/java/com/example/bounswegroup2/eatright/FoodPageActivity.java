@@ -1,6 +1,7 @@
 package com.example.bounswegroup2.eatright;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.PopupWindow;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.example.bounswegroup2.Models.Details;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.squareup.picasso.Picasso;
@@ -29,6 +31,7 @@ public class FoodPageActivity extends AppCompatActivity {
     private TextView totalProtein;
     private TextView totalFat;
     private ArrayList<Ingredient> ingredients;
+    private Details details;
     private Food fSeen;
     private ImageView imageView;
     Button btnOpenIngredients;
@@ -38,31 +41,33 @@ public class FoodPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_page);
-        final Intent intent = getIntent();
-        fSeen = (Food)intent.getExtras().getSerializable("food");
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        details = (Details) b.getSerializable("details");
+        String name = (String) b.getSerializable("name");
 
         imageView = (ImageView)findViewById(R.id.food_image);
         Picasso.with(getApplicationContext())
-                .load(fSeen.getPhoto())
+                .load((String) b.getSerializable("photo"))
                 .placeholder(null)
                 .fit()
                 .centerInside()
                 .into(imageView);
-       /* ingredients= (ArrayList<Ingredient>) fSeen.getIngredients();
+        ingredients= (ArrayList<Ingredient>) b.getSerializable("ingr");
+      //  details = fSeen.getDetails();
         foodName = (TextView) findViewById(R.id.food_name_text);
-        foodName.setText(fSeen.getName());
-        fSeen.setFields();
+        foodName.setText(name);
         totalCalories = (TextView) findViewById(R.id.total_calories_result_text);
-        totalCalories.setText(""+fSeen.getEnergy());
+        totalCalories.setText(details.getEnergy().toString());
 
         totalCarbohydrate = (TextView) findViewById(R.id.carb_result_text);
-        totalCarbohydrate.setText(""+fSeen.getCarb());
+        totalCarbohydrate.setText(details.getCarb().getWeight().toString());
 
         totalFat = (TextView) findViewById(R.id.fat_result_text);
-        totalFat.setText(""+fSeen.getFat());
+        totalFat.setText(details.getFat().getWeight().toString());
 
         totalProtein = (TextView) findViewById(R.id.protein_result_text);
-        totalProtein.setText(""+fSeen.getPro());*/
+        totalProtein.setText(details.getProtein().getWeight().toString());
 
         btnOpenIngredients = (Button) findViewById(R.id.ingredients_button);
         btnOpenIngredients.setOnClickListener(new OnClickListener() {

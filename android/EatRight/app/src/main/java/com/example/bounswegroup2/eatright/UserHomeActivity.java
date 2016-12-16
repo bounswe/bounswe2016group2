@@ -116,7 +116,7 @@ public class UserHomeActivity extends AppCompatActivity
         mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
         mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
-        getFoods();
+      //  getFoods();
 
     }
 
@@ -124,7 +124,7 @@ public class UserHomeActivity extends AppCompatActivity
         //TODO will process recommended foods and will add to the recycler view
     }
 
-    public void getFoods(){
+  /*  public void getFoods(){
         //TODO will be implemented
         ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
         QueryWrapper query = new QueryWrapper();
@@ -159,7 +159,7 @@ public class UserHomeActivity extends AppCompatActivity
             public void onFailure(Call<List<Food>> call, Throwable t) {
             }
         });
-    }
+    }*/
 
 
 
