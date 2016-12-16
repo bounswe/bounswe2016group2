@@ -6,6 +6,8 @@ import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.signInRequest;
+import com.example.bounswegroup2.Models.signUpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,12 +16,14 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -46,15 +50,14 @@ public interface ApiInterface {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    @FormUrlEncoded
-    @Headers("Content-Type: application/json")
-    @PUT("api/users/signup/{userInfo}")
-    Call<ResponseBody> postSignupUser(@FieldMap(encoded = true) Map<String,String> userInfo);
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("api/users/signup")
+    Call<signUpRequest> postSignupUser(@Body RequestBody signUpParams);
 
-    @FormUrlEncoded
-    @Headers("Content-Type: application/json")
-    @POST("api/users/signin/{userInfo}")
-    Call<ResponseBody> postSigninUser(@FieldMap(encoded = true) Map<String, String> userInfo);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("api/users/signin")
+    Call<signInRequest> postSigninUser(@Body RequestBody signInParams);
 
     @POST("api/users/signout")
     void postSignout();
