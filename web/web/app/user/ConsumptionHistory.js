@@ -17,20 +17,36 @@ export default class ConsumptionHistory extends React.Component {
     }
 
     this.fetch = this.fetch.bind(this);
-    this.updateCharts = this.updateCharts.bind(this);
+    this.updateDailyCharts = this.updateDailyCharts.bind(this);
   }
 
   componentDidMount() {
     this.fetch();
   }
 
-  updateCharts() {
+  updateDailyCharts() {
     // console.log(this.state.data);
     let dailyWeight = []
     let dailyEnergy = []
     let dailyProtein = []
     let dailyCarb = []
     let dailyFat = []
+    let dailyMicro = {
+      saturatedFat: [],
+      sugar: [],
+      fibre: [],
+      cholesterol: [],
+      calcium: [],
+      iron: [],
+      sodium: [],
+      potassium: [],
+      magnesium: [],
+      phosphorus: [],
+      thiamin: [],
+      riboflavin: [],
+      niacin: [],
+      folate: []
+    }
     this.state.data.daily.forEach((dailyData) => {
       let date = moment(dailyData.date, 'DD-MM-YYYY').toDate()
       dailyWeight.push({x: date, y: dailyData.weight})
@@ -38,8 +54,15 @@ export default class ConsumptionHistory extends React.Component {
       dailyProtein.push({x: date, y: dailyData.protein.weight})
       dailyCarb.push({x: date, y: dailyData.carb.weight})
       dailyFat.push({x: date, y: dailyData.fat.weight})
+      Object.keys(dailyMicro).forEach((key) => {
+        dailyMicro[key].push({x: date, y: dailyData.others[key]})
+      })
     })
     Highcharts.chart('dailyMacroChart', {
+      chart: {
+        height: 300,
+        spacingTop: 40
+      },
       title: {
         text: 'Macronutrients'
       },
@@ -59,6 +82,10 @@ export default class ConsumptionHistory extends React.Component {
       ]
     })
     Highcharts.chart('dailyEnergyChart', {
+      chart: {
+        height: 300,
+        spacingTop: 40
+      },
       title: {
         text: 'Energy'
       },
@@ -77,6 +104,41 @@ export default class ConsumptionHistory extends React.Component {
         {type: 'line', name: 'Energy', data: dailyEnergy},
       ]
     })
+    Highcharts.chart('dailyMicroChart', {
+      chart: {
+        height: 300,
+        spacingTop: 40
+      },
+      title: {
+        text: 'Micronutrients'
+      },
+      legend: {
+        enabled: false
+      },
+      tooltip: {
+        shared: true,
+        valueDecimals: 2
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      series: [
+        {type: 'line', tooltip: {valueSuffix: ' g'}, name: 'Saturated fat', data: dailyMicro.saturatedFat},
+        {type: 'line', tooltip: {valueSuffix: ' g'}, name: 'Sugar', data: dailyMicro.sugar},
+        {type: 'line', tooltip: {valueSuffix: ' g'}, name: 'Fibre', data: dailyMicro.fibre},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Cholesterol', data: dailyMicro.cholesterol},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Calcium', data: dailyMicro.calcium},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Iron', data: dailyMicro.iron},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Sodium', data: dailyMicro.sodium},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Potassium', data: dailyMicro.potassium},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Magnesium', data: dailyMicro.magnesium},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Phosphorus', data: dailyMicro.phosphorus},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Thiamin', data: dailyMicro.thiamin},
+        {type: 'line', tooltip: {valueSuffix: ' mg'}, name: 'Riboflavin', data: dailyMicro.riboflavin},
+        {type: 'line', tooltip: {valueSuffix: ' NE'}, name: 'Niacin', data: dailyMicro.niacin},
+        {type: 'line', tooltip: {valueSuffix: ' DFE'}, name: 'Folate', data: dailyMicro.folate},
+      ]
+    })
 
   }
 
@@ -87,7 +149,7 @@ export default class ConsumptionHistory extends React.Component {
           return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix()
         })
         this.setState({data: data})
-        this.updateCharts()
+        this.updateDailyCharts()
       }
     ).catch(
       (error) => {
@@ -117,6 +179,7 @@ export default class ConsumptionHistory extends React.Component {
         <div>
           <div id="dailyMacroChart"></div>
           <div id="dailyEnergyChart"></div>
+          <div id="dailyMicroChart"></div>
         </div>
         <div style={{marginTop:20}}>
           {this.state.data.daily.map((dailyData) => {

@@ -43,7 +43,7 @@ var ConsumptionHistory = function (_React$Component) {
     };
 
     _this.fetch = _this.fetch.bind(_this);
-    _this.updateCharts = _this.updateCharts.bind(_this);
+    _this.updateDailyCharts = _this.updateDailyCharts.bind(_this);
     return _this;
   }
 
@@ -53,14 +53,30 @@ var ConsumptionHistory = function (_React$Component) {
       this.fetch();
     }
   }, {
-    key: 'updateCharts',
-    value: function updateCharts() {
+    key: 'updateDailyCharts',
+    value: function updateDailyCharts() {
       // console.log(this.state.data);
       var dailyWeight = [];
       var dailyEnergy = [];
       var dailyProtein = [];
       var dailyCarb = [];
       var dailyFat = [];
+      var dailyMicro = {
+        saturatedFat: [],
+        sugar: [],
+        fibre: [],
+        cholesterol: [],
+        calcium: [],
+        iron: [],
+        sodium: [],
+        potassium: [],
+        magnesium: [],
+        phosphorus: [],
+        thiamin: [],
+        riboflavin: [],
+        niacin: [],
+        folate: []
+      };
       this.state.data.daily.forEach(function (dailyData) {
         var date = moment(dailyData.date, 'DD-MM-YYYY').toDate();
         dailyWeight.push({ x: date, y: dailyData.weight });
@@ -68,8 +84,15 @@ var ConsumptionHistory = function (_React$Component) {
         dailyProtein.push({ x: date, y: dailyData.protein.weight });
         dailyCarb.push({ x: date, y: dailyData.carb.weight });
         dailyFat.push({ x: date, y: dailyData.fat.weight });
+        Object.keys(dailyMicro).forEach(function (key) {
+          dailyMicro[key].push({ x: date, y: dailyData.others[key] });
+        });
       });
       Highcharts.chart('dailyMacroChart', {
+        chart: {
+          height: 300,
+          spacingTop: 40
+        },
         title: {
           text: 'Macronutrients'
         },
@@ -84,6 +107,10 @@ var ConsumptionHistory = function (_React$Component) {
         series: [{ type: 'line', name: 'Protein', data: dailyProtein }, { type: 'line', name: 'Carbonhydrate', data: dailyCarb }, { type: 'line', name: 'Fat', data: dailyFat }, { type: 'line', name: 'Total weight', data: dailyWeight }]
       });
       Highcharts.chart('dailyEnergyChart', {
+        chart: {
+          height: 300,
+          spacingTop: 40
+        },
         title: {
           text: 'Energy'
         },
@@ -100,6 +127,26 @@ var ConsumptionHistory = function (_React$Component) {
         },
         series: [{ type: 'line', name: 'Energy', data: dailyEnergy }]
       });
+      Highcharts.chart('dailyMicroChart', {
+        chart: {
+          height: 300,
+          spacingTop: 40
+        },
+        title: {
+          text: 'Micronutrients'
+        },
+        legend: {
+          enabled: false
+        },
+        tooltip: {
+          shared: true,
+          valueDecimals: 2
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        series: [{ type: 'line', tooltip: { valueSuffix: ' g' }, name: 'Saturated fat', data: dailyMicro.saturatedFat }, { type: 'line', tooltip: { valueSuffix: ' g' }, name: 'Sugar', data: dailyMicro.sugar }, { type: 'line', tooltip: { valueSuffix: ' g' }, name: 'Fibre', data: dailyMicro.fibre }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Cholesterol', data: dailyMicro.cholesterol }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Calcium', data: dailyMicro.calcium }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Iron', data: dailyMicro.iron }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Sodium', data: dailyMicro.sodium }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Potassium', data: dailyMicro.potassium }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Magnesium', data: dailyMicro.magnesium }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Phosphorus', data: dailyMicro.phosphorus }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Thiamin', data: dailyMicro.thiamin }, { type: 'line', tooltip: { valueSuffix: ' mg' }, name: 'Riboflavin', data: dailyMicro.riboflavin }, { type: 'line', tooltip: { valueSuffix: ' NE' }, name: 'Niacin', data: dailyMicro.niacin }, { type: 'line', tooltip: { valueSuffix: ' DFE' }, name: 'Folate', data: dailyMicro.folate }]
+      });
     }
   }, {
     key: 'fetch',
@@ -111,7 +158,7 @@ var ConsumptionHistory = function (_React$Component) {
           return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix();
         });
         _this2.setState({ data: data });
-        _this2.updateCharts();
+        _this2.updateDailyCharts();
       }).catch(function (error) {
         console.log(error);
       });
@@ -157,7 +204,8 @@ var ConsumptionHistory = function (_React$Component) {
           'div',
           null,
           React.createElement('div', { id: 'dailyMacroChart' }),
-          React.createElement('div', { id: 'dailyEnergyChart' })
+          React.createElement('div', { id: 'dailyEnergyChart' }),
+          React.createElement('div', { id: 'dailyMicroChart' })
         ),
         React.createElement(
           'div',
