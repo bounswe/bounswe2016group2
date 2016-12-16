@@ -4,18 +4,18 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-public class Restaurant implements Serializable
+import java.util.List;
+
+/**
+ * Created by Enes on 15.12.2016.
+ */
+
+public class FoodLess implements Serializable
 {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("user")
-    @Expose
-    private Integer user;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
     @SerializedName("name")
     @Expose
     private String name;
@@ -25,7 +25,10 @@ public class Restaurant implements Serializable
     @SerializedName("photo")
     @Expose
     private String photo;
-    private final static long serialVersionUID = 5741714203309533487L;
+    @SerializedName("ingredients")
+    @Expose
+    private List<IngrLess> ingredients;
+    private final static long serialVersionUID = -8226530739844382715L;
 
     public Integer getId() {
         return id;
@@ -33,22 +36,6 @@ public class Restaurant implements Serializable
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUser() {
-        return user;
-    }
-
-    public void setUser(Integer user) {
-        this.user = user;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public String getName() {
@@ -73,6 +60,14 @@ public class Restaurant implements Serializable
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public List<IngrLess> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<IngrLess> ingredients) {
+        this.ingredients = ingredients;
     }
 
 }

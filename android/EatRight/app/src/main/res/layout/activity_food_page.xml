@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,11 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/restaurant_button" />-->
-    <Button
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:id="@+id/server_button" />
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
@@ -40,7 +39,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1.2" >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,70 +70,45 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:layout_height="44dp" />
                 <RatingBar
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/food_taste_ratingBar"
                     style="@style/Widget.AppCompat.RatingBar.Indicator" />
-                <Button
-                    android:text="Tasted It!"
-                    android:layout_width="match_parent"
-                    android:layout_height="58dp"
-                    android:id="@+id/tasted_it_button" />
-                <!--<TextView
-                    android:text="Rate"
-                    android:layout_width="195dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/rate_food_taste_text"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-                <RatingBar
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/rate_food_taste_ratingBar"
-                    android:layout_weight="1"
-                    style="@style/Widget.AppCompat.RatingBar.Indicator" />-->
-                <!--<EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="75dp"
-                    android:hint="Comment"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/comment_text" />-->
+                <TableRow android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Server : "/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:text="Restaurant"
+                        android:id="@+id/restBut"/>
+                </TableRow>
+
+                <TableRow android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+
+                    <Button
+                        android:text="Tasted It!"
+                        android:layout_width="wrap_content"
+                        android:layout_height="58dp"
+                        android:id="@+id/tasted_it_button" />
+
+                    <Button
+                        android:text="Ingredients"
+                        android:textSize="11sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/ingredients_button" />
+                </TableRow>
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1.1">
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <Button
-                android:text="Image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/add_image_button"
-                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-                android:layout_weight="1"
-                android:elevation="0dp" />
-            <Button
-                android:text="Post"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/post_comment_button"
-                android:layout_weight="1"/>
-        </LinearLayout>
-    </LinearLayout>-->
 
     <TextView
         android:text="Calorie Information"
@@ -215,13 +189,55 @@
             android:id="@+id/protein_result_text"
             android:layout_weight="1" />
     </LinearLayout>
-    <Button
-        android:text="Ingredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ingredients_button" />
+
     <ListView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ingredientForFoodPage"></ListView>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       >
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+           <EditText
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Comment"
+               android:inputType="textMultiLine"
+               android:ems="10"
+               android:id="@+id/comment_text" />
+
+           <TableRow android:layout_height="wrap_content"
+               android:layout_width="wrap_content">
+               <TextView
+                   android:text="Rate"
+                   android:layout_width="wrap_content"
+                   android:layout_marginTop="15dp"
+                   android:id="@+id/rate_food_taste_text"
+                   android:gravity="center"
+                   android:layout_weight="1"
+                   android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                   android:layout_height="wrap_content" />
+               <RatingBar
+                   android:layout_gravity="bottom"
+                   android:layout_marginLeft="10dp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/rate_food_taste_ratingBar"
+                   android:layout_weight="1"
+                   android:stepSize="0.5" />
+           </TableRow>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SAVE"
+                android:id="@+id/save_eval"/>
+       </LinearLayout>
+   </LinearLayout>
 </LinearLayout>
+</ScrollView>

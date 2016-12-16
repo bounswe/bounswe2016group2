@@ -88,7 +88,7 @@ public class Ingredient implements Serializable
     private String name;
     @SerializedName("photo")
     @Expose
-    private Object photo;
+    private String photo;
     private final static long serialVersionUID = 8877731895154071859L;
 
     /**
@@ -546,7 +546,7 @@ public class Ingredient implements Serializable
      * @return
      * The photo
      */
-    public Object getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
@@ -555,7 +555,7 @@ public class Ingredient implements Serializable
      * @param photo
      * The photo
      */
-    public void setPhoto(Object photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

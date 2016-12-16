@@ -1,31 +1,25 @@
 package com.example.bounswegroup2.eatright;
 
 
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Range;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Intent;
 
 import com.example.bounswegroup2.Models.Food;
-import com.example.bounswegroup2.Models.Inclusion;
+import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.QueryWrapper;
@@ -34,10 +28,8 @@ import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +55,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private RangeSeekBar<Integer> proSeekBar;
     private RangeSeekBar<Integer> fatSeekBar;
     private RangeSeekBar<Integer> carbSeekBar;
+    private  ArrayList<Food> nFl = new ArrayList<Food>();
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
@@ -124,8 +117,16 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
         if(adapter.getId() == getListView().getId()){
             Food food = (Food)adapter.getAdapter().getItem(position);
+            Bundle b = new Bundle();
+            b.putSerializable("details",food.getDetails());
+            b.putSerializable("ingr", (Serializable) food.getIngredients());
+            b.putSerializable("name",food.getName());
+            b.putSerializable("photo",food.getPhoto());
+            b.putSerializable("resta",food.getRestaurant());
+            b.putSerializable("foodid",food.getId());
+            //b.putSerializable("rate",food.getRates().get(0));
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
-            intent.putExtra("food", food);
+            intent.putExtras(b);
             startActivity(intent);
         }
     }
@@ -146,50 +147,46 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         int maxFat = fatSeekBar.getSelectedMaxValue();
         final Range<Integer> r4 = new Range<Integer>(minFat,maxFat);
         ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-        Call<List<Food>> cb = test.getFoodsWithQuery("");
 
-        cb.enqueue(new Callback<List<Food>>() {
+        Call<List<FoodLess>> cb = test.getFoods();
+
+        cb.enqueue(new Callback<List<FoodLess>>() {
             @Override
-            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
-                 final ArrayList<Food> foodList = (ArrayList<Food>) response.body();
-                int maxE=0,maxP=0,maxC= 0,maxF = 0;
-                for (int i = 0;i<foodList.size();i++) {
-                    Food f = foodList.get(i);
-                    f.setFields();
-                    int energy = f.getEnergy(); if (energy > maxE) maxE = energy;
-                    int pro = f.getPro(); if (pro > maxP) maxP = pro;
-                    int carb = f.getCarb(); if (carb > maxC) maxC = carb;
-                    int fat = f.getFat(); if (fat > maxF) maxF = fat;
-                    System.out.println(f.getName());
-                    //REvise true values and then set max min values in rangeseekbars
-                    if(!r1.contains(energy) || !r2.contains(pro) || !r3.contains(carb) || !r4.contains(fat)){
-                        foodList.remove(i); i--;
-                    }else{
-                    ArrayList<Ingredient> listOfIngredients = (ArrayList<Ingredient>) f.getIngredients();
-                    for (int j = 0; j < listOfIngredients.size(); j++) {
-                        if (allergic.contains(listOfIngredients.get(j).getName())) {
-                            j = listOfIngredients.size();
-                            foodList.remove(i);
-                            i--;
+            public void onResponse(Call<List<FoodLess>> call, final Response<List<FoodLess>> response) {
+                final ArrayList<FoodLess> foodList = (ArrayList<FoodLess>) response.body();
+                for (FoodLess fls: foodList){
+                    int id = fls.getId();
+                    ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+                    Call<Food> cbFood = test2.getFoodWithId(id);
+                    cbFood.enqueue(new Callback<Food>() {
+                        @Override
+                        public void onResponse(Call<Food> call2, Response<Food> response2) {
+                           Food f = response2.body();
+                           nFl.add(f);
                         }
-                    }
-                    }
-                    }
-                   final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), foodList);
-                    setListAdapter(adapter);
+
+                        @Override
+                        public void onFailure(Call<Food> call2, Throwable t2) {
+
+                        }
+                    });
+                }
+
+                   final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), nFl);
+                   setListAdapter(adapter);
                    tvName.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             if(adapter.isSorted()){
-                                Collections.sort(foodList,Food.czToA);
+                                Collections.sort(nFl,Food.czToA);
                                 adapter.setSorted(false);
                                 tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
                             }else {
-                                Collections.sort(foodList,Food.caToZ);
+                                Collections.sort(nFl,Food.caToZ);
                                 adapter.setSorted(true);
                                 tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
                             }
-                            adapter.setFoods(foodList);
+                            adapter.setFoods(nFl);
                             adapter.notifyDataSetChanged();
                         }
                     });
@@ -197,25 +194,23 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
                         @Override
                         public void onClick(View view) {
                             if(adapter.isSorted()){
-                                Collections.sort(foodList,Food.czToARating);
+                                Collections.sort(nFl,Food.czToARating);
                                 adapter.setSorted(false);
                                 tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
                             }else {
-                                Collections.sort(foodList,Food.caToZRating);
+                                Collections.sort(nFl,Food.caToZRating);
                                 adapter.setSorted(true);
                                 tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
                             }
-                            adapter.setFoods(foodList);
+                            adapter.setFoods(nFl);
                             adapter.notifyDataSetChanged();
                         }
                     });
             }
 
             @Override
-            public void onFailure(Call<List<Food>> call, Throwable t) {
+            public void onFailure(Call<List<FoodLess>> call, Throwable t) {
                 System.out.println("HATA VAR");
-
-
             }
         });
     }
@@ -245,4 +240,6 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
     }
+
+
 }
