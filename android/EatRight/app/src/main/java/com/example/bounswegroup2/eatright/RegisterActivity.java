@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bounswegroup2.Models.signUpRequest;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -174,18 +178,16 @@ public class RegisterActivity extends AppCompatActivity {
         QueryWrapper query = new QueryWrapper();
         query.put("email", email);
         query.put("password", pass);
-        query.put("username", uname);
-        Call<ResponseBody> cb = test.postSignupUser(query.getOptions());
-        cb.enqueue(new Callback<ResponseBody>() {
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(query.getOptions())).toString());
+        Call<signUpRequest> cb = test.postSignupUser(body);
+        cb.enqueue(new Callback<signUpRequest>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<signUpRequest> call, Response<signUpRequest> response) {
                 System.out.println(response.code());
                 System.out.println(response.raw());
 
                 if (response.isSuccessful()){
-                    SessionManager.setPreferences(RegisterActivity.this,"usermail",email);
-                    SessionManager.setPreferences(RegisterActivity.this,"userpass",pass);
-                    Intent intent = new Intent(RegisterActivity.this,UserHomeActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
                     startActivity(intent);
                     RegisterActivity.this.finish();
                 }else{
@@ -194,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<signUpRequest> call, Throwable t) {
                 System.out.println(t.getCause());
                 System.out.println(t.getMessage());
             }

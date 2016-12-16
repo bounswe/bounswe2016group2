@@ -236,6 +236,7 @@ public class UserHomeActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.content_user_home,
                     foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
+            System.out.println("test");
 
         } else if (id == R.id.nav_cons_hist) {
             ConsHistFragment consHistFragment = ConsHistFragment.newInstance("SWE","451");
