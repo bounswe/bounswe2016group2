@@ -17,11 +17,85 @@ export default class ConsumptionHistory extends React.Component {
     }
 
     this.fetch = this.fetch.bind(this);
+    this.updateTotalCharts = this.updateTotalCharts.bind(this);
     this.updateDailyCharts = this.updateDailyCharts.bind(this);
   }
 
   componentDidMount() {
     this.fetch();
+  }
+
+  updateTotalCharts() {
+    let totalProtein = []
+    let totalCarb = []
+    let totalFat = []
+    let totalOthers = []
+    let totalMicro = {
+      saturatedFat: [],
+      sugar: [],
+      fibre: [],
+      cholesterol: [],
+      calcium: [],
+      iron: [],
+      sodium: [],
+      potassium: [],
+      magnesium: [],
+      phosphorus: [],
+      thiamin: [],
+      riboflavin: [],
+      niacin: [],
+      folate: []
+    }
+    Highcharts.chart('totalMacroChart', {
+      chart: {
+        type: 'pie'
+      },
+      title: {
+        text: 'Macronutrients'
+      },
+      tooltip: {
+        valueSuffix: ' g',
+        valueDecimals: 0
+      },
+      series: [{
+        name: 'Weight',
+        data: [
+          {name: 'Protein', y: this.state.data.total.protein.weight},
+          {name: 'Carbonhydrate', y: this.state.data.total.carb.weight},
+          {name: 'Fat', y: this.state.data.total.fat.weight}
+        ]
+      }]
+    })
+    Highcharts.chart('totalMicroChart', {
+      chart: {
+        type: 'pie'
+      },
+      title: {
+        text: 'Micronutrients'
+      },
+      tooltip: {
+        valueDecimals: 0
+      },
+      series: [{
+        name: 'Weight',
+        data: [
+          {name: 'Saturated fat', y: this.state.data.total.others.saturatedFat},
+          {name: 'Sugar', y: this.state.data.total.others.sugar},
+          {name: 'Fibre', y: this.state.data.total.others.fibre},
+          {name: 'Cholesterol', y: this.state.data.total.others.cholesterol},
+          {name: 'Calcium', y: this.state.data.total.others.calcium},
+          {name: 'Iron', y: this.state.data.total.others.iron},
+          {name: 'Sodium', y: this.state.data.total.others.sodium},
+          {name: 'Potassium', y: this.state.data.total.others.potassium},
+          {name: 'Magnesium', y: this.state.data.total.others.magnesium},
+          {name: 'Phosphorus', y: this.state.data.total.others.phosphorus},
+          {name: 'Thiamin', y: this.state.data.total.others.thiamin},
+          {name: 'Riboflavin', y: this.state.data.total.others.riboflavin},
+          {name: 'Niacin', y: this.state.data.total.others.niacin},
+          {name: 'Folate', y: this.state.data.total.others.folate},
+        ]
+      }]
+    })
   }
 
   updateDailyCharts() {
@@ -149,6 +223,7 @@ export default class ConsumptionHistory extends React.Component {
           return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix()
         })
         this.setState({data: data})
+        this.updateTotalCharts()
         this.updateDailyCharts()
       }
     ).catch(
@@ -175,6 +250,10 @@ export default class ConsumptionHistory extends React.Component {
           <span style={{marginLeft:10, marginRight:10}}>to</span>
           <DatePicker name="consumptionEndDate" placeholder="End Date" default={this.input.toDate} onChange={this.toDateChanged.bind(this)}/>
           <button className="ui button" style={{marginLeft:10, marginRight:10}}>Refresh</button>
+        </div>
+        <div style={{marginTop: 30}}>
+          <div id="totalMacroChart" style={{display: 'inline-block', width: '50%'}}></div>
+          <div id="totalMicroChart" style={{display: 'inline-block', width: '50%'}}></div>
         </div>
         <div>
           <div id="dailyMacroChart"></div>

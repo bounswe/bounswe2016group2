@@ -43,6 +43,7 @@ var ConsumptionHistory = function (_React$Component) {
     };
 
     _this.fetch = _this.fetch.bind(_this);
+    _this.updateTotalCharts = _this.updateTotalCharts.bind(_this);
     _this.updateDailyCharts = _this.updateDailyCharts.bind(_this);
     return _this;
   }
@@ -51,6 +52,61 @@ var ConsumptionHistory = function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.fetch();
+    }
+  }, {
+    key: 'updateTotalCharts',
+    value: function updateTotalCharts() {
+      var totalProtein = [];
+      var totalCarb = [];
+      var totalFat = [];
+      var totalOthers = [];
+      var totalMicro = {
+        saturatedFat: [],
+        sugar: [],
+        fibre: [],
+        cholesterol: [],
+        calcium: [],
+        iron: [],
+        sodium: [],
+        potassium: [],
+        magnesium: [],
+        phosphorus: [],
+        thiamin: [],
+        riboflavin: [],
+        niacin: [],
+        folate: []
+      };
+      Highcharts.chart('totalMacroChart', {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          text: 'Macronutrients'
+        },
+        tooltip: {
+          valueSuffix: ' g',
+          valueDecimals: 0
+        },
+        series: [{
+          name: 'Weight',
+          data: [{ name: 'Protein', y: this.state.data.total.protein.weight }, { name: 'Carbonhydrate', y: this.state.data.total.carb.weight }, { name: 'Fat', y: this.state.data.total.fat.weight }]
+        }]
+      });
+      Highcharts.chart('totalMicroChart', {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          text: 'Micronutrients'
+        },
+        tooltip: {
+          valueDecimals: 0
+        },
+        series: [{
+          name: 'Weight',
+          data: [{ name: 'Saturated fat', y: this.state.data.total.others.saturatedFat }, { name: 'Sugar', y: this.state.data.total.others.sugar }, { name: 'Fibre', y: this.state.data.total.others.fibre }, { name: 'Cholesterol', y: this.state.data.total.others.cholesterol }, { name: 'Calcium', y: this.state.data.total.others.calcium }, { name: 'Iron', y: this.state.data.total.others.iron }, { name: 'Sodium', y: this.state.data.total.others.sodium }, { name: 'Potassium', y: this.state.data.total.others.potassium }, { name: 'Magnesium', y: this.state.data.total.others.magnesium }, { name: 'Phosphorus', y: this.state.data.total.others.phosphorus }, { name: 'Thiamin', y: this.state.data.total.others.thiamin }, { name: 'Riboflavin', y: this.state.data.total.others.riboflavin }, { name: 'Niacin', y: this.state.data.total.others.niacin }, { name: 'Folate', y: this.state.data.total.others.folate }]
+        }]
+      });
     }
   }, {
     key: 'updateDailyCharts',
@@ -158,6 +214,7 @@ var ConsumptionHistory = function (_React$Component) {
           return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix();
         });
         _this2.setState({ data: data });
+        _this2.updateTotalCharts();
         _this2.updateDailyCharts();
       }).catch(function (error) {
         console.log(error);
@@ -199,6 +256,12 @@ var ConsumptionHistory = function (_React$Component) {
             { className: 'ui button', style: { marginLeft: 10, marginRight: 10 } },
             'Refresh'
           )
+        ),
+        React.createElement(
+          'div',
+          { style: { marginTop: 30 } },
+          React.createElement('div', { id: 'totalMacroChart', style: { display: 'inline-block', width: '50%' } }),
+          React.createElement('div', { id: 'totalMicroChart', style: { display: 'inline-block', width: '50%' } })
         ),
         React.createElement(
           'div',
