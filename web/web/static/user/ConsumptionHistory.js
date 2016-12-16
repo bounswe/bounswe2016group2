@@ -43,13 +43,63 @@ var ConsumptionHistory = function (_React$Component) {
     };
 
     _this.fetch = _this.fetch.bind(_this);
+    _this.updateCharts = _this.updateCharts.bind(_this);
     return _this;
   }
 
   _createClass(ConsumptionHistory, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       this.fetch();
+    }
+  }, {
+    key: 'updateCharts',
+    value: function updateCharts() {
+      // console.log(this.state.data);
+      var dailyWeight = [];
+      var dailyEnergy = [];
+      var dailyProtein = [];
+      var dailyCarb = [];
+      var dailyFat = [];
+      this.state.data.daily.forEach(function (dailyData) {
+        var date = moment(dailyData.date, 'DD-MM-YYYY').toDate();
+        dailyWeight.push({ x: date, y: dailyData.weight });
+        dailyEnergy.push({ x: date, y: dailyData.energy });
+        dailyProtein.push({ x: date, y: dailyData.protein.weight });
+        dailyCarb.push({ x: date, y: dailyData.carb.weight });
+        dailyFat.push({ x: date, y: dailyData.fat.weight });
+      });
+      Highcharts.chart('dailyMacroChart', {
+        title: {
+          text: 'Macronutrients'
+        },
+        tooltip: {
+          shared: true,
+          valueDecimals: 2,
+          valueSuffix: ' g'
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        series: [{ type: 'line', name: 'Protein', data: dailyProtein }, { type: 'line', name: 'Carbonhydrate', data: dailyCarb }, { type: 'line', name: 'Fat', data: dailyFat }, { type: 'line', name: 'Total weight', data: dailyWeight }]
+      });
+      Highcharts.chart('dailyEnergyChart', {
+        title: {
+          text: 'Energy'
+        },
+        legend: {
+          enabled: false
+        },
+        tooltip: {
+          shared: true,
+          valueDecimals: 0,
+          valueSuffix: ' kcal'
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        series: [{ type: 'line', name: 'Energy', data: dailyEnergy }]
+      });
     }
   }, {
     key: 'fetch',
@@ -57,7 +107,11 @@ var ConsumptionHistory = function (_React$Component) {
       var _this2 = this;
 
       Api.consumptionHistory().then(function (data) {
+        data.daily = data.daily.sort(function (a, b) {
+          return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix();
+        });
         _this2.setState({ data: data });
+        _this2.updateCharts();
       }).catch(function (error) {
         console.log(error);
       });
@@ -98,6 +152,12 @@ var ConsumptionHistory = function (_React$Component) {
             { className: 'ui button', style: { marginLeft: 10, marginRight: 10 } },
             'Refresh'
           )
+        ),
+        React.createElement(
+          'div',
+          null,
+          React.createElement('div', { id: 'dailyMacroChart' }),
+          React.createElement('div', { id: 'dailyEnergyChart' })
         ),
         React.createElement(
           'div',
