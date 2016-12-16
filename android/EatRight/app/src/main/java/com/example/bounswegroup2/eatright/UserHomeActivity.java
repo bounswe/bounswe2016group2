@@ -3,6 +3,7 @@ package com.example.bounswegroup2.eatright;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -30,6 +31,7 @@ import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.QueryWrapper;
+import com.example.bounswegroup2.Utils.SessionManager;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -236,7 +238,10 @@ public class UserHomeActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.content_user_home,
                     foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
-            System.out.println("test");
+            SessionManager.clearCredet(getApplicationContext());
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            UserHomeActivity.this.finish();
 
         } else if (id == R.id.nav_cons_hist) {
             ConsHistFragment consHistFragment = ConsHistFragment.newInstance("SWE","451");
