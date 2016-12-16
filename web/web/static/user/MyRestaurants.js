@@ -27,9 +27,43 @@ var MyRestaurants = function (_React$Component) {
   }
 
   _createClass(MyRestaurants, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var self = this;
+      $('#restaurantSelect.ui.dropdown').dropdown({
+        onChange: function onChange(index) {
+          console.log(self.state.restaurants[index]);
+        }
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return React.createElement("div", null);
+      return React.createElement(
+        "div",
+        { className: "ui segment" },
+        React.createElement(
+          "div",
+          { id: "restaurantSelect", className: "ui search selection dropdown" },
+          React.createElement("i", { className: "dropdown icon" }),
+          React.createElement(
+            "div",
+            { className: "default text" },
+            "Restaurant"
+          ),
+          React.createElement(
+            "div",
+            { className: "menu" },
+            this.state.restaurants.map(function (restaurant, index) {
+              return React.createElement(
+                "div",
+                { className: "item", "data-value": index, key: index },
+                restaurant.name
+              );
+            })
+          )
+        )
+      );
     }
   }]);
 

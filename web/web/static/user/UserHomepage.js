@@ -114,7 +114,7 @@ var UserHomepage = function (_React$Component) {
         this.state.user.isServer && React.createElement(
           'div',
           { className: 'ui tab', 'data-tab': 'myRestaurants' },
-          React.createElement(_MyRestaurants2.default, null)
+          React.createElement(_MyRestaurants2.default, { restaurants: this.state.user.restaurants })
         ),
         React.createElement(
           'div',

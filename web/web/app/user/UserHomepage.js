@@ -63,7 +63,7 @@ export default class UserHomepage extends React.Component
         </div>
         { this.state.user.isServer &&
           <div className="ui tab" data-tab="myRestaurants">
-            <MyRestaurants/>
+            <MyRestaurants restaurants={this.state.user.restaurants}/>
           </div>
         }
         <div className="ui tab" data-tab="myDiets">
