@@ -37,9 +37,7 @@ var MyDiet = function (_React$Component) {
   _createClass(MyDiet, [{
     key: 'fetch',
     value: function fetch() {
-      Api.getMyDiets().then(function (data) {
-        console.log(data);
-      }).catch(function (error) {
+      Api.getMyDiets().then(function (data) {}).catch(function (error) {
         console.log(error);
       });
     }

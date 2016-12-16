@@ -26,7 +26,6 @@ export default class ConsumptionHistory extends React.Component {
   fetch(){
     Api.consumptionHistory().then(
       (data) => {
-        console.log(data);
         this.setState({data: data})
       }
     ).catch(

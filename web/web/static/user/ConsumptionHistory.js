@@ -57,7 +57,6 @@ var ConsumptionHistory = function (_React$Component) {
       var _this2 = this;
 
       Api.consumptionHistory().then(function (data) {
-        console.log(data);
         _this2.setState({ data: data });
       }).catch(function (error) {
         console.log(error);

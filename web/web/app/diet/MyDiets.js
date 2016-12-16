@@ -13,7 +13,6 @@ export default class MyDiet extends React.Component {
   fetch(){
     Api.getMyDiets().then(
       (data) => {
-        console.log(data);
       }
     ).catch(
       (error) => {
