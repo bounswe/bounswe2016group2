@@ -11,8 +11,7 @@ export default class IngredientRow extends React.Component {
     return (
       <div className="item" style={{marginBottom:10}}>
         <div className="content">
-          <a className="header" style={{fontSize:16}} href={"/foods/" + this.state.id}>{this.state.name}</a>
-          {/* <div className="description">{this.state.ingredientStr}</div> */}
+          <a className="header" style={{fontSize:16}} href={"/ingredients/" + this.state.id}>{this.state.name}</a>
         </div>
       </div>
     )

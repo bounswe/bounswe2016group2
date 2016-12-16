@@ -38,7 +38,7 @@ var RestaurantRow = function (_React$Component) {
           { className: "content" },
           React.createElement(
             "a",
-            { className: "header", style: { fontSize: 16 }, href: "/foods/" + this.state.id },
+            { className: "header", style: { fontSize: 16 }, href: "/restaurants/" + this.state.id },
             this.state.name
           )
         )

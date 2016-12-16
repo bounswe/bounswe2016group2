@@ -10,6 +10,14 @@ var _FoodRow = require('food/FoodRow.js');
 
 var _FoodRow2 = _interopRequireDefault(_FoodRow);
 
+var _RestaurantRow = require('restaurant/RestaurantRow.js');
+
+var _RestaurantRow2 = _interopRequireDefault(_RestaurantRow);
+
+var _IngredientRow = require('ingredient/IngredientRow.js');
+
+var _IngredientRow2 = _interopRequireDefault(_IngredientRow);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -55,10 +63,20 @@ var Homepage = function (_React$Component) {
       var _this2 = this;
 
       Api.searchFood(query).then(function (data) {
-        var list = data.foods.map(function (food) {
+        var foodList = data.foods.map(function (food) {
           return React.createElement(_FoodRow2.default, { key: food.id, data: food });
         });
-        _this2.setState({ list: list });
+        var restaurantList = data.restaurants.map(function (restaurant) {
+          return React.createElement(_RestaurantRow2.default, { key: restaurant.id, data: restaurant });
+        });
+        var ingredientList = data.ingredients.map(function (ingredient) {
+          return React.createElement(_IngredientRow2.default, { key: ingredient.id, data: ingredient });
+        });
+        _this2.setState({
+          foodList: foodList,
+          restaurantList: restaurantList,
+          ingredientList: ingredientList
+        });
       });
     }
   }, {
@@ -100,10 +118,35 @@ var Homepage = function (_React$Component) {
             ),
             React.createElement('form', { className: 'ui form' })
           ),
+          this.state.foodList && this.state.foodList.length > 0 && React.createElement(
+            'h4',
+            null,
+            'Foods'
+          ),
           React.createElement(
             'div',
             { className: 'ui relaxed divided list' },
-            this.state.list
+            this.state.foodList
+          ),
+          this.state.restaurantList && this.state.restaurantList.length > 0 && React.createElement(
+            'h4',
+            null,
+            'Restaurants'
+          ),
+          React.createElement(
+            'div',
+            { className: 'ui relaxed divided list' },
+            this.state.restaurantList
+          ),
+          this.state.ingredientList && this.state.ingredientList.length > 0 && React.createElement(
+            'h4',
+            null,
+            'Ingredients'
+          ),
+          React.createElement(
+            'div',
+            { className: 'ui relaxed divided list' },
+            this.state.ingredientList
           )
         ),
         React.createElement('div', { className: 'ui bottom attached tab segment', 'data-tab': 'advancedSearch' })
