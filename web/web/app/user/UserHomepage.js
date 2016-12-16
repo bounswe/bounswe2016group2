@@ -58,9 +58,11 @@ export default class UserHomepage extends React.Component
         <div className="ui tab active" data-tab="consumptionHistory">
           <ConsumptionHistory/>
         </div>
-        <div className="ui tab" data-tab="myFoods">
-          <MyFoods/>
-        </div>
+        { this.state.user.foods &&
+          <div className="ui tab" data-tab="myFoods">
+            <MyFoods foods={this.state.user.foods || []}/>
+          </div>
+        }
         { this.state.user.isServer &&
           <div className="ui tab" data-tab="myRestaurants">
             <MyRestaurants restaurants={this.state.user.restaurants}/>

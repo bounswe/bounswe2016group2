@@ -106,10 +106,10 @@ var UserHomepage = function (_React$Component) {
           { className: 'ui tab active', 'data-tab': 'consumptionHistory' },
           React.createElement(_ConsumptionHistory2.default, null)
         ),
-        React.createElement(
+        this.state.user.foods && React.createElement(
           'div',
           { className: 'ui tab', 'data-tab': 'myFoods' },
-          React.createElement(_MyFoods2.default, null)
+          React.createElement(_MyFoods2.default, { foods: this.state.user.foods || [] })
         ),
         this.state.user.isServer && React.createElement(
           'div',
