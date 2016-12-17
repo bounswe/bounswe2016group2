@@ -18,6 +18,10 @@ var _IngredientRow = require('ingredient/IngredientRow.js');
 
 var _IngredientRow2 = _interopRequireDefault(_IngredientRow);
 
+var _MultipleSelect = require('service/MultipleSelect.js');
+
+var _MultipleSelect2 = _interopRequireDefault(_MultipleSelect);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -77,6 +81,26 @@ var Homepage = function (_React$Component) {
           restaurantList: restaurantList,
           ingredientList: ingredientList
         });
+      });
+    }
+  }, {
+    key: 'setIngredientOptions',
+    value: function setIngredientOptions() {
+      var self = this;
+      Api.getIngredients().then(function (data) {
+        self.setState({
+          options: data
+        });
+      });
+    }
+  }, {
+    key: 'ingredientsChanged',
+    value: function ingredientsChanged(ingredientIds) {
+      console.log('excluded ingredient ids', ingredientIds);
+      this.setState({
+        filter: {
+          ingredients: ingredientIds
+        }
       });
     }
   }, {
@@ -163,7 +187,13 @@ var Homepage = function (_React$Component) {
                 { className: 'field' },
                 React.createElement('input', { type: 'text', name: 'food', placeholder: 'Search food',
                   value: this.state.query, onChange: this.change
-                })
+                }),
+                React.createElement(
+                  'h5',
+                  null,
+                  'Excluded ingredients'
+                ),
+                React.createElement(_MultipleSelect2.default, { onChange: this.ingredientsChanged.bind(this), setOptions: this.setIngredientOptions, name: 'foods', placeholder: 'Select ingredients' })
               )
             ),
             React.createElement('form', { className: 'ui form' })
