@@ -3,6 +3,7 @@ import RestaurantRow from 'restaurant/RestaurantRow.js'
 import IngredientRow from 'ingredient/IngredientRow.js'
 import MultipleSelect from 'service/MultipleSelect.js'
 import TagSelect from 'service/TagSelect.js'
+import Slider from 'service/Slider.js'
 
 export default class Homepage extends React.Component {
 
@@ -93,10 +94,48 @@ export default class Homepage extends React.Component {
     })
   }
 
+  proteinChanged(min, max) {
+    this.setState({
+      minProteinVal: min,
+      maxProteinVal: max
+    })
+  }
+
+  carbChanged(min, max) {
+    this.setState({
+      minCarbVal: min,
+      maxCarbVal: max
+    })
+  }
+
+  fatChanged(min, max) {
+    this.setState({
+      minFatVal: min,
+      maxFatVal: max
+    })
+  }
+
+  energyChanged(min, max) {
+    this.setState({
+      minEnergy: min,
+      maxEnergy: max
+    })
+  }
+
   advancedSearch(e) {
     e.preventDefault()
     let self = this
     let filter = {}
+
+    if (this.state.minProteinVal) filter.minProteinVal = this.state.minProteinVal
+    if (this.state.maxProteinVal) filter.maxProteinVal = this.state.maxProteinVal
+    if (this.state.minCarbVal) filter.minCarbVal = this.state.minCarbVal
+    if (this.state.maxCarbVal) filter.maxCarbVal = this.state.maxCarbVal
+    if (this.state.minFatVal) filter.minFatVal = this.state.minFatVal
+    if (this.state.maxFatVal) filter.maxFatVal = this.state.maxFatVal
+    if (this.state.minEnergy) filter.minEnergy = this.state.minEnergy
+    if (this.state.maxEnergy) filter.maxEnergy = this.state.maxEnergy
+
     if (this.state.advancedQuery) filter.advancedQuery = this.state.advancedQuery
     if (this.state.selectedIngredients) filter.ingredients = this.state.selectedIngredients
     if (this.state.selectedDiets) filter.diets = this.state.selectedDiets
@@ -178,6 +217,26 @@ export default class Homepage extends React.Component {
                   </div>
                   <h5>Semantic tags</h5>
                   <TagSelect onChange={this.tagsChanged.bind(this)} name="tags" placeholder="Search tag"/>
+                  <div>
+                    <div style={{display:'inline-block',width:'50%'}}>
+                      <h4 style={{marginBottom:50}}>Protein Weight (g)</h4>
+                      <Slider id="proteinSlider" onChange={this.proteinChanged.bind(this)}/>
+                    </div>
+                    <div style={{display:'inline-block',width:'50%'}}>
+                      <h4 style={{marginBottom:50}}>Carbonhydrate Weight (g)</h4>
+                      <Slider id="carbSlider" onChange={this.carbChanged.bind(this)}/>
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{display:'inline-block',width:'50%'}}>
+                      <h4 style={{marginBottom:50}}>Fat Weight (g)</h4>
+                      <Slider id="fatSlider" onChange={this.fatChanged.bind(this)}/>
+                    </div>
+                    <div style={{display:'inline-block',width:'50%'}}>
+                      <h4 style={{marginBottom:50}}>Energy (kcal)</h4>
+                      <Slider id="energySlider" onChange={this.energyChanged.bind(this)}/>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>

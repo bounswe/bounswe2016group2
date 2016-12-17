@@ -26,6 +26,10 @@ var _TagSelect = require('service/TagSelect.js');
 
 var _TagSelect2 = _interopRequireDefault(_TagSelect);
 
+var _Slider = require('service/Slider.js');
+
+var _Slider2 = _interopRequireDefault(_Slider);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -143,11 +147,53 @@ var Homepage = function (_React$Component) {
       });
     }
   }, {
+    key: 'proteinChanged',
+    value: function proteinChanged(min, max) {
+      this.setState({
+        minProteinVal: min,
+        maxProteinVal: max
+      });
+    }
+  }, {
+    key: 'carbChanged',
+    value: function carbChanged(min, max) {
+      this.setState({
+        minCarbVal: min,
+        maxCarbVal: max
+      });
+    }
+  }, {
+    key: 'fatChanged',
+    value: function fatChanged(min, max) {
+      this.setState({
+        minFatVal: min,
+        maxFatVal: max
+      });
+    }
+  }, {
+    key: 'energyChanged',
+    value: function energyChanged(min, max) {
+      this.setState({
+        minEnergy: min,
+        maxEnergy: max
+      });
+    }
+  }, {
     key: 'advancedSearch',
     value: function advancedSearch(e) {
       e.preventDefault();
       var self = this;
       var filter = {};
+
+      if (this.state.minProteinVal) filter.minProteinVal = this.state.minProteinVal;
+      if (this.state.maxProteinVal) filter.maxProteinVal = this.state.maxProteinVal;
+      if (this.state.minCarbVal) filter.minCarbVal = this.state.minCarbVal;
+      if (this.state.maxCarbVal) filter.maxCarbVal = this.state.maxCarbVal;
+      if (this.state.minFatVal) filter.minFatVal = this.state.minFatVal;
+      if (this.state.maxFatVal) filter.maxFatVal = this.state.maxFatVal;
+      if (this.state.minEnergy) filter.minEnergy = this.state.minEnergy;
+      if (this.state.maxEnergy) filter.maxEnergy = this.state.maxEnergy;
+
       if (this.state.advancedQuery) filter.advancedQuery = this.state.advancedQuery;
       if (this.state.selectedIngredients) filter.ingredients = this.state.selectedIngredients;
       if (this.state.selectedDiets) filter.diets = this.state.selectedDiets;
@@ -293,7 +339,55 @@ var Homepage = function (_React$Component) {
                     null,
                     'Semantic tags'
                   ),
-                  React.createElement(_TagSelect2.default, { onChange: this.tagsChanged.bind(this), name: 'tags', placeholder: 'Search tag' })
+                  React.createElement(_TagSelect2.default, { onChange: this.tagsChanged.bind(this), name: 'tags', placeholder: 'Search tag' }),
+                  React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                      'div',
+                      { style: { display: 'inline-block', width: '50%' } },
+                      React.createElement(
+                        'h4',
+                        { style: { marginBottom: 50 } },
+                        'Protein Weight (g)'
+                      ),
+                      React.createElement(_Slider2.default, { id: 'proteinSlider', onChange: this.proteinChanged.bind(this) })
+                    ),
+                    React.createElement(
+                      'div',
+                      { style: { display: 'inline-block', width: '50%' } },
+                      React.createElement(
+                        'h4',
+                        { style: { marginBottom: 50 } },
+                        'Carbonhydrate Weight (g)'
+                      ),
+                      React.createElement(_Slider2.default, { id: 'carbSlider', onChange: this.carbChanged.bind(this) })
+                    )
+                  ),
+                  React.createElement(
+                    'div',
+                    null,
+                    React.createElement(
+                      'div',
+                      { style: { display: 'inline-block', width: '50%' } },
+                      React.createElement(
+                        'h4',
+                        { style: { marginBottom: 50 } },
+                        'Fat Weight (g)'
+                      ),
+                      React.createElement(_Slider2.default, { id: 'fatSlider', onChange: this.fatChanged.bind(this) })
+                    ),
+                    React.createElement(
+                      'div',
+                      { style: { display: 'inline-block', width: '50%' } },
+                      React.createElement(
+                        'h4',
+                        { style: { marginBottom: 50 } },
+                        'Energy (kcal)'
+                      ),
+                      React.createElement(_Slider2.default, { id: 'energySlider', onChange: this.energyChanged.bind(this) })
+                    )
+                  )
                 )
               )
             )
