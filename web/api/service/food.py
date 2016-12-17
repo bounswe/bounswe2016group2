@@ -87,7 +87,6 @@ def calculateRate(food):
     if len(food['rates']) == 0:
         count = 1
     for rate in food['rates']:
-        print(rate['score'])
         total += rate['score']
         count += 1
     food.pop('rates', None)

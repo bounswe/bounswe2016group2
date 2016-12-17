@@ -27,7 +27,6 @@ def ateFood(req, foodId):
         food = Food.objects.get(id=foodId)
         data['food'] = food.id
     except Food.DoesNotExist:
-        print('ammk')
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if req.method == 'POST':

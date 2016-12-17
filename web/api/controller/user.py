@@ -35,7 +35,6 @@ def signin(req):
     """
     serializer = UserSerializer(data=req.data)
     data = serializer.initial_data
-    print(req.data)
     if 'email' in data and 'password' in data:
         user = authenticate(
             username=serializer.initial_data['email'],
