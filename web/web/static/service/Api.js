@@ -193,6 +193,11 @@ var Api = function () {
     value: function deleteFood(data) {
       return this.delete('foods/' + data);
     }
+  }, {
+    key: 'searchTag',
+    value: function searchTag(query) {
+      return this.get('searchTag?query=' + query);
+    }
 
     // INCLUSION ROUTES
 

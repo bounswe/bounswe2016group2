@@ -2,6 +2,7 @@ import FoodRow from 'food/FoodRow.js'
 import RestaurantRow from 'restaurant/RestaurantRow.js'
 import IngredientRow from 'ingredient/IngredientRow.js'
 import MultipleSelect from 'service/MultipleSelect.js'
+import TagSelect from 'service/TagSelect.js'
 
 export default class Homepage extends React.Component {
 
@@ -81,6 +82,15 @@ export default class Homepage extends React.Component {
     })
   }
 
+  tagsChanged(tags) {
+    console.log('tags changed', tags);
+    this.setState({
+      filter: {
+        tags: tags
+      }
+    })
+  }
+
   render() {
     return (
       <div>
@@ -136,6 +146,7 @@ export default class Homepage extends React.Component {
                     <h5>Diets</h5>
                     <MultipleSelect onChange={this.dietsChanged.bind(this)} setOptions={this.setDietOptions} name="diets" placeholder="Select diet"/>
                   </div>
+                  <TagSelect onChange={this.tagsChanged.bind(this)} name="tags" placeholder="Search tag"/>
                 </div>
               </div>
             </form>

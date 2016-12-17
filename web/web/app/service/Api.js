@@ -140,6 +140,9 @@ class Api {
   static deleteFood(data){
 		return this.delete('foods/' + data);
 	}
+  static searchTag(query){
+		return this.get('searchTag?query=' + query);
+	}
 
   // INCLUSION ROUTES
   static addRestaurant(data) {

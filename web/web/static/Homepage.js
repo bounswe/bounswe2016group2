@@ -22,6 +22,10 @@ var _MultipleSelect = require('service/MultipleSelect.js');
 
 var _MultipleSelect2 = _interopRequireDefault(_MultipleSelect);
 
+var _TagSelect = require('service/TagSelect.js');
+
+var _TagSelect2 = _interopRequireDefault(_TagSelect);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -120,6 +124,16 @@ var Homepage = function (_React$Component) {
       this.setState({
         filter: {
           diets: dietIds
+        }
+      });
+    }
+  }, {
+    key: 'tagsChanged',
+    value: function tagsChanged(tags) {
+      console.log('tags changed', tags);
+      this.setState({
+        filter: {
+          tags: tags
         }
       });
     }
@@ -230,7 +244,8 @@ var Homepage = function (_React$Component) {
                       'Diets'
                     ),
                     React.createElement(_MultipleSelect2.default, { onChange: this.dietsChanged.bind(this), setOptions: this.setDietOptions, name: 'diets', placeholder: 'Select diet' })
-                  )
+                  ),
+                  React.createElement(_TagSelect2.default, { onChange: this.tagsChanged.bind(this), name: 'tags', placeholder: 'Search tag' })
                 )
               )
             ),
