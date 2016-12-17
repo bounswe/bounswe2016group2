@@ -94,7 +94,9 @@ public interface ApiInterface {
     @GET("api/foods")
     Call<List<FoodLess>> getFoods();
 
-
+    @Headers("Content-Type: application/json")
+    @POST("api/foods")
+    Call<Food> addFood();
 
     @Headers("Content-Type: application/json")
     @POST("/api/foods/{foodId}/ate")

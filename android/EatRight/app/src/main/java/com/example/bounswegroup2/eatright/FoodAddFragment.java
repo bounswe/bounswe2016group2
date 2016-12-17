@@ -52,6 +52,8 @@ public class FoodAddFragment extends Fragment {
     private Button mButtonSubmit;
     private IngredientAdapter adapter;
     private ImageButton removeRowBut;
+    private EditText descrpFood;
+    private EditText nameFood;
 
     // TODO: Rename and change types of parameters
 
@@ -174,6 +176,9 @@ public class FoodAddFragment extends Fragment {
                             }
                         }
                     }
+                    String desc = descrpFood.getText().toString();
+                    String name = nameFood.getText().toString();
+
                 }
             }
         };
@@ -244,6 +249,8 @@ public class FoodAddFragment extends Fragment {
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_add, container, false);
         mLayout = (TableLayout) rootView.findViewById(R.id.tableLayoutAddFood);
         amounEditTExt = (EditText) rootView.findViewById(R.id.amountEText);
+        descrpFood = (EditText) rootView.findViewById(R.id.foodDesc);
+        nameFood = (EditText) rootView.findViewById(R.id.nameFood);
         amounEditTExt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

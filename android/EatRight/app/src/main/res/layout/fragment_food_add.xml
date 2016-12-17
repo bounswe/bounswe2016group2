@@ -67,12 +67,26 @@
         </ScrollView>
         <LinearLayout
             android:id="@+id/buttonLayouts"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_alignParentBottom="true">
-
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/foodDesc"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText android:hint="@string/name"
+                    android:id="@+id/nameFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
             <Button
                 android:id="@+id/buttonAdd"
                 android:layout_weight="1"
@@ -87,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"/>
+            </TableRow>
         </LinearLayout>
     </RelativeLayout>
 
