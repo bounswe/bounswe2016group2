@@ -45,6 +45,9 @@ var Homepage = function (_React$Component) {
     _this.state = {};
     _this.change = _this.change.bind(_this);
     _this.search = _this.search.bind(_this);
+    _this.state = {
+      filter: {}
+    };
     return _this;
   }
 
@@ -63,6 +66,14 @@ var Homepage = function (_React$Component) {
       this.search(e.target.value);
     }
 
+    // when advanced search input is changed
+
+  }, {
+    key: 'advancedChange',
+    value: function advancedChange(e) {
+      this.setState({ advancedQuery: e.target.value });
+    }
+
     // send search api call
 
   }, {
@@ -70,7 +81,7 @@ var Homepage = function (_React$Component) {
     value: function search(query) {
       var _this2 = this;
 
-      Api.searchFood(query).then(function (data) {
+      Api.search(query).then(function (data) {
         var foodList = data.foods.map(function (food) {
           return React.createElement(_FoodRow2.default, { key: food.id, data: food });
         });
@@ -102,9 +113,7 @@ var Homepage = function (_React$Component) {
     value: function ingredientsChanged(ingredientIds) {
       console.log('excluded ingredient ids', ingredientIds);
       this.setState({
-        filter: {
-          ingredients: ingredientIds
-        }
+        selectedIngredients: ingredientIds
       });
     }
   }, {
@@ -122,9 +131,7 @@ var Homepage = function (_React$Component) {
     value: function dietsChanged(dietIds) {
       console.log('diets', dietIds);
       this.setState({
-        filter: {
-          diets: dietIds
-        }
+        selectedDiets: dietIds
       });
     }
   }, {
@@ -132,9 +139,31 @@ var Homepage = function (_React$Component) {
     value: function tagsChanged(tags) {
       console.log('tags changed', tags);
       this.setState({
-        filter: {
-          tags: tags
-        }
+        selectedTags: tags
+      });
+    }
+  }, {
+    key: 'advancedSearch',
+    value: function advancedSearch(e) {
+      e.preventDefault();
+      var self = this;
+      var filter = {};
+      if (this.state.advancedQuery) filter.advancedQuery = this.state.advancedQuery;
+      if (this.state.selectedIngredients) filter.ingredients = this.state.selectedIngredients;
+      if (this.state.selectedDiets) filter.diets = this.state.selectedDiets;
+      if (this.state.selectedTags) {
+        filter.tags = [];
+        this.state.selectedTags.forEach(function (tag) {
+          filter.tags.push(tag.name);
+        });
+      }
+      console.log('filter', filter);
+      Api.advancedSearch(filter).then(function (data) {
+        console.log('advanced search result', data);
+        var foodList = data.map(function (food) {
+          return React.createElement(_FoodRow2.default, { key: food.id, data: food });
+        });
+        self.setState({ advancedFoodList: foodList });
       });
     }
   }, {
@@ -220,8 +249,22 @@ var Homepage = function (_React$Component) {
                 'div',
                 { className: 'field' },
                 React.createElement('input', { type: 'text', name: 'food', placeholder: 'Search food',
-                  value: this.state.query, onChange: this.change
+                  value: this.state.advanceQuery, onChange: this.advancedChange.bind(this)
                 }),
+                React.createElement(
+                  'div',
+                  { style: { textAlign: 'center', marginTop: 20 } },
+                  React.createElement(
+                    'button',
+                    { type: 'submit', className: 'ui button', onClick: this.advancedSearch.bind(this) },
+                    'SEARCH FOOD'
+                  ),
+                  React.createElement(
+                    'h3',
+                    null,
+                    'Options'
+                  )
+                ),
                 React.createElement(
                   'div',
                   null,
@@ -245,11 +288,20 @@ var Homepage = function (_React$Component) {
                     ),
                     React.createElement(_MultipleSelect2.default, { onChange: this.dietsChanged.bind(this), setOptions: this.setDietOptions, name: 'diets', placeholder: 'Select diet' })
                   ),
+                  React.createElement(
+                    'h5',
+                    null,
+                    'Semantic tags'
+                  ),
                   React.createElement(_TagSelect2.default, { onChange: this.tagsChanged.bind(this), name: 'tags', placeholder: 'Search tag' })
                 )
               )
-            ),
-            React.createElement('form', { className: 'ui form' })
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'ui relaxed divided list' },
+            this.state.advancedFoodList
           )
         )
       );

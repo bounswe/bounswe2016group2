@@ -128,8 +128,11 @@ class Api {
   static getFood(id){
     return this.get('foods/' + id);
   }
-  static searchFood(query) {
+  static search(query) {
 		return this.get('search?query=' + query);
+	}
+  static advancedSearch(filter) {
+		return this.post('searchFood', filter);
 	}
   static addIngredientToFood(foodId, ingId, data) {
 		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);

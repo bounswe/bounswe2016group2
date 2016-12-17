@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -36,7 +36,7 @@ var TagSelect = function (_React$Component) {
   }
 
   _createClass(TagSelect, [{
-    key: "queryChanged",
+    key: 'queryChanged',
     value: function queryChanged(e) {
       this.setState({ query: e.target.value });
       if (e.target.value == '') {
@@ -46,27 +46,29 @@ var TagSelect = function (_React$Component) {
       }
     }
   }, {
-    key: "search",
+    key: 'search',
     value: function search(e) {
       var _this2 = this;
 
+      e.preventDefault();
+      if (this.state.query == '') return;
       var self = this;
       Api.searchTag(this.state.query).then(function (data) {
         var list = data.map(function (tag) {
           return React.createElement(
-            "div",
-            { className: "item", key: tag.name },
+            'div',
+            { className: 'item', key: tag.name },
             React.createElement(
-              "div",
-              { className: "content" },
+              'div',
+              { className: 'content' },
               React.createElement(
-                "a",
-                { className: "header", onClick: _this2.addTag.bind({ context: self, tag: tag }) },
+                'a',
+                { className: 'header', onClick: _this2.addTag.bind({ context: self, tag: tag }) },
                 tag.name
               ),
               React.createElement(
-                "div",
-                { className: "description" },
+                'div',
+                { className: 'description' },
                 tag.description
               )
             )
@@ -76,10 +78,9 @@ var TagSelect = function (_React$Component) {
           list: list
         });
       });
-      e.preventDefault();
     }
   }, {
-    key: "addTag",
+    key: 'addTag',
     value: function addTag() {
       var self = this.context;
       var tag = this.tag;
@@ -93,7 +94,7 @@ var TagSelect = function (_React$Component) {
       }
     }
   }, {
-    key: "removeTag",
+    key: 'removeTag',
     value: function removeTag() {
       var self = this.context;
       var tag = this.tag;
@@ -109,39 +110,39 @@ var TagSelect = function (_React$Component) {
       self.onSelectedTagsChange(selectedTags);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _this3 = this;
 
       var self = this;
       return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(
-          "div",
-          { className: "ui action input" },
-          React.createElement("input", { type: "text", placeholder: "Search tag", value: this.state.query, onChange: this.queryChanged.bind(this) }),
+          'div',
+          { className: 'ui action input' },
+          React.createElement('input', { type: 'text', placeholder: 'Search tag', value: this.state.query, onChange: this.queryChanged.bind(this) }),
           React.createElement(
-            "button",
-            { type: "submit", className: "ui button", onClick: this.search.bind(this) },
-            "Search"
+            'button',
+            { className: 'ui button', onClick: this.search.bind(this) },
+            'Search'
           )
         ),
         React.createElement(
-          "div",
+          'div',
           { style: { marginTop: 20, marginBottom: 20 } },
           this.state.selectedTags.map(function (tag) {
             return React.createElement(
-              "a",
-              { key: tag.name, className: "ui label" },
+              'a',
+              { key: tag.name, className: 'ui label' },
               tag.name,
-              React.createElement("i", { className: "delete icon", onClick: _this3.removeTag.bind({ context: self, tag: tag }) })
+              React.createElement('i', { className: 'delete icon', onClick: _this3.removeTag.bind({ context: self, tag: tag }) })
             );
           })
         ),
         React.createElement(
-          "div",
-          { className: "ui relaxed divided list" },
+          'div',
+          { className: 'ui relaxed divided list' },
           this.state.list
         )
       );

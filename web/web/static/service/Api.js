@@ -174,9 +174,14 @@ var Api = function () {
       return this.get('foods/' + id);
     }
   }, {
-    key: 'searchFood',
-    value: function searchFood(query) {
+    key: 'search',
+    value: function search(query) {
       return this.get('search?query=' + query);
+    }
+  }, {
+    key: 'advancedSearch',
+    value: function advancedSearch(filter) {
+      return this.post('searchFood', filter);
     }
   }, {
     key: 'addIngredientToFood',

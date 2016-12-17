@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -40,37 +40,40 @@ var MultipleSelect = function (_React$Component) {
   }
 
   _createClass(MultipleSelect, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       var self = this;
-      $(".ui.dropdown[name=\"" + this.state.name + "\"]").dropdown({
+      $('.ui.dropdown[name="' + this.state.name + '"]').dropdown({
         maxSelections: 20,
         onChange: function onChange(value) {
-          var data = value.split(',');
+          var data = [];
+          if (value != '') {
+            data = value.split(',');
+          }
           self.onChange(data);
         }
       });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "ui fluid multiple search normal selection dropdown", name: this.state.name },
-        React.createElement("input", { type: "hidden", name: this.state.name }),
-        React.createElement("i", { className: "dropdown icon" }),
+        'div',
+        { className: 'ui fluid multiple search normal selection dropdown', name: this.state.name },
+        React.createElement('input', { type: 'hidden', name: this.state.name }),
+        React.createElement('i', { className: 'dropdown icon' }),
         React.createElement(
-          "div",
-          { className: "default text" },
+          'div',
+          { className: 'default text' },
           this.state.placeholder
         ),
         React.createElement(
-          "div",
-          { className: "menu" },
+          'div',
+          { className: 'menu' },
           this.state.options.map(function (option) {
             return React.createElement(
-              "div",
-              { key: option.id, className: "item", "data-value": option.id },
+              'div',
+              { key: option.id, className: 'item', 'data-value': option.id },
               option.name
             );
           })

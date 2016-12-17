@@ -26,6 +26,8 @@ export default class TagSelect extends React.Component {
   }
 
   search(e) {
+    e.preventDefault();
+    if (this.state.query == '') return
     let self = this
     Api.searchTag(this.state.query)
     .then((data) => {
@@ -43,7 +45,6 @@ export default class TagSelect extends React.Component {
        list: list
      })
     })
-    e.preventDefault();
   }
 
   addTag() {
@@ -80,7 +81,7 @@ export default class TagSelect extends React.Component {
       <div>
         <div className="ui action input">
           <input type="text" placeholder="Search tag" value={this.state.query} onChange={this.queryChanged.bind(this)}/>
-          <button type="submit" className="ui button" onClick={this.search.bind(this)}>Search</button>
+          <button className="ui button" onClick={this.search.bind(this)}>Search</button>
         </div>
         <div style={{marginTop: 20,marginBottom: 20}}>
           { this.state.selectedTags.map((tag) => {

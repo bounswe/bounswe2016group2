@@ -11,6 +11,9 @@ export default class Homepage extends React.Component {
     this.state = {}
     this.change = this.change.bind(this)
     this.search = this.search.bind(this)
+    this.state = {
+      filter: {}
+    }
   }
 
   componentDidMount() {
@@ -23,9 +26,14 @@ export default class Homepage extends React.Component {
     this.search(e.target.value)
   }
 
+  // when advanced search input is changed
+  advancedChange(e) {
+    this.setState({advancedQuery: e.target.value})
+  }
+
   // send search api call
   search(query) {
-    Api.searchFood(query)
+    Api.search(query)
     .then((data) => {
       const foodList = data.foods.map((food) => {
         return <FoodRow key={food.id} data={food}/>
@@ -57,9 +65,7 @@ export default class Homepage extends React.Component {
   ingredientsChanged(ingredientIds) {
     console.log('excluded ingredient ids', ingredientIds);
     this.setState({
-      filter: {
-        ingredients: ingredientIds
-      }
+      selectedIngredients: ingredientIds
     })
   }
 
@@ -76,18 +82,38 @@ export default class Homepage extends React.Component {
   dietsChanged(dietIds) {
     console.log('diets', dietIds);
     this.setState({
-      filter: {
-        diets: dietIds
-      }
+      selectedDiets: dietIds
     })
   }
 
   tagsChanged(tags) {
     console.log('tags changed', tags);
     this.setState({
-      filter: {
-        tags: tags
-      }
+      selectedTags: tags
+    })
+  }
+
+  advancedSearch(e) {
+    e.preventDefault()
+    let self = this
+    let filter = {}
+    if (this.state.advancedQuery) filter.advancedQuery = this.state.advancedQuery
+    if (this.state.selectedIngredients) filter.ingredients = this.state.selectedIngredients
+    if (this.state.selectedDiets) filter.diets = this.state.selectedDiets
+    if (this.state.selectedTags) {
+      filter.tags = []
+      this.state.selectedTags.forEach((tag) => {
+        filter.tags.push(tag.name)
+      })
+    }
+    console.log('filter', filter);
+    Api.advancedSearch(filter)
+    .then((data) => {
+      console.log('advanced search result', data)
+      const foodList = data.map((food) => {
+        return <FoodRow key={food.id} data={food}/>
+      })
+      self.setState({advancedFoodList: foodList})
     })
   }
 
@@ -135,8 +161,12 @@ export default class Homepage extends React.Component {
             <form className="ui form">
               <div className="field">
                 <input type="text" name="food" placeholder="Search food"
-                  value={this.state.query} onChange={this.change}
+                  value={this.state.advanceQuery} onChange={this.advancedChange.bind(this)}
                 />
+                <div style={{textAlign: 'center', marginTop: 20}}>
+                  <button type="submit" className="ui button" onClick={this.advancedSearch.bind(this)}>SEARCH FOOD</button>
+                  <h3>Options</h3>
+                </div>
                 <div>
                   <div style={{display:'inline-block',width:'50%',padding:15}}>
                     <h5>Excluded ingredients</h5>
@@ -146,11 +176,14 @@ export default class Homepage extends React.Component {
                     <h5>Diets</h5>
                     <MultipleSelect onChange={this.dietsChanged.bind(this)} setOptions={this.setDietOptions} name="diets" placeholder="Select diet"/>
                   </div>
+                  <h5>Semantic tags</h5>
                   <TagSelect onChange={this.tagsChanged.bind(this)} name="tags" placeholder="Search tag"/>
                 </div>
               </div>
             </form>
-            <form className="ui form"></form>
+          </div>
+          <div className="ui relaxed divided list">
+            {this.state.advancedFoodList}
           </div>
         </div>
       </div>
