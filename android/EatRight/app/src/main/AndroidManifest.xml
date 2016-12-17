@@ -55,7 +55,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.bounswegroup2.eatright.FoodPageActivity" />
         </activity>
-        <activity android:name=".ServerPageActivity"></activity>
+        <activity android:name=".ServerPageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.bounswegroup2.eatright.FoodPageActivity" />
+        </activity>
     </application>
 
 </manifest>

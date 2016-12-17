@@ -80,7 +80,7 @@ public class UserHomeActivity extends AppCompatActivity
         userRecommendations.setText(R.string.user_page_recommendations);
 
         userHistory.setText(R.string.user_page_histroy);
-
+        Bundle bundle = getIntent().getExtras();
         //TODO will be activated after the main implementation
 //        mFab = (FloatingActionButton) findViewById(R.id.fab);
 //        mFab.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class UserHomeActivity extends AppCompatActivity
 //            }
 //        });
         //Bundle bundle = getIntent().getExtras();
-      //  initSecondaryViews(bundle);
+       initSecondaryViews(bundle);
       //  initFoodHistory();
     }
 

@@ -126,6 +126,7 @@ public class FoodPageActivity extends AppCompatActivity {
                     b.putSerializable("resta", r);
                     i.putExtras(b);
                     startActivity(i);
+                    finish();
                 }
 
                 @Override
