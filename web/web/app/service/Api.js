@@ -97,6 +97,9 @@ class Api {
   static signup(data) {
     return this.post('users/signup', data)
   }
+  static me(data) {
+    return this.get('users/me', data)
+  }
   static consumptionHistory(){
     return this.get('users/me/history');
   }

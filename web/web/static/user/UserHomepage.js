@@ -6,10 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _DatePicker = require('service/DatePicker.js');
-
-var _DatePicker2 = _interopRequireDefault(_DatePicker);
-
 var _MyDiets = require('diet/MyDiets.js');
 
 var _MyDiets2 = _interopRequireDefault(_MyDiets);
@@ -17,6 +13,18 @@ var _MyDiets2 = _interopRequireDefault(_MyDiets);
 var _FoodRow = require('food/FoodRow.js');
 
 var _FoodRow2 = _interopRequireDefault(_FoodRow);
+
+var _ConsumptionHistory = require('user/ConsumptionHistory.js');
+
+var _ConsumptionHistory2 = _interopRequireDefault(_ConsumptionHistory);
+
+var _MyFoods = require('user/MyFoods.js');
+
+var _MyFoods2 = _interopRequireDefault(_MyFoods);
+
+var _MyRestaurants = require('user/MyRestaurants.js');
+
+var _MyRestaurants2 = _interopRequireDefault(_MyRestaurants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,31 +34,26 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ConsumptionHistory = function (_React$Component) {
-  _inherits(ConsumptionHistory, _React$Component);
+var UserHomepage = function (_React$Component) {
+  _inherits(UserHomepage, _React$Component);
 
-  function ConsumptionHistory(props) {
-    _classCallCheck(this, ConsumptionHistory);
+  function UserHomepage(props) {
+    _classCallCheck(this, UserHomepage);
 
-    var _this = _possibleConstructorReturn(this, (ConsumptionHistory.__proto__ || Object.getPrototypeOf(ConsumptionHistory)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (UserHomepage.__proto__ || Object.getPrototypeOf(UserHomepage)).call(this, props));
 
     _this.state = {
-      data: {
-        total: {},
-        daily: []
-      }
+      user: {}
     };
-
-    _this.input = {
-      fromDate: moment().subtract(1, 'month').format('DD-MM-YYYY'),
-      toDate: moment().format('DD-MM-YYYY')
-    };
-
-    _this.fetch = _this.fetch.bind(_this);
     return _this;
   }
 
-  _createClass(ConsumptionHistory, [{
+  _createClass(UserHomepage, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      $('#userHomepage .item').tab();
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.fetch();
@@ -60,88 +63,13 @@ var ConsumptionHistory = function (_React$Component) {
     value: function fetch() {
       var _this2 = this;
 
-      Api.consumptionHistory().then(function (data) {
+      Api.me().then(function (data) {
         console.log(data);
-        _this2.setState({ data: data });
+        _this2.setState({ user: data });
+        $('#userHomepage .item').tab();
       }).catch(function (error) {
         console.log(error);
       });
-    }
-  }, {
-    key: 'fromDateChanged',
-    value: function fromDateChanged(e) {
-      this.input.fromDate = moment(e).format('DD-MM-YYYY');
-    }
-  }, {
-    key: 'toDateChanged',
-    value: function toDateChanged(e) {
-      this.input.toDate = moment(e).format('DD-MM-YYYY');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: 'ui segment' },
-        React.createElement(
-          'div',
-          { style: { display: 'flex', alignItems: 'center' } },
-          React.createElement(
-            'span',
-            { style: { marginLeft: 10, marginRight: 10 } },
-            'From'
-          ),
-          React.createElement(_DatePicker2.default, { name: 'consumptionStartDate', placeholder: 'Start Date', 'default': this.input.fromDate, onChange: this.fromDateChanged.bind(this) }),
-          React.createElement(
-            'span',
-            { style: { marginLeft: 10, marginRight: 10 } },
-            'to'
-          ),
-          React.createElement(_DatePicker2.default, { name: 'consumptionEndDate', placeholder: 'End Date', 'default': this.input.toDate, onChange: this.toDateChanged.bind(this) }),
-          React.createElement(
-            'button',
-            { className: 'ui button', style: { marginLeft: 10, marginRight: 10 } },
-            'Refresh'
-          )
-        ),
-        React.createElement(
-          'div',
-          { style: { marginTop: 20 } },
-          this.state.data.daily.map(function (dailyData) {
-            return React.createElement(
-              'div',
-              { key: dailyData.date },
-              React.createElement(
-                'h3',
-                null,
-                dailyData.date
-              ),
-              dailyData.ateFoods.map(function (ateFood) {
-                return React.createElement(_FoodRow2.default, { key: ateFood.created, data: ateFood.food });
-              })
-            );
-          })
-        )
-      );
-    }
-  }]);
-
-  return ConsumptionHistory;
-}(React.Component);
-
-var UserHomepage = function (_React$Component2) {
-  _inherits(UserHomepage, _React$Component2);
-
-  function UserHomepage(props) {
-    _classCallCheck(this, UserHomepage);
-
-    return _possibleConstructorReturn(this, (UserHomepage.__proto__ || Object.getPrototypeOf(UserHomepage)).call(this, props));
-  }
-
-  _createClass(UserHomepage, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      $('#userHomepage .item').tab();
     }
   }, {
     key: 'render',
@@ -159,24 +87,34 @@ var UserHomepage = function (_React$Component2) {
           ),
           React.createElement(
             'a',
+            { className: 'item', 'data-tab': 'myFoods' },
+            'My Foods'
+          ),
+          this.state.user.isServer && React.createElement(
+            'a',
+            { className: 'item', 'data-tab': 'myRestaurants' },
+            'My Restaurants'
+          ),
+          React.createElement(
+            'a',
             { className: 'item', 'data-tab': 'myDiets' },
             'My Diets'
-          ),
-          React.createElement(
-            'a',
-            { className: 'item', 'data-tab': 'favFoods' },
-            'Favorite Foods'
-          ),
-          React.createElement(
-            'a',
-            { className: 'item', 'data-tab': 'favRestaurants' },
-            'Favorite Restaurants'
           )
         ),
         React.createElement(
           'div',
           { className: 'ui tab active', 'data-tab': 'consumptionHistory' },
-          React.createElement(ConsumptionHistory, null)
+          React.createElement(_ConsumptionHistory2.default, null)
+        ),
+        this.state.user.foods && React.createElement(
+          'div',
+          { className: 'ui tab', 'data-tab': 'myFoods' },
+          React.createElement(_MyFoods2.default, { foods: this.state.user.foods || [] })
+        ),
+        this.state.user.isServer && React.createElement(
+          'div',
+          { className: 'ui tab', 'data-tab': 'myRestaurants' },
+          React.createElement(_MyRestaurants2.default, { restaurants: this.state.user.restaurants })
         ),
         React.createElement(
           'div',

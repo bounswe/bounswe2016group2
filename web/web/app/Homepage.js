@@ -1,4 +1,6 @@
 import FoodRow from 'food/FoodRow.js'
+import RestaurantRow from 'restaurant/RestaurantRow.js'
+import IngredientRow from 'ingredient/IngredientRow.js'
 
 export default class Homepage extends React.Component {
 
@@ -23,10 +25,20 @@ export default class Homepage extends React.Component {
   search(query) {
     Api.searchFood(query)
     .then((data) => {
-      const list = data.foods.map((food) => {
+      const foodList = data.foods.map((food) => {
         return <FoodRow key={food.id} data={food}/>
       })
-      this.setState({list: list})
+      const restaurantList = data.restaurants.map((restaurant) => {
+        return <RestaurantRow key={restaurant.id} data={restaurant}/>
+      })
+      const ingredientList = data.ingredients.map((ingredient) => {
+        return <IngredientRow key={ingredient.id} data={ingredient}/>
+      })
+      this.setState({
+        foodList: foodList,
+        restaurantList: restaurantList,
+        ingredientList: ingredientList
+      })
     })
   }
 
@@ -54,12 +66,32 @@ export default class Homepage extends React.Component {
             </form>
             <form className="ui form"></form>
           </div>
-          {/* search list */}
+          {/* food list */}
+          { this.state.foodList && this.state.foodList.length > 0 && <h4>Foods</h4>}
           <div className="ui relaxed divided list">
-            {this.state.list}
+            {this.state.foodList}
+          </div>
+          { this.state.restaurantList && this.state.restaurantList.length > 0 && <h4>Restaurants</h4>}
+          <div className="ui relaxed divided list">
+            {this.state.restaurantList}
+          </div>
+          { this.state.ingredientList && this.state.ingredientList.length > 0 && <h4>Ingredients</h4>}
+          <div className="ui relaxed divided list">
+            {this.state.ingredientList}
           </div>
         </div>
         <div className="ui bottom attached tab segment" data-tab="advancedSearch">
+          {/* search form  */}
+          <div>
+            <form className="ui form">
+              <div className="field">
+                <input type="text" name="food" placeholder="Search food"
+                  value={this.state.query} onChange={this.change}
+                />
+              </div>
+            </form>
+            <form className="ui form"></form>
+          </div>
         </div>
       </div>
     )
