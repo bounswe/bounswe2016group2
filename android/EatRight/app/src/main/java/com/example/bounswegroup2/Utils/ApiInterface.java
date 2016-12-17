@@ -5,6 +5,7 @@ import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
+import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Models.signUpRequest;
@@ -136,7 +137,7 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @GET("api/restaurants/{restaurantId}")
-    Call<Restaurant> getRestaurantWithId(@Path("restaurantId") int restaurantId);
+    Call<RestaurantMore> getRestaurantWithId(@Path("restaurantId") int restaurantId);
 
     @Headers("Content-Type: application/json")
     @POST("api/restaurants/{restaurantId}/comment")
@@ -145,9 +146,5 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("api/restaurants/{restaurantId}/rate")
     Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
-
-    /*@Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/foods")
-    Call<List<FoodLess>> getRestFoods(@Path("restaurantId") int restaurantId);*/
 
 }

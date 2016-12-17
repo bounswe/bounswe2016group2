@@ -1,24 +1,24 @@
 package com.example.bounswegroup2.eatright;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
-import com.example.bounswegroup2.Models.Restaurant;
+import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,23 +30,26 @@ import static android.R.drawable.arrow_up_float;
 public class ServerPageActivity extends AppCompatActivity {
 
     private TextView serverName;
-    private Restaurant restaurant;
+    private RestaurantMore restaurant;
     private ImageView imageView;
     private ArrayList<Food> nFl = new ArrayList<Food>();
     private ListView lv;
-
+    private RatingBar rateRest;
+    private View headerView;
+    private TextView tvName;
+    private TextView tvRating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_page);
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
-        restaurant = (Restaurant) b.getSerializable("resta");
-
+        restaurant = (RestaurantMore) b.getSerializable("resta");
+        lv = (ListView) findViewById(R.id.food_listview);
         serverName = (TextView) findViewById(R.id.server_name_text);
         serverName.setText(restaurant.getName());
-
-
+        rateRest = (RatingBar) findViewById(R.id.rate_rest_ratingBar);
+        rateRest.setRating(restaurant.getRate());
         imageView = (ImageView)findViewById(R.id.server_image);
         Picasso.with(getApplicationContext())
                 .load((String) restaurant.getPhoto())
@@ -54,62 +57,75 @@ public class ServerPageActivity extends AppCompatActivity {
                 .fit()
                 .centerInside()
                 .into(imageView);
-
-        //View view = getLayoutInflater().inflate(R.layout.activity_server_page, null);
-        /*LayoutInflater inflater=getLayoutInflater();
-        ViewGroup container = (ViewGroup) findViewById(R.id.food_listview);
-        View view = inflater.inflate(R.layout.activity_server_page, null);
-        container.addView(view);*/
-
-        //inflate(R.layout.activity_server_page, null);
-        //ViewGroup container = (ViewGroup) findViewById(R.id.food_listview);
-        //View view = getLayoutInflater().inflate(R.layout.activity_server_page, null);
-        //headerView = getLayoutInflater().inflate(R.layout.food_list_header,null);
-        //container.addView(view);
-
-        //ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.activity_server_page, container, false);
-        /*lv = (ListView) view.findViewById(R.id.food_listview);
-        ViewGroup header = (ViewGroup)inflater.inflate(R.layout.food_list_header,lv,false);
-        lv.addHeaderView(header, null, false);
-
-
-        final FoodsAdapter adapter = new FoodsAdapter(ServerPageActivity.this.getApplicationContext(), nFl);
-        lv.setAdapter(adapter);*/
-
-
-        /*ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-
-        Call<List<FoodLess>> cb = test.getFoods();
-
-        cb.enqueue(new Callback<List<FoodLess>>() {
+        LayoutInflater inflater = getLayoutInflater();
+        headerView = inflater.inflate(R.layout.food_list_header,null);
+        tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
+        tvRating = (TextView) headerView.findViewById(R.id.food_list_header_rating);
+        headerView.findViewById(R.id.food_list_header_image).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<List<FoodLess>> call, final Response<List<FoodLess>> response) {
-                final ArrayList<FoodLess> foodList = (ArrayList<FoodLess>) response.body();
-                for (FoodLess fls: foodList){
-                    int id = fls.getId();
-                    ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
-                    Call<Food> cbFood = test2.getFoodWithId(id);
-                    cbFood.enqueue(new Callback<Food>() {
-                        @Override
-                        public void onResponse(Call<Food> call2, Response<Food> response2) {
-                            Food f = response2.body();
-                            nFl.add(f);
-                        }
+            public void onClick(View view) {
+                return;
+            }
+        });
+        fillFoodList();
+    }
 
-                        @Override
-                        public void onFailure(Call<Food> call2, Throwable t2) {
-
-                        }
-                    });
+    private void fillFoodList() {
+        ArrayList<FoodLess> listFLess = (ArrayList<FoodLess>) restaurant.getFoods();
+        for (FoodLess fls:listFLess) {
+         int id = fls.getId();
+            ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+            Call<Food> cb = test.getFoodWithId(id);
+            cb.enqueue(new Callback<Food>() {
+                @Override
+                public void onResponse(Call<Food> call, Response<Food> response) {
+                    Food f = response.body();
+                    nFl.add(f);
                 }
 
-            }
+                @Override
+                public void onFailure(Call<Food> call, Throwable t) {
 
+                }
+            });
+        }
+        final FoodsAdapter adapter = new FoodsAdapter(ServerPageActivity.this,nFl);
+        lv.setAdapter(adapter);
+        lv.addHeaderView(headerView);
+        lv.setDivider(ContextCompat.getDrawable(ServerPageActivity.this,android.R.color.black));
+        lv.setDividerHeight(1);
+        tvName.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call<List<FoodLess>> call, Throwable t) {
-                System.out.println("ERROR");
+            public void onClick(View view) {
+                if(adapter.isSorted()){
+                    Collections.sort(nFl,Food.czToA);
+                    adapter.setSorted(false);
+                    tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                }else {
+                    Collections.sort(nFl,Food.caToZ);
+                    adapter.setSorted(true);
+                    tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                }
+                adapter.setFoods(nFl);
+                adapter.notifyDataSetChanged();
             }
-        });*/
+        });
+        tvRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(adapter.isSorted()){
+                    Collections.sort(nFl,Food.czToARating);
+                    adapter.setSorted(false);
+                    tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                }else {
+                    Collections.sort(nFl,Food.caToZRating);
+                    adapter.setSorted(true);
+                    tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                }
+                adapter.setFoods(nFl);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
 

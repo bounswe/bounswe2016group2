@@ -23,11 +23,13 @@ import com.example.bounswegroup2.Models.Details;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
+import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.SessionManager;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -43,7 +45,7 @@ public class FoodPageActivity extends AppCompatActivity {
     private TextView totalFat;
     private ArrayList<Ingredient> ingredients;
     private Details details;
-    private Restaurant restaurant;
+    private int restaurantID;
     private ImageView imageView;
     private Button restBut;
     private RatingBar showRatingBar;
@@ -88,9 +90,9 @@ public class FoodPageActivity extends AppCompatActivity {
         showRatingBar = (RatingBar)findViewById(R.id.food_taste_ratingBar);
        // showRatingBar.setRating((float)b.getSerializable("rate"));
         setRatingBar = (RatingBar)findViewById(R.id.rate_food_taste_ratingBar) ;
-        restaurant = (Restaurant) b.getSerializable("resta");
         restBut = (Button) findViewById(R.id.restBut);
-        restBut.setText(restaurant.getName());
+        restaurantID = (int) b.getSerializable("restaID");
+        restBut.setText((String) b.getSerializable("restaName"));
         restBut.setOnClickListener(restButClicked());
         evalBut = (Button) findViewById(R.id.save_eval);
         evalBut.setOnClickListener(saveButtonClicked());
@@ -112,11 +114,27 @@ public class FoodPageActivity extends AppCompatActivity {
     return new OnClickListener() {
         @Override
         public void onClick(View view) {
-        Intent i = new Intent(FoodPageActivity.this,ServerPageActivity.class);
-            Bundle b = new Bundle();
-            b.putSerializable("resta",restaurant);
-            i.putExtras(b);
-            startActivity(i);
+
+            ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+            Call<RestaurantMore> cb = test.getRestaurantWithId(restaurantID);
+            cb.enqueue(new Callback<RestaurantMore>() {
+                @Override
+                public void onResponse(Call<RestaurantMore> call, Response<RestaurantMore> response) {
+                    RestaurantMore r = response.body();
+                    Intent i = new Intent(FoodPageActivity.this,ServerPageActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("resta", r);
+                    i.putExtras(b);
+                    startActivity(i);
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Call<RestaurantMore> call, Throwable t) {
+
+                }
+            });
+
         }
     };
     }

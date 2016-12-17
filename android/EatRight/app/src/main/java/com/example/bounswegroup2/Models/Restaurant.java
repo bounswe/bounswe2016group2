@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
+
 public class Restaurant implements Serializable
 {
 
@@ -26,12 +27,7 @@ public class Restaurant implements Serializable
     @SerializedName("photo")
     @Expose
     private String photo;
-    @SerializedName("foods")
-    @Expose
-    private List<FoodLess> foods;
-    @SerializedName("rate")
-    @Expose
-    private double rate;
+
 
     private final static long serialVersionUID = 5741714203309533487L;
 
@@ -83,20 +79,5 @@ public class Restaurant implements Serializable
         this.photo = photo;
     }
 
-    public List<FoodLess> getFoods() {
-        return foods;
-    }
 
-    public void setFoods(List<FoodLess> foods) {
-        this.foods = foods;
-    }
-
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
-    }
 }
