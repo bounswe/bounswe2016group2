@@ -146,4 +146,8 @@ public interface ApiInterface {
     @POST("api/restaurants/{restaurantId}/rate")
     Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
 
+    /*@Headers("Content-Type: application/json")
+    @POST("api/restaurants/{restaurantId}/foods")
+    Call<List<FoodLess>> getRestFoods(@Path("restaurantId") int restaurantId);*/
+
 }
