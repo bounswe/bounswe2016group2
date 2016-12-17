@@ -62,19 +62,38 @@ export default class Homepage extends React.Component {
     })
   }
 
+  setDietOptions() {
+    const self = this
+    Api.getDiets()
+    .then((data) => {
+      self.setState({
+        options: data
+      })
+    })
+  }
+
+  dietsChanged(dietIds) {
+    console.log('diets', dietIds);
+    this.setState({
+      filter: {
+        diets: dietIds
+      }
+    })
+  }
+
   render() {
     return (
       <div>
         <div className="ui top attached tabular menu">
-          <a className="item active" data-tab="search">
+          <a className="item" data-tab="search">
             Search
           </a>
-          <a className="item" data-tab="advancedSearch">
+          <a className="item active" data-tab="advancedSearch">
             Advanced Search
           </a>
         </div>
         {/* search tab content */}
-        <div className="ui bottom attached tab segment active" data-tab="search">
+        <div className="ui bottom attached tab segment" data-tab="search">
           {/* search form  */}
           <div>
             <form className="ui form">
@@ -100,7 +119,7 @@ export default class Homepage extends React.Component {
             {this.state.ingredientList}
           </div>
         </div>
-        <div className="ui bottom attached tab segment" data-tab="advancedSearch">
+        <div className="ui bottom attached tab segment active" data-tab="advancedSearch">
           {/* search form  */}
           <div>
             <form className="ui form">
@@ -108,8 +127,16 @@ export default class Homepage extends React.Component {
                 <input type="text" name="food" placeholder="Search food"
                   value={this.state.query} onChange={this.change}
                 />
-                <h5>Excluded ingredients</h5>
-                <MultipleSelect onChange={this.ingredientsChanged.bind(this)} setOptions={this.setIngredientOptions} name="foods" placeholder="Select ingredients"/>
+                <div>
+                  <div style={{display:'inline-block',width:'50%',padding:15}}>
+                    <h5>Excluded ingredients</h5>
+                    <MultipleSelect onChange={this.ingredientsChanged.bind(this)} setOptions={this.setIngredientOptions} name="foods" placeholder="Select ingredients"/>
+                  </div>
+                  <div style={{display:'inline-block',width:'50%',padding:15}}>
+                    <h5>Diets</h5>
+                    <MultipleSelect onChange={this.dietsChanged.bind(this)} setOptions={this.setDietOptions} name="diets" placeholder="Select diet"/>
+                  </div>
+                </div>
               </div>
             </form>
             <form className="ui form"></form>

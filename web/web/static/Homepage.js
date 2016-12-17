@@ -104,6 +104,26 @@ var Homepage = function (_React$Component) {
       });
     }
   }, {
+    key: 'setDietOptions',
+    value: function setDietOptions() {
+      var self = this;
+      Api.getDiets().then(function (data) {
+        self.setState({
+          options: data
+        });
+      });
+    }
+  }, {
+    key: 'dietsChanged',
+    value: function dietsChanged(dietIds) {
+      console.log('diets', dietIds);
+      this.setState({
+        filter: {
+          diets: dietIds
+        }
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -114,18 +134,18 @@ var Homepage = function (_React$Component) {
           { className: 'ui top attached tabular menu' },
           React.createElement(
             'a',
-            { className: 'item active', 'data-tab': 'search' },
+            { className: 'item', 'data-tab': 'search' },
             'Search'
           ),
           React.createElement(
             'a',
-            { className: 'item', 'data-tab': 'advancedSearch' },
+            { className: 'item active', 'data-tab': 'advancedSearch' },
             'Advanced Search'
           )
         ),
         React.createElement(
           'div',
-          { className: 'ui bottom attached tab segment active', 'data-tab': 'search' },
+          { className: 'ui bottom attached tab segment', 'data-tab': 'search' },
           React.createElement(
             'div',
             null,
@@ -175,7 +195,7 @@ var Homepage = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'ui bottom attached tab segment', 'data-tab': 'advancedSearch' },
+          { className: 'ui bottom attached tab segment active', 'data-tab': 'advancedSearch' },
           React.createElement(
             'div',
             null,
@@ -189,11 +209,29 @@ var Homepage = function (_React$Component) {
                   value: this.state.query, onChange: this.change
                 }),
                 React.createElement(
-                  'h5',
+                  'div',
                   null,
-                  'Excluded ingredients'
-                ),
-                React.createElement(_MultipleSelect2.default, { onChange: this.ingredientsChanged.bind(this), setOptions: this.setIngredientOptions, name: 'foods', placeholder: 'Select ingredients' })
+                  React.createElement(
+                    'div',
+                    { style: { display: 'inline-block', width: '50%', padding: 15 } },
+                    React.createElement(
+                      'h5',
+                      null,
+                      'Excluded ingredients'
+                    ),
+                    React.createElement(_MultipleSelect2.default, { onChange: this.ingredientsChanged.bind(this), setOptions: this.setIngredientOptions, name: 'foods', placeholder: 'Select ingredients' })
+                  ),
+                  React.createElement(
+                    'div',
+                    { style: { display: 'inline-block', width: '50%', padding: 15 } },
+                    React.createElement(
+                      'h5',
+                      null,
+                      'Diets'
+                    ),
+                    React.createElement(_MultipleSelect2.default, { onChange: this.dietsChanged.bind(this), setOptions: this.setDietOptions, name: 'diets', placeholder: 'Select diet' })
+                  )
+                )
               )
             ),
             React.createElement('form', { className: 'ui form' })
