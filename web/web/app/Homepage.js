@@ -81,6 +81,17 @@ export default class Homepage extends React.Component {
           </div>
         </div>
         <div className="ui bottom attached tab segment" data-tab="advancedSearch">
+          {/* search form  */}
+          <div>
+            <form className="ui form">
+              <div className="field">
+                <input type="text" name="food" placeholder="Search food"
+                  value={this.state.query} onChange={this.change}
+                />
+              </div>
+            </form>
+            <form className="ui form"></form>
+          </div>
         </div>
       </div>
     )

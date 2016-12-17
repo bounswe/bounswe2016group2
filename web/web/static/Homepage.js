@@ -149,7 +149,26 @@ var Homepage = function (_React$Component) {
             this.state.ingredientList
           )
         ),
-        React.createElement('div', { className: 'ui bottom attached tab segment', 'data-tab': 'advancedSearch' })
+        React.createElement(
+          'div',
+          { className: 'ui bottom attached tab segment', 'data-tab': 'advancedSearch' },
+          React.createElement(
+            'div',
+            null,
+            React.createElement(
+              'form',
+              { className: 'ui form' },
+              React.createElement(
+                'div',
+                { className: 'field' },
+                React.createElement('input', { type: 'text', name: 'food', placeholder: 'Search food',
+                  value: this.state.query, onChange: this.change
+                })
+              )
+            ),
+            React.createElement('form', { className: 'ui form' })
+          )
+        )
       );
     }
   }]);

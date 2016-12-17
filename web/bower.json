@@ -24,6 +24,7 @@
     "system.js": "^0.19.41",
     "semantic-ui-calendar": "^0.0.4",
     "moment": "^2.17.1",
-    "highcharts": "^5.0.6"
+    "highcharts": "^5.0.6",
+    "nouislider": "^9.1.0"
   }
 }
