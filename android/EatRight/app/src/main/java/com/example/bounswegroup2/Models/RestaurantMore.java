@@ -38,7 +38,7 @@ public class RestaurantMore implements Serializable
     private String photo;
     @SerializedName("rate")
     @Expose
-    private Double rate;
+    private Float rate;
     private final static long serialVersionUID = -7186152876703035983L;
 
     public Integer getId() {
@@ -105,11 +105,11 @@ public class RestaurantMore implements Serializable
         this.photo = photo;
     }
 
-    public Double getRate() {
+    public float getRate() {
         return rate;
     }
 
-    public void setRate(Double rate) {
+    public void setRate(Float rate) {
         this.rate = rate;
     }
 

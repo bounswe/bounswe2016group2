@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
@@ -33,6 +34,7 @@ public class ServerPageActivity extends AppCompatActivity {
     private ImageView imageView;
     private ArrayList<Food> nFl = new ArrayList<Food>();
     private ListView lv;
+    private RatingBar rateRest;
     private View headerView;
     private TextView tvName;
     private TextView tvRating;
@@ -46,7 +48,8 @@ public class ServerPageActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.food_listview);
         serverName = (TextView) findViewById(R.id.server_name_text);
         serverName.setText(restaurant.getName());
-
+        rateRest = (RatingBar) findViewById(R.id.rate_rest_ratingBar);
+        rateRest.setRating(restaurant.getRate());
         imageView = (ImageView)findViewById(R.id.server_image);
         Picasso.with(getApplicationContext())
                 .load((String) restaurant.getPhoto())

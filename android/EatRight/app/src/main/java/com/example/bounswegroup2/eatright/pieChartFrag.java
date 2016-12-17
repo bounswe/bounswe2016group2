@@ -20,10 +20,10 @@ import com.github.mikephil.charting.components.Legend;
 
 
 
-public class PieChartFrag extends userHomeFragment {
+public class pieChartFrag extends userHomeFragment {
 
     public static Fragment newInstance() {
-        return new PieChartFrag();
+        return new pieChartFrag();
     }
 
     private PieChart mChart;

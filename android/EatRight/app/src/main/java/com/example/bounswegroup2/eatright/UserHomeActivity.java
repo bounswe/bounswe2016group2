@@ -5,17 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,29 +22,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Utils.ApiInterface;
-import com.example.bounswegroup2.Utils.ChartSupport;
 import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.bounswegroup2.eatright.R.layout.nav_header_user_home;
 
 public class UserHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -144,7 +131,7 @@ public class UserHomeActivity extends AppCompatActivity
         //TODO will process recommended foods and will add to the recycler view
     }
 
-    public void getFoods(){
+    /*public void getFoods(){
         //TODO will be implemented
         ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
         QueryWrapper query = new QueryWrapper();
@@ -179,7 +166,7 @@ public class UserHomeActivity extends AppCompatActivity
             public void onFailure(Call<List<Food>> call, Throwable t) {
             }
         });
-    }
+    }*/
 
 
 
@@ -291,7 +278,7 @@ public class UserHomeActivity extends AppCompatActivity
 
             switch(pos) {
                 case 0:
-                    f = PieChartFrag.newInstance();
+                    f = pieChartFrag.newInstance();
                     break;
             }
 
