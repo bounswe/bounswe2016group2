@@ -44,10 +44,10 @@ public class SettingsFragment extends Fragment {
         //onResume happens after onStart and onActivityCreate
         super.onActivityCreated(savedInstancesState);
         //getAllIngredients();
-        saveBut.setOnClickListener(saveButClicked());
-        IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), null);
-        mtext1.setAdapter(adapter);
-        mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        //saveBut.setOnClickListener(saveButClicked());
+        //IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), null);
+        //mtext1.setAdapter(adapter);
+        //mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 
     private View.OnClickListener saveButClicked() {
