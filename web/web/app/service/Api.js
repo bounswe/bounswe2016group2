@@ -137,6 +137,9 @@ class Api {
   static addIngredientToFood(foodId, ingId, data) {
 		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
 	}
+  static addTagToFood(foodId, data) {
+		return this.post('foods/' + foodId + '/tag', data);
+	}
   static foodAte(id, data){
     return this.post('foods/' + id + "/ate", data);
   }

@@ -189,6 +189,11 @@ var Api = function () {
       return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
     }
   }, {
+    key: 'addTagToFood',
+    value: function addTagToFood(foodId, data) {
+      return this.post('foods/' + foodId + '/tag', data);
+    }
+  }, {
     key: 'foodAte',
     value: function foodAte(id, data) {
       return this.post('foods/' + id + "/ate", data);
