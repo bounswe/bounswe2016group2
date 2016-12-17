@@ -217,7 +217,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         //return password.matches(passRegex);
-        return true;
+        return password.matches(passRegex);
     }
 
     public void switchToRegActivity(View v) {

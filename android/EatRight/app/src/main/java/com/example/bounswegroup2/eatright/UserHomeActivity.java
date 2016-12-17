@@ -3,11 +3,14 @@ package com.example.bounswegroup2.eatright;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,14 +27,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.ChartSupport;
 import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.QueryWrapper;
-import com.example.bounswegroup2.Utils.SessionManager;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -64,16 +68,30 @@ public class UserHomeActivity extends AppCompatActivity
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
     ArrayList<Food> HistoryFoods;
+
+    protected Typeface mTfRegular;
+    protected Typeface mTfLight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        ViewPager pager = (ViewPager) findViewById(R.id.history_pager);
+        pager.setOffscreenPageLimit(3);
+
+        PageAdapter a = new PageAdapter(getSupportFragmentManager());
+        pager.setAdapter(a);
+        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         userRecommendations = (TextView) findViewById(R.id.user_home_recommendations);
         userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
+
         userHistory.setText(R.string.user_page_histroy);
 
         //TODO will be activated after the main implementation
@@ -85,9 +103,9 @@ public class UserHomeActivity extends AppCompatActivity
 //                        .setAction("Action", null).show();
 //            }
 //        });
-        Bundle bundle = getIntent().getExtras();
-        initSecondaryViews(bundle);
-        initFoodHistory();
+        //Bundle bundle = getIntent().getExtras();
+      //  initSecondaryViews(bundle);
+      //  initFoodHistory();
     }
 
     public void initSecondaryViews(Bundle bundle){
@@ -113,11 +131,11 @@ public class UserHomeActivity extends AppCompatActivity
     }
 
     public void initFoodHistory(){
-        mHistoryRecyclerView = (RecyclerView) findViewById(R.id.History_recycler);
-        mHistoryRecyclerView.setHasFixedSize(true);
-        mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
-        mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
+       // mHistoryRecyclerView = (RecyclerView) findViewById(R.id.History_recycler);
+//        mHistoryRecyclerView.setHasFixedSize(true);
+//        mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
+//        mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
       //  getFoods();
 
     }
@@ -126,7 +144,7 @@ public class UserHomeActivity extends AppCompatActivity
         //TODO will process recommended foods and will add to the recycler view
     }
 
-  /*  public void getFoods(){
+    public void getFoods(){
         //TODO will be implemented
         ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
         QueryWrapper query = new QueryWrapper();
@@ -161,13 +179,14 @@ public class UserHomeActivity extends AppCompatActivity
             public void onFailure(Call<List<Food>> call, Throwable t) {
             }
         });
-    }*/
+    }
 
 
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -238,10 +257,6 @@ public class UserHomeActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.content_user_home,
                     foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
-            SessionManager.clearCredet(getApplicationContext());
-            Intent intent = new Intent(this,LoginActivity.class);
-            startActivity(intent);
-            UserHomeActivity.this.finish();
 
         } else if (id == R.id.nav_cons_hist) {
             ConsHistFragment consHistFragment = ConsHistFragment.newInstance("SWE","451");
@@ -262,6 +277,31 @@ public class UserHomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class PageAdapter extends FragmentPagerAdapter {
+
+        public PageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            Fragment f = null;
+
+            switch(pos) {
+                case 0:
+                    f = PieChartFrag.newInstance();
+                    break;
+            }
+
+            return f;
+        }
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
     }
 
 
