@@ -128,8 +128,11 @@ class Api {
   static getFood(id){
     return this.get('foods/' + id);
   }
-  static searchFood(query) {
+  static search(query) {
 		return this.get('search?query=' + query);
+	}
+  static advancedSearch(filter) {
+		return this.post('searchFood', filter);
 	}
   static addIngredientToFood(foodId, ingId, data) {
 		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
@@ -139,6 +142,9 @@ class Api {
   }
   static deleteFood(data){
 		return this.delete('foods/' + data);
+	}
+  static searchTag(query){
+		return this.get('searchTag?query=' + query);
 	}
 
   // INCLUSION ROUTES

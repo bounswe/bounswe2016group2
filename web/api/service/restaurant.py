@@ -4,7 +4,6 @@ def calculateRate(restaurant):
     if len(restaurant['rates']) == 0:
         count = 1
     for rate in restaurant['rates']:
-        print(rate['score'])
         total += rate['score']
         count += 1
     restaurant.pop('rates', None)
