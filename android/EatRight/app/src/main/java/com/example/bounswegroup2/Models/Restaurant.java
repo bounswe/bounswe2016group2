@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
+
 public class Restaurant implements Serializable
 {
 
@@ -25,6 +27,8 @@ public class Restaurant implements Serializable
     @SerializedName("photo")
     @Expose
     private String photo;
+
+
     private final static long serialVersionUID = 5741714203309533487L;
 
     public Integer getId() {
@@ -74,5 +78,6 @@ public class Restaurant implements Serializable
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
 
 }

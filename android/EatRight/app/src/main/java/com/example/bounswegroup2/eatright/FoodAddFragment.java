@@ -176,6 +176,7 @@ public class FoodAddFragment extends Fragment {
                             }
                         }
                     }
+                    // food ekle
                     String desc = descrpFood.getText().toString();
                     String name = nameFood.getText().toString();
 

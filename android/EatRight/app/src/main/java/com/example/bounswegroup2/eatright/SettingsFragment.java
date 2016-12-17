@@ -45,9 +45,9 @@ public class SettingsFragment extends Fragment {
         super.onActivityCreated(savedInstancesState);
         //getAllIngredients();
         saveBut.setOnClickListener(saveButClicked());
-        IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), null);
-        mtext1.setAdapter(adapter);
-        mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        //IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), null);
+      //  mtext1.setAdapter(adapter);
+       // mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 
     private View.OnClickListener saveButClicked() {
