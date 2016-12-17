@@ -1,19 +1,31 @@
 package com.example.bounswegroup2.Utils;
 
+import com.example.bounswegroup2.Models.Diet;
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
+import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.signInRequest;
+import com.example.bounswegroup2.Models.signUpRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -21,6 +33,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -31,22 +44,20 @@ import retrofit2.http.QueryMap;
 
 public interface ApiInterface {
 
-    String BASE_URL="http://52.208.59.70/";
-
+    String BASE_URL="http://52.213.193.130/";
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiInterface.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    @FormUrlEncoded
-    @Headers("Content-Type: application/json")
-    @PUT("api/users/signup/{userInfo}")
-    Call<ResponseBody> postSignupUser(@FieldMap(encoded = true) Map<String,String> userInfo);
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("api/users/signup")
+    Call<signUpRequest> postSignupUser(@Body RequestBody signUpParams);
 
-    @FormUrlEncoded
-    @Headers("Content-Type: application/json")
-    @POST("api/users/signin/{userInfo}")
-    Call<ResponseBody> postSigninUser(@FieldMap(encoded = true) Map<String, String> userInfo);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("api/users/signin")
+    Call<signInRequest> postSigninUser(@Body RequestBody signInParams);
 
     @POST("api/users/signout")
     void postSignout();
@@ -72,58 +83,71 @@ public interface ApiInterface {
     @DELETE("api/users/{userId}")
     void deleteUserWithId();
 
+    @Headers("Content-Type: application/json")
     @GET("api/ingredients")
     Call<List<Ingredient>> getIngredients(@QueryMap Map<String, String> options);
 
     @POST("api/ingredients")
     void sendIngredients();
 
-//    @GET("api/ingredients/{ingredientId}")
-//
-//    @PUT("api/ingredients/{ingredientId}")
-//
-//    @DELETE("api/ingredients/{ingredientId}")
-//
-//    @GET("api/ingredients/{sluq}")
-//
-//    @DELETE("api/ingredients/{sluq}")
-//
-//    @POST("api/ingredientMocks")
-
+    @Headers("Content-Type: application/json")
     @GET("api/foods")
-    Call<List<Food>> getFoods(@QueryMap Map<String, String> options);
+    Call<List<FoodLess>> getFoods();
 
-//    @POST("api/foods")
-//
-//    @GET("api/foods/{foodId}")
-//
-//    @PUT("api/foods/{foodId}")
-//
-//    @DELETE("api/foods/{foodId}")
-//
-//    @GET("api/foods/{slug}")
-//
-//    @DELETE("api/foods/{slug}")
-//
-     @GET("api/foodSearch")
-     Call<List<Food>> getFoodsWithQuery(@Query("query") String query);
-//    @POST("api/foodMocks")
-//
-//    @GET("api/foods/{food}/ingredients/{ingredient}")
-//
-//    @POST("api/foods/{food}/ingredients/{ingredient}")
-//
-//    @PUT("api/foods/{food}/ingredients/{ingredient}")
-//
-//    @DELETE("api/foods/{food}/ingredients/{ingredient}")
+    @Headers("Content-Type: application/json")
+    @POST("api/foods")
+    Call<Food> addFood();
 
+    @Headers("Content-Type: application/json")
+    @POST("/api/foods/{foodId}/ate")
+    Call<Response> eatFood(@Path("foodId") int foodId);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/foods/{foodId}/comment")
+    Call<Response> commentFood(@Path("foodId") int foodId);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/foods/{foodId}/rate")
+    Call<Food> rateFood(@Path("foodId") int foodId);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/foods/{foodId}")
+    Call<Food> getFoodWithId(@Path("foodId") int foodId);
+     @Headers("Content-Type: application/json")
+     @POST("api/searchFood")
+     Call<List<Food>> searchFood(@Query("query") String query);
 
 
+    @Headers("Content-Type: application/json")
+    @GET("api/diets")
+    Call<List<Diet>> getDiets();
 
+    @Headers("Content-Type: application/json")
+    @GET("api/myDiets")
+    Call<List<Diet>> getMyDiets();
 
+    @Headers("Content-Type: application/json")
+    @POST("api/myDiets/{dietId}")
+    Call<List<Diet>> setMyDiet(@Path("dietId") int dietId);
 
+    @Headers("Content-Type: application/json")
+    @GET("api/restaurants")
+    Call<List<Restaurant>> getRestaurants();
 
+    @Headers("Content-Type: application/json")
+    @GET("api/restaurants/{restaurantId}")
+    Call<Restaurant> getRestaurantWithId(@Path("restaurantId") int restaurantId);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/restaurants/{restaurantId}/comment")
+    Call<Response> commentRestaurant(@Path("restaurantId") int restaurantId);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/restaurants/{restaurantId}/rate")
+    Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
+
+    /*@Headers("Content-Type: application/json")
+    @POST("api/restaurants/{restaurantId}/foods")
+    Call<List<FoodLess>> getRestFoods(@Path("restaurantId") int restaurantId);*/
 
 }

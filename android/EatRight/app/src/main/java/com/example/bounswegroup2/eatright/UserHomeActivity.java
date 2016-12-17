@@ -116,7 +116,7 @@ public class UserHomeActivity extends AppCompatActivity
         mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
         mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
-        getFoods();
+      //  getFoods();
 
     }
 
@@ -124,12 +124,12 @@ public class UserHomeActivity extends AppCompatActivity
         //TODO will process recommended foods and will add to the recycler view
     }
 
-    public void getFoods(){
+  /*  public void getFoods(){
         //TODO will be implemented
         ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
         QueryWrapper query = new QueryWrapper();
 
-        Call<List<Food>> cb = foodCall.getFoods(query.getOptions());
+        Call<List<Food>> cb = foodCall.getFoods();
         cb.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
@@ -159,7 +159,7 @@ public class UserHomeActivity extends AppCompatActivity
             public void onFailure(Call<List<Food>> call, Throwable t) {
             }
         });
-    }
+    }*/
 
 
 
@@ -236,6 +236,7 @@ public class UserHomeActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.content_user_home,
                     foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
+            System.out.println("test");
 
         } else if (id == R.id.nav_cons_hist) {
             ConsHistFragment consHistFragment = ConsHistFragment.newInstance("SWE","451");

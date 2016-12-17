@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
@@ -48,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,36 +88,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private Button switchToRegBut;
     //TODO test
-    private User testUsers;
-    private String test22 = "";
-    private Map<String, String> options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-       /* if (SessionManager.isUserLoggedIn(this, "usermail") && SessionManager.isUserLoggedIn(this, "userpass")) {
+        //SessionManager.clearCredet(this);
+        if (SessionManager.isUserLoggedIn(this, "usermail") && SessionManager.isUserLoggedIn(this, "userpass")) {
             // User is already logged in
             Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
             startActivity(intent);
             LoginActivity.this.finish();
-        }*/
+        }
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         switchToRegBut = (Button) findViewById(R.id.button_to_register);
         switchToRegBut.setPaintFlags(switchToRegBut.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         mPasswordView = (EditText) findViewById(R.id.password);
-        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });*/
+
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 
@@ -264,6 +255,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                 }
             });
+
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
@@ -331,21 +323,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         QueryWrapper query = new QueryWrapper();
         query.put("email", email);
         query.put("password", password);
-        Call<ResponseBody> cb = test.postSigninUser(query.getOptions());
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(query.getOptions())).toString());
+        Call<signInRequest> cb = test.postSigninUser(body);
         System.out.println(cb.request().url());
         System.out.println(cb.request().body().toString());
-        cb.enqueue(new Callback<ResponseBody>() {
+        cb.enqueue(new Callback<signInRequest>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<signInRequest> call, Response<signInRequest> response) {
                 System.out.println(response.code());
-                System.out.println(response.body().toString());
-                System.out.println(response.message());
-                System.out.println(response.raw());
-                System.out.println(response.headers());
-                if (response.isSuccessful()) {
+                signInRequest login = response.body();
+                System.out.println(login.getToken());
+                if (response.isSuccessful() && (login.getToken() != null && !login.getToken().isEmpty())) {
                     showProgress(false);
-                    SessionManager.setPreferences(LoginActivity.this,"usermail",email);
-                    SessionManager.setPreferences(LoginActivity.this,"userpass",password);
+                    SessionManager.setPreferences(LoginActivity.this,"token",login.getToken());
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
                     intent.putExtra("email",email);
                     startActivity(intent);
@@ -357,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<signInRequest> call, Throwable t) {
                 System.out.println(t.getCause());
                 System.out.println(t.getMessage());
             }
