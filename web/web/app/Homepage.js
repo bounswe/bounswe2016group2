@@ -1,6 +1,7 @@
 import FoodRow from 'food/FoodRow.js'
 import RestaurantRow from 'restaurant/RestaurantRow.js'
 import IngredientRow from 'ingredient/IngredientRow.js'
+import MultipleSelect from 'service/MultipleSelect.js'
 
 export default class Homepage extends React.Component {
 
@@ -39,6 +40,25 @@ export default class Homepage extends React.Component {
         restaurantList: restaurantList,
         ingredientList: ingredientList
       })
+    })
+  }
+
+  setIngredientOptions() {
+    const self = this
+    Api.getIngredients()
+    .then((data) => {
+      self.setState({
+        options: data
+      })
+    })
+  }
+
+  ingredientsChanged(ingredientIds) {
+    console.log('excluded ingredient ids', ingredientIds);
+    this.setState({
+      filter: {
+        ingredients: ingredientIds
+      }
     })
   }
 
@@ -88,6 +108,8 @@ export default class Homepage extends React.Component {
                 <input type="text" name="food" placeholder="Search food"
                   value={this.state.query} onChange={this.change}
                 />
+                <h5>Excluded ingredients</h5>
+                <MultipleSelect onChange={this.ingredientsChanged.bind(this)} setOptions={this.setIngredientOptions} name="foods" placeholder="Select ingredients"/>
               </div>
             </form>
             <form className="ui form"></form>

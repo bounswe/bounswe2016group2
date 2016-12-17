@@ -14,6 +14,7 @@ from api.serializer.restaurant import RestaurantPureSerializer
 from api.serializer.diet import DietFilterSerializer
 from api.service import food as FoodService
 from api.service import restaurant as RestaurantService
+from api.service import tag as TagService
 
 
 # q: query string
@@ -77,6 +78,18 @@ def searchFoodByDiet(foods, diets):
     return result
 
 
+# foods: food dict array
+# tags: tag strings array
+def searchFoodByTag(foods, tags):
+    result = []
+    for food in foods:
+        for tag in food['tags']:
+            if tag['name'] in tags:
+                result.append(food)
+                break
+    return result
+
+
 @api_view(['GET'])
 def search(req):
     """
@@ -106,16 +119,17 @@ def searchFood(req):
     """
     Search food with filtering options
     """
-    q = slugify(req.POST.get('query', ''))
+    q = slugify(req.data['query'] if 'query' in req.data else '')
     dietSerializer = DietFilterSerializer(data=req.data)
 
+    # create a temporary diet from filter options
     if not dietSerializer.is_valid():
         return Response(dietSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     diets = [dietSerializer.data]
+    # add diets coming from filter options
     if 'diets' in req.data:
         for dietId in req.data['diets']:
-            print(dietId)
             try:
                 dietDict = DietFilterSerializer(Diet.objects.get(id=dietId)).data
                 diets.append(dietDict)
@@ -126,5 +140,21 @@ def searchFood(req):
     foods = FoodReadSerializer(foods, many=True).data
 
     result = searchFoodByDiet(foods, diets)
+    if 'tags' in req.data and type(req.data['tags']) is list and len(req.data['tags']):
+            result = searchFoodByTag(result, req.data['tags'])
 
     return Response(result)
+
+
+@api_view(['GET'])
+def searchTag(req):
+    """
+    Search food
+    """
+    q = slugify(req.GET.get('query', ''))
+    if q == '':
+        return Response([])
+
+    tags = TagService.search(q)
+
+    return Response(tags)
