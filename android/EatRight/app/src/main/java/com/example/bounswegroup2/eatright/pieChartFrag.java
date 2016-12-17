@@ -46,6 +46,9 @@ public class PieChartFrag extends userHomeFragment {
         mChart.setHoleRadius(45f);
         mChart.setTransparentCircleRadius(50f);
 
+        mChart.setRotationEnabled(true);
+        mChart.setHighlightPerTapEnabled(true);
+
         Legend l = mChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -58,9 +61,9 @@ public class PieChartFrag extends userHomeFragment {
     }
 
     private SpannableString generateCenterText() {
-        SpannableString s = new SpannableString("Revenues\nQuarters 2015");
-        s.setSpan(new RelativeSizeSpan(2f), 0, 8, 0);
-        s.setSpan(new ForegroundColorSpan(Color.GRAY), 8, s.length(), 0);
+        SpannableString s = new SpannableString("Daily Consumption");
+        s.setSpan(new RelativeSizeSpan(1.5f), 0, 17, 0);
+        s.setSpan(new ForegroundColorSpan(Color.GRAY), 16, s.length(), 0);
         return s;
     }
 }

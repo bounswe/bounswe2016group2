@@ -102,6 +102,7 @@ public abstract class userHomeFragment extends Fragment {
      * @return
      */
     protected PieData generatePieData() {
+        //TODO get food data
 
         int count = 4;
 
@@ -111,12 +112,12 @@ public abstract class userHomeFragment extends Fragment {
             entries1.add(new PieEntry((float) ((Math.random() * 60) + 40), "Quarter " + (i+1)));
         }
 
-        PieDataSet ds1 = new PieDataSet(entries1, "Quarterly Revenues 2015");
+        PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
         ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
         ds1.setSliceSpace(2f);
-        ds1.setValueTextColor(Color.WHITE);
+        ds1.setValueTextColor(Color.BLACK);
         ds1.setValueTextSize(12f);
-
+        ds1.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         PieData d = new PieData(ds1);
         d.setValueTypeface(tf);
 

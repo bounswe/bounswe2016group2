@@ -3,6 +3,7 @@ package com.example.bounswegroup2.eatright;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -49,7 +50,7 @@ import retrofit2.Response;
 
 import static com.example.bounswegroup2.eatright.R.layout.nav_header_user_home;
 
-public class UserHomeActivity extends ChartSupport
+public class UserHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView userRecommendations;
@@ -67,25 +68,31 @@ public class UserHomeActivity extends ChartSupport
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
     ArrayList<Food> HistoryFoods;
+
+    protected Typeface mTfRegular;
+    protected Typeface mTfLight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ViewPager pager = (ViewPager) findViewById(R.id.history_pager);
         pager.setOffscreenPageLimit(3);
 
         PageAdapter a = new PageAdapter(getSupportFragmentManager());
         pager.setAdapter(a);
+        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        setSupportActionBar(mToolbar);
         userRecommendations = (TextView) findViewById(R.id.user_home_recommendations);
-        //userHistory = (TextView) findViewById(R.id.user_home_history);
+        userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
-//        userHistory.setText(R.string.user_page_histroy);
+
+        userHistory.setText(R.string.user_page_histroy);
 
         //TODO will be activated after the main implementation
 //        mFab = (FloatingActionButton) findViewById(R.id.fab);
@@ -179,6 +186,7 @@ public class UserHomeActivity extends ChartSupport
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        overridePendingTransition(R.anim.move_left_in_activity, R.anim.move_right_out_activity);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
