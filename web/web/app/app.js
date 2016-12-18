@@ -7,6 +7,7 @@ import IngredientPage from 'ingredient/IngredientPage.js'
 import UserHomepage from 'user/UserHomepage.js'
 import Homepage from 'Homepage.js'
 import CreateDietPage from 'diet/CreateDietPage.js'
+import DietPage from 'diet/DietPage.js'
 
 const route = (path, callback) => {
   router.on(path, (params) => {
@@ -22,6 +23,7 @@ route("/addRestaurant",   (params) => { return <AddRestaurantPage/>             
 route("/restaurants/:id", (params) => { return <RestaurantPage id={params.id}/> })
 route("/profile/",        (params) => { return <UserHomepage/>                  })
 route("createDiet/",      ()       => { return <CreateDietPage/>                })
+route("diets/:id",        (params) => { return <DietPage id={params.id}/>       })
 route("*",                ()       => { return <Homepage/>                      })
 
 router.resolve()
