@@ -14,13 +14,19 @@ import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
+import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,7 +34,7 @@ import retrofit2.Response;
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 
-public class ServerPageActivity extends AppCompatActivity {
+public class ServerPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener{
 
     private TextView serverName;
     private RestaurantMore restaurant;
@@ -36,10 +42,12 @@ public class ServerPageActivity extends AppCompatActivity {
     private ArrayList<Food> nFl = new ArrayList<Food>();
     private ListView lv;
     private RatingBar rateRest;
+    private RatingBar postRateRest;
     private View headerView;
     private TextView tvName;
     private TextView tvRating;
     private ImageButton commentBut;
+    private int restaurantID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +55,21 @@ public class ServerPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         restaurant = (RestaurantMore) b.getSerializable("resta");
+
+        restaurantID = restaurant.getId();
+
         lv = (ListView) findViewById(R.id.food_listview);
         serverName = (TextView) findViewById(R.id.server_name_text);
         serverName.setText(restaurant.getName());
         rateRest = (RatingBar) findViewById(R.id.rate_rest_ratingBar);
-        rateRest.setRating(restaurant.getRate());
+        rateRest.setStepSize(0.01f);
+        postRateRest = (RatingBar) findViewById(R.id.post_rate_rest_ratingBar);
+        postRateRest.setStepSize(0.01f);
+        float rates=(float) restaurant.getRate();
+        rateRest.setRating(rates);
+
+        postRateRest.setOnRatingBarChangeListener(this);
+
         imageView = (ImageView)findViewById(R.id.server_image);
         Picasso.with(getApplicationContext())
                 .load((String) restaurant.getPhoto())
@@ -71,6 +89,27 @@ public class ServerPageActivity extends AppCompatActivity {
         });
         fillFoodList();
     }
+
+    public void onRatingChanged(RatingBar ratingBar,float rating, boolean fromUser){
+        HashMap<String,Float> hm2 = new HashMap<>();
+        float rate= postRateRest.getRating();
+        hm2.put("score",rate);
+        RequestBody body2 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm2)).toString());
+        ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<RestaurantRate> cb2 = test2.rateRestaurant("Token "+ Constants.API_KEY,restaurantID,body2);
+        cb2.enqueue(new Callback<RestaurantRate>() {
+            @Override
+            public void onResponse(Call<RestaurantRate> call, Response<RestaurantRate> response) {
+                RestaurantRate fr = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<RestaurantRate> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     private void fillFoodList() {
         ArrayList<FoodLess> listFLess = (ArrayList<FoodLess>) restaurant.getFoods();

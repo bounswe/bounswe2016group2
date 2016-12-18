@@ -3,11 +3,13 @@ package com.example.bounswegroup2.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Enes on 17.12.2016.
  */
 
-public class RestaurantRate {
+public class RestaurantRate implements Serializable{
     @SerializedName("id")
     @Expose
     private Integer id;
