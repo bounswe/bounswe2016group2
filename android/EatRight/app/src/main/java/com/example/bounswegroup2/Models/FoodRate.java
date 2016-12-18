@@ -18,10 +18,10 @@ public class FoodRate implements Serializable {
     private float score;
     @SerializedName("user")
     @Expose
-    private User user;
+    private Integer user;
     @SerializedName("food")
     @Expose
-    private FoodLess food;
+    private Integer food;
 
     public Integer getId() {
         return id;
@@ -39,19 +39,19 @@ public class FoodRate implements Serializable {
         this.score = score;
     }
 
-    public User getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 
-    public FoodLess getFood() {
+    public Integer getFood() {
         return food;
     }
 
-    public void setFood(FoodLess food) {
+    public void setFood(Integer food) {
         this.food = food;
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -20,6 +21,9 @@ public class User implements Serializable {
     @SerializedName("last_name")
     @Expose
     private String lastName;
+    @SerializedName("diets")
+    @Expose
+    private List<Diet> dietList = null;
 
     /**
      *
@@ -93,4 +97,11 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    public List<Diet> getDietList() {
+        return dietList;
+    }
+
+    public void setDietList(List<Diet> dietList) {
+        this.dietList = dietList;
+    }
 }

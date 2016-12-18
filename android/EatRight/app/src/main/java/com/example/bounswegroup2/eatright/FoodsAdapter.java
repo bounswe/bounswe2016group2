@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
@@ -41,8 +42,8 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         TextView tvName = (TextView) convertView.findViewById(R.id.food_name);
         TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
-        TextView tvRating = (TextView) convertView.findViewById(R.id.rating_food);
-        //tvRating.setText(food.getRates().get(0));
+        RatingBar tvRating = (RatingBar) convertView.findViewById(R.id.rating_food);
+        tvRating.setRating(Float.parseFloat(food.getDetails().getRate().toString()));
         tvComment.setText(food.getSlug());
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());

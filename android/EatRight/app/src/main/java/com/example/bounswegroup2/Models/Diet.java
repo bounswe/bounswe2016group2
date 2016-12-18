@@ -17,16 +17,13 @@ public class Diet implements Serializable
     private Integer id;
     @SerializedName("ingredients")
     @Expose
-    private List<Object> ingredients = null;
+    private List<IngrLess> ingredients = null;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
     @SerializedName("description")
     @Expose
-    private Object description;
+    private String description;
     @SerializedName("minEnergy")
     @Expose
     private Double minEnergy;
@@ -69,10 +66,7 @@ public class Diet implements Serializable
     @SerializedName("maxFatRate")
     @Expose
     private Double maxFatRate;
-    @SerializedName("users")
-    @Expose
-    private List<User> users = null;
-    private final static long serialVersionUID = -7336370091332770404L;
+ private final static long serialVersionUID = -7336370091332770404L;
 
     public Integer getId() {
         return id;
@@ -82,11 +76,11 @@ public class Diet implements Serializable
         this.id = id;
     }
 
-    public List<Object> getIngredients() {
+    public List<IngrLess> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Object> ingredients) {
+    public void setIngredients(List<IngrLess> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -98,19 +92,11 @@ public class Diet implements Serializable
         this.name = name;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
-
-    public Object getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Object description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -224,14 +210,6 @@ public class Diet implements Serializable
 
     public void setMaxFatRate(Double maxFatRate) {
         this.maxFatRate = maxFatRate;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
 }

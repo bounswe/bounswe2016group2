@@ -28,6 +28,9 @@ public class FoodLess implements Serializable
     @SerializedName("ingredients")
     @Expose
     private List<IngrLess> ingredients;
+    @SerializedName("rate")
+    @Expose
+    private double rate;
     private final static long serialVersionUID = -8226530739844382715L;
 
     public Integer getId() {
@@ -70,4 +73,11 @@ public class FoodLess implements Serializable
         this.ingredients = ingredients;
     }
 
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
 }
