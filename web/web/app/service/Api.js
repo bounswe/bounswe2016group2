@@ -62,14 +62,18 @@ class Api {
 
 	static delete(url, data) {
 		return new Promise((resolve, reject) => {
-			let status = null
-			fetch(this.path(url), {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data)
-			}).then((res) => {
+			let status = null;
+      let requestData = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+      if (token) {
+        requestData.headers.Authorization = 'Token ' + token
+      }
+			fetch(this.path(url), requestData).then((res) => {
 				status = res.status
 				return res
 			}).then((res) => {
@@ -173,7 +177,13 @@ class Api {
   static getDiets(){
     return this.get('diets');
   }
+  static getDiet(dietId){
+    return this.get('diets/' + dietId);
+  }
   static addDiet(dietId){
     return this.post('myDiets/' + dietId)
+  }
+  static removeDiet(dietId){
+    return this.delete('myDiets/' + dietId)
   }
 }

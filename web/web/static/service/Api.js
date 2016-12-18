@@ -82,13 +82,17 @@ var Api = function () {
 
       return new Promise(function (resolve, reject) {
         var status = null;
-        fetch(_this3.path(url), {
+        var requestData = {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
-        }).then(function (res) {
+        };
+        if (token) {
+          requestData.headers.Authorization = 'Token ' + token;
+        }
+        fetch(_this3.path(url), requestData).then(function (res) {
           status = res.status;
           return res;
         }).then(function (res) {
@@ -247,9 +251,19 @@ var Api = function () {
       return this.get('diets');
     }
   }, {
+    key: 'getDiet',
+    value: function getDiet(dietId) {
+      return this.get('diets/' + dietId);
+    }
+  }, {
     key: 'addDiet',
     value: function addDiet(dietId) {
       return this.post('myDiets/' + dietId);
+    }
+  }, {
+    key: 'removeDiet',
+    value: function removeDiet(dietId) {
+      return this.delete('myDiets/' + dietId);
     }
   }]);
 
