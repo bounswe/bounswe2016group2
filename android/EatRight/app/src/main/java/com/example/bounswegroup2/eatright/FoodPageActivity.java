@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.v7.widget.ListPopupWindow;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -212,8 +213,16 @@ public class FoodPageActivity extends AppCompatActivity {
                 }
             });
 
-            if (b) Toast.makeText(FoodPageActivity.this,"Your comment and rating saved. Thank you!",Toast.LENGTH_SHORT).show();
-            else Toast.makeText(FoodPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT).show();
+            if (b){
+                Toast toast =  Toast.makeText(FoodPageActivity.this,"Your comment and rating saved. Thank you!",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER,0,0);
+                toast.show();
+            }
+            else{
+                Toast toast =   Toast.makeText(FoodPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP|Gravity.CENTER,0,0);
+                toast.show();
+            }
         }
     };
     }
@@ -233,8 +242,16 @@ public class FoodPageActivity extends AppCompatActivity {
                     public void onResponse(Call<AteFood> call, Response<AteFood> response) {
                       int code = response.code();
                         AteFood atf = response.body();
-                        if(atf != null) Toast.makeText(FoodPageActivity.this,"Yep, you ate it!",Toast.LENGTH_SHORT).show();
-                        else Toast.makeText(FoodPageActivity.this,"You should try again pal!",Toast.LENGTH_SHORT).show();
+                        if(atf != null) {
+                            Toast toast = Toast.makeText(FoodPageActivity.this,"Yep, you ate it!",Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP|Gravity.CENTER,0,0);
+                            toast.show();
+                        }
+                        else {
+                            Toast toast = Toast.makeText(FoodPageActivity.this,"You should try again pal!",Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP|Gravity.CENTER,0,0);
+                            toast.show();
+                        }
                     }
 
                     @Override

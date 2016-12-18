@@ -3,6 +3,7 @@ package com.example.bounswegroup2.Utils;
 import com.example.bounswegroup2.Models.AteFood;
 import com.example.bounswegroup2.Models.Diet;
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.FoodAddResponse;
 import com.example.bounswegroup2.Models.FoodComment;
 import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.FoodRate;
@@ -118,10 +119,6 @@ public interface ApiInterface {
     Call<List<FoodLess>> getFoods();
 
     @Headers("Content-Type: application/json")
-    @POST("api/foods")
-    Call<Food> addFood();
-
-    @Headers("Content-Type: application/json")
     @POST("/api/foods/{foodId}/ate")
     Call<AteFood> eatFood(@Header("Authorization") String key, @Path("foodId") int foodId, @Body RequestBody body);
 
@@ -136,10 +133,14 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("api/foods/{foodId}")
     Call<Food> getFoodWithId(@Path("foodId") int foodId);
+
      @Headers("Content-Type: application/json")
      @POST("api/searchFood")
-     Call<List<Food>> searchFood(@Query("query") String query);
+     Call<List<Food>> searchFood(@Header("Authorization") String key,@Body  RequestBody body);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/foods")
+    Call<FoodLess> addFood(@Header("Authorization") String key,@Body RequestBody body);
 
     @Headers("Content-Type: application/json")
     @GET("api/diets")
@@ -169,4 +170,7 @@ public interface ApiInterface {
     @POST("api/restaurants/{restaurantId}/rate")
     Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/foods/{foodId}/ingredients/{ingredientId}")
+    Call<FoodAddResponse> addIngredientToFood(@Header("Authorization") String key,@Path("foodId") int foodId,@Path("ingredientId") int ingredientId,@Body RequestBody body);
 }

@@ -5,11 +5,13 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -18,14 +20,25 @@ import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.FoodAddResponse;
+import com.example.bounswegroup2.Models.FoodComment;
+import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,7 +67,8 @@ public class FoodAddFragment extends Fragment {
     private ImageButton removeRowBut;
     private EditText descrpFood;
     private EditText nameFood;
-
+    private int foodId = 0;
+    private boolean aBoolean = true;
     // TODO: Rename and change types of parameters
 
     private boolean addColour = true;
@@ -158,28 +172,74 @@ public class FoodAddFragment extends Fragment {
                     mLayout.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
                 }else {
                     // This is when submit clicked
+                    final HashMap<Integer,Double> ing = new HashMap<>();
                     for (int i = 0; i < mLayout.getChildCount(); i++) {
                         View child = mLayout.getChildAt(i);
-
                         if (child instanceof TableRow) {
                             TableRow row = (TableRow) child;
                             int j = row.getChildCount();
                             for (int x = 0; x < j; x+=6) {
                                 AutoCompleteTextView tView = (AutoCompleteTextView) row.getChildAt(x);
                                 String s = tView.getText().toString();
-                                Ingredient ingr = adapter.getIngredient(s);
-                                EditText amountET = (EditText) row.getChildAt(x+1);
-                                String s2 = amountET.getText().toString();
+                               int id = adapter.getIngredient(s).getId();
                                 EditText valueET = (EditText) row.getChildAt(x+3);
                                 String s3 = valueET.getText().toString();
-                                System.out.println(s+" "+s2+" "+s3);
+                                ing.put(id,Double.parseDouble(s3));
                             }
                         }
                     }
-                    // food ekle
+                    // food add
                     String desc = descrpFood.getText().toString();
                     String name = nameFood.getText().toString();
+                    ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+                    HashMap<String,String>hm = new HashMap<>();
+                    hm.put("name",name);
+                    hm.put("description",desc);
+                    RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
+                    Call<FoodLess> cb = test.addFood("Token "+ Constants.API_KEY,body);
+                    cb.enqueue(new Callback<FoodLess>() {
+                        @Override
+                        public void onResponse(Call<FoodLess> call, Response<FoodLess> response) {
+                            foodId = response.body().getId();
+                            for(Map.Entry<Integer, Double> entry : ing.entrySet()) {
+                                int id = entry.getKey();
+                                double value = entry.getValue();
+                                ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+                                HashMap<String,Double>hm2 = new HashMap<>();
+                                hm2.put("value",value);
+                                RequestBody body2 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm2)).toString());
+                                Call<FoodAddResponse> cb2 = test2.addIngredientToFood("Token "+ Constants.API_KEY,foodId,id,body2);
+                                cb2.enqueue(new Callback<FoodAddResponse>() {
+                                    @Override
+                                    public void onResponse(Call<FoodAddResponse> call, Response<FoodAddResponse> response) {
+                                        FoodAddResponse far = response.body();
+                                        if (far == null) aBoolean = false;
 
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<FoodAddResponse> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FoodLess> call, Throwable t) {
+
+                        }
+                    });
+
+                    if (aBoolean){
+                        Toast toast = Toast.makeText(getContext(),"You added your recipe successfully!",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER,0,0);
+                        toast.show();
+                    }else{
+                        Toast toast = Toast.makeText(getContext(),"Oops, something went wrong!",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP|Gravity.CENTER,0,0);
+                        toast.show();
+                    }
                 }
             }
         };
@@ -324,6 +384,8 @@ public class FoodAddFragment extends Fragment {
         mButtonSubmit = (Button) rootView.findViewById(R.id.addFoodSubmitBut);
         mButtonSubmit.setOnClickListener(buttonClicked());
         mButton.setOnClickListener(buttonClicked());
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         return  rootView;
     }
 
