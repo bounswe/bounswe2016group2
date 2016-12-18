@@ -14,6 +14,10 @@ var _MultipleIngredientInput = require('diet/MultipleIngredientInput.js');
 
 var _MultipleIngredientInput2 = _interopRequireDefault(_MultipleIngredientInput);
 
+var _Slider = require('service/Slider.js');
+
+var _Slider2 = _interopRequireDefault(_Slider);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60,6 +64,38 @@ var CreateDietPage = function (_React$Component) {
       });
     }
   }, {
+    key: 'proteinChanged',
+    value: function proteinChanged(min, max) {
+      this.setState({
+        minProteinVal: min,
+        maxProteinVal: max
+      });
+    }
+  }, {
+    key: 'carbChanged',
+    value: function carbChanged(min, max) {
+      this.setState({
+        minCarbVal: min,
+        maxCarbVal: max
+      });
+    }
+  }, {
+    key: 'fatChanged',
+    value: function fatChanged(min, max) {
+      this.setState({
+        minFatVal: min,
+        maxFatVal: max
+      });
+    }
+  }, {
+    key: 'energyChanged',
+    value: function energyChanged(min, max) {
+      this.setState({
+        minEnergy: min,
+        maxEnergy: max
+      });
+    }
+  }, {
     key: 'submit',
     value: function submit(event) {
       var _this2 = this;
@@ -70,14 +106,14 @@ var CreateDietPage = function (_React$Component) {
       var postData = {
         name: this.state.name,
         description: this.state.description,
-        minEnergy: this.energy.min,
-        maxEnergy: this.energy.max,
-        minProteinVal: this.proteinVal.min,
-        maxProteinVal: this.proteinVal.max,
-        minCarbVal: this.carbVal.min,
-        maxCarbVal: this.carbVal.max,
-        minFatVal: this.fatVal.min,
-        maxFatVal: this.fatVal.max,
+        minEnergy: this.state.minEnergy,
+        maxEnergy: this.state.maxEnergy,
+        minProteinVal: this.state.minProteinVal,
+        maxProteinVal: this.state.maxProteinVal,
+        minCarbVal: this.state.minCarbVal,
+        maxCarbVal: this.state.maxCarbVal,
+        minFatVal: this.state.minFatVal,
+        maxFatVal: this.state.maxFatVal,
         minProteinRate: this.proteinRate.min,
         maxProteinRate: this.proteinRate.max,
         minCarbRate: this.carbRate.min,
@@ -86,8 +122,11 @@ var CreateDietPage = function (_React$Component) {
         maxFatRate: this.fatRate.max,
         ingredients: this.ingredients.list
       };
-      console.log(postData);
-      Api.createDiet(postData).then(function (data) {}).catch(function (err) {
+      if (!this.ingredients.list) postData.ingredients = [];
+      Api.createDiet(postData).then(function (data) {
+        router.navigate('../diets/' + data.id);
+      }).catch(function (err) {
+        console.log("diet cannot be created");
         _this2.setState({ errors: err.data });
       });
     }
@@ -101,8 +140,12 @@ var CreateDietPage = function (_React$Component) {
         { className: 'ui segments' },
         React.createElement(
           'div',
-          { className: 'ui segment' },
-          'Create a New Diet'
+          { className: 'ui segment', style: { textAlign: 'center' } },
+          React.createElement(
+            'h2',
+            { className: 'ui header' },
+            'Create a New Diet'
+          )
         ),
         React.createElement(
           'div',
@@ -143,21 +186,69 @@ var CreateDietPage = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'ui segment' },
-          'Minimum and Maximum Values'
+          { className: 'ui segment', style: { textAlign: 'center' } },
+          React.createElement(
+            'h2',
+            { className: 'ui header' },
+            'Minimum and Maximum Values'
+          )
         ),
         React.createElement(
           'div',
           { className: 'ui segment' },
-          React.createElement(_IntervalSelection2.default, { label: 'Energy', unit: 'kcal', variable: this.energy }),
-          React.createElement(_IntervalSelection2.default, { label: 'Protein', unit: 'g', variable: this.proteinVal }),
-          React.createElement(_IntervalSelection2.default, { label: 'Carbohydrate', unit: 'g', variable: this.carbVal }),
-          React.createElement(_IntervalSelection2.default, { label: 'Fat', unit: 'g', variable: this.fatVal })
+          React.createElement(
+            'div',
+            { style: { display: 'inline-block', width: '50%' } },
+            React.createElement(
+              'h4',
+              { style: { marginBottom: 50 } },
+              'Protein Weight (g)'
+            ),
+            React.createElement(_Slider2.default, { id: 'proteinSlider', onChange: this.proteinChanged.bind(this) })
+          ),
+          React.createElement(
+            'div',
+            { style: { display: 'inline-block', width: '50%' } },
+            React.createElement(
+              'h4',
+              { style: { marginBottom: 50 } },
+              'Carbonhydrate Weight (g)'
+            ),
+            React.createElement(_Slider2.default, { id: 'carbSlider', onChange: this.carbChanged.bind(this) })
+          )
         ),
         React.createElement(
           'div',
-          { className: 'ui segment' },
-          'Minimum and Maximum Rates'
+          null,
+          React.createElement(
+            'div',
+            { style: { display: 'inline-block', width: '50%' } },
+            React.createElement(
+              'h4',
+              { style: { marginBottom: 50 } },
+              'Fat Weight (g)'
+            ),
+            React.createElement(_Slider2.default, { id: 'fatSlider', onChange: this.fatChanged.bind(this) })
+          ),
+          React.createElement(
+            'div',
+            { style: { display: 'inline-block', width: '50%' } },
+            React.createElement(
+              'h4',
+              { style: { marginBottom: 50 } },
+              'Energy (kcal)'
+            ),
+            React.createElement(_Slider2.default, { id: 'energySlider', onChange: this.energyChanged.bind(this) })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment', style: { textAlign: 'center' } },
+          React.createElement(
+            'h2',
+            { className: 'ui header' },
+            'Minimum and Maximum Rates'
+          )
         ),
         React.createElement(
           'div',
@@ -168,8 +259,12 @@ var CreateDietPage = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'ui segment' },
-          'Selected Ingredients'
+          { className: 'ui segment', style: { textAlign: 'center' } },
+          React.createElement(
+            'h2',
+            { className: 'ui header' },
+            'Excluded Ingredients'
+          )
         ),
         React.createElement(
           'div',

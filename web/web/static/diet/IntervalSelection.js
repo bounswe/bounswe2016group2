@@ -22,13 +22,7 @@ var IntervalSelection = function (_React$Component) {
 
     _this.variable = props.variable;
     _this.state = {};
-
     _this.min = 0;
-    if (props.unit) {
-      _this.max = 9999;
-    } else {
-      _this.max = 1.0;
-    }
     return _this;
   }
 
@@ -36,19 +30,22 @@ var IntervalSelection = function (_React$Component) {
     key: "minValueChanged",
     value: function minValueChanged(event) {
       var value = event.target.value;
-      if (value > this.max) value = this.max;else if (value < this.min) value = this.min;
+      if (value < this.min) value = this.min;
 
       this.setState({ minValue: value });
-      this.variable.min = Number(value);
+      var ratio = "0." + value;
+      console.log(ratio);
+      this.variable.min = Number(ratio);
     }
   }, {
     key: "maxValueChanged",
     value: function maxValueChanged(event) {
       var value = event.target.value;
-      if (value > this.max) value = this.max;else if (value < this.min) value = this.min;
-
+      if (value < this.min) value = this.min;
       this.setState({ maxValue: value });
-      this.variable.max = Number(value);
+      var ratio = "0." + value;
+      console.log(ratio);
+      this.variable.max = Number(ratio);
     }
   }, {
     key: "render",
@@ -74,12 +71,12 @@ var IntervalSelection = function (_React$Component) {
             React.createElement(
               "div",
               { className: "ui right labeled input", style: { marginLeft: 20 } },
-              React.createElement("input", { type: "number", placeholder: "min", value: this.state.minValue, onChange: this.minValueChanged.bind(this), style: { width: 75 } }),
-              this.props.unit && React.createElement(
+              React.createElement(
                 "div",
                 { className: "ui basic label" },
-                this.props.unit
-              )
+                "0."
+              ),
+              React.createElement("input", { type: "number", placeholder: "min", value: this.state.minValue, onChange: this.minValueChanged.bind(this), style: { width: 75 } })
             )
           ),
           React.createElement(
@@ -88,12 +85,12 @@ var IntervalSelection = function (_React$Component) {
             React.createElement(
               "div",
               { className: "ui left labeled input", style: { marginLeft: 20 } },
-              React.createElement("input", { type: "number", placeholder: "max", value: this.state.maxValue, onChange: this.maxValueChanged.bind(this), style: { width: 75 } }),
-              this.props.unit && React.createElement(
+              React.createElement(
                 "div",
                 { className: "ui basic label" },
-                this.props.unit
-              )
+                "0."
+              ),
+              React.createElement("input", { type: "number", placeholder: "max", value: this.state.maxValue, onChange: this.maxValueChanged.bind(this), style: { width: 75 } })
             )
           )
         )
