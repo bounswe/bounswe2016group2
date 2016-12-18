@@ -1,8 +1,11 @@
 package com.example.bounswegroup2.Utils;
 
+import com.example.bounswegroup2.Models.AteFood;
 import com.example.bounswegroup2.Models.Diet;
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.FoodComment;
 import com.example.bounswegroup2.Models.FoodLess;
+import com.example.bounswegroup2.Models.FoodRate;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.RestaurantMore;
@@ -14,9 +17,14 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -46,10 +54,24 @@ import retrofit2.http.QueryMap;
 public interface ApiInterface {
 
     String BASE_URL="http://52.213.193.130/";
+  /*  OkHttpClient defaultHttpClient = new OkHttpClient.Builder()
+            .addInterceptor(new Interceptor() {
+                @Override
+                public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
+                    //getAccessToken is your own accessToken(retrieve it by saving in shared preference or any other option )
+                    if(Constants.API_KEY.isEmpty()){
+                        return chain.proceed(chain.request());
+                    }
+                    Request authorisedRequest = chain.request().newBuilder()
+                            .addHeader("Authorization", "Token "+Constants.API_KEY).build();
+                    return chain.proceed(authorisedRequest);
+                }}).build();*/
+
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(ApiInterface.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("api/users/signup")
@@ -76,7 +98,7 @@ public interface ApiInterface {
     Call<List<User>> getUsers(@QueryMap Map<String, String> options);
 
     @GET("api/users/{userId}")
-    void getUserWithId();
+    Call<User> getUserWithId(@Header("Authorization") String key, @Path("userId") int userId);
 
     @PUT("api/users/{userId}")
     void putUserWithId();
@@ -101,15 +123,15 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("/api/foods/{foodId}/ate")
-    Call<Response> eatFood(@Path("foodId") int foodId);
+    Call<AteFood> eatFood(@Header("Authorization") String key, @Path("foodId") int foodId, @Body RequestBody body);
 
     @Headers("Content-Type: application/json")
     @POST("/api/foods/{foodId}/comment")
-    Call<Response> commentFood(@Path("foodId") int foodId);
+    Call<FoodComment> commentFood(@Header("Authorization") String key, @Path("foodId") int foodId, @Body RequestBody body);
 
     @Headers("Content-Type: application/json")
     @POST("/api/foods/{foodId}/rate")
-    Call<Food> rateFood(@Path("foodId") int foodId);
+    Call<FoodRate> rateFood(@Header("Authorization") String key, @Path("foodId") int foodId, @Body RequestBody body);
 
     @Headers("Content-Type: application/json")
     @GET("api/foods/{foodId}")

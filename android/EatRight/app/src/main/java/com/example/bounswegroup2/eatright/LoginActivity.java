@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 import com.google.gson.Gson;
@@ -93,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //SessionManager.clearCredet(this);
+        SessionManager.clearCredet(this);
         if (SessionManager.isUserLoggedIn(this, "token") ) {
             // User is already logged in
             Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
@@ -336,6 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 System.out.println(login.getToken());
                 if (response.isSuccessful() && (login.getToken() != null && !login.getToken().isEmpty())) {
                     showProgress(false);
+                    Constants.API_KEY=login.getToken();
                     SessionManager.setPreferences(LoginActivity.this,"token",login.getToken());
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
                     intent.putExtra("email",email);

@@ -125,7 +125,8 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             b.putSerializable("restaName",food.getRestaurant().getName());
             b.putSerializable("restaID",food.getRestaurant().getId());
             b.putSerializable("foodid",food.getId());
-            //b.putSerializable("rate",food.getRates().get(0));
+            b.putSerializable("rate",food.getDetails().getRate());
+            b.putSerializable("comments", (Serializable) food.getComments());
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
             intent.putExtras(b);
             startActivity(intent);
@@ -155,7 +156,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             @Override
             public void onResponse(Call<List<FoodLess>> call, final Response<List<FoodLess>> response) {
                 final ArrayList<FoodLess> foodList = (ArrayList<FoodLess>) response.body();
-                for (FoodLess fls: foodList){
+                for (final FoodLess fls: foodList){
                     int id = fls.getId();
                     ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
                     Call<Food> cbFood = test2.getFoodWithId(id);
@@ -163,6 +164,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
                         @Override
                         public void onResponse(Call<Food> call2, Response<Food> response2) {
                            Food f = response2.body();
+                            f.getDetails().setRate(fls.getRate());
                            nFl.add(f);
                         }
 

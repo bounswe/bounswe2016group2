@@ -29,7 +29,7 @@ public class Details implements Serializable
     private Fat fat;
     @SerializedName("rate")
     @Expose
-    private Integer rate;
+    private Double rate;
     @SerializedName("count")
     @Expose
     private Integer count;
@@ -78,11 +78,11 @@ public class Details implements Serializable
         this.fat = fat;
     }
 
-    public Integer getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(Integer rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 

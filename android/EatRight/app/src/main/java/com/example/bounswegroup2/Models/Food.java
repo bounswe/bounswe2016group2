@@ -17,10 +17,10 @@ public class Food implements Serializable
     private List<Inclusion> inclusions = null;
     @SerializedName("comments")
     @Expose
-    private List<String> comments = null;
-    @SerializedName("rates")
+    private List<FoodComment> comments = null;
+   /* @SerializedName("rates")
     @Expose
-    private List<String> rates = null;
+    private List<String> rates = null;*/
     @SerializedName("restaurant")
     @Expose
     private Restaurant restaurant;
@@ -66,21 +66,21 @@ public class Food implements Serializable
         this.inclusions = inclusions;
     }
 
-    public List<String> getComments() {
+    public List<FoodComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(List<FoodComment> comments) {
         this.comments = comments;
     }
 
-    public List<String> getRates() {
+ /*   public List<FoodRate> getRates() {
         return rates;
     }
 
-    public void setRates(List<String> rates) {
+    public void setRates(List<FoodRate> rates) {
         this.rates = rates;
-    }
+    }*/
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -171,16 +171,16 @@ public class Food implements Serializable
     public static transient  Comparator<Food> caToZRating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-         /*   if(Double.parseDouble(food.getRates().get(0)) < Double.parseDouble(t1.getRates().get(0))) return 1;
-            if(Double.parseDouble(food.getRates().get(0)) > Double.parseDouble(t1.getRates().get(0))) return -1;*/
+            if(food.getDetails().getRate() < t1.getDetails().getRate()) return 1;
+            if(food.getDetails().getRate() > t1.getDetails().getRate()) return -1;
             return 0;
         }
     };
     public static transient  Comparator<Food> czToARating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            /*if(Double.parseDouble(food.getRates().get(0)) > Double.parseDouble(t1.getRates().get(0)))  return 1;
-            if(Double.parseDouble(food.getRates().get(0)) < Double.parseDouble(t1.getRates().get(0))) return -1;*/
+            if(food.getDetails().getRate() > t1.getDetails().getRate())  return 1;
+            if(food.getDetails().getRate() < t1.getDetails().getRate()) return -1;
             return 0;
         }
     };

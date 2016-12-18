@@ -6,31 +6,23 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by Enes on 17.12.2016.
+ * Created by Enes on 18.12.2016.
  */
 
-public class FoodComment implements Serializable {
-
-    @SerializedName("comment")
-    @Expose
-    private String comment;
-
+public class AteFood implements Serializable{
     @SerializedName("user")
     @Expose
     private Integer user;
-
     @SerializedName("food")
     @Expose
     private Integer food;
-
-    private transient  String  username;
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+    @SerializedName("value")
+    @Expose
+    private Integer value;
+    @SerializedName("created")
+    @Expose
+    private String created;
+    private final static long serialVersionUID = -4324884701801355221L;
 
     public Integer getUser() {
         return user;
@@ -48,11 +40,19 @@ public class FoodComment implements Serializable {
         this.food = food;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }

@@ -18,11 +18,14 @@
     tools:context="com.example.bounswegroup2.eatright.FoodPageActivity"
     android:weightSum="1">
 
-    <!--<Button
-        android:text="Button"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/restaurant_button" />-->
+        android:layout_gravity="left"
+        android:src="@drawable/ic_comment"
+        android:id="@+id/comment_but"/>
+
+
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
@@ -96,14 +99,19 @@
                         android:text="Tasted It!"
                         android:layout_width="wrap_content"
                         android:layout_height="58dp"
-                        android:id="@+id/tasted_it_button" />
+                       android:layout_weight="1"
+                        android:id="@+id/tasted_it_button"
+                        android:maxLines="1"/>
 
                     <Button
-                        android:text="Ingredients"
-                        android:textSize="11sp"
+                        android:text="Ingrs."
+                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/ingredients_button" />
+                        android:id="@+id/ingredients_button"
+                        android:maxLines="1"/>
+
+
                 </TableRow>
 
             </LinearLayout>
