@@ -8,7 +8,9 @@ import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.FoodRate;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
+import com.example.bounswegroup2.Models.RestaurantComment;
 import com.example.bounswegroup2.Models.RestaurantMore;
+import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Models.signUpRequest;
@@ -162,11 +164,11 @@ public interface ApiInterface {
     Call<RestaurantMore> getRestaurantWithId(@Path("restaurantId") int restaurantId);
 
     @Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/comment")
-    Call<Response> commentRestaurant(@Path("restaurantId") int restaurantId);
+    @POST("/api/restaurants/{restaurantId}/comment")
+    Call<RestaurantComment> commentRestaurant(@Header("Authorization") String key, @Path("restaurantId") int restaurantId, @Body RequestBody body);
 
     @Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/rate")
-    Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
+    @POST("/api/restaurants/{restaurantId}/rate")
+    Call<RestaurantRate> rateRestaurant(@Header("Authorization") String key, @Path("restaurantId") int restaurantId, @Body RequestBody body);
 
 }

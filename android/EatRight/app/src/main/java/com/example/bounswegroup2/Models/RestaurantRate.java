@@ -16,10 +16,10 @@ public class RestaurantRate {
     private float score;
     @SerializedName("user")
     @Expose
-    private User user;
+    private Integer user;
     @SerializedName("restaurant")
     @Expose
-    private Restaurant restaurant;
+    private Integer restaurant;
 
     public Integer getId() {
         return id;
@@ -37,19 +37,19 @@ public class RestaurantRate {
         this.score = score;
     }
 
-    public User getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 
-    public Restaurant getRestaurant() {
+    public Integer getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(Integer restaurant) {
         this.restaurant = restaurant;
     }
 }

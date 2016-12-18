@@ -20,7 +20,7 @@ public class RestaurantMore implements Serializable
     private List<FoodLess> foods = null;
     @SerializedName("comments")
     @Expose
-    private List<Object> comments = null;
+    private List<RestaurantComment> comments = null;
     @SerializedName("user")
     @Expose
     private User user;
@@ -36,9 +36,9 @@ public class RestaurantMore implements Serializable
     @SerializedName("photo")
     @Expose
     private String photo;
-    @SerializedName("rate")
+    /*@SerializedName("rate")
     @Expose
-    private Float rate;
+    private Float rate;*/
     private final static long serialVersionUID = -7186152876703035983L;
 
     public Integer getId() {
@@ -57,11 +57,11 @@ public class RestaurantMore implements Serializable
         this.foods = foods;
     }
 
-    public List<Object> getComments() {
+    public List<RestaurantComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Object> comments) {
+    public void setComments(List<RestaurantComment> comments) {
         this.comments = comments;
     }
 
@@ -105,12 +105,12 @@ public class RestaurantMore implements Serializable
         this.photo = photo;
     }
 
-    public float getRate() {
+    /*public float getRate() {
         return rate;
-    }
+    }*/
 
-    public void setRate(Float rate) {
+    /*public void setRate(Float rate) {
         this.rate = rate;
-    }
+    }*/
 
 }

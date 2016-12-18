@@ -3,14 +3,13 @@ package com.example.bounswegroup2.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Enes on 17.12.2016.
  */
 
-public class RestaurantComment {
-    @SerializedName("id")
-    @Expose
-    private Integer id;
+public class RestaurantComment implements Serializable{
 
     @SerializedName("comment")
     @Expose
@@ -18,20 +17,13 @@ public class RestaurantComment {
 
     @SerializedName("user")
     @Expose
-    private User user;
+    private Integer user;
 
     @SerializedName("restaurant")
     @Expose
-    private Restaurant restaurant;
+    private Integer restaurant;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    private transient  String  username;
     public String getComment() {
         return comment;
     }
@@ -40,19 +32,27 @@ public class RestaurantComment {
         this.comment = comment;
     }
 
-    public User getUser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 
-    public Restaurant getRestaurant() {
+    public Integer getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(Integer restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
