@@ -125,6 +125,7 @@ public class pieChartFrag extends userHomeFragment {
                     d.setValueTypeface(tf);
                     mChart.setData(d);
                     mChart.invalidate();
+
                 }
             }
 

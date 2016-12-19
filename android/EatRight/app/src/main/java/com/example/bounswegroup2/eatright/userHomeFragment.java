@@ -111,6 +111,23 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+    protected String getMonthEquivalent(int Month){
+        Map<Integer,String> result = new HashMap<Integer,String>();
+        result.put(1,"Jan");
+        result.put(2,"Feb");
+        result.put(3,"Mar");
+        result.put(4,"Apr");
+        result.put(5,"May");
+        result.put(6,"Jun");
+        result.put(7,"Jul");
+        result.put(8,"Aug");
+        result.put(9,"Sep");
+        result.put(10,"Oct");
+        result.put(11,"Nov");
+        result.put(12,"Dec");
+        String month = result.get(Month);
+        return month;
+    }
 
     /**
      * generates less data (1 DataSet, 4 values)
@@ -122,8 +139,8 @@ public abstract class userHomeFragment extends Fragment {
         String token = "Token " + SessionManager.getPreferences(getContext(),"token");
         System.out.println(token);
         final TotalUserHistory[] userHistory = new TotalUserHistory[1];
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(DateFormat.SHORT);
-        String[] timecheck = currentDateTimeString.split(".");
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        String[] timecheck = currentDateTimeString.split(" ");
         String day = timecheck[0];
         String month = timecheck[1];
         ApiInterface[] test = {ApiInterface.retrofit.create(ApiInterface.class)};
