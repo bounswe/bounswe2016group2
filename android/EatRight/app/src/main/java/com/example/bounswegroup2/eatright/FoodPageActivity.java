@@ -92,16 +92,16 @@ public class FoodPageActivity extends AppCompatActivity implements RatingBar.OnR
         foodName = (TextView) findViewById(R.id.food_name_text);
         foodName.setText(name);
         totalCalories = (TextView) findViewById(R.id.total_calories_result_text);
-        totalCalories.setText(details.getEnergy().toString());
+        totalCalories.setText(String.format("%.5f",details.getEnergy()));
         commentText = (EditText) findViewById(R.id.comment_text);
         totalCarbohydrate = (TextView) findViewById(R.id.carb_result_text);
-        totalCarbohydrate.setText(details.getCarb().getWeight().toString());
+        totalCarbohydrate.setText(String.format("%.5f",details.getCarb().getWeight()));
 
         totalFat = (TextView) findViewById(R.id.fat_result_text);
-        totalFat.setText(details.getFat().getWeight().toString());
+        totalFat.setText(String.format("%.5f",details.getFat().getWeight()));
 
         totalProtein = (TextView) findViewById(R.id.protein_result_text);
-        totalProtein.setText(details.getProtein().getWeight().toString());
+        totalProtein.setText(String.format("%.5f",details.getProtein().getWeight()));
         showRatingBar = (RatingBar)findViewById(R.id.food_taste_ratingBar);
         showRatingBar.setStepSize(0.01f);
 
