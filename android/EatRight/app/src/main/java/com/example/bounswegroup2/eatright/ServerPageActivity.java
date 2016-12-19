@@ -55,6 +55,7 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
     private Button sendButton;
     private int restaurantID;
     private EditText commentText;
+    private ArrayList<RestaurantComment> lOfc = new ArrayList<>();
     private boolean b = true;
     private boolean c = true;
     @Override
@@ -88,7 +89,8 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
                 .into(imageView);
         commentText = (EditText) findViewById(R.id.server_comment_text);
         commentButton = (ImageButton) findViewById(R.id.server_comment_but);
-        //commentButton.setOnClickListener(commentButtonClicked());
+        lOfc = (ArrayList<RestaurantComment>) restaurant.getComments();
+        commentButton.setOnClickListener(commentButtonClicked());
         sendButton = (Button) findViewById(R.id.server_send_button);
         sendButton.setOnClickListener(sendButtonClicked());
 
@@ -155,6 +157,20 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
         });
         if (b) Toast.makeText(ServerPageActivity.this,"Your rating has been sent. Thank you!",Toast.LENGTH_SHORT).show();
         else Toast.makeText(ServerPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT).show();
+    }
+
+    private View.OnClickListener commentButtonClicked() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ServerPageActivity.this,ServerCommentPageActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("comments",lOfc);
+                i.putExtras(b);
+                startActivity(i);
+                finish();
+            }
+        };
     }
 
 
