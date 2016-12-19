@@ -196,4 +196,12 @@ class Api {
   static commentOnRestaurant(restaurantId, data){
     return this.post('restaurants/'+restaurantId+'/comment', data);
   }
+
+  // RATE ROUTES
+  static rateOnFood(foodId, data){
+    return this.post('foods/'+foodId+'/rate', data)
+  }
+  static rateOnRestaurant(restaurantId, data){
+    return this.post('restaurants/'+restaurantId+'/rate', data)
+  }
 }

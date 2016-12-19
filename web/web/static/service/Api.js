@@ -282,6 +282,19 @@ var Api = function () {
     value: function commentOnRestaurant(restaurantId, data) {
       return this.post('restaurants/' + restaurantId + '/comment', data);
     }
+
+    // RATE ROUTES
+
+  }, {
+    key: 'rateOnFood',
+    value: function rateOnFood(foodId, data) {
+      return this.post('foods/' + foodId + '/rate', data);
+    }
+  }, {
+    key: 'rateOnRestaurant',
+    value: function rateOnRestaurant(restaurantId, data) {
+      return this.post('restaurants/' + restaurantId + '/rate', data);
+    }
   }]);
 
   return Api;
