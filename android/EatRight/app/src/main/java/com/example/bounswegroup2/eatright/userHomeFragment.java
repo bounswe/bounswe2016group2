@@ -35,8 +35,12 @@ import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.FileUtils;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,6 +111,7 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+
     /**
      * generates less data (1 DataSet, 4 values)
      * @return
@@ -116,40 +121,20 @@ public abstract class userHomeFragment extends Fragment {
 
         String token = "Token " + SessionManager.getPreferences(getContext(),"token");
         System.out.println(token);
-        final PieData[] data = new PieData[1];
-        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-        Call<TotalUserHistory> cb = test.getuserFoodHistory(token);
+        final TotalUserHistory[] userHistory = new TotalUserHistory[1];
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(DateFormat.SHORT);
+        String[] timecheck = currentDateTimeString.split(".");
+        String day = timecheck[0];
+        String month = timecheck[1];
+        ApiInterface[] test = {ApiInterface.retrofit.create(ApiInterface.class)};
+        Call<TotalUserHistory> cb = test[0].getuserFoodHistory(token);
         cb.enqueue(new Callback<TotalUserHistory>() {
             @Override
             public void onResponse(Call<TotalUserHistory> call, Response<TotalUserHistory> response) {
                 if(response.isSuccessful()){
-                    TotalUserHistory test = response.body();
-                    ArrayList<AteFoodUserless> foodList = (ArrayList<AteFoodUserless>) test.getTotal().getAteFoods();
-                    double carbs = 0;
-                    double fats = 0;
-                    double protein = 0;
-                    for (AteFoodUserless ate : foodList){
-                        Food food = ate.getFood();
-                        carbs += food.getDetails().getCarb().getWeight();
-                        fats += food.getDetails().getFat().getWeight();
-                        protein += food.getDetails().getProtein().getWeight();
-                    }
-                    ArrayList<PieEntry> entries1 = new ArrayList<>();
-                    System.out.println(carbs);
-                    System.out.println(fats);
-                    System.out.println(protein);
-                    entries1.add(new PieEntry((float) carbs,"Carbs"));
-                    entries1.add(new PieEntry((float)fats,"Fats"));
-                    entries1.add(new PieEntry((float) protein,"Protein"));
-                    PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
-                    ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                    ds1.setSliceSpace(2f);
-                    ds1.setValueTextColor(Color.BLACK);
-                    ds1.setValueTextSize(12f);
-                    ds1.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-                    PieData d = new PieData(ds1);
-                    d.setValueTypeface(tf);
-                    data[0] = d;
+                     userHistory[0] = response.body();
+                    System.out.println(userHistory[0]);
+
                 }
             }
 
@@ -160,7 +145,32 @@ public abstract class userHomeFragment extends Fragment {
             }
         });
 
-        return data[0];
+        ArrayList<AteFoodUserless> foodList = (ArrayList<AteFoodUserless>) userHistory[0].getTotal().getAteFoods();
+        double carbs = 0;
+        double fats = 0;
+        double protein = 0;
+        for (AteFoodUserless ate : foodList){
+            Food food = ate.getFood();
+            carbs += food.getDetails().getCarb().getWeight();
+            fats += food.getDetails().getFat().getWeight();
+            protein += food.getDetails().getProtein().getWeight();
+        }
+        ArrayList<PieEntry> entries1 = new ArrayList<>();
+        System.out.println(carbs);
+        System.out.println(fats);
+        System.out.println(protein);
+        entries1.add(new PieEntry((float) carbs,"Carbs"));
+        entries1.add(new PieEntry((float)fats,"Fats"));
+        entries1.add(new PieEntry((float) protein,"Protein"));
+        PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
+        ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        ds1.setSliceSpace(2f);
+        ds1.setValueTextColor(Color.BLACK);
+        ds1.setValueTextSize(12f);
+        ds1.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        PieData d = new PieData(ds1);
+        d.setValueTypeface(tf);
+        return d;
     }
 
     protected LineData generateLineData() {

@@ -45,7 +45,9 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -327,11 +329,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         query.put("password", password);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(query.getOptions())).toString());
         Call<signInRequest> cb = test.postSigninUser(body);
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        System.out.println(currentDateTimeString);
         System.out.println(cb.request().url());
         System.out.println(cb.request().body().toString());
         cb.enqueue(new Callback<signInRequest>() {
             @Override
             public void onResponse(Call<signInRequest> call, Response<signInRequest> response) {
+
                 System.out.println(response.code());
                 signInRequest login = response.body();
                 System.out.println(login.getToken());

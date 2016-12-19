@@ -15,10 +15,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bounswegroup2.Models.AteFoodUserless;
+import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.TotalUserHistory;
+import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.SessionManager;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class pieChartFrag extends userHomeFragment {
@@ -36,7 +52,7 @@ public class pieChartFrag extends userHomeFragment {
         mChart = (PieChart) v.findViewById(R.id.pieChart1);
         mChart.getDescription().setEnabled(false);
 
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
+        final Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
 
         mChart.setCenterTextTypeface(tf);
         mChart.setCenterText(generateCenterText());
@@ -56,8 +72,59 @@ public class pieChartFrag extends userHomeFragment {
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
 
-        mChart.setData(generatePieData());
+        //Set data
+        String token = "Token " + SessionManager.getPreferences(getContext(),"token");
+        System.out.println(token);
+        String currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
+        System.out.println(currentDateTimeString);
+        String[] timecheck = currentDateTimeString.substring(0,9).split("/");
+        final String day = timecheck[0];
+        final String month = timecheck[1];
+        final String year = timecheck[2];
+        ApiInterface[] test = {ApiInterface.retrofit.create(ApiInterface.class)};
+        Call<TotalUserHistory> cb = test[0].getuserFoodHistory(token);
+        cb.enqueue(new Callback<TotalUserHistory>() {
+            @Override
+            public void onResponse(Call<TotalUserHistory> call, Response<TotalUserHistory> response) {
+                if(response.isSuccessful()){
+                   TotalUserHistory userHistory = response.body();
+                    ArrayList<AteFoodUserless> foodList = (ArrayList<AteFoodUserless>) userHistory.getTotal().getAteFoods();
+                    double carbs = 0;
+                    double fats = 0;
+                    double protein = 0;
+                    for (AteFoodUserless ate : foodList){
+                        String[] checkDate = ate.getCreated().substring(0,9).split("-");
+                        if(checkDate[0].equals(year) && checkDate[1].equals(month) && checkDate[2].equals(day)){
+                            Food food = ate.getFood();
+                            carbs += food.getDetails().getCarb().getWeight();
+                            fats += food.getDetails().getFat().getWeight();
+                            protein += food.getDetails().getProtein().getWeight();
+                        }
 
+                    }
+                    ArrayList<PieEntry> entries1 = new ArrayList<>();
+                    entries1.add(new PieEntry((float) carbs,"Carbs"));
+                    entries1.add(new PieEntry((float)fats,"Fats"));
+                    entries1.add(new PieEntry((float) protein,"Protein"));
+                    PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
+                    ds1.setColors(ColorTemplate.PASTEL_COLORS);
+                    ds1.setSliceSpace(2f);
+                    ds1.setValueTextColor(Color.BLACK);
+                    ds1.setValueTextSize(12f);
+                    ds1.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+                    PieData d = new PieData(ds1);
+                    d.setValueTypeface(tf);
+                    mChart.setData(d);
+                    mChart.invalidate();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TotalUserHistory> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
+            }
+        });
         return v;
     }
 
