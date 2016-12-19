@@ -192,10 +192,26 @@ public class MyFoodsFragment extends Fragment {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Food f = (Food)adapterView.getAdapter().getItem(i);
-                Intent inten = new Intent(MyFoodsFragment.this.getContext(),IngredientPage.class);
-                inten.putExtra("ingredients", (Serializable) f.getIngredients());
-                startActivity(inten);
+                Food food = (Food)adapterView.getAdapter().getItem(i);
+                Bundle b = new Bundle();
+                b.putSerializable("details",food.getDetails());
+                b.putSerializable("ingr", (Serializable) food.getIngredients());
+                b.putSerializable("name",food.getName());
+                b.putSerializable("photo",food.getPhoto());
+                if (food.getRestaurant() != null){
+                    b.putSerializable("restaName",food.getRestaurant().getName());
+                    b.putSerializable("restaID",food.getRestaurant().getId());
+                }else{
+                    b.putSerializable("restaName",Constants.user);
+                    b.putSerializable("restaID",0);
+                }
+
+                b.putSerializable("foodid",food.getId());
+                b.putSerializable("rate",food.getDetails().getRate());
+                b.putSerializable("comments", (Serializable) food.getComments());
+                Intent intent = new Intent(getActivity(), FoodPageActivity.class);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         };
     }
