@@ -62,7 +62,7 @@ var Comment = function (_React$Component) {
           "div",
           { className: "content" },
           React.createElement(
-            "a",
+            "div",
             { className: "author" },
             this.state.user
           ),

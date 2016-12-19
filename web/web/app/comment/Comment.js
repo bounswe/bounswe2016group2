@@ -31,7 +31,7 @@ export default class Comment extends React.Component {
     return (
       <div className="comment">
         <div className="content">
-          <a className="author">{this.state.user}</a>
+          <div className="author">{this.state.user}</div>
           <div className="text">
             {this.comment}
           </div>

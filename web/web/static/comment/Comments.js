@@ -30,13 +30,13 @@ var Comments = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).call(this, props));
 
-    _this.foodId = props.foodId;
+    _this.id = props.id;
     _this.state = {
       comments: []
     };
     if (props.getComments) {
       _this.getComments = props.getComments.bind(_this);
-      _this.getComments(_this.foodId);
+      _this.getComments(_this.id);
     }
 
     // api functions
@@ -51,7 +51,7 @@ var Comments = function (_React$Component) {
       this.comment(e);
 
       // a quick solution for updating comments
-      window.location.href = "foods/" + this.foodId;
+      window.location.href = window.location.pathname;
     }
   }, {
     key: 'render',

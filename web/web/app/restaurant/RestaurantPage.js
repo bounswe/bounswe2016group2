@@ -1,6 +1,7 @@
 import FoodRow from '../food/FoodRow.js'
+import Comments from 'comment/Comments.js'
 
-export default class FoodPage extends React.Component {
+export default class RestaurantPage extends React.Component {
 
   constructor (props) {
     super(props)
@@ -11,6 +12,7 @@ export default class FoodPage extends React.Component {
       }
     }
     this.fetch = this.fetch.bind(this)
+    this.comment = this.comment.bind(this);
   }
 
   componentWillMount(){
@@ -24,6 +26,25 @@ export default class FoodPage extends React.Component {
         this.setState({restaurant: data});
       }).catch((err) => {
         this.setState({errors: err});
+      })
+  }
+
+  getComments(id){
+    const self = this;
+    Api.getRestaurant(id)
+      .then((data) => {
+        self.setState({comments: data.comments});
+      }).catch((err) => {
+        this.setState({errors: err.data});
+      })
+  }
+
+  comment(data){
+    Api.commentOnRestaurant(this.state.id, data)
+      .then((data) => {
+        this.fetch(this.state.id); // get updated comments list
+      }).catch((error) => {
+        this.setState({errors: error.data})
       })
   }
 
@@ -50,6 +71,16 @@ export default class FoodPage extends React.Component {
             return <FoodRow key={food.id} data={food}/>
           })}
         </div>
+
+        {/* comments section */}
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>Comments</h1>
+        </div>
+        {this.state.restaurant.comments &&
+          <div className="ui segment">
+            <Comments getComments={this.getComments} id={this.state.id} comment={this.comment}/>
+          </div>
+        }
       </div>
     )
   }

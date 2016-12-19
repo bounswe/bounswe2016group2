@@ -504,7 +504,7 @@ var FoodPage = function (_React$Component) {
         this.state.food.comments && React.createElement(
           'div',
           { className: 'ui segment' },
-          React.createElement(_Comments2.default, { getComments: this.getComments, foodId: this.state.id, comment: this.comment, reply: this.reply })
+          React.createElement(_Comments2.default, { getComments: this.getComments, id: this.state.id, comment: this.comment })
         )
       );
     }

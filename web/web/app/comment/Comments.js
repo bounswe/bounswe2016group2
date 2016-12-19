@@ -4,13 +4,13 @@ import PostComment from 'comment/PostComment.js'
 export default class Comments extends React.Component {
   constructor(props) {
     super(props);
-    this.foodId = props.foodId;
+    this.id = props.id;
     this.state = {
       comments: []
     };
     if(props.getComments){
       this.getComments = props.getComments.bind(this);
-      this.getComments(this.foodId);
+      this.getComments(this.id);
     }
 
     // api functions
@@ -22,7 +22,7 @@ export default class Comments extends React.Component {
     this.comment(e);
 
     // a quick solution for updating comments
-    window.location.href = "foods/"+this.foodId;
+    window.location.href = window.location.pathname;
   }
 
   render() {

@@ -11,7 +11,7 @@ export default class MyRestaurants extends React.Component {
     var self = this;
     $('#restaurantSelect.ui.dropdown').dropdown({
       onChange(index) {
-        console.log(self.state.restaurants[index]);
+        router.navigate('../restaurants/' + self.state.restaurants[index].id)
       }
     })
   }

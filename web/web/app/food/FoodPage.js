@@ -222,7 +222,7 @@ export default class FoodPage extends React.Component {
         </div>
         {this.state.food.comments &&
           <div className="ui segment">
-            <Comments getComments={this.getComments} foodId={this.state.id} comment={this.comment} reply={this.reply}/>
+            <Comments getComments={this.getComments} id={this.state.id} comment={this.comment}/>
           </div>
         }
       </div>
