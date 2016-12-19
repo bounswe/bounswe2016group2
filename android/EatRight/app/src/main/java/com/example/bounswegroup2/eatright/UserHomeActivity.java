@@ -295,6 +295,9 @@ public class UserHomeActivity extends AppCompatActivity
                 case 0:
                     f = pieChartFrag.newInstance();
                     break;
+                case 1:
+                    f = FullHistoryFrag.newInstance();
+                    break;
             }
 
             return f;
