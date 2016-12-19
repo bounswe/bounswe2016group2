@@ -16,6 +16,7 @@ export default class FoodPage extends React.Component {
     this.fetch = this.fetch.bind(this)
     this.ateThis = this.ateThis.bind(this)
     this.servingSizeChanged = this.servingSizeChanged.bind(this)
+    this.comment = this.comment.bind(this);
   }
 
   componentWillMount(){
@@ -60,12 +61,31 @@ export default class FoodPage extends React.Component {
     }
     Api.foodAte(this.state.id, data)
       .then((data) => {
-        console.log('succ',data);
         $('#ateFoodSuccModal').modal('show')
       }).catch((err) => {
-        console.log(err);
+        this.setState({errors: err.data})
       })
   }
+
+  comment(data){
+    Api.commentOnFood(this.state.id, data)
+      .then((data) => {
+        this.fetch(this.state.id); // get updated comments list
+      }).catch((error) => {
+        this.setState({errors: error.data})
+      })
+  }
+
+  getComments(foodId){
+    const self = this;
+    Api.getFood(foodId)
+      .then((data) => {
+        self.setState({comments: data.comments});
+      }).catch((err) => {
+        this.setState({errors: err.data});
+      })
+  }
+
   render() {
     return (
       <div className="ui segments">
@@ -166,46 +186,45 @@ export default class FoodPage extends React.Component {
         <div className="ui segment">
           <h1 className="ui header" style={{textAlign:'center'}}>Ingredients</h1>
         </div>
-        <table className="ui segment celled table" style={{width:'100%'}}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>{Constants.value.weight.name}</th>
-              <th>Measure</th>
-              <th>{Constants.value.energy.name}</th>
-              <th>{Constants.macro.protein.name}</th>
-              <th>{Constants.macro.carb.name}</th>
-              <th>{Constants.macro.fat.name}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.food.inclusions.map((inclusion, index) => {
-              return (
-                <tr key={index}>
-                  <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
-                  <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
-                  <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
-                  <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
-                  <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
-                  <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
-                  <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        {/* micronutrients */}
-        {/* <div className="ui segment">
-          <h1 className="ui header" style={{textAlign:'center'}}>micronutrients</h1>
-          </div>
+        <div className="ui segment">
           <table className="ui segment celled table" style={{width:'100%'}}>
-          // TODO: micronutrients
-        </table> */}
-
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>{Constants.value.weight.name}</th>
+                <th>Measure</th>
+                <th>{Constants.value.energy.name}</th>
+                <th>{Constants.macro.protein.name}</th>
+                <th>{Constants.macro.carb.name}</th>
+                <th>{Constants.macro.fat.name}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.food.inclusions.map((inclusion, index) => {
+                return (
+                  <tr key={index}>
+                    <td><a href={'/ingredient/' + inclusion.ingredient.id}>{inclusion.name}</a></td>
+                    <td>{Number(inclusion.value).toFixed(2)} {inclusion.unit}</td>
+                    <td>{Number(inclusion.ingredient.measureValue).toFixed(2)} {inclusion.ingredient.measureUnit}</td>
+                    <td>{Number(inclusion.ingredient.energy).toFixed(2)} kcal</td>
+                    <td>{Number(inclusion.ingredient.protein).toFixed(2)} g</td>
+                    <td>{Number(inclusion.ingredient.carb).toFixed(2)} g</td>
+                    <td>{Number(inclusion.ingredient.fat).toFixed(2)} g</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
         {/* comments section */}
         <div className="ui segment">
-          <Comments/>
+          <h1 className="ui header" style={{textAlign:'center'}}>Comments</h1>
         </div>
+        {this.state.food.comments &&
+          <div className="ui segment">
+            <Comments getComments={this.getComments} foodId={this.state.id} comment={this.comment} reply={this.reply}/>
+          </div>
+        }
       </div>
     )
   }
