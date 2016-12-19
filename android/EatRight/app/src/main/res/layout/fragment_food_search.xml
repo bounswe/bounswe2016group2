@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rangeSeekBarForPro"
-            app:absoluteMaxValue="150"
+            app:absoluteMaxValue="1000"
             app:absoluteMinValue="0"
             android:layout_below="@+id/CalorieTExtView"
             android:layout_alignParentStart="true"
@@ -84,7 +84,7 @@
         <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:absoluteMaxValue="150"
+            app:absoluteMaxValue="1000"
             app:absoluteMinValue="0"
             android:id="@+id/seekBarForCab"
             android:layout_marginTop="19dp"
@@ -94,7 +94,7 @@
         <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:absoluteMaxValue="150"
+            app:absoluteMaxValue="1000"
             app:absoluteMinValue="0"
             android:id="@+id/seekBarForFat"
             android:layout_below="@+id/rangeSeekBarForPro"

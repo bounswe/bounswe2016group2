@@ -16,6 +16,7 @@ import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class ServerPageActivity extends AppCompatActivity {
         for (FoodLess fls:listFLess) {
          int id = fls.getId();
             ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-            Call<Food> cb = test.getFoodWithId(id);
+            Call<Food> cb = test.getFoodWithId(Constants.API_KEY,id);
             cb.enqueue(new Callback<Food>() {
                 @Override
                 public void onResponse(Call<Food> call, Response<Food> response) {

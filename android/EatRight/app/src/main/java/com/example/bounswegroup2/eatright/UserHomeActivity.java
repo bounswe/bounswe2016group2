@@ -27,7 +27,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
@@ -94,6 +96,7 @@ public class UserHomeActivity extends AppCompatActivity
 //        });
         //Bundle bundle = getIntent().getExtras();
        initSecondaryViews(bundle);
+        //getMe();
       //  initFoodHistory();
     }
 
@@ -250,11 +253,11 @@ public class UserHomeActivity extends AppCompatActivity
             Intent i = new Intent(this,LoginActivity.class);
             startActivity(i);
             UserHomeActivity.this.finish();
-        } else if (id == R.id.nav_cons_hist) {
-            ConsHistFragment consHistFragment = ConsHistFragment.newInstance("SWE","451");
+        } else if (id == R.id.nav_my_foods) {
+            MyFoodsFragment myFoodsFragment = MyFoodsFragment.newInstance("SWE","451");
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_user_home,consHistFragment,
-                                               consHistFragment.getTag()).commit();
+            manager.beginTransaction().replace(R.id.content_user_home,myFoodsFragment,
+                    myFoodsFragment.getTag()).commit();
         } else if (id == R.id.nav_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             FragmentManager manager = getSupportFragmentManager();
@@ -262,8 +265,8 @@ public class UserHomeActivity extends AppCompatActivity
                                                settingsFragment,settingsFragment.getTag()).commit();
 
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_my_foods) {
+            
         }
         findViewById(R.id.yigitLinear).setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -295,6 +298,21 @@ public class UserHomeActivity extends AppCompatActivity
             return 1;
         }
     }
+    //Kendini çekme methodu kullanırız
+    /*private void getMe(){
+    ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<UserMore> call = test.getMe(Constants.API_KEY);
+        call.enqueue(new Callback<UserMore>() {
+            @Override
+            public void onResponse(Call<UserMore> call, Response<UserMore> response) {
+                UserMore um=response.body();
+                Constants.user = um.getEmail();
+            }
 
-
+            @Override
+            public void onFailure(Call<UserMore> call, Throwable t) {
+            System.out.println("kendimi çekemedim");
+            }
+        });
+    }*/
 }

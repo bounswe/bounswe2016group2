@@ -11,6 +11,7 @@ import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Models.signUpRequest;
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -132,15 +135,19 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @GET("api/foods/{foodId}")
-    Call<Food> getFoodWithId(@Path("foodId") int foodId);
+    Call<Food> getFoodWithId(@Header("Authorization") String key,@Path("foodId") int foodId);
 
      @Headers("Content-Type: application/json")
      @POST("api/searchFood")
-     Call<List<Food>> searchFood(@Header("Authorization") String key,@Body  RequestBody body);
+     Call<List<Food>> searchFood(@Header("Authorization") String key, @Body RequestBody body);
 
     @Headers("Content-Type: application/json")
     @POST("api/foods")
     Call<FoodLess> addFood(@Header("Authorization") String key,@Body RequestBody body);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/users/me")
+    Call<UserMore> getMe(@Header("Authorization") String key);
 
     @Headers("Content-Type: application/json")
     @GET("api/diets")
@@ -173,4 +180,8 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("api/foods/{foodId}/ingredients/{ingredientId}")
     Call<FoodAddResponse> addIngredientToFood(@Header("Authorization") String key,@Path("foodId") int foodId,@Path("ingredientId") int ingredientId,@Body RequestBody body);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/myFoods")
+    Call<List<FoodLess>> getMyFoods(@Header("Authorization") String key);
 }

@@ -93,7 +93,7 @@ public class Food implements Serializable
         this.restaurant = restaurant;
     }
 
-    public Object getUser() {
+    public User getUser() {
         return user;
     }
 

@@ -337,6 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 System.out.println(login.getToken());
                 if (response.isSuccessful() && (login.getToken() != null && !login.getToken().isEmpty())) {
                     showProgress(false);
+                    Constants.user = email;
                     Constants.API_KEY=login.getToken();
                     SessionManager.setPreferences(LoginActivity.this,"token",login.getToken());
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
