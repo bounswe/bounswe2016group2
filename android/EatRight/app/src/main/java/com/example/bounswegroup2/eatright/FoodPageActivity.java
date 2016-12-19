@@ -109,9 +109,14 @@ public class FoodPageActivity extends AppCompatActivity implements RatingBar.OnR
         setRatingBar = (RatingBar)findViewById(R.id.rate_food_taste_ratingBar) ;
         setRatingBar.setOnRatingBarChangeListener(this);
         restBut = (Button) findViewById(R.id.restBut);
-        restaurantID = (int) b.getSerializable("restaID");
-        restBut.setText((String) b.getSerializable("restaName"));
-        restBut.setOnClickListener(restButClicked());
+        if(b.getSerializable("restaID") !=null & b.getSerializable("restaName")!=null){
+            restaurantID = (int) b.getSerializable("restaID");
+            restBut.setText((String) b.getSerializable("restaName"));
+            restBut.setOnClickListener(restButClicked());
+        }
+        else{
+            restBut.setText("anonymous");
+        }
         evalBut = (Button) findViewById(R.id.save_eval);
         evalBut.setOnClickListener(saveButtonClicked());
         btnOpenIngredients = (Button) findViewById(R.id.ingredients_button);
