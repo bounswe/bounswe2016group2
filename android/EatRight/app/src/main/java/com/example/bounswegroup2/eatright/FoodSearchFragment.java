@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,6 +75,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     }
 
 
+
     //@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,6 +108,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         carbSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForCab);
         carbSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.multiAutoCompleteTextView1);
+
         return  rootView;
     }
 
@@ -131,6 +136,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(FoodSearchFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
+
         //setRetainInstance(true);
     }
 
@@ -246,6 +252,5 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
     }
-
 
 }

@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInstaller;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,7 +34,9 @@ import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -72,6 +76,7 @@ public class UserHomeActivity extends AppCompatActivity
 
         PageAdapter a = new PageAdapter(getSupportFragmentManager());
         pager.setAdapter(a);
+
         mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
@@ -94,6 +99,9 @@ public class UserHomeActivity extends AppCompatActivity
 //        });
         //Bundle bundle = getIntent().getExtras();
        initSecondaryViews(bundle);
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        System.out.println(currentDateTimeString);
+        System.out.println(SessionManager.getPreferences(this,"token"));
       //  initFoodHistory();
     }
 
@@ -103,7 +111,6 @@ public class UserHomeActivity extends AppCompatActivity
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(mToggle);
         mToggle.syncState();
-
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
@@ -117,6 +124,8 @@ public class UserHomeActivity extends AppCompatActivity
             else
                 mShowName.setText(bundle.getString("email"));
         }
+
+
     }
 
     public void initFoodHistory(){
@@ -179,8 +188,9 @@ public class UserHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
         }
+
     }
 
     @Override
@@ -239,11 +249,11 @@ public class UserHomeActivity extends AppCompatActivity
         if (id == R.id.nav_add_food) {
             FoodAddFragment foodAddFragment = new FoodAddFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
+            manager.beginTransaction().addToBackStack(null).replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
         } else if (id == R.id.nav_adv_search){
             FoodSearchFragment foodSearchFragment = new FoodSearchFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_user_home,
+            manager.beginTransaction().addToBackStack(null).replace(R.id.content_user_home,
                     foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_log_out) {
             SessionManager.clearCredet(this);
