@@ -6,11 +6,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
@@ -48,6 +50,8 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
     private TextView tvRating;
     private ImageButton commentBut;
     private int restaurantID;
+    private EditText commentText;
+    private boolean b = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +81,7 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
                 .fit()
                 .centerInside()
                 .into(imageView);
+        commentText = (EditText) findViewById(R.id.server_comment_text);
         LayoutInflater inflater = getLayoutInflater();
         headerView = inflater.inflate(R.layout.food_list_header,null);
         tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
@@ -101,6 +106,7 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
             @Override
             public void onResponse(Call<RestaurantRate> call, Response<RestaurantRate> response) {
                 RestaurantRate fr = response.body();
+                if(fr == null) b=false;
             }
 
             @Override
@@ -108,6 +114,8 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
 
             }
         });
+        if (b) Toast.makeText(ServerPageActivity.this,"Your rating has been sent. Thank you!",Toast.LENGTH_SHORT).show();
+        else Toast.makeText(ServerPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT).show();
     }
 
 
