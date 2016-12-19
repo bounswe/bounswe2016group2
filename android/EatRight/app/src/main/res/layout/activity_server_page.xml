@@ -98,13 +98,13 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/post_rate_row"
         android:layout_alignParentEnd="true"
-        android:id="@+id/button" />
+        android:id="@+id/server_send_button" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_comment"
-        android:id="@+id/comment_but"
+        android:id="@+id/server_comment_but"
         android:layout_alignTop="@+id/server_name_text"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp" />

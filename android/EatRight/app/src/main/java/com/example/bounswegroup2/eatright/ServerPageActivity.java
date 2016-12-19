@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
+import com.example.bounswegroup2.Models.Restaurant;
+import com.example.bounswegroup2.Models.RestaurantComment;
 import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
@@ -48,10 +51,12 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
     private View headerView;
     private TextView tvName;
     private TextView tvRating;
-    private ImageButton commentBut;
+    private ImageButton commentButton;
+    private Button sendButton;
     private int restaurantID;
     private EditText commentText;
     private boolean b = true;
+    private boolean c = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +87,11 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
                 .centerInside()
                 .into(imageView);
         commentText = (EditText) findViewById(R.id.server_comment_text);
+        commentButton = (ImageButton) findViewById(R.id.server_comment_but);
+        //commentButton.setOnClickListener(commentButtonClicked());
+        sendButton = (Button) findViewById(R.id.server_send_button);
+        sendButton.setOnClickListener(sendButtonClicked());
+
         LayoutInflater inflater = getLayoutInflater();
         headerView = inflater.inflate(R.layout.food_list_header,null);
         tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
@@ -95,6 +105,35 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
         fillFoodList();
     }
 
+    private View.OnClickListener sendButtonClicked() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String comment = commentText.getText().toString();
+                ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+                HashMap<String,String> hm = new HashMap<>();
+                hm.put("comment",comment);
+                RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
+                Call<RestaurantComment> cb = test.commentRestaurant("Token "+Constants.API_KEY,restaurantID,body);
+                cb.enqueue(new Callback<RestaurantComment>() {
+                    @Override
+                    public void onResponse(Call<RestaurantComment> call, Response<RestaurantComment> response) {
+                        RestaurantComment fc = response.body();
+                        if (fc == null) c = false;
+                    }
+
+                    @Override
+                    public void onFailure(Call<RestaurantComment> call, Throwable t) {
+
+                    }
+                });
+
+                if (c) Toast.makeText(ServerPageActivity.this,"Your comment has been sent. Thank you!",Toast.LENGTH_SHORT).show();
+                else Toast.makeText(ServerPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
     public void onRatingChanged(RatingBar ratingBar,float rating, boolean fromUser){
         HashMap<String,Float> hm2 = new HashMap<>();
         float rate= postRateRest.getRating();
