@@ -39,16 +39,22 @@ import retrofit2.Response;
 
 public class pieChartFrag extends userHomeFragment {
 
-    public static Fragment newInstance() {
-        return new pieChartFrag();
+    public static Fragment newInstance(int position) {
+        pieChartFrag frag = new pieChartFrag();
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        frag.setArguments(b);
+        return frag;
     }
 
     private PieChart mChart;
+    private static final String ARG_POSITION = "position";
+    private int position;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_chart_pie, container, false);
-
+        position = getArguments().getInt(ARG_POSITION);
         mChart = (PieChart) v.findViewById(R.id.pieChart1);
         mChart.getDescription().setEnabled(false);
 

@@ -43,9 +43,15 @@ import retrofit2.Response;
  */
 
 public class FullHistoryFrag extends userHomeFragment {
+    private static final String ARG_POSITION = "position";
+    private int position;
 
-    public static Fragment newInstance() {
-        return new FullHistoryFrag();
+    public static Fragment newInstance(int position) {
+        FullHistoryFrag frag = new FullHistoryFrag();
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        frag.setArguments(b);
+        return frag;
     }
     private BarChart mChart;
     private SeekBar mSeekBarX, mSeekBarY;
@@ -55,7 +61,7 @@ public class FullHistoryFrag extends userHomeFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_full_history, container, false);
         final Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
-
+        position = getArguments().getInt(ARG_POSITION);
         mChart = (BarChart) v.findViewById(R.id.stacked_bar1);
         mChart.getDescription().setEnabled(false);
         mChart.setMaxVisibleValueCount(40);

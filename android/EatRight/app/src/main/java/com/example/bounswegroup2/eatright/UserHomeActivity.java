@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.FoodAdapter;
@@ -76,6 +78,14 @@ public class UserHomeActivity extends AppCompatActivity
 
         PageAdapter a = new PageAdapter(getSupportFragmentManager());
         pager.setAdapter(a);
+
+        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+                .getDisplayMetrics());
+        pager.setPageMargin(pageMargin);
+
+        // Bind the tabs to the ViewPager
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
 
         mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
@@ -283,8 +293,15 @@ public class UserHomeActivity extends AppCompatActivity
 
     private class PageAdapter extends FragmentPagerAdapter {
 
+        private final String[] TITLES = { "Daily", "Total" };
+
         public PageAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TITLES[position];
         }
 
         @Override
@@ -293,10 +310,10 @@ public class UserHomeActivity extends AppCompatActivity
 
             switch(pos) {
                 case 0:
-                    f = pieChartFrag.newInstance();
+                    f = pieChartFrag.newInstance(pos);
                     break;
                 case 1:
-                    f = FullHistoryFrag.newInstance();
+                    f = FullHistoryFrag.newInstance(pos);
                     break;
             }
 
@@ -305,7 +322,7 @@ public class UserHomeActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 2;
+            return TITLES.length;
         }
     }
 
