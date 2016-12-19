@@ -26,23 +26,31 @@ var Comment = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this, props));
 
-    _this.id = props.comment.id;
-    _this.username = props.comment.username;
-    _this.commentTime = props.comment.time;
-    _this.commentText = props.comment.text;
+    _this.userId = props.comment.user;
+    _this.comment = props.comment.comment;
+    _this.state = {};
 
-    _this.state = {
-      showReplySection: false
-    };
-
-    _this.reply = _this.reply.bind(_this);
+    _this.fetchUserName = _this.fetchUserName.bind(_this);
+    _this.fetchUserName();
     return _this;
   }
 
   _createClass(Comment, [{
-    key: "reply",
-    value: function reply() {
-      this.setState({ showReplySection: true });
+    key: "fetchUserName",
+    value: function fetchUserName() {
+      var _this2 = this;
+
+      Api.getUser(this.userId).then(function (data) {
+        var screenName = "";
+        if (data.first_name || data.last_name) {
+          screenName = data.first_name + " " + data.last_name;
+        } else {
+          screenName = data.username;
+        }
+        _this2.setState({ user: screenName });
+      }).catch(function (error) {
+        _this2.setState({ errors: error.data });
+      });
     }
   }, {
     key: "render",
@@ -56,35 +64,14 @@ var Comment = function (_React$Component) {
           React.createElement(
             "a",
             { className: "author" },
-            this.username
-          ),
-          React.createElement(
-            "div",
-            { className: "metadata" },
-            React.createElement(
-              "span",
-              { className: "date" },
-              this.commentTime
-            )
+            this.state.user
           ),
           React.createElement(
             "div",
             { className: "text" },
-            this.commentText
-          ),
-          React.createElement(
-            "div",
-            { className: "actions" },
-            React.createElement(
-              "a",
-              { className: "reply", onClick: this.reply },
-              "Reply"
-            )
+            this.comment
           )
-        ),
-        this.state.showReplySection &&
-        // TODO: Only restaurants can reply to comments
-        React.createElement(_PostComment2.default, null)
+        )
       );
     }
   }]);

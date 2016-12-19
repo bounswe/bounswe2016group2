@@ -107,7 +107,9 @@ class Api {
   static consumptionHistory(){
     return this.get('users/me/history');
   }
-
+  static getUser(userId){
+    return this.get('users/' + userId);
+  }
   // INGREDIENT ROUTES
   static searchIngredient(query) {
     return this.get('ingredientSearch?query=' + query);
@@ -185,5 +187,13 @@ class Api {
   }
   static removeDiet(dietId){
     return this.delete('myDiets/' + dietId)
+  }
+
+  // COMMENT ROUTES
+  static commentOnFood(foodId, data){
+    return this.post('foods/'+foodId+'/comment', data);
+  }
+  static commentOnRestaurant(restaurantId, data){
+    return this.post('restaurants/'+restaurantId+'/comment', data);
   }
 }

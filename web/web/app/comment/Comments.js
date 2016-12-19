@@ -4,35 +4,25 @@ import PostComment from 'comment/PostComment.js'
 export default class Comments extends React.Component {
   constructor(props) {
     super(props);
+    this.foodId = props.foodId;
     this.state = {
-      comments: [{}]
+      comments: []
     };
+    if(props.getComments){
+      this.getComments = props.getComments.bind(this);
+      this.getComments(this.foodId);
+    }
 
-    this.fetch = this.fetch.bind(this);
+    // api functions
+    this.comment = props.comment.bind(this);
+    this.commentFunction = this.commentFunction.bind(this);
   }
 
-  componentDidMount() {
-    this.fetch();
-  }
+  commentFunction(e){
+    this.comment(e);
 
-  // TODO: implement this function after api call is added
-  fetch(){
-      // TODO: update this.state.comments variable
-
-      let mockComment = {
-        id: 3,
-        username: 'Ford Prefect',
-        time: Date.now(),
-        text: 'So long, and thanks for all the fish'
-      };
-      let mockComment2 = {
-        id: 6,
-        username: 'Marvin',
-        time: Date.now(),
-        text: "Don't panic"
-      };
-      let comments = [mockComment2, mockComment];
-      this.setState({comments: comments});
+    // a quick solution for updating comments
+    window.location.href = "foods/"+this.foodId;
   }
 
   render() {
@@ -41,8 +31,8 @@ export default class Comments extends React.Component {
         {this.state.comments.map(function(comment, index){
           return(
             <Comment key={index} comment={comment}/>
-        )})}
-        <PostComment/>
+        )}, this)}
+        <PostComment addComment={this.commentFunction}/>
       </div>
     );
   }

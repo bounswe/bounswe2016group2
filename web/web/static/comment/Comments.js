@@ -30,41 +30,28 @@ var Comments = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Comments.__proto__ || Object.getPrototypeOf(Comments)).call(this, props));
 
+    _this.foodId = props.foodId;
     _this.state = {
-      comments: [{}]
+      comments: []
     };
+    if (props.getComments) {
+      _this.getComments = props.getComments.bind(_this);
+      _this.getComments(_this.foodId);
+    }
 
-    _this.fetch = _this.fetch.bind(_this);
+    // api functions
+    _this.comment = props.comment.bind(_this);
+    _this.commentFunction = _this.commentFunction.bind(_this);
     return _this;
   }
 
   _createClass(Comments, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.fetch();
-    }
+    key: 'commentFunction',
+    value: function commentFunction(e) {
+      this.comment(e);
 
-    // TODO: implement this function after api call is added
-
-  }, {
-    key: 'fetch',
-    value: function fetch() {
-      // TODO: update this.state.comments variable
-
-      var mockComment = {
-        id: 3,
-        username: 'Ford Prefect',
-        time: Date.now(),
-        text: 'So long, and thanks for all the fish'
-      };
-      var mockComment2 = {
-        id: 6,
-        username: 'Marvin',
-        time: Date.now(),
-        text: "Don't panic"
-      };
-      var comments = [mockComment2, mockComment];
-      this.setState({ comments: comments });
+      // a quick solution for updating comments
+      window.location.href = "foods/" + this.foodId;
     }
   }, {
     key: 'render',
@@ -74,8 +61,8 @@ var Comments = function (_React$Component) {
         { className: 'ui comments' },
         this.state.comments.map(function (comment, index) {
           return React.createElement(_Comment2.default, { key: index, comment: comment });
-        }),
-        React.createElement(_PostComment2.default, null)
+        }, this),
+        React.createElement(_PostComment2.default, { addComment: this.commentFunction })
       );
     }
   }]);

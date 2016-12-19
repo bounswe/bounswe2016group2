@@ -136,7 +136,11 @@ var Api = function () {
     value: function consumptionHistory() {
       return this.get('users/me/history');
     }
-
+  }, {
+    key: 'getUser',
+    value: function getUser(userId) {
+      return this.get('users/' + userId);
+    }
     // INGREDIENT ROUTES
 
   }, {
@@ -264,6 +268,19 @@ var Api = function () {
     key: 'removeDiet',
     value: function removeDiet(dietId) {
       return this.delete('myDiets/' + dietId);
+    }
+
+    // COMMENT ROUTES
+
+  }, {
+    key: 'commentOnFood',
+    value: function commentOnFood(foodId, data) {
+      return this.post('foods/' + foodId + '/comment', data);
+    }
+  }, {
+    key: 'commentOnRestaurant',
+    value: function commentOnRestaurant(restaurantId, data) {
+      return this.post('restaurants/' + restaurantId + '/comment', data);
     }
   }]);
 
