@@ -66,6 +66,7 @@ public class UserHomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -96,12 +97,14 @@ public class UserHomeActivity extends AppCompatActivity
 //        });
         //Bundle bundle = getIntent().getExtras();
        initSecondaryViews(bundle);
+        editForServerLogin();
         //getMe();
       //  initFoodHistory();
     }
 
     public void initSecondaryViews(Bundle bundle){
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         mToggle = new ActionBarDrawerToggle(
                 this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(mToggle);
@@ -121,6 +124,7 @@ public class UserHomeActivity extends AppCompatActivity
                 mShowName.setText(bundle.getString("email"));
         }
     }
+
 
     public void initFoodHistory(){
        // mHistoryRecyclerView = (RecyclerView) findViewById(R.id.History_recycler);
@@ -174,7 +178,25 @@ public class UserHomeActivity extends AppCompatActivity
     }*/
 
 
+    private void editForServerLogin(){
+        ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<UserMore> cb2 = test2.getMe("Token "+Constants.API_KEY);
+        cb2.enqueue(new Callback<UserMore>() {
+            @Override
+            public void onResponse(Call<UserMore> call, Response<UserMore> response) {
+               boolean b = response.body().getIsServer();
+                Constants.isServer = b;
+                if (b){
+                    mNavigationView.getMenu().getItem(1).setVisible(false);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<UserMore> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -190,6 +212,7 @@ public class UserHomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search_view, menu);
+
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager)getSystemService(Context.SEARCH_SERVICE);

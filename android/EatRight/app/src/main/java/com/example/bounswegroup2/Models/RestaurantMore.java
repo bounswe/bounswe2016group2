@@ -20,7 +20,7 @@ public class RestaurantMore implements Serializable
     private List<FoodLess> foods = null;
     @SerializedName("comments")
     @Expose
-    private List<Object> comments = null;
+    private List<RestaurantComment> comments = null;
     @SerializedName("user")
     @Expose
     private User user;
@@ -57,11 +57,11 @@ public class RestaurantMore implements Serializable
         this.foods = foods;
     }
 
-    public List<Object> getComments() {
+    public List<RestaurantComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Object> comments) {
+    public void setComments(List<RestaurantComment> comments) {
         this.comments = comments;
     }
 

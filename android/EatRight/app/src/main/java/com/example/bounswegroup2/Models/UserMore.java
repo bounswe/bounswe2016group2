@@ -35,7 +35,7 @@ public class UserMore implements Serializable
     private List<FoodLess> foods = null;
     @SerializedName("restaurants")
     @Expose
-    private List<Restaurant> restaurants = null;
+    private List<RestaurantMore> restaurants = null;
     @SerializedName("isServer")
     @Expose
     private Boolean isServer;
@@ -109,11 +109,11 @@ public class UserMore implements Serializable
         this.foods = foods;
     }
 
-    public List<Restaurant> getRestaurants() {
+    public List<RestaurantMore> getRestaurants() {
         return restaurants;
     }
 
-    public void setRestaurants(List<Restaurant> restaurants) {
+    public void setRestaurants(List<RestaurantMore> restaurants) {
         this.restaurants = restaurants;
     }
 

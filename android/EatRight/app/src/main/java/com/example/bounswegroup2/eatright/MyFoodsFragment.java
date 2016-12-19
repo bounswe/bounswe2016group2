@@ -205,7 +205,6 @@ public class MyFoodsFragment extends Fragment {
                     b.putSerializable("restaName",Constants.user);
                     b.putSerializable("restaID",0);
                 }
-
                 b.putSerializable("foodid",food.getId());
                 b.putSerializable("rate",food.getDetails().getRate());
                 b.putSerializable("comments", (Serializable) food.getComments());

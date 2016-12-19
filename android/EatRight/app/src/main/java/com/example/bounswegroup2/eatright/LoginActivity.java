@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private Button switchToRegBut;
+    private Boolean b = false;
     //TODO test
 
     @Override
@@ -335,12 +337,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 System.out.println(response.code());
                 signInRequest login = response.body();
                 System.out.println(login.getToken());
+                Constants.user = email;
+                Constants.API_KEY=login.getToken();
                 if (response.isSuccessful() && (login.getToken() != null && !login.getToken().isEmpty())) {
                     showProgress(false);
-                    Constants.user = email;
-                    Constants.API_KEY=login.getToken();
                     SessionManager.setPreferences(LoginActivity.this,"token",login.getToken());
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+                    intent.putExtra("isServer",b);
                     intent.putExtra("email",email);
                     startActivity(intent);
                     LoginActivity.this.finish();

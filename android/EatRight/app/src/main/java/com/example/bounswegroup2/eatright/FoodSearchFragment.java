@@ -147,8 +147,13 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             b.putSerializable("ingr", (Serializable) food.getIngredients());
             b.putSerializable("name",food.getName());
             b.putSerializable("photo",food.getPhoto());
-            b.putSerializable("restaName",food.getRestaurant().getName());
-            b.putSerializable("restaID",food.getRestaurant().getId());
+            if (food.getRestaurant() != null){
+                b.putSerializable("restaName",food.getRestaurant().getName());
+                b.putSerializable("restaID",food.getRestaurant().getId());
+            }else{
+                b.putSerializable("restaName",Constants.user);
+                b.putSerializable("restaID",0);
+            }
             b.putSerializable("foodid",food.getId());
             b.putSerializable("rate",food.getDetails().getRate());
             b.putSerializable("comments", (Serializable) food.getComments());

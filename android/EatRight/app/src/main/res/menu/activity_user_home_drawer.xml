@@ -15,7 +15,8 @@
         <item
             android:id="@+id/nav_my_foods"
             android:icon="@android:drawable/ic_lock_idle_lock"
-            android:title="My Foods" />
+            android:title="My Foods"
+            />
     </group>
 
     <item android:title="Application" >
