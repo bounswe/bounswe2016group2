@@ -46,7 +46,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FoodPageActivity extends AppCompatActivity {
+public class FoodPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener{
 
     private TextView foodName;
     private TextView totalCalories;
@@ -107,6 +107,7 @@ public class FoodPageActivity extends AppCompatActivity {
 
         if (b.getSerializable("rate") != null) showRatingBar.setRating(Float.parseFloat(b.getSerializable("rate").toString()));
         setRatingBar = (RatingBar)findViewById(R.id.rate_food_taste_ratingBar) ;
+        setRatingBar.setOnRatingBarChangeListener(this);
         restBut = (Button) findViewById(R.id.restBut);
         restaurantID = (int) b.getSerializable("restaID");
         restBut.setText((String) b.getSerializable("restaName"));
@@ -193,29 +194,34 @@ public class FoodPageActivity extends AppCompatActivity {
 
                 }
             });
-            float rate = setRatingBar.getRating();
-            HashMap<String,Float> hm2 = new HashMap<>();
-            hm2.put("score",rate);
-            RequestBody body2 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm2)).toString());
-            ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
-            Call<FoodRate> cb2 = test.rateFood("Token "+Constants.API_KEY,foodID,body2);
-            cb2.enqueue(new Callback<FoodRate>() {
-                @Override
-                public void onResponse(Call<FoodRate> call, Response<FoodRate> response) {
-                    FoodRate fr = response.body();
-                    if(fr == null) b=false;
-                }
 
-                @Override
-                public void onFailure(Call<FoodRate> call, Throwable t) {
-
-                }
-            });
-
-            if (b) Toast.makeText(FoodPageActivity.this,"Your comment and rating saved. Thank you!",Toast.LENGTH_SHORT).show();
+            if (b) Toast.makeText(FoodPageActivity.this,"Your comment has been sent. Thank you!",Toast.LENGTH_SHORT).show();
             else Toast.makeText(FoodPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT).show();
         }
     };
+    }
+
+    public void onRatingChanged(RatingBar ratingBar,float rating, boolean fromUser){
+        float rate = setRatingBar.getRating();
+        HashMap<String,Float> hm2 = new HashMap<>();
+        hm2.put("score",rate);
+        RequestBody body2 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm2)).toString());
+        ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<FoodRate> cb2 = test2.rateFood("Token "+Constants.API_KEY,foodID,body2);
+        cb2.enqueue(new Callback<FoodRate>() {
+            @Override
+            public void onResponse(Call<FoodRate> call, Response<FoodRate> response) {
+                FoodRate fr = response.body();
+                if(fr == null) b=false;
+            }
+
+            @Override
+            public void onFailure(Call<FoodRate> call, Throwable t) {
+
+            }
+        });
+        if (b) Toast.makeText(FoodPageActivity.this,"Your rating has been sent. Thank you!",Toast.LENGTH_SHORT).show();
+        else Toast.makeText(FoodPageActivity.this,"Something went wrong. Sorry!",Toast.LENGTH_SHORT).show();
     }
 
     private OnClickListener tastedButtonclicked() {
