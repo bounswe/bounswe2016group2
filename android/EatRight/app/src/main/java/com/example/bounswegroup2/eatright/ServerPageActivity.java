@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -27,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ import retrofit2.Response;
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 
-public class ServerPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener{
+public class ServerPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener, AdapterView.OnItemClickListener{
 
     private TextView serverName;
     private RestaurantMore restaurant;
@@ -93,6 +95,7 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
         commentButton.setOnClickListener(commentButtonClicked());
         sendButton = (Button) findViewById(R.id.server_send_button);
         sendButton.setOnClickListener(sendButtonClicked());
+        lv.setOnItemClickListener(this);
 
         LayoutInflater inflater = getLayoutInflater();
         headerView = inflater.inflate(R.layout.food_list_header,null);
@@ -171,6 +174,25 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
                 finish();
             }
         };
+    }
+
+    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+        if(adapter.getId() == lv.getId()){
+            Food food = (Food)adapter.getAdapter().getItem(position);
+            Bundle b = new Bundle();
+            b.putSerializable("details",food.getDetails());
+            b.putSerializable("ingr", (Serializable) food.getIngredients());
+            b.putSerializable("name",food.getName());
+            b.putSerializable("photo",food.getPhoto());
+            b.putSerializable("restaName",food.getRestaurant().getName());
+            b.putSerializable("restaID",food.getRestaurant().getId());
+            b.putSerializable("foodid",food.getId());
+            b.putSerializable("rate",food.getDetails().getRate());
+            b.putSerializable("comments", (Serializable) food.getComments());
+            Intent intent = new Intent(ServerPageActivity.this, FoodPageActivity.class);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
     }
 
 
