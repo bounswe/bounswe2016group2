@@ -10,6 +10,10 @@ var _Comments = require('comment/Comments.js');
 
 var _Comments2 = _interopRequireDefault(_Comments);
 
+var _Rate = require('rate/Rate.js');
+
+var _Rate2 = _interopRequireDefault(_Rate);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,6 +43,7 @@ var FoodPage = function (_React$Component) {
     _this.ateThis = _this.ateThis.bind(_this);
     _this.servingSizeChanged = _this.servingSizeChanged.bind(_this);
     _this.comment = _this.comment.bind(_this);
+    _this.foodRated = _this.foodRated.bind(_this);
     return _this;
   }
 
@@ -48,26 +53,14 @@ var FoodPage = function (_React$Component) {
       this.fetch(this.state.id);
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      $('#foodRating .ui.rating').rating({
-        maxRating: 5,
-        onRate: function onRate(value) {
-          _this2.setState({ rating: value });
-        }
-      });
-    }
-  }, {
     key: 'fetch',
     value: function fetch(id) {
-      var _this3 = this;
+      var _this2 = this;
 
       Api.getFood(id).then(function (data) {
-        _this3.setState({ food: data });
+        _this2.setState({ food: data });
       }).catch(function (err) {
-        _this3.setState({ errors: err });
+        _this2.setState({ errors: err });
       });
     }
   }, {
@@ -88,40 +81,51 @@ var FoodPage = function (_React$Component) {
   }, {
     key: 'ateThis',
     value: function ateThis(e) {
-      var _this4 = this;
+      var _this3 = this;
 
       e.preventDefault();
       var data = {
-        value: this.state.servingSize,
-        rating: this.state.rating
+        value: this.state.servingSize
       };
       Api.foodAte(this.state.id, data).then(function (data) {
         $('#ateFoodSuccModal').modal('show');
       }).catch(function (err) {
-        _this4.setState({ errors: err.data });
+        _this3.setState({ errors: err.data });
       });
     }
   }, {
     key: 'comment',
     value: function comment(data) {
-      var _this5 = this;
+      var _this4 = this;
 
       Api.commentOnFood(this.state.id, data).then(function (data) {
-        _this5.fetch(_this5.state.id); // get updated comments list
+        _this4.fetch(_this4.state.id); // get updated comments list
       }).catch(function (error) {
-        _this5.setState({ errors: error.data });
+        _this4.setState({ errors: error.data });
       });
     }
   }, {
     key: 'getComments',
     value: function getComments(foodId) {
-      var _this6 = this;
+      var _this5 = this;
 
       var self = this;
       Api.getFood(foodId).then(function (data) {
         self.setState({ comments: data.comments });
       }).catch(function (err) {
-        _this6.setState({ errors: err.data });
+        _this5.setState({ errors: err.data });
+      });
+    }
+  }, {
+    key: 'foodRated',
+    value: function foodRated(rate) {
+      var _this6 = this;
+
+      var postData = {
+        score: rate
+      };
+      Api.rateOnFood(this.state.id, postData).catch(function (error) {
+        _this6.setState({ errors: error.data });
       });
     }
   }, {
@@ -216,16 +220,6 @@ var FoodPage = function (_React$Component) {
                     React.createElement('input', { type: 'number', min: '0', max: '100', name: 'servingSize', value: this.state.servingSize, onChange: this.servingSizeChanged })
                   ),
                   React.createElement(
-                    'div',
-                    { id: 'foodRating', className: 'field' },
-                    React.createElement(
-                      'label',
-                      null,
-                      ' Your rating '
-                    ),
-                    React.createElement('div', { className: 'ui star rating' })
-                  ),
-                  React.createElement(
                     'button',
                     { className: 'ui button', type: 'submit', style: { width: '100%' }, onClick: this.ateThis },
                     'Submit'
@@ -233,7 +227,8 @@ var FoodPage = function (_React$Component) {
                 )
               )
             )
-          )
+          ),
+          token && (console.log(this.state.food.rate) || this.state.food.rate) && React.createElement(_Rate2.default, { label: 'Your Rating', onChange: this.foodRated, initialRating: this.state.food.rate })
         ),
         React.createElement(
           'div',

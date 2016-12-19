@@ -1,4 +1,5 @@
 import Comments from 'comment/Comments.js'
+import Rate from 'rate/Rate.js'
 
 export default class FoodPage extends React.Component {
 
@@ -17,21 +18,11 @@ export default class FoodPage extends React.Component {
     this.ateThis = this.ateThis.bind(this)
     this.servingSizeChanged = this.servingSizeChanged.bind(this)
     this.comment = this.comment.bind(this);
+    this.foodRated = this.foodRated.bind(this);
   }
 
   componentWillMount(){
     this.fetch(this.state.id);
-  }
-
-  componentDidMount() {
-    $('#foodRating .ui.rating').rating(
-      {
-        maxRating: 5,
-        onRate: (value) => {
-          this.setState({rating: value})
-        }
-      }
-    );
   }
 
   fetch(id) {
@@ -56,8 +47,7 @@ export default class FoodPage extends React.Component {
   ateThis(e) {
     e.preventDefault()
     var data = {
-      value: this.state.servingSize,
-      rating: this.state.rating
+      value: this.state.servingSize
     }
     Api.foodAte(this.state.id, data)
       .then((data) => {
@@ -84,6 +74,15 @@ export default class FoodPage extends React.Component {
       }).catch((err) => {
         this.setState({errors: err.data});
       })
+  }
+
+  foodRated(rate){
+    let postData = {
+      score: rate
+    }
+    Api.rateOnFood(this.state.id, postData).catch((error) => {
+      this.setState({errors: error.data})
+    })
   }
 
   render() {
@@ -132,10 +131,6 @@ export default class FoodPage extends React.Component {
                       <label>Serving size</label>
                       <input type="number" min="0" max="100" name="servingSize" value={this.state.servingSize} onChange={this.servingSizeChanged}/>
                     </div>
-                    <div  id="foodRating" className="field">
-                      <label> Your rating </label>
-                      <div className="ui star rating"></div>
-                    </div>
                     <button className="ui button" type="submit" style={{width:'100%'}} onClick={this.ateThis}>
                       Submit
                     </button>
@@ -143,6 +138,10 @@ export default class FoodPage extends React.Component {
                 </div>
               </div>
             </div>
+          }
+          {/* Food rating */}
+          {token && (console.log(this.state.food.rate) || this.state.food.rate) &&
+            <Rate label="Your Rating" onChange={this.foodRated} initialRating={this.state.food.rate}/>
           }
         </div>
         {/* general info   */}
