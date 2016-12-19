@@ -76,11 +76,11 @@ public class pieChartFrag extends userHomeFragment {
         String token = "Token " + SessionManager.getPreferences(getContext(),"token");
         System.out.println(token);
         String currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
-        System.out.println(currentDateTimeString);
-        String[] timecheck = currentDateTimeString.substring(0,9).split("/");
-        final String day = timecheck[0];
-        final String month = timecheck[1];
-        final String year = timecheck[2];
+        System.out.println(currentDateTimeString.substring(0,8)+"=====================");
+        String[] timecheck = currentDateTimeString.substring(0,8).split("/");
+        final Integer day = Integer.parseInt(timecheck[1]);
+        final Integer month = Integer.parseInt(timecheck[0]);
+        final Integer year = Integer.parseInt(timecheck[2]);
         ApiInterface[] test = {ApiInterface.retrofit.create(ApiInterface.class)};
         Call<TotalUserHistory> cb = test[0].getuserFoodHistory(token);
         cb.enqueue(new Callback<TotalUserHistory>() {
@@ -93,8 +93,17 @@ public class pieChartFrag extends userHomeFragment {
                     double fats = 0;
                     double protein = 0;
                     for (AteFoodUserless ate : foodList){
-                        String[] checkDate = ate.getCreated().substring(0,9).split("-");
-                        if(checkDate[0].equals(year) && checkDate[1].equals(month) && checkDate[2].equals(day)){
+                        String[] checkDate = ate.getCreated().substring(2,10).split("-");
+                        Integer checkDay = Integer.parseInt(checkDate[2]);
+                        String[] checkTime = ate.getCreated().substring(11,19).split(":");
+                        System.out.println(ate.getCreated().substring(12,20));
+                        Integer hour = Integer.parseInt(checkTime[0]);
+                        if (hour >= 21){
+                            checkDay++;
+                        }
+
+                        System.out.println(ate.getCreated()+ "----------------");
+                        if(Integer.parseInt(checkDate[0]) ==year && Integer.parseInt(checkDate[1]) ==month && checkDay ==day){
                             Food food = ate.getFood();
                             carbs += food.getDetails().getCarb().getWeight();
                             fats += food.getDetails().getFat().getWeight();
