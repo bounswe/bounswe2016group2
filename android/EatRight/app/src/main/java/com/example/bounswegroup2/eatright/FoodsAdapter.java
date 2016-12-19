@@ -40,14 +40,19 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         // Lookup view for data population
         ImageView imageView = (ImageView) convertView.findViewById(R.id.food_image_view);
         TextView tvName = (TextView) convertView.findViewById(R.id.food_name);
-        TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
+        //TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
         RatingBar tvRating = (RatingBar) convertView.findViewById(R.id.rating_food);
         tvRating.setRating(Float.parseFloat(food.getDetails().getRate().toString()));
-        tvComment.setText(food.getSlug());
+        if(food.getComments().size()>0){
+            tvComment.setText(food.getComments().get((food.getComments().size())-1).getComment());
+        }
+        else{
+            tvComment.setText("");
+        }
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());
-        tvSlug.setText(food.getSlug());
+        //tvSlug.setText(food.getSlug());
         Picasso.with(getContext())
                 .load(food.getPhoto())
                 .placeholder(R.drawable.eatright)

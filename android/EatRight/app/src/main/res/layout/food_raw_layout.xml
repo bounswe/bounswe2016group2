@@ -19,7 +19,7 @@
         android:layout_gravity="start"
         android:textSize="16sp"
         android:background="#88FF0000"/>
-    <TextView
+    <!--<TextView
         android:id="@+id/food_slug"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:textSize="16sp"
         android:maxLines="1"
         android:layout_gravity="start"
-        android:background="#8800FF00"/>
+        android:background="#8800FF00"/>-->
     </LinearLayout>
     <RelativeLayout
         android:layout_width="0dp"
