@@ -5,12 +5,13 @@ export default class Rate extends React.Component {
     this.state = {
       maxRating: props.maxRating || 5,
       label: props.label || '',
-      initialRating: props.initialRating || 0
+      initialRating: props.initialRating || 0,
+      name: props.name || ''
     };
   }
 
   componentDidMount() {
-    $('#foodRating .ui.rating').rating(
+    $('#rating'+this.state.name+' .ui.rating').rating(
       {
         maxRating: this.state.maxRating,
         initialRating: this.state.initialRating,
@@ -23,7 +24,7 @@ export default class Rate extends React.Component {
 
   render() {
     return (
-      <div id="foodRating">
+      <div id={'rating'+this.state.name}>
         <label> {this.state.label} </label>
         <div className="ui star rating"></div>
       </div>

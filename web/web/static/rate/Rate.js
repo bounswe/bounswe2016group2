@@ -24,7 +24,8 @@ var Rate = function (_React$Component) {
     _this.state = {
       maxRating: props.maxRating || 5,
       label: props.label || '',
-      initialRating: props.initialRating || 0
+      initialRating: props.initialRating || 0,
+      name: props.name || ''
     };
     return _this;
   }
@@ -34,7 +35,7 @@ var Rate = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      $('#foodRating .ui.rating').rating({
+      $('#rating' + this.state.name + ' .ui.rating').rating({
         maxRating: this.state.maxRating,
         initialRating: this.state.initialRating,
         onRate: function onRate(value) {
@@ -47,7 +48,7 @@ var Rate = function (_React$Component) {
     value: function render() {
       return React.createElement(
         'div',
-        { id: 'foodRating' },
+        { id: 'rating' + this.state.name },
         React.createElement(
           'label',
           null,
