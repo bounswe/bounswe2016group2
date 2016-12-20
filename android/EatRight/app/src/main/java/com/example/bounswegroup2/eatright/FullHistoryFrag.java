@@ -15,11 +15,13 @@ import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.TotalUserHistory;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.AxisValueFormatter;
+import com.example.bounswegroup2.Utils.DayAxisValueFormatter;
 import com.example.bounswegroup2.Utils.SessionManager;
 import com.example.bounswegroup2.Utils.ValueFormatter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -27,11 +29,13 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -57,17 +61,18 @@ public class FullHistoryFrag extends userHomeFragment {
     private SeekBar mSeekBarX, mSeekBarY;
     private TextView tvX, tvY;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_full_history, container, false);
-        final Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
+        final Typeface tf1 = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
         position = getArguments().getInt(ARG_POSITION);
         mChart = (BarChart) v.findViewById(R.id.stacked_bar1);
         mChart.getDescription().setEnabled(false);
         mChart.setMaxVisibleValueCount(40);
 
         // scaling can now only be done on x- and y-axis separately
-        mChart.setPinchZoom(true);
+        mChart.setPinchZoom(false);
 
         mChart.setDrawGridBackground(true);
         mChart.setDrawBarShadow(true);
@@ -122,12 +127,17 @@ public class FullHistoryFrag extends userHomeFragment {
                     if (hour >= 21){
                         checkDay++;
                     }
+                    int dateResolver = getTotalDays(Integer.parseInt(checkDate[1]),checkDay);
+                    System.out.println("DEBUG "+ Integer.parseInt(checkDate[1])+ " "+ checkDay);
+                    System.out.println(dateResolver);
                     carbs += initialFood.getDetails().getCarb().getWeight();
                     fats += initialFood.getDetails().getFat().getWeight();
                     protein += initialFood.getDetails().getProtein().getWeight();
                     dateCheck = checkMonth+"-"+String.valueOf(checkDay);
-                    System.out.println(dateCheck);
+
+                    //System.out.println(dateCheck);
                     Integer count = 1;
+                    Integer indexCount = 0;
                     for (int i =1;i < foodList.size();i++){
                         AteFoodUserless ate = foodList.get(i);
                         Food food = ate.getFood();
@@ -140,14 +150,15 @@ public class FullHistoryFrag extends userHomeFragment {
                         if (hour1 >= 21){
                             checkDay1++;
                         }
-                        System.out.println((checkMonth1+"-"+String.valueOf(checkDay1) + " !!!!! " + dateCheck));
+                        //System.out.println((checkMonth1+"-"+String.valueOf(checkDay1) + " !!!!! " + dateCheck));
                         if(!(checkMonth1+"-"+String.valueOf(checkDay1)).equals(dateCheck)){
-                            yVals1.add(new BarEntry(i,
+                            yVals1.add(new BarEntry(indexCount+dateResolver,
                                     new float[]{(float)carbs,
                                                 (float)fats,
                                                 (float) protein},
                                     dateCheck));
                             count++;
+                            indexCount++;
                             carbs = food.getDetails().getCarb().getWeight();
                             fats = food.getDetails().getFat().getWeight();
                             protein = food.getDetails().getProtein().getWeight();
@@ -158,7 +169,7 @@ public class FullHistoryFrag extends userHomeFragment {
                             protein += food.getDetails().getProtein().getWeight();
                         }
                     }
-                    yVals1.add(new BarEntry(count++,
+                    yVals1.add(new BarEntry(indexCount+dateResolver,
                             new float[]{(float)carbs,
                                     (float)fats,
                                     (float) protein},
@@ -173,8 +184,17 @@ public class FullHistoryFrag extends userHomeFragment {
                     BarData data = new BarData(dataSets);
                     data.setValueFormatter(new ValueFormatter());
                     data.setValueTextColor(Color.WHITE);
-
+                    data.setValueTypeface(tf1);
+                    IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart);
+                    XAxis xAxis = mChart.getXAxis();
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setTypeface(tf1);
+                    xAxis.setDrawGridLines(false);
+                    xAxis.setGranularity(1f); // only intervals of 1 day
+                    xAxis.setLabelCount(7);
+                    xAxis.setValueFormatter(xAxisFormatter);
                     mChart.setData(data);
+                    mChart.invalidate();
 
                 }
             }
@@ -198,9 +218,27 @@ public class FullHistoryFrag extends userHomeFragment {
         int[] colors = new int[stacksize];
 
         for (int i = 0; i < colors.length; i++) {
-            colors[i] = ColorTemplate.MATERIAL_COLORS[i];
+            colors[i] = ColorTemplate.PASTEL_COLORS[i];
         }
 
         return colors;
+    }
+    private int getTotalDays(int month,int day){
+        int result = 0;
+        if(month == 1){
+            return day;}
+        else {
+            for (int i = 1; i <month ; i++) {
+                if(i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 ){
+                    result += 31;
+                }else if(i ==2){
+                    result += 28;
+                }else{
+                    result += 30;
+                }
+            }
+            result += day;
+            return result;
+        }
     }
     }

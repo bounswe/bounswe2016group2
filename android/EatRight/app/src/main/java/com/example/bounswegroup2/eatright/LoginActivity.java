@@ -339,7 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 System.out.println(response.code());
                 signInRequest login = response.body();
-                System.out.println(login.getToken());
+
                 if (response.isSuccessful() && (login.getToken() != null && !login.getToken().isEmpty())) {
                     showProgress(false);
                     Constants.API_KEY=login.getToken();

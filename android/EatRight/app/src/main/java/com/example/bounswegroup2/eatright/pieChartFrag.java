@@ -82,7 +82,7 @@ public class pieChartFrag extends userHomeFragment {
         String token = "Token " + SessionManager.getPreferences(getContext(),"token");
         System.out.println(token);
         String currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
-        System.out.println(currentDateTimeString.substring(0,8)+"=====================");
+        //System.out.println(currentDateTimeString.substring(0,8)+"=====================");
         String[] timecheck = currentDateTimeString.substring(0,8).split("/");
         final Integer day = Integer.parseInt(timecheck[1]);
         final Integer month = Integer.parseInt(timecheck[0]);
@@ -102,13 +102,13 @@ public class pieChartFrag extends userHomeFragment {
                         String[] checkDate = ate.getCreated().substring(2,10).split("-");
                         Integer checkDay = Integer.parseInt(checkDate[2]);
                         String[] checkTime = ate.getCreated().substring(11,19).split(":");
-                        System.out.println(ate.getCreated().substring(12,20));
+                       // System.out.println(ate.getCreated().substring(12,20));
                         Integer hour = Integer.parseInt(checkTime[0]);
                         if (hour >= 21){
                             checkDay++;
                         }
 
-                        System.out.println(ate.getCreated()+ "----------------");
+                       // System.out.println(ate.getCreated()+ "----------------");
                         if(Integer.parseInt(checkDate[0]) ==year && Integer.parseInt(checkDate[1]) ==month && checkDay ==day){
                             Food food = ate.getFood();
                             carbs += food.getDetails().getCarb().getWeight();
@@ -122,7 +122,7 @@ public class pieChartFrag extends userHomeFragment {
                     entries1.add(new PieEntry((float)fats,"Fats"));
                     entries1.add(new PieEntry((float) protein,"Protein"));
                     PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
-                    ds1.setColors(ColorTemplate.PASTEL_COLORS);
+                    ds1.setColors(ColorTemplate.LIBERTY_COLORS);
                     ds1.setSliceSpace(2f);
                     ds1.setValueTextColor(Color.BLACK);
                     ds1.setValueTextSize(12f);
