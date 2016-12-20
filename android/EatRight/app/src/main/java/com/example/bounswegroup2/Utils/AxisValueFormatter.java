@@ -20,6 +20,6 @@ public class AxisValueFormatter implements IAxisValueFormatter
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        return mFormat.format(value) ;
+        return mFormat.format(value) + " gr" ;
     }
 }
