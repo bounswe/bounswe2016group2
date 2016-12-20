@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,8 +21,7 @@ import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
-import com.example.bounswegroup2.Models.User;
-import com.example.bounswegroup2.Models.UserMore;
+import com.example.bounswegroup2.Models.Tag;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
@@ -39,7 +35,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -55,7 +50,6 @@ import static android.R.drawable.arrow_up_float;
  */
 public class FoodSearchFragment extends ListFragment implements AdapterView.OnItemClickListener {
     private String query;
-    private EditText allergicEditText;
     private Button searchButton;
     private ListView lv;
     private MultiAutoCompleteTextView mtext1;
@@ -67,7 +61,14 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private RangeSeekBar<Integer> fatSeekBar;
     private RangeSeekBar<Integer> carbSeekBar;
     private ArrayList<Integer> ingIds = new ArrayList<>();
-    private  ArrayList<Food> nFl = new ArrayList<Food>();
+    private ArrayList<Food> nFl = new ArrayList<Food>();
+    private ArrayList<String> selectedTags = new ArrayList<>();
+    private EditText tagsET;
+    private ListView tagLV;
+    private Button saveTags;
+    private ArrayList<Tag> lotags = new ArrayList<>();
+    private ArrayList<String> lotagsNames = new ArrayList<>();
+
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
@@ -79,12 +80,10 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     }
 
 
-
     //@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_search, container, false);
         searchButton = (Button)rootView.findViewById(R.id.searchFood);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +102,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
                 return;
             }
         });
+        tagLV = (ListView) rootView.findViewById(R.id.tagListView);
         lv = (ListView) rootView.findViewById(R.id.ingr_listview);
         calorieSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekbarForCalorie);
         calorieSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
@@ -113,7 +113,8 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         carbSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForCab);
         carbSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.multiAutoCompleteTextView1);
-
+        tagsET = (EditText) rootView.findViewById(R.id.editTextTag);
+        saveTags = (Button) rootView.findViewById(R.id.saveTags);
         return  rootView;
     }
 
@@ -137,12 +138,66 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         //getAllFoods(query)
         getListView().setOnItemClickListener(this);
         lv.setOnItemClickListener(this);
+        tagsET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b){
+                populateTAgListView();
+                }
+            }
+        });
+        saveTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagLV.setVisibility(View.GONE);
+                Toast.makeText(FoodSearchFragment.this.getContext(),"All Tags Saved",Toast.LENGTH_SHORT).show();
+                searchButton.setVisibility(View.VISIBLE);
+                saveTags.setVisibility(View.GONE);
+                for (Tag t : lotags) lotagsNames.add(t.getName());
+            }
+        });
+        tagLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Tag tag = (Tag)adapterView.getAdapter().getItem(i);
+                if (lotags.contains(tag)){
+                    lotags.remove(tag);
+                    Toast.makeText(FoodSearchFragment.this.getContext(),"Removed Tag Succesfully:\n"+tag.getName(),Toast.LENGTH_SHORT).show();
+                }else{
+                    lotags.add(tag);
+                    Toast.makeText(FoodSearchFragment.this.getContext(),"Added Tag Succesfully:\n"+tag.getName(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         getAllIngredients();
         getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(FoodSearchFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
-
         //setRetainInstance(true);
+    }
+
+    private void populateTAgListView() {
+        String s = tagsET.getText().toString();
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<List<Tag>> cb = test.getTags("Token "+Constants.API_KEY,s);
+        cb.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                ArrayList<Tag> lot = (ArrayList<Tag>) response.body();
+                TagAdapter adp = new TagAdapter(FoodSearchFragment.this.getContext(),lot);
+                tagLV.setAdapter(adp);
+                tagLV.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                tagLV.setVisibility(View.VISIBLE);
+                getListView().setVisibility(View.INVISIBLE);
+                searchButton.setVisibility(View.GONE);
+                saveTags.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -162,7 +217,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
                 b.putSerializable("restaID",0);
             }
             b.putSerializable("foodid",food.getId());
-            b.putSerializable("rate",food.getDetails().getRate());
+            b.putSerializable("rate",food.getRate());
             b.putSerializable("comments", (Serializable) food.getComments());
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
             intent.putExtras(b);
@@ -172,6 +227,8 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
 
     //Revise after server deployment
     private void getAllFoods(String queryString, final List<String> allergic){
+        tagLV.setVisibility(View.INVISIBLE);
+        getListView().setVisibility(View.VISIBLE);
         if(queryString == null) queryString = "";
         float minCalorie = calorieSeekBar.getSelectedMinValue();
         float maxCalorie = calorieSeekBar.getSelectedMaxValue();
@@ -187,7 +244,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         hm.put("minProteinVal",  minProtein); hm.put("maxProteinVal",maxProtein);
         hm.put("minCarbVal", minCarbon); hm.put("maxCarbVal",maxCarbon);
         hm.put("minFatVal",  minFat); hm.put("maxFatVal",maxFat);
-        hm.put("ingredients",ingIds);
+        hm.put("ingredients",ingIds); hm.put("tag",lotagsNames);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
         Call<List<Food>> cb = test.searchFood(Constants.API_KEY,body);
         cb.enqueue(new Callback<List<Food>>() {
@@ -272,5 +329,6 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
     }
+
 
 }

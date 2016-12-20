@@ -10,7 +10,7 @@ import com.example.bounswegroup2.Models.FoodRate;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.RestaurantMore;
-import com.example.bounswegroup2.Models.TotalUserHistory;
+import com.example.bounswegroup2.Models.Tag;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Models.signInRequest;
@@ -93,10 +93,11 @@ public interface ApiInterface {
     @GET("api/users/signout")
     void getSignout();
 
+    @POST("api/users/me")
+    void sendYourself();
 
-    @Headers({ "Content-Type: appliaction/json;charset=UTF-8"})
-    @GET("api/users/me/history")
-    Call<TotalUserHistory> getuserFoodHistory(@Header("Authorization") String token);
+    @GET("api/users/me")
+    void getYourself();
 
     @GET("api/users")
     Call<List<User>> getUsers(@QueryMap Map<String, String> options);
@@ -184,4 +185,8 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("api/myFoods")
     Call<List<FoodLess>> getMyFoods(@Header("Authorization") String key);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/searchTag")
+    Call<List<Tag>> getTags(@Header("Authorization") String key,@Query("query") String query);
 }

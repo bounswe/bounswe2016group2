@@ -208,11 +208,11 @@ public class UserHomeActivity extends AppCompatActivity
         cb2.enqueue(new Callback<UserMore>() {
             @Override
             public void onResponse(Call<UserMore> call, Response<UserMore> response) {
-               boolean b = response.body().getIsServer();
+         /*      boolean b = response.body().getIsServer();
                 Constants.isServer = b;
                 if (b){
                     mNavigationView.getMenu().getItem(1).setVisible(false);
-                }
+                }*/
             }
 
             @Override

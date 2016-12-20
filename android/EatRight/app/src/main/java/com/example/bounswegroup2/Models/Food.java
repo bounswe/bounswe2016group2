@@ -51,6 +51,9 @@ public class Food implements Serializable
     @SerializedName("rate")
     @Expose
     private Double rate;
+    @SerializedName("tags")
+    @Expose
+    private List<FoodTag> tags;
     private final static transient long serialVersionUID = -1659623804730649438L;
 
     public Integer getId() {
@@ -194,6 +197,14 @@ public class Food implements Serializable
 
     public void setRate(Double rate) {
         this.rate = rate;
+    }
+
+    public List<FoodTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<FoodTag> tags) {
+        this.tags = tags;
     }
 /*
     public int getEnergy() {
