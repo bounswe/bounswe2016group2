@@ -1,12 +1,15 @@
 package com.example.bounswegroup2.eatright;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +18,27 @@ import com.example.bounswegroup2.Models.AteFoodUserless;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.TotalUserHistory;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.MicronutrientsValueFormatter;
 import com.example.bounswegroup2.Utils.SessionManager;
+import com.example.bounswegroup2.Utils.XYMarkerView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -40,7 +52,7 @@ import retrofit2.Response;
  * Created by yigitozgumus on 12/20/16.
  */
 
-public class MicroPieChartFragment extends userHomeFragment {
+public class MicroPieChartFragment extends userHomeFragment implements OnChartValueSelectedListener {
 
     private BarChart mChart;
     private static final String ARG_POSITION = "position";
@@ -76,24 +88,32 @@ public class MicroPieChartFragment extends userHomeFragment {
 
         final Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
 
-//        mChart.setCenterTextTypeface(tf);
-//        mChart.setCenterText(generateCenterText());
-//        mChart.setCenterTextSize(10f);
-//        mChart.setCenterTextTypeface(tf);
-//
-//        // radius of the center hole in percent of maximum radius
-//        mChart.setHoleRadius(45f);
-//        mChart.setTransparentCircleRadius(50f);
-//
-//        mChart.setRotationEnabled(true);
+
         mChart.setHighlightPerTapEnabled(true);
+        IAxisValueFormatter xAxisFormatter = new MicronutrientsValueFormatter(mChart);
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setTypeface(tf);
+        xAxis.setDrawGridLines(true);
+        xAxis.setGranularity(1f); // only intervals of 1 day
+        xAxis.setLabelCount(7);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        // don't touch, magic
+        xAxis.setTextColor(Color.WHITE);
+        xAxis.setValueFormatter(xAxisFormatter);
 
         Legend l = mChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setDrawInside(false);
+        l.setForm(Legend.LegendForm.SQUARE);
+        l.setFormSize(9f);
+        l.setTextSize(11f);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(true);
 
+        XYMarkerView mv = new XYMarkerView(getActivity(), xAxisFormatter);
+        mv.setChartView(mChart); // For bounds control
+        mChart.setMarker(mv); // Set the marker to the chart
         //Set data
         String token = "Token " + SessionManager.getPreferences(getContext(),"token");
         System.out.println(token);
@@ -168,7 +188,7 @@ public class MicroPieChartFragment extends userHomeFragment {
                     entries1.add(new BarEntry(10,(float)folate    ));
                     entries1.add(new BarEntry(11,(float)fibre     ));
                     entries1.add(new BarEntry(12,(float)thiamin   ));
-                   BarDataSet ds = new BarDataSet(entries1,"Label");
+                   BarDataSet ds = new BarDataSet(entries1,"Micronutrients");
                     ds.setColors(COLORFUL_COLORS);
                     sets.add(ds);
                    // PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
@@ -192,6 +212,34 @@ public class MicroPieChartFragment extends userHomeFragment {
         });
         return v;
     }
+    protected RectF mOnValueSelectedRectF = new RectF();
+
+    @SuppressLint("NewApi")
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+
+        if (e == null)
+            return;
+
+        RectF bounds = mOnValueSelectedRectF;
+        mChart.getBarBounds((BarEntry) e, bounds);
+        MPPointF position = mChart.getPosition(e, YAxis.AxisDependency.LEFT);
+
+        Log.i("bounds", bounds.toString());
+        Log.i("position", position.toString());
+
+        Log.i("x-index",
+                "low: " + mChart.getLowestVisibleX() + ", high: "
+                        + mChart.getHighestVisibleX());
+
+        MPPointF.recycleInstance(position);
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
+
 
     private SpannableString generateCenterText() {
         SpannableString s = new SpannableString("Daily Consumption");
