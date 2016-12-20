@@ -13,9 +13,10 @@
             android:icon="@android:drawable/ic_menu_search"
             android:title="@string/search_food" />
         <item
-            android:id="@+id/nav_cons_hist"
+            android:id="@+id/nav_my_foods"
             android:icon="@android:drawable/ic_lock_idle_lock"
-            android:title="@string/consumption_history" />
+            android:title="My Foods"
+            />
     </group>
 
     <item android:title="Application" >

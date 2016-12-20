@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
+import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
@@ -37,6 +39,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -63,6 +66,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private RangeSeekBar<Integer> proSeekBar;
     private RangeSeekBar<Integer> fatSeekBar;
     private RangeSeekBar<Integer> carbSeekBar;
+    private ArrayList<Integer> ingIds = new ArrayList<>();
     private  ArrayList<Food> nFl = new ArrayList<Food>();
     public void setArgs(String param1){
         Bundle args = new Bundle();
@@ -150,8 +154,13 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             b.putSerializable("ingr", (Serializable) food.getIngredients());
             b.putSerializable("name",food.getName());
             b.putSerializable("photo",food.getPhoto());
-            b.putSerializable("restaName",food.getRestaurant().getName());
-            b.putSerializable("restaID",food.getRestaurant().getId());
+            if (food.getRestaurant() != null){
+                b.putSerializable("restaName",food.getRestaurant().getName());
+                b.putSerializable("restaID",food.getRestaurant().getId());
+            }else{
+                b.putSerializable("restaName",Constants.user);
+                b.putSerializable("restaID",0);
+            }
             b.putSerializable("foodid",food.getId());
             b.putSerializable("rate",food.getDetails().getRate());
             b.putSerializable("comments", (Serializable) food.getComments());
@@ -173,18 +182,19 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         float minFat = fatSeekBar.getSelectedMinValue();
         float maxFat = fatSeekBar.getSelectedMaxValue();
         ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-        HashMap<String,Float> hm = new HashMap<>();
-     /*   hm.put("minEnergy",  minCalorie); hm.put("maxEnergy",maxCalorie);
+        HashMap<String,Object> hm = new HashMap<>();
+        hm.put("minEnergy",  minCalorie); hm.put("maxEnergy",maxCalorie);
         hm.put("minProteinVal",  minProtein); hm.put("maxProteinVal",maxProtein);
         hm.put("minCarbVal", minCarbon); hm.put("maxCarbVal",maxCarbon);
-        hm.put("minFatVal",  minFat); hm.put("maxFatVal",maxFat);*/
+        hm.put("minFatVal",  minFat); hm.put("maxFatVal",maxFat);
+        hm.put("ingredients",ingIds);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
-
         Call<List<Food>> cb = test.searchFood(Constants.API_KEY,body);
         cb.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
             nFl = (ArrayList<Food>) response.body();
+
                 final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), nFl);
                 setListAdapter(adapter);
                 tvName.setOnClickListener(new View.OnClickListener() {
@@ -234,13 +244,22 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         cb.enqueue(new Callback<List<Ingredient>>() {
             @Override
             public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
-                IngredientAdapter adapter = new IngredientAdapter(FoodSearchFragment.this.getContext(), (ArrayList<Ingredient>) response.body());
+
+                final IngredientAdapter ingAdap= new IngredientAdapter(FoodSearchFragment.this.getContext(),(ArrayList<Ingredient>) response.body());
                 lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 lv.setItemsCanFocus(false);
-                lv.setAdapter(adapter);
+                lv.setAdapter(ingAdap);
 
-                mtext1.setAdapter(adapter);
+                mtext1.setAdapter(ingAdap);
                 mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                mtext1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Ingredient ing = (Ingredient)adapterView.getAdapter().getItem(i);
+                        int id = ing.getId();
+                        ingIds.add(id);
+                    }
+                });
             }
 
             @Override

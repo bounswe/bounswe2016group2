@@ -111,6 +111,7 @@ public class FoodPageActivity extends AppCompatActivity {
         restBut = (Button) findViewById(R.id.restBut);
         restaurantID = (int) b.getSerializable("restaID");
         restBut.setText((String) b.getSerializable("restaName"));
+        if(restaurantID != 0)
         restBut.setOnClickListener(restButClicked());
         evalBut = (Button) findViewById(R.id.save_eval);
         evalBut.setOnClickListener(saveButtonClicked());

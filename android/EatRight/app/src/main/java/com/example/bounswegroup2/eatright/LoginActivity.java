@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.User;
+import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
@@ -45,9 +46,7 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private Button switchToRegBut;
+    private Boolean b = false;
     //TODO test
 
     @Override
@@ -329,24 +329,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         query.put("password", password);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(query.getOptions())).toString());
         Call<signInRequest> cb = test.postSigninUser(body);
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        System.out.println(currentDateTimeString);
         System.out.println(cb.request().url());
         System.out.println(cb.request().body().toString());
         cb.enqueue(new Callback<signInRequest>() {
             @Override
             public void onResponse(Call<signInRequest> call, Response<signInRequest> response) {
-
                 System.out.println(response.code());
                 signInRequest login = response.body();
-
+                System.out.println(login.getToken());
+                Constants.user = email;
+                Constants.API_KEY=login.getToken();
                 if (response.isSuccessful() && (login.getToken() != null && !login.getToken().isEmpty())) {
                     showProgress(false);
-                    Constants.API_KEY=login.getToken();
                     SessionManager.setPreferences(LoginActivity.this,"token",login.getToken());
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
+                    intent.putExtra("isServer",b);
                     intent.putExtra("email",email);
-                    
                     startActivity(intent);
                     LoginActivity.this.finish();
                 } else {

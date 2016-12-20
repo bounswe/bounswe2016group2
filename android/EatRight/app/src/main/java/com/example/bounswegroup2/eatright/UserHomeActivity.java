@@ -33,7 +33,9 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.OnBackPressedListener;
 import com.example.bounswegroup2.Utils.QueryWrapper;
@@ -74,6 +76,7 @@ public class UserHomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -100,8 +103,6 @@ public class UserHomeActivity extends AppCompatActivity
         userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
 
-
-
         userHistory.setText(R.string.user_page_histroy);
         Bundle bundle = getIntent().getExtras();
         //TODO will be activated after the main implementation
@@ -115,9 +116,8 @@ public class UserHomeActivity extends AppCompatActivity
 //        });
         //Bundle bundle = getIntent().getExtras();
        initSecondaryViews(bundle);
-        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        System.out.println(currentDateTimeString);
-        System.out.println(SessionManager.getPreferences(this,"token"));
+        editForServerLogin();
+        //getMe();
       //  initFoodHistory();
     }
 
@@ -128,9 +128,12 @@ public class UserHomeActivity extends AppCompatActivity
 
     public void initSecondaryViews(Bundle bundle){
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mToggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        mToggle = new ActionBarDrawerToggle(
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(mToggle);
         mToggle.syncState();
+
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
@@ -144,8 +147,8 @@ public class UserHomeActivity extends AppCompatActivity
             else
                 mShowName.setText(bundle.getString("email"));
         }
-
     }
+
 
     public void initFoodHistory(){
        // mHistoryRecyclerView = (RecyclerView) findViewById(R.id.History_recycler);
@@ -199,7 +202,25 @@ public class UserHomeActivity extends AppCompatActivity
     }*/
 
 
+    private void editForServerLogin(){
+        ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<UserMore> cb2 = test2.getMe("Token "+Constants.API_KEY);
+        cb2.enqueue(new Callback<UserMore>() {
+            @Override
+            public void onResponse(Call<UserMore> call, Response<UserMore> response) {
+               boolean b = response.body().getIsServer();
+                Constants.isServer = b;
+                if (b){
+                    mNavigationView.getMenu().getItem(1).setVisible(false);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<UserMore> call, Throwable t) {
+
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,7 +231,6 @@ public class UserHomeActivity extends AppCompatActivity
             finishAffinity();
             startActivity(new Intent(this,UserHomeActivity.class));
         }
-
     }
 
     @Override
@@ -260,7 +280,6 @@ public class UserHomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -270,22 +289,22 @@ public class UserHomeActivity extends AppCompatActivity
         if (id == R.id.nav_add_food) {
             FoodAddFragment foodAddFragment = new FoodAddFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().addToBackStack(null).replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
+            manager.beginTransaction().replace(R.id.content_user_home,foodAddFragment,foodAddFragment.getTag()).commit();
         } else if (id == R.id.nav_adv_search){
             FoodSearchFragment foodSearchFragment = new FoodSearchFragment();
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().addToBackStack(null).replace(R.id.content_user_home,
+            manager.beginTransaction().replace(R.id.content_user_home,
                     foodSearchFragment ,foodSearchFragment .getTag()).commit();
         } else if (id == R.id.nav_log_out) {
             SessionManager.clearCredet(this);
             Intent i = new Intent(this,LoginActivity.class);
             startActivity(i);
             UserHomeActivity.this.finish();
-        } else if (id == R.id.nav_cons_hist) {
-            ConsHistFragment consHistFragment = ConsHistFragment.newInstance("SWE","451");
+        } else if (id == R.id.nav_my_foods) {
+            MyFoodsFragment myFoodsFragment = MyFoodsFragment.newInstance("SWE","451");
             FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_user_home,consHistFragment,
-                                               consHistFragment.getTag()).commit();
+            manager.beginTransaction().replace(R.id.content_user_home,myFoodsFragment,
+                    myFoodsFragment.getTag()).commit();
         } else if (id == R.id.nav_settings) {
             SettingsFragment settingsFragment = new SettingsFragment();
             FragmentManager manager = getSupportFragmentManager();
@@ -293,7 +312,7 @@ public class UserHomeActivity extends AppCompatActivity
                                                settingsFragment,settingsFragment.getTag()).commit();
 
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_my_foods) {
 
         }
         findViewById(R.id.yigitLinear).setVisibility(View.GONE);
@@ -336,7 +355,21 @@ public class UserHomeActivity extends AppCompatActivity
             return TITLES.length;
         }
     }
+    //Kendini çekme methodu kullanırız
+    /*private void getMe(){
+    ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<UserMore> call = test.getMe(Constants.API_KEY);
+        call.enqueue(new Callback<UserMore>() {
+            @Override
+            public void onResponse(Call<UserMore> call, Response<UserMore> response) {
+                UserMore um=response.body();
+                Constants.user = um.getEmail();
+            }
 
-
-
+            @Override
+            public void onFailure(Call<UserMore> call, Throwable t) {
+            System.out.println("kendimi çekemedim");
+            }
+        });
+    }*/
 }
