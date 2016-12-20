@@ -206,7 +206,7 @@ public class MyFoodsFragment extends Fragment {
                     b.putSerializable("restaID",0);
                 }
                 b.putSerializable("foodid",food.getId());
-                b.putSerializable("rate",food.getDetails().getRate());
+                b.putSerializable("rate",food.getRate());
                 b.putSerializable("comments", (Serializable) food.getComments());
                 Intent intent = new Intent(getActivity(), FoodPageActivity.class);
                 intent.putExtras(b);

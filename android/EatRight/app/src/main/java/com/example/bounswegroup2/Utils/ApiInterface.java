@@ -200,4 +200,13 @@ public interface ApiInterface {
     @POST("api/foods/{foodId}/tag")
     Call<ResponseBody> addTagToFood(@Header("Authorization") String token, @Path("foodId") int foodId, @Body RequestBody body);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/diets")
+    Call<Diet> addDiet(@Header("Authorization") String token, @Body RequestBody body);
+
+    @Headers("Content-Type: application/json")
+    @POST("api/myDiets/{dietId}")
+    Call<Void> addMyDiet(@Header("Authorization") String token, @Path("dietId") int dietId);
+
+
 }
