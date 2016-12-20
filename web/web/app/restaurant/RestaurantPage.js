@@ -1,5 +1,6 @@
 import FoodRow from '../food/FoodRow.js'
 import Comments from 'comment/Comments.js'
+import Rate from 'rate/Rate.js'
 
 export default class RestaurantPage extends React.Component {
 
@@ -13,6 +14,7 @@ export default class RestaurantPage extends React.Component {
     }
     this.fetch = this.fetch.bind(this)
     this.comment = this.comment.bind(this);
+    this.restaurantRated = this.restaurantRated.bind(this);
   }
 
   componentWillMount(){
@@ -47,12 +49,26 @@ export default class RestaurantPage extends React.Component {
         this.setState({errors: error.data})
       })
   }
-
+  restaurantRated(rate){
+    let postData = {
+      score: rate
+    }
+    Api.rateOnRestaurant(this.state.id, postData).then((data) => {
+      console.log(data);
+    }).catch((error) => {
+      this.setState({errors: error.data})
+    })
+  }
   render() {
     return (
       <div className="ui segments">
         <div className="ui segment">
           <h1 className="ui header" style={{textAlign:'center'}}> {this.state.restaurant.name || "Restaurant not found"} </h1>
+        </div>
+        <div className="ui segment" style={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
+          {token && (this.state.restaurant.rate !== undefined) &&
+            <Rate label="Your Rating" onChange={this.restaurantRated} initialRating={this.state.restaurant.rate} name={'restaurants'+this.state.id}/>
+          }
         </div>
         <div className="ui segment" style={{padding:0,overflow:'hidden',maxHeight:400,textAlign:'center',width:'100%'}}>
           <img src={this.state.restaurant.photo} className='img-responsive'/>

@@ -14,6 +14,10 @@ var _Comments = require('comment/Comments.js');
 
 var _Comments2 = _interopRequireDefault(_Comments);
 
+var _Rate = require('rate/Rate.js');
+
+var _Rate2 = _interopRequireDefault(_Rate);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38,6 +42,7 @@ var RestaurantPage = function (_React$Component) {
     };
     _this.fetch = _this.fetch.bind(_this);
     _this.comment = _this.comment.bind(_this);
+    _this.restaurantRated = _this.restaurantRated.bind(_this);
     return _this;
   }
 
@@ -82,6 +87,20 @@ var RestaurantPage = function (_React$Component) {
       });
     }
   }, {
+    key: 'restaurantRated',
+    value: function restaurantRated(rate) {
+      var _this5 = this;
+
+      var postData = {
+        score: rate
+      };
+      Api.rateOnRestaurant(this.state.id, postData).then(function (data) {
+        console.log(data);
+      }).catch(function (error) {
+        _this5.setState({ errors: error.data });
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -97,6 +116,11 @@ var RestaurantPage = function (_React$Component) {
             this.state.restaurant.name || "Restaurant not found",
             ' '
           )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment', style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+          token && this.state.restaurant.rate !== undefined && React.createElement(_Rate2.default, { label: 'Your Rating', onChange: this.restaurantRated, initialRating: this.state.restaurant.rate, name: 'restaurants' + this.state.id })
         ),
         React.createElement(
           'div',
