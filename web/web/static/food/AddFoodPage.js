@@ -34,6 +34,7 @@ var AddFoodPage = function (_React$Component) {
       data: null,
       errors: null,
       ingredients: [],
+      selectedTags: [],
       inclusions: [{ 'ingredientId': null, 'unit': 'g' }]
     };
     return _this;

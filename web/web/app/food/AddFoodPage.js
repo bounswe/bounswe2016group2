@@ -9,6 +9,7 @@ export default class AddFoodPage extends React.Component {
       data: null,
       errors: null,
       ingredients: [],
+      selectedTags: [],
       inclusions: [{'ingredientId':null,'unit':'g'}]
     }
   }
