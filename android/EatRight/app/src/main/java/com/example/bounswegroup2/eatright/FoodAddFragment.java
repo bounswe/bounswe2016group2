@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,7 +77,6 @@ public class FoodAddFragment extends Fragment {
     private ImageButton removeRowBut;
     private EditText descrpFood;
     private EditText nameFood;
-    private int foodId = 0;
     private boolean aBoolean = true;
     // TODO: Rename and change types of parameters
 
@@ -215,21 +215,38 @@ public class FoodAddFragment extends Fragment {
                     HashMap<String,Object>hm = new HashMap<>();
                     hm.put("name",name);
                     hm.put("description",desc);
-                    hm.put("tag",lotagsNames);
                     RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
                     Call<FoodLess> cb = test.addFood("Token "+ Constants.API_KEY,body);
                     cb.enqueue(new Callback<FoodLess>() {
                         @Override
                         public void onResponse(Call<FoodLess> call, Response<FoodLess> response) {
-                            foodId = response.body().getId();
+                          final int  foodId = response.body().getId();
+                            for (String s:lotagsNames
+                                    ) {
+                                ApiInterface test5 = ApiInterface.retrofit.create(ApiInterface.class);
+                                Call<Void> cb5 = test5.addTagToFood("Token "+Constants.API_KEY,foodId,s);
+                                cb5.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        if (!response.isSuccessful()) aBoolean = false;
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+
+                                    }
+                                });
+                            }
                             for(Map.Entry<Integer, Double> entry : ing.entrySet()) {
                                 int id = entry.getKey();
                                 double value = entry.getValue();
                                 ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
                                 HashMap<String,Double>hm2 = new HashMap<>();
                                 hm2.put("value",value);
+
                                 RequestBody body2 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm2)).toString());
                                 Call<FoodAddResponse> cb2 = test2.addIngredientToFood("Token "+ Constants.API_KEY,foodId,id,body2);
+
                                 cb2.enqueue(new Callback<FoodAddResponse>() {
                                     @Override
                                     public void onResponse(Call<FoodAddResponse> call, Response<FoodAddResponse> response) {
@@ -244,6 +261,7 @@ public class FoodAddFragment extends Fragment {
                                     }
                                 });
                             }
+
                         }
 
                         @Override

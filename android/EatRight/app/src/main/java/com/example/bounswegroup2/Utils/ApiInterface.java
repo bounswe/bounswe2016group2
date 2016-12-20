@@ -11,6 +11,7 @@ import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Models.Tag;
+import com.example.bounswegroup2.Models.TotalUserHistory;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Models.signInRequest;
@@ -189,4 +190,14 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("api/searchTag")
     Call<List<Tag>> getTags(@Header("Authorization") String key,@Query("query") String query);
+
+    @Headers({ "Content-Type: appliaction/json;charset=UTF-8"})
+    @GET("api/users/me/history")
+    Call<TotalUserHistory> getuserFoodHistory(@Header("Authorization") String token);
+
+    @Headers( "Content-Type: appliaction/json;charset=UTF-8")
+    @POST("api/foods/{foodId}/tag")
+    @FormUrlEncoded
+    Call<Void> addTagToFood(@Header("Authorization") String token,@Path("foodId") int foodId,@Field("name")String name);
+
 }
