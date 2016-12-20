@@ -218,7 +218,7 @@ public class FullHistoryFrag extends userHomeFragment {
         int[] colors = new int[stacksize];
 
         for (int i = 0; i < colors.length; i++) {
-            colors[i] = ColorTemplate.PASTEL_COLORS[i];
+            colors[i] = ColorTemplate.COLORFUL_COLORS[i];
         }
 
         return colors;

@@ -1,5 +1,7 @@
 package com.example.bounswegroup2.eatright;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -43,6 +45,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.bounswegroup2.eatright.UserHomeActivity.*;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,6 +80,11 @@ public class FoodAddFragment extends Fragment {
     private EditText et2;
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
     public FoodAddFragment() {
         // Required empty public constructor
     }
@@ -105,6 +114,8 @@ public class FoodAddFragment extends Fragment {
            // mParam1 = getArguments().getString(ARG_PARAM1);
            // mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        
+
     }
 
     private View.OnClickListener buttonClicked(){
@@ -306,6 +317,7 @@ public class FoodAddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_add, container, false);
         mLayout = (TableLayout) rootView.findViewById(R.id.tableLayoutAddFood);

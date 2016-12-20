@@ -80,6 +80,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_search, container, false);
         searchButton = (Button)rootView.findViewById(R.id.searchFood);
         searchButton.setOnClickListener(new View.OnClickListener() {

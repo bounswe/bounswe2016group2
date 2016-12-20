@@ -346,6 +346,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     SessionManager.setPreferences(LoginActivity.this,"token",login.getToken());
                     Intent intent = new Intent(LoginActivity.this,UserHomeActivity.class);
                     intent.putExtra("email",email);
+                    
                     startActivity(intent);
                     LoginActivity.this.finish();
                 } else {

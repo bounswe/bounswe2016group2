@@ -34,6 +34,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_settings, container, false);
         lv = (ListView)rootView.findViewById(R.id.ingr_listview_settings);
         mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.mAutoTVForSettings);

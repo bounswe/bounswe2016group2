@@ -122,7 +122,7 @@ public class pieChartFrag extends userHomeFragment {
                     entries1.add(new PieEntry((float)fats,"Fats"));
                     entries1.add(new PieEntry((float) protein,"Protein"));
                     PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
-                    ds1.setColors(ColorTemplate.LIBERTY_COLORS);
+                    ds1.setColors(ColorTemplate.COLORFUL_COLORS);
                     ds1.setSliceSpace(2f);
                     ds1.setValueTextColor(Color.BLACK);
                     ds1.setValueTextSize(12f);

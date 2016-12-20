@@ -9,7 +9,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +35,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.FoodAdapter;
+import com.example.bounswegroup2.Utils.OnBackPressedListener;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 
@@ -63,6 +66,7 @@ public class UserHomeActivity extends AppCompatActivity
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
     ArrayList<Food> HistoryFoods;
+    protected OnBackPressedListener onBackPressedListener;
 
     protected Typeface mTfRegular;
     protected Typeface mTfLight;
@@ -96,6 +100,8 @@ public class UserHomeActivity extends AppCompatActivity
         userHistory = (TextView) findViewById(R.id.user_home_history);
         userRecommendations.setText(R.string.user_page_recommendations);
 
+
+
         userHistory.setText(R.string.user_page_histroy);
         Bundle bundle = getIntent().getExtras();
         //TODO will be activated after the main implementation
@@ -115,10 +121,14 @@ public class UserHomeActivity extends AppCompatActivity
       //  initFoodHistory();
     }
 
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
     public void initSecondaryViews(Bundle bundle){
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mToggle = new ActionBarDrawerToggle(
-                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mToggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(mToggle);
         mToggle.syncState();
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -134,7 +144,6 @@ public class UserHomeActivity extends AppCompatActivity
             else
                 mShowName.setText(bundle.getString("email"));
         }
-
 
     }
 
@@ -198,7 +207,8 @@ public class UserHomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
+            finishAffinity();
+            startActivity(new Intent(this,UserHomeActivity.class));
         }
 
     }
@@ -249,6 +259,7 @@ public class UserHomeActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -325,6 +336,7 @@ public class UserHomeActivity extends AppCompatActivity
             return TITLES.length;
         }
     }
+
 
 
 }

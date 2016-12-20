@@ -68,6 +68,7 @@ public class ConsHistFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.d("CONS",mParam1);
         Log.d("CONS",mParam2);
+
         return inflater.inflate(R.layout.fragment_cons_hist, container, false);
     }
 
