@@ -106,7 +106,7 @@ export default class FoodPage extends React.Component {
             </div>
           }
           {/* i ate this functionality here */}
-          { token &&
+          { token && (this.state.food.rate !== undefined) &&
             <div>
               <button className="ui button" type="button" onClick={this.openAteFoodModal}>
                 I ate this!
@@ -140,8 +140,8 @@ export default class FoodPage extends React.Component {
             </div>
           }
           {/* Food rating */}
-          {token && (console.log(this.state.food.rate) || this.state.food.rate) &&
-            <Rate label="Your Rating" onChange={this.foodRated} initialRating={this.state.food.rate}/>
+          {token && (this.state.food.rate !== undefined) &&
+            <Rate label="Your Rating" onChange={this.foodRated} initialRating={this.state.food.rate} name={'foods'+this.state.id}/>
           }
         </div>
         {/* general info   */}

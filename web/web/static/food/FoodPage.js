@@ -167,7 +167,7 @@ var FoodPage = function (_React$Component) {
               this.state.food.restaurant.name
             )
           ),
-          token && React.createElement(
+          token && this.state.food.rate !== undefined && React.createElement(
             'div',
             null,
             React.createElement(
@@ -228,7 +228,7 @@ var FoodPage = function (_React$Component) {
               )
             )
           ),
-          token && (console.log(this.state.food.rate) || this.state.food.rate) && React.createElement(_Rate2.default, { label: 'Your Rating', onChange: this.foodRated, initialRating: this.state.food.rate })
+          token && this.state.food.rate !== undefined && React.createElement(_Rate2.default, { label: 'Your Rating', onChange: this.foodRated, initialRating: this.state.food.rate, name: 'foods' + this.state.id })
         ),
         React.createElement(
           'div',
