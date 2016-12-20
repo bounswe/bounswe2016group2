@@ -34,10 +34,10 @@ class DietSerializer(serializers.ModelSerializer):
     minFatVal = serializers.FloatField(min_value=0, max_value=9999, default=0)
     maxFatVal = serializers.FloatField(min_value=0, max_value=9999, default=9999)
 
-    minProteinRate = serializers.FloatField(min_value=0, max_value=1, default=1)
-    maxProteinRate = serializers.FloatField(min_value=0, max_value=1, default=0)
-    minCarbRate = serializers.FloatField(min_value=0, max_value=1, default=1)
-    maxCarbRate = serializers.FloatField(min_value=0, max_value=1, default=0)
+    minProteinRate = serializers.FloatField(min_value=0, max_value=1, default=0)
+    maxProteinRate = serializers.FloatField(min_value=0, max_value=1, default=1)
+    minCarbRate = serializers.FloatField(min_value=0, max_value=1, default=0)
+    maxCarbRate = serializers.FloatField(min_value=0, max_value=1, default=1)
     minFatRate = serializers.FloatField(min_value=0, max_value=1, default=0)
     maxFatRate = serializers.FloatField(min_value=0, max_value=1, default=1)
 
