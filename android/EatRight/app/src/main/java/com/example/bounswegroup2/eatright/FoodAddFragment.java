@@ -31,6 +31,7 @@ import com.example.bounswegroup2.Models.FoodComment;
 import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Tag;
+import com.example.bounswegroup2.Models.TagResponse;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
@@ -224,15 +225,19 @@ public class FoodAddFragment extends Fragment {
                             for (String s:lotagsNames
                                     ) {
                                 ApiInterface test5 = ApiInterface.retrofit.create(ApiInterface.class);
-                                Call<Void> cb5 = test5.addTagToFood("Token "+Constants.API_KEY,foodId,s);
-                                cb5.enqueue(new Callback<Void>() {
+                                HashMap<String,String> hm5 = new HashMap<String, String>();
+                                hm5.put("name",s);
+                                RequestBody body5 = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm5)).toString());
+
+                                Call<ResponseBody> cb5 = test5.addTagToFood("Token "+Constants.API_KEY,foodId,body5);
+                                cb5.enqueue(new Callback<ResponseBody>() {
                                     @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                         if (!response.isSuccessful()) aBoolean = false;
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
                                     }
                                 });

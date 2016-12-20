@@ -105,9 +105,9 @@ public class MyFoodsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final FoodsAdapter adapter = new FoodsAdapter(MyFoodsFragment.this.getContext(), lof);
+                myFoodLv.addHeaderView(headerView);
                 myFoodLv.setAdapter(adapter);
                 myFoodLv.setOnItemClickListener(ıtemClcked());
-                myFoodLv.addHeaderView(headerView);
                 myFoodLv.setDivider(ContextCompat.getDrawable(MyFoodsFragment.this.getContext(),android.R.color.black));
                 myFoodLv.setDividerHeight(1);
                 tvName.setOnClickListener(new View.OnClickListener() {
