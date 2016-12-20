@@ -66,7 +66,7 @@ public class Diet implements Serializable
     @SerializedName("maxFatRate")
     @Expose
     private Double maxFatRate;
- private final static long serialVersionUID = -7336370091332770404L;
+    private final static long serialVersionUID = -7336370091332770404L;
 
     public Integer getId() {
         return id;

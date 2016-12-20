@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.TagResponse;
 import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
@@ -41,11 +42,16 @@ import com.example.bounswegroup2.Utils.OnBackPressedListener;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
 
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -171,11 +177,11 @@ public class UserHomeActivity extends AppCompatActivity
         cb2.enqueue(new Callback<UserMore>() {
             @Override
             public void onResponse(Call<UserMore> call, Response<UserMore> response) {
-               boolean b = response.body().getIsServer();
+         /*      boolean b = response.body().getIsServer();
                 Constants.isServer = b;
                 if (b){
                     mNavigationView.getMenu().getItem(1).setVisible(false);
-                }
+                }*/
             }
 
             @Override
@@ -183,6 +189,7 @@ public class UserHomeActivity extends AppCompatActivity
 
             }
         });
+
     }
     @Override
     public void onBackPressed() {

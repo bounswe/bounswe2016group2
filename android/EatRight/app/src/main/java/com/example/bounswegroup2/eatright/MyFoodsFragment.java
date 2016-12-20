@@ -105,9 +105,9 @@ public class MyFoodsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final FoodsAdapter adapter = new FoodsAdapter(MyFoodsFragment.this.getContext(), lof);
+                myFoodLv.addHeaderView(headerView);
                 myFoodLv.setAdapter(adapter);
                 myFoodLv.setOnItemClickListener(ıtemClcked());
-                myFoodLv.addHeaderView(headerView);
                 myFoodLv.setDivider(ContextCompat.getDrawable(MyFoodsFragment.this.getContext(),android.R.color.black));
                 myFoodLv.setDividerHeight(1);
                 tvName.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +206,7 @@ public class MyFoodsFragment extends Fragment {
                     b.putSerializable("restaID",0);
                 }
                 b.putSerializable("foodid",food.getId());
-                b.putSerializable("rate",food.getDetails().getRate());
+                b.putSerializable("rate",food.getRate());
                 b.putSerializable("comments", (Serializable) food.getComments());
                 Intent intent = new Intent(getActivity(), FoodPageActivity.class);
                 intent.putExtras(b);
