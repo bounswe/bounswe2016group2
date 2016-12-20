@@ -62,6 +62,17 @@ var FoodPage = function (_React$Component) {
       }).catch(function (err) {
         _this2.setState({ errors: err });
       });
+
+      Api.me().then(function (data) {
+        var foodRates = data.foodRates;
+        var userRate = 0;
+        for (var i = 0; i < foodRates.length; i++) {
+          if (foodRates[i].food == _this2.state.id) {
+            userRate = foodRates[i].score;
+          }
+        }
+        _this2.setState({ userRate: userRate });
+      });
     }
   }, {
     key: 'openAteFoodModal',
@@ -126,6 +137,15 @@ var FoodPage = function (_React$Component) {
       };
       Api.rateOnFood(this.state.id, postData).catch(function (error) {
         _this6.setState({ errors: error.data });
+      });
+    }
+  }, {
+    key: 'getRating',
+    value: function getRating(id) {
+      var _this7 = this;
+
+      Api.getFood(id).then(function (data) {
+        _this7.setState({ rating: data.rate });
       });
     }
   }, {
@@ -228,7 +248,7 @@ var FoodPage = function (_React$Component) {
               )
             )
           ),
-          token && this.state.food.rate !== undefined && React.createElement(_Rate2.default, { label: 'Your Rating', onChange: this.foodRated, initialRating: this.state.food.rate, name: 'foods' + this.state.id })
+          token && this.state.food.rate !== undefined && this.state.userRate !== undefined && React.createElement(_Rate2.default, { id: this.state.id, label: 'Food Rating', onChange: this.foodRated, getRating: this.getRating, initialRating: this.state.food.rate, initialUserRating: this.state.userRate, name: 'foods' + this.state.id })
         ),
         React.createElement(
           'div',

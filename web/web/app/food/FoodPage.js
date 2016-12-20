@@ -32,6 +32,18 @@ export default class FoodPage extends React.Component {
       }).catch((err) => {
         this.setState({errors: err});
       })
+
+      Api.me()
+        .then((data) => {
+          let foodRates = data.foodRates;
+          let userRate = 0;
+          for (var i = 0; i < foodRates.length; i++) {
+            if(foodRates[i].food == this.state.id){
+              userRate = foodRates[i].score;
+            }
+          }
+          this.setState({userRate: userRate});
+        })
   }
 
   openAteFoodModal() {
@@ -83,6 +95,13 @@ export default class FoodPage extends React.Component {
     Api.rateOnFood(this.state.id, postData).catch((error) => {
       this.setState({errors: error.data})
     })
+  }
+
+  getRating(id){
+    Api.getFood(id)
+      .then((data) => { 
+        this.setState({rating: data.rate});
+      })
   }
 
   render() {
@@ -140,8 +159,8 @@ export default class FoodPage extends React.Component {
             </div>
           }
           {/* Food rating */}
-          {token && (this.state.food.rate !== undefined) &&
-            <Rate label="Your Rating" onChange={this.foodRated} initialRating={this.state.food.rate} name={'foods'+this.state.id}/>
+          {token && (this.state.food.rate !== undefined) && (this.state.userRate !== undefined) &&
+            <Rate id={this.state.id} label="Food Rating" onChange={this.foodRated} getRating={this.getRating} initialRating={this.state.food.rate} initialUserRating={this.state.userRate} name={'foods'+this.state.id}/>
           }
         </div>
         {/* general info   */}

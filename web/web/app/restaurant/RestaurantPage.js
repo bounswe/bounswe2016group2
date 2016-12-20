@@ -29,6 +29,18 @@ export default class RestaurantPage extends React.Component {
       }).catch((err) => {
         this.setState({errors: err});
       })
+
+      Api.me()
+        .then((data) => {
+          let restaurantRates = data.restaurantRates;
+          let userRate = 0;
+          for (var i = 0; i < restaurantRates.length; i++) {
+            if(restaurantRates[i].restaurant == this.state.id){
+              userRate = restaurantRates[i].score;
+            }
+          }
+          this.setState({userRate: userRate});
+        })
   }
 
   getComments(id){
@@ -59,6 +71,13 @@ export default class RestaurantPage extends React.Component {
       this.setState({errors: error.data})
     })
   }
+
+  getRating(id){
+    Api.getRestaurant(id)
+      .then((data) => {
+        this.setState({rating: data.rate});
+      })
+  }
   render() {
     return (
       <div className="ui segments">
@@ -66,8 +85,8 @@ export default class RestaurantPage extends React.Component {
           <h1 className="ui header" style={{textAlign:'center'}}> {this.state.restaurant.name || "Restaurant not found"} </h1>
         </div>
         <div className="ui segment" style={{display:'flex',justifyContent:'space-between', alignItems:'center'}}>
-          {token && (this.state.restaurant.rate !== undefined) &&
-            <Rate label="Your Rating" onChange={this.restaurantRated} initialRating={this.state.restaurant.rate} name={'restaurants'+this.state.id}/>
+          {token && (this.state.restaurant.rate !== undefined) && (this.state.userRate !== undefined) &&
+            <Rate id={this.state.id} label="Restaurant Rating" onChange={this.restaurantRated} getRating={this.getRating} initialRating={this.state.restaurant.rate} initialUserRating={this.state.userRate} name={'restaurants'+this.state.id}/>
           }
         </div>
         <div className="ui segment" style={{padding:0,overflow:'hidden',maxHeight:400,textAlign:'center',width:'100%'}}>

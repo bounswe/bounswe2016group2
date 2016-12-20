@@ -21,10 +21,13 @@ var Rate = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Rate.__proto__ || Object.getPrototypeOf(Rate)).call(this, props));
 
     _this.onChange = props.onChange;
+    _this.getRating = props.getRating.bind(_this);
+    _this.id = props.id;
     _this.state = {
       maxRating: props.maxRating || 5,
       label: props.label || '',
       initialRating: props.initialRating || 0,
+      initialUserRating: props.initialUserRating || 0,
       name: props.name || ''
     };
     return _this;
@@ -38,25 +41,47 @@ var Rate = function (_React$Component) {
       $('#rating' + this.state.name + ' .ui.rating').rating({
         maxRating: this.state.maxRating,
         initialRating: this.state.initialRating,
+        interactive: false
+      });
+      $('#rating' + this.state.name + 'user .ui.rating').rating({
+        maxRating: this.state.maxRating,
+        initialRating: this.state.initialUserRating,
         onRate: function onRate(value) {
           _this2.onChange(value);
+          _this2.getRating(_this2.id);
         }
       });
     }
   }, {
     key: 'render',
     value: function render() {
+      $('#rating' + this.state.name + ' .ui.rating').rating('set rating', this.state.rating);
+      ;
       return React.createElement(
         'div',
-        { id: 'rating' + this.state.name },
+        null,
         React.createElement(
-          'label',
-          null,
-          ' ',
-          this.state.label,
-          ' '
+          'div',
+          { id: 'rating' + this.state.name },
+          React.createElement(
+            'label',
+            null,
+            ' ',
+            this.state.label,
+            ' '
+          ),
+          React.createElement('div', { className: 'ui star rating' })
         ),
-        React.createElement('div', { className: 'ui star rating' })
+        React.createElement(
+          'div',
+          { id: 'rating' + this.state.name + 'user' },
+          React.createElement(
+            'label',
+            null,
+            ' Your Rating '
+          ),
+          React.createElement('div', { className: 'ui star rating' })
+        )
       );
     }
   }]);

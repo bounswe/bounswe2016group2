@@ -62,6 +62,17 @@ var RestaurantPage = function (_React$Component) {
       }).catch(function (err) {
         _this2.setState({ errors: err });
       });
+
+      Api.me().then(function (data) {
+        var restaurantRates = data.restaurantRates;
+        var userRate = 0;
+        for (var i = 0; i < restaurantRates.length; i++) {
+          if (restaurantRates[i].restaurant == _this2.state.id) {
+            userRate = restaurantRates[i].score;
+          }
+        }
+        _this2.setState({ userRate: userRate });
+      });
     }
   }, {
     key: 'getComments',
@@ -101,6 +112,15 @@ var RestaurantPage = function (_React$Component) {
       });
     }
   }, {
+    key: 'getRating',
+    value: function getRating(id) {
+      var _this6 = this;
+
+      Api.getRestaurant(id).then(function (data) {
+        _this6.setState({ rating: data.rate });
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return React.createElement(
@@ -120,7 +140,7 @@ var RestaurantPage = function (_React$Component) {
         React.createElement(
           'div',
           { className: 'ui segment', style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-          token && this.state.restaurant.rate !== undefined && React.createElement(_Rate2.default, { label: 'Your Rating', onChange: this.restaurantRated, initialRating: this.state.restaurant.rate, name: 'restaurants' + this.state.id })
+          token && this.state.restaurant.rate !== undefined && this.state.userRate !== undefined && React.createElement(_Rate2.default, { id: this.state.id, label: 'Restaurant Rating', onChange: this.restaurantRated, getRating: this.getRating, initialRating: this.state.restaurant.rate, initialUserRating: this.state.userRate, name: 'restaurants' + this.state.id })
         ),
         React.createElement(
           'div',

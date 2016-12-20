@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -27,37 +27,37 @@ var MyFoods = function (_React$Component) {
   }
 
   _createClass(MyFoods, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
       var self = this;
       $('#foodSelect.ui.dropdown').dropdown({
         onChange: function onChange(index) {
-          console.log(self.state.foods[index]);
+          router.navigate('../foods/' + self.state.foods[index].id);
         }
       });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return React.createElement(
-        "div",
-        { className: "ui segment" },
+        'div',
+        { className: 'ui segment' },
         React.createElement(
-          "div",
-          { id: "foodSelect", className: "ui search selection dropdown" },
-          React.createElement("i", { className: "dropdown icon" }),
+          'div',
+          { id: 'foodSelect', className: 'ui search selection dropdown' },
+          React.createElement('i', { className: 'dropdown icon' }),
           React.createElement(
-            "div",
-            { className: "default text" },
-            "Food"
+            'div',
+            { className: 'default text' },
+            'Food'
           ),
           React.createElement(
-            "div",
-            { className: "menu" },
+            'div',
+            { className: 'menu' },
             this.state.foods.map(function (food, index) {
               return React.createElement(
-                "div",
-                { className: "item", "data-value": index, key: index },
+                'div',
+                { className: 'item', 'data-value': index, key: index },
                 food.name
               );
             })
