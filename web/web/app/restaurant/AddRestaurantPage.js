@@ -12,10 +12,10 @@ export default class AddFoodPage extends React.Component {
 
   setFoodSelectOptions() {
     const self = this
-    Api.getFoods()
+    Api.me()
       .then((data) => {
         self.setState({
-          options: data
+          options: data.foods
         })
       })
   }

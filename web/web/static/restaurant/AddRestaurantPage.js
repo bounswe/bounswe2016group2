@@ -37,9 +37,9 @@ var AddFoodPage = function (_React$Component) {
     key: 'setFoodSelectOptions',
     value: function setFoodSelectOptions() {
       var self = this;
-      Api.getFoods().then(function (data) {
+      Api.me().then(function (data) {
         self.setState({
-          options: data
+          options: data.foods
         });
       });
     }
