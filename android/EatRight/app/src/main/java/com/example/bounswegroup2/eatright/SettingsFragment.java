@@ -35,16 +35,16 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_settings, container, false);
-        lv = (ListView)rootView.findViewById(R.id.ingr_listview_settings);
-        mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.mAutoTVForSettings);
-        saveBut = (Button)rootView.findViewById(R.id.button_save_settings);
+        //lv = (ListView)rootView.findViewById(R.id.ingr_listview_settings);
+        //mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.mAutoTVForSettings);
+        //saveBut = (Button)rootView.findViewById(R.id.button_save_settings);
         return rootView;
     }
     public void onActivityCreated(Bundle savedInstancesState) {
         //onResume happens after onStart and onActivityCreate
         super.onActivityCreated(savedInstancesState);
         //getAllIngredients();
-        saveBut.setOnClickListener(saveButClicked());
+        //saveBut.setOnClickListener(saveButClicked());
         //IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), null);
       //  mtext1.setAdapter(adapter);
        // mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
