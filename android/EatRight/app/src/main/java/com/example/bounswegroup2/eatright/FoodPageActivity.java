@@ -47,6 +47,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Food page activity.
+ */
 public class FoodPageActivity extends AppCompatActivity {
 
     private TextView foodName;

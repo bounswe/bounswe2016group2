@@ -46,10 +46,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type User home fragment.
+ */
 public abstract class userHomeFragment extends Fragment {
 
     private Typeface tf;
 
+    /**
+     * Instantiates a new User home fragment.
+     */
     public userHomeFragment() {
 
     }
@@ -60,6 +66,14 @@ public abstract class userHomeFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    /**
+     * Generate bar data bar data.
+     *
+     * @param dataSets the data sets
+     * @param range    the range
+     * @param count    the count
+     * @return the bar data
+     */
     protected BarData generateBarData(int dataSets, float range, int count) {
 
         ArrayList<IBarDataSet> sets = new ArrayList<IBarDataSet>();
@@ -84,6 +98,14 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+    /**
+     * Generate scatter data scatter data.
+     *
+     * @param dataSets the data sets
+     * @param range    the range
+     * @param count    the count
+     * @return the scatter data
+     */
     protected ScatterData generateScatterData(int dataSets, float range, int count) {
 
         ArrayList<IScatterDataSet> sets = new ArrayList<IScatterDataSet>();
@@ -111,6 +133,12 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+    /**
+     * Get month equivalent string.
+     *
+     * @param Month the month
+     * @return the string
+     */
     protected String getMonthEquivalent(int Month){
         Map<Integer,String> result = new HashMap<Integer,String>();
         result.put(1,"Jan");
@@ -131,7 +159,8 @@ public abstract class userHomeFragment extends Fragment {
 
     /**
      * generates less data (1 DataSet, 4 values)
-     * @return
+     *
+     * @return pie data
      */
     protected PieData generatePieData() {
         //TODO get food data
@@ -190,6 +219,11 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+    /**
+     * Generate line data line data.
+     *
+     * @return the line data
+     */
     protected LineData generateLineData() {
 
         ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();
@@ -215,6 +249,11 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+    /**
+     * Gets complexity.
+     *
+     * @return the complexity
+     */
     protected LineData getComplexity() {
 
         ArrayList<ILineDataSet> sets = new ArrayList<ILineDataSet>();

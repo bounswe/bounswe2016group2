@@ -6,6 +6,9 @@ package com.example.bounswegroup2.Models;
 
 import java.io.Serializable;
 
+/**
+ * The type Tag response.
+ */
 public class TagResponse implements Serializable
 {
 

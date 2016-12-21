@@ -45,11 +45,16 @@ import retrofit2.Response;
 /**
  * Created by yigitozgumus on 12/19/16.
  */
-
 public class FullHistoryFrag extends userHomeFragment {
     private static final String ARG_POSITION = "position";
     private int position;
 
+    /**
+     * New instance fragment.
+     *
+     * @param position the position
+     * @return the fragment
+     */
     public static Fragment newInstance(int position) {
         FullHistoryFrag frag = new FullHistoryFrag();
         Bundle b = new Bundle();

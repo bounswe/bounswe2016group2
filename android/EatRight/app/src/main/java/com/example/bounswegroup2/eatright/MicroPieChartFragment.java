@@ -51,12 +51,14 @@ import retrofit2.Response;
 /**
  * Created by yigitozgumus on 12/20/16.
  */
-
 public class MicroPieChartFragment extends userHomeFragment implements OnChartValueSelectedListener {
 
     private BarChart mChart;
     private static final String ARG_POSITION = "position";
     private int position;
+    /**
+     * The Colorful colors.
+     */
     final int[] COLORFUL_COLORS = {
             Color.rgb(193, 37, 82),
             Color.rgb(255, 102, 0),
@@ -71,6 +73,12 @@ public class MicroPieChartFragment extends userHomeFragment implements OnChartVa
             Color.rgb(254, 149, 7),
             Color.rgb(254, 247, 120)};
 
+    /**
+     * New instance fragment.
+     *
+     * @param position the position
+     * @return the fragment
+     */
     public static Fragment newInstance(int position) {
         MicroPieChartFragment frag = new MicroPieChartFragment();
         Bundle b = new Bundle();
@@ -212,6 +220,10 @@ public class MicroPieChartFragment extends userHomeFragment implements OnChartVa
         });
         return v;
     }
+
+    /**
+     * The M on value selected rect f.
+     */
     protected RectF mOnValueSelectedRectF = new RectF();
 
     @SuppressLint("NewApi")

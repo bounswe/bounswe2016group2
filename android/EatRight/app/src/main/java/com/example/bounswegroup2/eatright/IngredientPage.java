@@ -13,8 +13,14 @@ import com.example.bounswegroup2.Models.Ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * The type Ingredient page.
+ */
 public class IngredientPage extends AppCompatActivity {
 private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+    /**
+     * The List view.
+     */
     ListView listView;
 
     @Override

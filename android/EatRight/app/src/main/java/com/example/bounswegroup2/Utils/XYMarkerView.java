@@ -15,7 +15,6 @@ import java.text.DecimalFormat;
 /**
  * Created by yigitozgumus on 12/21/16.
  */
-
 public class XYMarkerView extends MarkerView {
 
     private TextView tvContent;
@@ -23,6 +22,12 @@ public class XYMarkerView extends MarkerView {
 
     private DecimalFormat format;
 
+    /**
+     * Instantiates a new Xy marker view.
+     *
+     * @param context             the context
+     * @param xAxisValueFormatter the x axis value formatter
+     */
     public XYMarkerView(Context context, IAxisValueFormatter xAxisValueFormatter) {
         super(context, R.layout.custom_marker_view);
 

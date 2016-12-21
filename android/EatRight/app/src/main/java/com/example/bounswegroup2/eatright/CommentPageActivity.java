@@ -19,9 +19,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Comment page activity.
+ */
 public class CommentPageActivity extends AppCompatActivity {
     private ArrayList<FoodComment> lofc= new ArrayList<FoodComment>();
     private ArrayList<FoodComment> lofc2= new ArrayList<FoodComment>();
+    /**
+     * The List view.
+     */
     ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

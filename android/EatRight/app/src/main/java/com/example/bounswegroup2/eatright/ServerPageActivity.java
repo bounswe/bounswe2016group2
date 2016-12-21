@@ -29,6 +29,9 @@ import retrofit2.Response;
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 
+/**
+ * The type Server page activity.
+ */
 public class ServerPageActivity extends AppCompatActivity {
 
     private TextView serverName;
