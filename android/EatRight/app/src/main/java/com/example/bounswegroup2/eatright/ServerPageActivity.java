@@ -6,18 +6,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-<<<<<<< HEAD
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-=======
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-<<<<<<< HEAD
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
@@ -39,19 +35,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import okhttp3.RequestBody;
-=======
-
-import com.example.bounswegroup2.Models.Food;
-import com.example.bounswegroup2.Models.FoodLess;
-import com.example.bounswegroup2.Models.RestaurantMore;
-import com.example.bounswegroup2.Utils.ApiInterface;
-import com.example.bounswegroup2.Utils.Constants;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,14 +42,7 @@ import retrofit2.Response;
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 
-<<<<<<< HEAD
 public class ServerPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener, AdapterView.OnItemClickListener{
-=======
-/**
- * The type Server page activity.
- */
-public class ServerPageActivity extends AppCompatActivity {
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 
     private TextView serverName;
     private RestaurantMore restaurant;
@@ -74,7 +50,6 @@ public class ServerPageActivity extends AppCompatActivity {
     private ArrayList<Food> nFl = new ArrayList<Food>();
     private ListView lv;
     private RatingBar rateRest;
-<<<<<<< HEAD
     private RatingBar postRateRest;
     private View headerView;
     private TextView tvName;
@@ -86,12 +61,6 @@ public class ServerPageActivity extends AppCompatActivity {
     private ArrayList<RestaurantComment> lOfc = new ArrayList<>();
     private boolean b = true;
     private boolean c = true;
-=======
-    private View headerView;
-    private TextView tvName;
-    private TextView tvRating;
-    private ImageButton commentBut;
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,17 +68,13 @@ public class ServerPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         restaurant = (RestaurantMore) b.getSerializable("resta");
-<<<<<<< HEAD
 
         restaurantID = restaurant.getId();
 
-=======
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
         lv = (ListView) findViewById(R.id.food_listview);
         serverName = (TextView) findViewById(R.id.server_name_text);
         serverName.setText(restaurant.getName());
         rateRest = (RatingBar) findViewById(R.id.rate_rest_ratingBar);
-<<<<<<< HEAD
         rateRest.setStepSize(0.01f);
         postRateRest = (RatingBar) findViewById(R.id.post_rate_rest_ratingBar);
         postRateRest.setStepSize(0.01f);
@@ -118,9 +83,6 @@ public class ServerPageActivity extends AppCompatActivity {
 
         postRateRest.setOnRatingBarChangeListener(this);
 
-=======
-        rateRest.setRating(restaurant.getRate());
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
         imageView = (ImageView)findViewById(R.id.server_image);
         Picasso.with(getApplicationContext())
                 .load((String) restaurant.getPhoto())
@@ -128,7 +90,6 @@ public class ServerPageActivity extends AppCompatActivity {
                 .fit()
                 .centerInside()
                 .into(imageView);
-<<<<<<< HEAD
         commentText = (EditText) findViewById(R.id.server_comment_text);
         commentButton = (ImageButton) findViewById(R.id.server_comment_but);
         lOfc = (ArrayList<RestaurantComment>) restaurant.getComments();
@@ -137,8 +98,6 @@ public class ServerPageActivity extends AppCompatActivity {
         sendButton.setOnClickListener(sendButtonClicked());
         lv.setOnItemClickListener(this);
 
-=======
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
         LayoutInflater inflater = getLayoutInflater();
         headerView = inflater.inflate(R.layout.food_list_header,null);
         tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
@@ -152,7 +111,6 @@ public class ServerPageActivity extends AppCompatActivity {
         fillFoodList();
     }
 
-<<<<<<< HEAD
     private View.OnClickListener sendButtonClicked() {
         return new View.OnClickListener() {
             @Override
@@ -245,14 +203,6 @@ public class ServerPageActivity extends AppCompatActivity {
             int id = fls.getId();
             ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
             Call<Food> cb = test.getFoodWithId("Token " + SessionManager.getPreferences(ServerPageActivity.this,"token"),id);
-=======
-    private void fillFoodList() {
-        ArrayList<FoodLess> listFLess = (ArrayList<FoodLess>) restaurant.getFoods();
-        for (FoodLess fls:listFLess) {
-         int id = fls.getId();
-            ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-            Call<Food> cb = test.getFoodWithId(Constants.API_KEY,id);
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
             cb.enqueue(new Callback<Food>() {
                 @Override
                 public void onResponse(Call<Food> call, Response<Food> response) {

@@ -18,16 +18,6 @@
     tools:context="com.example.bounswegroup2.eatright.FoodPageActivity"
     android:weightSum="1">
 
-<<<<<<< HEAD
-=======
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:src="@drawable/ic_comment"
-        android:id="@+id/comment_but"/>
-
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 
     <TextView
         android:text="TextView"
@@ -82,13 +72,6 @@
                     style="@style/Widget.AppCompat.RatingBar.Indicator" />
                 <TableRow android:layout_width="match_parent"
                     android:layout_height="match_parent">
-<<<<<<< HEAD
-=======
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Server : "/>
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 
                     <Button
                         android:layout_width="wrap_content"
@@ -96,7 +79,6 @@
                         android:background="@color/transparent"
                         android:text="Restaurant"
                         android:id="@+id/restBut"/>
-<<<<<<< HEAD
 
                     <ImageButton
                         android:layout_width="wrap_content"
@@ -125,29 +107,6 @@
                         android:textAllCaps="false"
                         android:maxLines="1"/>
 
-=======
-                </TableRow>
-
-                <TableRow android:layout_height="wrap_content"
-                    android:layout_width="wrap_content">
-
-                    <Button
-                        android:text="Tasted It!"
-                        android:layout_width="wrap_content"
-                        android:layout_height="58dp"
-                       android:layout_weight="1"
-                        android:id="@+id/tasted_it_button"
-                        android:maxLines="1"/>
-
-                    <Button
-                        android:text="Ingrs."
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/ingredients_button"
-                        android:maxLines="1"/>
-
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 
                 </TableRow>
 
@@ -249,7 +208,6 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:orientation="vertical">
-<<<<<<< HEAD
            <TableRow
                android:layout_height="wrap_content"
                android:layout_width="wrap_content">
@@ -270,20 +228,6 @@
                android:layout_width="wrap_content">
                <TextView
                    android:text="Rate Us"
-=======
-           <EditText
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:hint="Comment"
-               android:inputType="textMultiLine"
-               android:ems="10"
-               android:id="@+id/comment_text" />
-
-           <TableRow android:layout_height="wrap_content"
-               android:layout_width="wrap_content">
-               <TextView
-                   android:text="Rate"
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
                    android:layout_width="wrap_content"
                    android:layout_marginTop="15dp"
                    android:id="@+id/rate_food_taste_text"
@@ -300,15 +244,7 @@
                    android:layout_weight="1"
                    android:stepSize="0.5" />
            </TableRow>
-<<<<<<< HEAD
 
-=======
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SAVE"
-                android:id="@+id/save_eval"/>
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
        </LinearLayout>
    </LinearLayout>
 </LinearLayout>

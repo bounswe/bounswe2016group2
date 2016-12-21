@@ -10,13 +10,9 @@ import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.FoodRate;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
-<<<<<<< HEAD
 import com.example.bounswegroup2.Models.RestaurantComment;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Models.RestaurantRate;
-=======
-import com.example.bounswegroup2.Models.RestaurantMore;
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 import com.example.bounswegroup2.Models.Tag;
 import com.example.bounswegroup2.Models.TagResponse;
 import com.example.bounswegroup2.Models.TotalUserHistory;
@@ -271,7 +267,6 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("api/users/me")
     Call<UserMore> getMe(@Header("Authorization") String key);
-<<<<<<< HEAD
 
     /**
      * Gets diets.
@@ -426,163 +421,7 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("api/myDiets")
     Call<List<Diet>> getMyDiets(@Header("Authorization") String token);
-=======
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
 
-    /**
-     * Gets diets.
-     *
-     * @return the diets
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/diets")
-    Call<List<Diet>> getDiets();
-
-    /**
-     * Gets my diets.
-     *
-     * @return the my diets
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/myDiets")
-    Call<List<Diet>> getMyDiets();
-
-    /**
-     * Sets my diet.
-     *
-     * @param dietId the diet id
-     * @return the my diet
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/myDiets/{dietId}")
-    Call<List<Diet>> setMyDiet(@Path("dietId") int dietId);
-
-    /**
-     * Gets restaurants.
-     *
-     * @return the restaurants
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/restaurants")
-    Call<List<Restaurant>> getRestaurants();
-
-    /**
-     * Gets restaurant with id.
-     *
-     * @param restaurantId the restaurant id
-     * @return the restaurant with id
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/restaurants/{restaurantId}")
-    Call<RestaurantMore> getRestaurantWithId(@Path("restaurantId") int restaurantId);
-
-    /**
-     * Comment restaurant call.
-     *
-     * @param restaurantId the restaurant id
-     * @return the call
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/comment")
-    Call<Response> commentRestaurant(@Path("restaurantId") int restaurantId);
-
-    /**
-     * Rate restaurant call.
-     *
-     * @param restaurantId the restaurant id
-     * @return the call
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/rate")
-    Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
-
-    /**
-     * Add ingredient to food call.
-     *
-     * @param key          the key
-     * @param foodId       the food id
-     * @param ingredientId the ingredient id
-     * @param body         the body
-     * @return the call
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/foods/{foodId}/ingredients/{ingredientId}")
-    Call<FoodAddResponse> addIngredientToFood(@Header("Authorization") String key,@Path("foodId") int foodId,@Path("ingredientId") int ingredientId,@Body RequestBody body);
-
-    /**
-     * Gets my foods.
-     *
-     * @param key the key
-     * @return the my foods
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/myFoods")
-    Call<List<FoodLess>> getMyFoods(@Header("Authorization") String key);
-
-    /**
-     * Gets tags.
-     *
-     * @param key   the key
-     * @param query the query
-     * @return the tags
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/searchTag")
-    Call<List<Tag>> getTags(@Header("Authorization") String key,@Query("query") String query);
-
-    /**
-     * Gets food history.
-     *
-     * @param token the token
-     * @return the food history
-     */
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("api/users/me/history")
-    Call<TotalUserHistory> getuserFoodHistory(@Header("Authorization") String token);
-
-    /**
-     * Add tag to food call.
-     *
-     * @param token  the token
-     * @param foodId the food id
-     * @param body   the body
-     * @return the call
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/foods/{foodId}/tag")
-    Call<ResponseBody> addTagToFood(@Header("Authorization") String token, @Path("foodId") int foodId, @Body RequestBody body);
-
-    /**
-     * Add diet call.
-     *
-     * @param token the token
-     * @param body  the body
-     * @return the call
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/diets")
-    Call<DietAddResponse> addDiet(@Header("Authorization") String token, @Body RequestBody body);
-
-    /**
-     * Add my diet call.
-     *
-     * @param token  the token
-     * @param dietId the diet id
-     * @return the call
-     */
-    @Headers("Content-Type: application/json")
-    @POST("api/myDiets/{dietId}")
-    Call<Void> addMyDiet(@Header("Authorization") String token, @Path("dietId") int dietId);
-
-    /**
-     * Gets my diets.
-     *
-     * @param token the token
-     * @return the my diets
-     */
-    @Headers("Content-Type: application/json")
-    @GET("api/myDiets")
-    Call<List<Diet>> getMyDiets(@Header("Authorization") String token);
 
 
 }

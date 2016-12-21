@@ -18,16 +18,10 @@ import java.util.ArrayList;
 /**
  * Created by Enes on 13.11.2016.
  */
+
 public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
     private ArrayList<Food> foods = new ArrayList<Food>();
     private boolean isSorted ;
-
-    /**
-     * Instantiates a new Foods adapter.
-     *
-     * @param context the context
-     * @param foods   the foods
-     */
     public FoodsAdapter(Context context, ArrayList<Food> foods) {
         super(context, 0, foods);
         this.foods = foods;
@@ -50,16 +44,12 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
         RatingBar tvRating = (RatingBar) convertView.findViewById(R.id.rating_food);
         tvRating.setRating(Float.parseFloat(food.getRate().toString()));
-<<<<<<< HEAD
         if(food.getComments().size()>0){
             tvComment.setText(food.getComments().get((food.getComments().size())-1).getComment());
         }
         else{
             tvComment.setText("");
         }
-=======
-        tvComment.setText(food.getSlug());
->>>>>>> 1f7dc78b9a6b58937cb36228b6573abd0ef70e2b
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());
         //tvSlug.setText(food.getSlug());
@@ -73,36 +63,15 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         return convertView;
     }
 
-    /**
-     * Gets foods.
-     *
-     * @return the foods
-     */
     public ArrayList<Food> getFoods() {
         return foods;
     }
-
-    /**
-     * Set foods.
-     *
-     * @param list the list
-     */
     public void setFoods(ArrayList<Food> list){foods = list;}
 
-    /**
-     * Is sorted boolean.
-     *
-     * @return the boolean
-     */
     public boolean isSorted() {
         return isSorted;
     }
 
-    /**
-     * Sets sorted.
-     *
-     * @param sorted the sorted
-     */
     public void setSorted(boolean sorted) {
         isSorted = sorted;
     }
