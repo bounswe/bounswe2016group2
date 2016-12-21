@@ -223,18 +223,18 @@ var Homepage = function (_React$Component) {
           { className: 'ui top attached tabular menu' },
           React.createElement(
             'a',
-            { className: 'item', 'data-tab': 'search' },
+            { className: 'item active', 'data-tab': 'search' },
             'Search'
           ),
           React.createElement(
             'a',
-            { className: 'item active', 'data-tab': 'advancedSearch' },
+            { className: 'item', 'data-tab': 'advancedSearch' },
             'Advanced Search'
           )
         ),
         React.createElement(
           'div',
-          { className: 'ui bottom attached tab segment', 'data-tab': 'search' },
+          { className: 'ui bottom attached tab segment active', 'data-tab': 'search' },
           React.createElement(
             'div',
             null,
@@ -284,7 +284,7 @@ var Homepage = function (_React$Component) {
         ),
         React.createElement(
           'div',
-          { className: 'ui bottom attached tab segment active', 'data-tab': 'advancedSearch' },
+          { className: 'ui bottom attached tab segment', 'data-tab': 'advancedSearch' },
           React.createElement(
             'div',
             null,

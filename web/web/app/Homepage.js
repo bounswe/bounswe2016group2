@@ -160,15 +160,15 @@ export default class Homepage extends React.Component {
     return (
       <div>
         <div className="ui top attached tabular menu">
-          <a className="item" data-tab="search">
+          <a className="item active" data-tab="search">
             Search
           </a>
-          <a className="item active" data-tab="advancedSearch">
+          <a className="item" data-tab="advancedSearch">
             Advanced Search
           </a>
         </div>
         {/* search tab content */}
-        <div className="ui bottom attached tab segment" data-tab="search">
+        <div className="ui bottom attached tab segment active" data-tab="search">
           {/* search form  */}
           <div>
             <form className="ui form">
@@ -194,7 +194,7 @@ export default class Homepage extends React.Component {
             {this.state.ingredientList}
           </div>
         </div>
-        <div className="ui bottom attached tab segment active" data-tab="advancedSearch">
+        <div className="ui bottom attached tab segment" data-tab="advancedSearch">
           {/* search form  */}
           <div>
             <form className="ui form">
