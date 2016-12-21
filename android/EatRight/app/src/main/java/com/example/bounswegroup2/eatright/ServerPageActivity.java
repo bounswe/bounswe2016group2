@@ -24,6 +24,7 @@ import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
+import com.example.bounswegroup2.Utils.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -199,9 +200,9 @@ public class ServerPageActivity extends AppCompatActivity implements RatingBar.O
     private void fillFoodList() {
         ArrayList<FoodLess> listFLess = (ArrayList<FoodLess>) restaurant.getFoods();
         for (FoodLess fls:listFLess) {
-         int id = fls.getId();
+            int id = fls.getId();
             ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-            Call<Food> cb = test.getFoodWithId(id);
+            Call<Food> cb = test.getFoodWithId("Token " + SessionManager.getPreferences(ServerPageActivity.this,"token"),id);
             cb.enqueue(new Callback<Food>() {
                 @Override
                 public void onResponse(Call<Food> call, Response<Food> response) {
