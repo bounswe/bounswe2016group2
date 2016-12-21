@@ -351,7 +351,7 @@ public class FoodAddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
+        // Inflate the diet_raw_layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_add, container, false);
         mLayout = (TableLayout) rootView.findViewById(R.id.tableLayoutAddFood);
         amounEditTExt = (EditText) rootView.findViewById(R.id.amountEText);

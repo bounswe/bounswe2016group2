@@ -65,7 +65,7 @@ public class ConsHistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the diet_raw_layout for this fragment
         Log.d("CONS",mParam1);
         Log.d("CONS",mParam2);
 

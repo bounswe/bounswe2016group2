@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.bounswegroup2.eatright.MyFoodsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment diet_raw_layout -->
     <ListView
         android:id="@+id/list_my_foods"
         android:layout_width="match_parent"

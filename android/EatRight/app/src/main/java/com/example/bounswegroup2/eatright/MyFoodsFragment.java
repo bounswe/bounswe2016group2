@@ -88,7 +88,7 @@ public class MyFoodsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the diet_raw_layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_my_foods, container, false);
         myFoodLv = (ListView) rootView.findViewById(R.id.list_my_foods);
         headerView = inflater.inflate(R.layout.food_list_header,null);

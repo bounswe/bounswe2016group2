@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.bounswegroup2.eatright.ConsHistFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment diet_raw_layout -->
     <TextView
         android:id="@+id/const_textView"
         android:layout_width="match_parent"
