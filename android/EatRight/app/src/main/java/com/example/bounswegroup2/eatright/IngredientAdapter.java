@@ -7,14 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Enes on 13.11.2016.

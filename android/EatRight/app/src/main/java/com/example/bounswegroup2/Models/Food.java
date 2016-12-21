@@ -1,10 +1,11 @@
 package com.example.bounswegroup2.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * The type Food.
@@ -47,7 +48,7 @@ public class Food implements Serializable
     private List<Ingredient> ingredients = null;
     @SerializedName("weight")
     @Expose
-    private Integer weight;
+    private Double weight;
     @SerializedName("details")
     @Expose
     private Details details;
@@ -252,7 +253,7 @@ public class Food implements Serializable
      *
      * @return the weight
      */
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
@@ -261,7 +262,7 @@ public class Food implements Serializable
      *
      * @param weight the weight
      */
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

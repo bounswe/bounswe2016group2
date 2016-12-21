@@ -1,5 +1,4 @@
 package com.example.bounswegroup2.Models;
-import com.google.gson.annotations.SerializedName;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -31,7 +30,7 @@ public class User implements Serializable {
     /**
      * Gets email.
      *
-     * @return The  email
+     * @return The email
      */
     public String getEmail() {
         return email;
@@ -49,7 +48,7 @@ public class User implements Serializable {
     /**
      * Gets username.
      *
-     * @return The  username
+     * @return The username
      */
     public String getUsername() {
         return username;
@@ -67,7 +66,7 @@ public class User implements Serializable {
     /**
      * Gets first name.
      *
-     * @return The  firstName
+     * @return The firstName
      */
     public String getFirstName() {
         return firstName;
@@ -85,7 +84,7 @@ public class User implements Serializable {
     /**
      * Gets last name.
      *
-     * @return The  lastName
+     * @return The lastName
      */
     public String getLastName() {
         return lastName;

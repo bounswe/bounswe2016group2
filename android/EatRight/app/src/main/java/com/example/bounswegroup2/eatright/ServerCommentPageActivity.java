@@ -1,16 +1,13 @@
 package com.example.bounswegroup2.eatright;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
-import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Models.RestaurantComment;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
-
-import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 
@@ -18,9 +15,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Server comment page activity.
+ */
 public class ServerCommentPageActivity extends AppCompatActivity {
     private ArrayList<RestaurantComment> lofc= new ArrayList<RestaurantComment>();
     private ArrayList<RestaurantComment> lofc2= new ArrayList<RestaurantComment>();
+    /**
+     * The List view.
+     */
     ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

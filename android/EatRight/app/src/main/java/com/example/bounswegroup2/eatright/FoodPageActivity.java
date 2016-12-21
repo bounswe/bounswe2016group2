@@ -1,51 +1,41 @@
 package com.example.bounswegroup2.eatright;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.content.Intent;
-import android.support.v7.widget.ListPopupWindow;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.view.View.OnClickListener;
-import android.widget.PopupWindow;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.AteFood;
 import com.example.bounswegroup2.Models.Details;
-import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodComment;
 import com.example.bounswegroup2.Models.FoodRate;
 import com.example.bounswegroup2.Models.Ingredient;
-import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
-import com.example.bounswegroup2.Utils.SessionManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Food page activity.
+ */
 public class FoodPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener{
 
     private TextView foodName;

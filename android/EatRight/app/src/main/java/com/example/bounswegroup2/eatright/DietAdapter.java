@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Diet;
-import com.example.bounswegroup2.Models.IngrLess;
-import com.example.bounswegroup2.Models.Ingredient;
 
 import java.util.ArrayList;
 

@@ -4,10 +4,11 @@ package com.example.bounswegroup2.Models;
  * Created by Enes on 19.12.2016.
  */
 
-import java.io.Serializable;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The type User more.

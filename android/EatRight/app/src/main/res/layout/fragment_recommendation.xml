@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bounswegroup2.eatright.ConsHistFragment">
+    tools:context="com.example.bounswegroup2.eatright.recommendationFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ListView
-        android:id="@+id/list_my_hist"
+        android:id="@+id/list_my_recom"
         android:layout_width="match_parent"
         android:layout_height="466dp"
         >
@@ -15,7 +15,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
-        <Button android:id="@+id/bringMyHist"
-            android:text="Bring My History"/>
     </TableRow>
 </FrameLayout>

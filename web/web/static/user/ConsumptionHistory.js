@@ -51,7 +51,7 @@ var ConsumptionHistory = function (_React$Component) {
   _createClass(ConsumptionHistory, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.fetch();
+      this.fetch(this.input.fromDate, this.input.toDate);
     }
   }, {
     key: 'updateTotalCharts',
@@ -206,10 +206,22 @@ var ConsumptionHistory = function (_React$Component) {
     }
   }, {
     key: 'fetch',
-    value: function fetch() {
+    value: function fetch(a, b) {
       var _this2 = this;
 
+      console.log("fetch", a, b);
       Api.consumptionHistory().then(function (data) {
+        // filter
+        data.daily = data.daily.filter(function (day, index) {
+          console.log(day.date, _this2.input.fromDate, _this2.input.toDate);
+          var dateSplit = day.date.split('-');
+          var date = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]);
+          var fromSplit = _this2.input.fromDate.split('-');
+          var fromDate = new Date(fromSplit[2], fromSplit[1] - 1, fromSplit[0]);
+          var toSplit = _this2.input.toDate.split('-');
+          var toDate = new Date(toSplit[2], toSplit[1] - 1, toSplit[0]);
+          return date.getTime() >= fromDate.getTime() && date.getTime() <= toDate.getTime();
+        });
         data.daily = data.daily.sort(function (a, b) {
           return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix();
         });
@@ -233,6 +245,8 @@ var ConsumptionHistory = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       return React.createElement(
         'div',
         { className: 'ui segment' },
@@ -253,7 +267,9 @@ var ConsumptionHistory = function (_React$Component) {
           React.createElement(_DatePicker2.default, { name: 'consumptionEndDate', placeholder: 'End Date', 'default': this.input.toDate, onChange: this.toDateChanged.bind(this) }),
           React.createElement(
             'button',
-            { className: 'ui button', style: { marginLeft: 10, marginRight: 10 } },
+            { className: 'ui button', style: { marginLeft: 10, marginRight: 10 }, onClick: function onClick() {
+                _this3.fetch(_this3.input.fromDate, _this3.input.toDate);
+              } },
             'Refresh'
           )
         ),

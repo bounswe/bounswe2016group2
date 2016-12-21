@@ -25,7 +25,8 @@ export default class AddFoodPage extends React.Component {
     this.setState({errors: null})
     const postData = {
       name: this.state.name,
-      photo: this.state.photo
+      photo: this.state.photo,
+      description: this.state.description
     }
     Api.addFood(postData)
       .then((data) => {
@@ -98,6 +99,11 @@ export default class AddFoodPage extends React.Component {
     })
   }
 
+  descriptionChanged(event){
+    this.setState({
+      description: event.target.value
+    })
+  }
   render() {
     let formClassName = 'ui form'
     if (this.state.errors) formClassName += ' error'
@@ -127,6 +133,10 @@ export default class AddFoodPage extends React.Component {
                 <p>{this.state.errors.photo[0]}</p>
               </div>
             }
+            <div className="field">
+              <label> Description </label>
+              <input type="url" name="photo" placeholder="image url" value={this.state.description} onChange={this.descriptionChanged.bind(this)}/>
+            </div>
           </form>
         </div>
         {/* ingredients */}
