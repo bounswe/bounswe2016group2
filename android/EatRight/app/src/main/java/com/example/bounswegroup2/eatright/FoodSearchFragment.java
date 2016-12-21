@@ -19,6 +19,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bounswegroup2.Models.Diet;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Tag;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import okhttp3.RequestBody;
@@ -68,6 +70,8 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private Button saveTags;
     private ArrayList<Tag> lotags = new ArrayList<>();
     private ArrayList<String> lotagsNames = new ArrayList<>();
+    private boolean isSettingsChanged = false;
+    private ArrayList<Integer> dietIds = new ArrayList<>();
 
     /**
      * Set args.
@@ -131,7 +135,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         return new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
-
+                isSettingsChanged = true;
                 Toast toast = Toast.makeText(getActivity(), String.valueOf("Min: "+bar.getSelectedMinValue()+"\nMax: "+
                 bar.getSelectedMaxValue()),Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER|Gravity.BOTTOM,0,0);
@@ -158,6 +162,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         saveTags.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isSettingsChanged = true;
                 tagLV.setVisibility(View.GONE);
                 Toast.makeText(FoodSearchFragment.this.getContext(),"All Tags Saved",Toast.LENGTH_SHORT).show();
                 searchButton.setVisibility(View.VISIBLE);
@@ -179,6 +184,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
             }
         });
         getAllIngredients();
+        getDietIds();
         getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(FoodSearchFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
@@ -248,12 +254,21 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         float minFat = fatSeekBar.getSelectedMinValue();
         float maxFat = fatSeekBar.getSelectedMaxValue();
         ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-        HashMap<String,Object> hm = new HashMap<>();
-        hm.put("minEnergy",  minCalorie); hm.put("maxEnergy",maxCalorie);
-        hm.put("minProteinVal",  minProtein); hm.put("maxProteinVal",maxProtein);
-        hm.put("minCarbVal", minCarbon); hm.put("maxCarbVal",maxCarbon);
-        hm.put("minFatVal",  minFat); hm.put("maxFatVal",maxFat);
-        hm.put("ingredients",ingIds); hm.put("tag",lotagsNames);
+        final HashMap<String,Object> hm = new HashMap<>();
+        if (isSettingsChanged) {
+            hm.put("minEnergy", minCalorie);
+            hm.put("maxEnergy", maxCalorie);
+            hm.put("minProteinVal", minProtein);
+            hm.put("maxProteinVal", maxProtein);
+            hm.put("minCarbVal", minCarbon);
+            hm.put("maxCarbVal", maxCarbon);
+            hm.put("minFatVal", minFat);
+            hm.put("maxFatVal", maxFat);
+            hm.put("ingredients", ingIds);
+            hm.put("tag", lotagsNames);
+        }else{
+            hm.put("diets",dietIds);
+        }
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
         Call<List<Food>> cb = test.searchFood(Constants.API_KEY,body);
         cb.enqueue(new Callback<List<Food>>() {
@@ -330,6 +345,22 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
 
             @Override
             public void onFailure(Call<List<Ingredient>> call, Throwable t) {
+
+            }
+        });
+    }
+    private void getDietIds(){
+        ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<List<Diet>> cb2 = test2.getMyDiets("Token "+Constants.API_KEY);
+        cb2.enqueue(new Callback<List<Diet>>() {
+            @Override
+            public void onResponse(Call<List<Diet>> call, Response<List<Diet>> response) {
+                ArrayList<Diet> list = (ArrayList<Diet>) response.body();
+                for (Diet d:list) dietIds.add(d.getId());
+            }
+
+            @Override
+            public void onFailure(Call<List<Diet>> call, Throwable t) {
 
             }
         });
