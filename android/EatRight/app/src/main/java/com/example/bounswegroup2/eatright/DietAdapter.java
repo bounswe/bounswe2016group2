@@ -35,9 +35,8 @@ private ArrayList<Diet> dietList;
         TextView tvName = (TextView) convertView.findViewById(R.id.diet_name);
         TextView tvIngredients = (TextView) convertView.findViewById(R.id.diet_ingr);
         String s="";
-        for (IngrLess i:d.getIngredients()) {
-            s+= i.getName() + " ";
-        }
+        for (int i = 0; i<d.getIngredients().size()-1;i++) s+= d.getIngredients().get(i).getName() + ",";
+        s+= d.getIngredients().get(d.getIngredients().size()-1).getName();
         tvName.setText(d.getName());
         tvIngredients.setText(s);
         // Return the completed view to render on screen

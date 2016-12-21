@@ -202,6 +202,7 @@ public class SettingsFragment extends Fragment {
             public void onResponse(Call<List<Diet>> call, Response<List<Diet>> response) {
                  da = new DietAdapter(SettingsFragment.this.getContext(), (ArrayList<Diet>) response.body());
                 lv2.setAdapter(da);
+                Toast.makeText(SettingsFragment.this.getContext(),"Diet saved succesfully!",Toast.LENGTH_SHORT).show();
             }
 
             @Override
