@@ -43,4 +43,5 @@ dependencies {
         compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
         testCompile 'junit:junit:4.12'
     }
+    compile 'com.android.support:support-v4:24.2.1'
 }
