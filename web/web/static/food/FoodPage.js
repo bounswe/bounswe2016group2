@@ -252,6 +252,24 @@ var FoodPage = function (_React$Component) {
         ),
         React.createElement(
           'div',
+          null,
+          this.state.food.description && React.createElement(
+            'div',
+            { className: 'ui segment', style: { textAlign: 'center' } },
+            React.createElement(
+              'h2',
+              { className: 'ui header' },
+              'Description'
+            ),
+            React.createElement(
+              'p',
+              null,
+              this.state.food.description
+            )
+          )
+        ),
+        React.createElement(
+          'div',
           { className: 'ui segment' },
           React.createElement(
             'h1',

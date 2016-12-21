@@ -99,7 +99,7 @@ export default class FoodPage extends React.Component {
 
   getRating(id){
     Api.getFood(id)
-      .then((data) => { 
+      .then((data) => {
         this.setState({rating: data.rate});
       })
   }
@@ -161,6 +161,14 @@ export default class FoodPage extends React.Component {
           {/* Food rating */}
           {token && (this.state.food.rate !== undefined) && (this.state.userRate !== undefined) &&
             <Rate id={this.state.id} label="Food Rating" onChange={this.foodRated} getRating={this.getRating} initialRating={this.state.food.rate} initialUserRating={this.state.userRate} name={'foods'+this.state.id}/>
+          }
+        </div>
+        <div>
+          {this.state.food.description &&
+            <div className="ui segment" style={{textAlign:'center'}}>
+              <h2 className="ui header">Description</h2>
+              <p>{this.state.food.description}</p>
+            </div>
           }
         </div>
         {/* general info   */}
