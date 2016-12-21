@@ -118,9 +118,9 @@ public class pieChartFrag extends userHomeFragment {
 
                     }
                     ArrayList<PieEntry> entries1 = new ArrayList<>();
-                    entries1.add(new PieEntry((float) carbs,"Carbs"));
-                    entries1.add(new PieEntry((float)fats,"Fats"));
-                    entries1.add(new PieEntry((float) protein,"Protein"));
+                    entries1.add(new PieEntry((float) carbs,"Carbs(gr)"));
+                    entries1.add(new PieEntry((float)fats,"Fats(gr)"));
+                    entries1.add(new PieEntry((float) protein,"Protein(gr)"));
                     PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
                     ds1.setColors(ColorTemplate.COLORFUL_COLORS);
                     ds1.setSliceSpace(2f);

@@ -170,43 +170,6 @@ public class UserHomeActivity extends AppCompatActivity
         //TODO will process recommended foods and will add to the recycler view
     }
 
-    /*public void getFoods(){
-        //TODO will be implemented
-        ApiInterface foodCall = ApiInterface.retrofit.create(ApiInterface.class);
-        QueryWrapper query = new QueryWrapper();
-
-        Call<List<Food>> cb = foodCall.getFoods();
-        cb.enqueue(new Callback<List<Food>>() {
-            @Override
-            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
-                HistoryFoods = new ArrayList<Food>();
-                HistoryFoods = (ArrayList<Food>) response.body();
-                foodAdapterH = new FoodAdapter(getApplicationContext(),HistoryFoods);
-                foodAdapterH.setOnItemClickListener(new FoodAdapter.ClickListener() {
-                    @Override
-                    public void onItemClick(int position, View v) {
-                        Food food = HistoryFoods.get(position);
-                        Intent intent = new Intent(UserHomeActivity.this, FoodPageActivity.class);
-                        intent.putExtra("food", food);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position, View v) {
-
-                    }
-                });
-                mHistoryRecyclerView.setAdapter(foodAdapterH);
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Food>> call, Throwable t) {
-            }
-        });
-    }*/
-
 
     private void editForServerLogin(){
         ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
@@ -330,7 +293,7 @@ public class UserHomeActivity extends AppCompatActivity
 
     private class PageAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Daily", "Total" };
+        private final String[] TITLES = { "Daily Macro","Daily Micro", "Total" };
 
         public PageAdapter(FragmentManager fm) {
             super(fm);
@@ -350,6 +313,9 @@ public class UserHomeActivity extends AppCompatActivity
                     f = pieChartFrag.newInstance(pos);
                     break;
                 case 1:
+                    f = MicroPieChartFragment.newInstance(pos);
+                    break;
+                case 2:
                     f = FullHistoryFrag.newInstance(pos);
                     break;
             }
