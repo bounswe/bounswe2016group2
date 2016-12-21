@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Diet;
+import com.example.bounswegroup2.Models.DietAddResponse;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Tag;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +47,7 @@ public class SettingsFragment extends Fragment {
 
     private Button saveBut;
     private ListView lv;
+    private ListView lv2;
     private MultiAutoCompleteTextView mtext1;
     private RangeSeekBar<Integer> calorieSeekBar;
     private RangeSeekBar<Integer> proSeekBar;
@@ -54,6 +57,8 @@ public class SettingsFragment extends Fragment {
     private IngredientAdapter ingAdap;
     private EditText name;
     private EditText descr;
+    private DietAdapter da;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -62,13 +67,14 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the diet_raw_layout for this fragment
 
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_settings, container, false);
-        // Inflate the layout for this fragment
+        // Inflate the diet_raw_layout for this fragment
 
 
         lv = (ListView) rootView.findViewById(R.id.ingr_listviewSett);
+        lv2 = (ListView) rootView.findViewById(R.id.dietListSett);
         calorieSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekbarForCalorieSett);
         calorieSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         fatSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForFatSett);
@@ -124,11 +130,11 @@ public class SettingsFragment extends Fragment {
                 hm.put("ingredients",ingIds); hm.put("name",name.getText().toString());
                 hm.put("description",descr.getText().toString());
                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
-                Call<Diet> cb = test.addDiet("Token "+Constants.API_KEY,body);
-                cb.enqueue(new Callback<Diet>() {
+                Call<DietAddResponse> cb = test.addDiet("Token "+Constants.API_KEY,body);
+                cb.enqueue(new Callback<DietAddResponse>() {
                     @Override
-                    public void onResponse(Call<Diet> call, Response<Diet> response) {
-                        Diet d = response.body();
+                    public void onResponse(Call<DietAddResponse> call, Response<DietAddResponse> response) {
+                        DietAddResponse d = response.body();
                         int id = d.getId();
                         ApiInterface test2 = ApiInterface.retrofit.create(ApiInterface.class);
                         Call<Void> cb2 = test2.addMyDiet("Token "+Constants.API_KEY,id);
@@ -136,6 +142,7 @@ public class SettingsFragment extends Fragment {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 String s = response.message().toString();
+                                da.notifyDataSetChanged();
                             }
 
                             @Override
@@ -146,13 +153,13 @@ public class SettingsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<Diet> call, Throwable t) {
+                    public void onFailure(Call<DietAddResponse> call, Throwable t) {
 
                     }
                 });
             }
         });
-
+    fillMyDietList();
     }
 
     private void getAllIngredients() {
@@ -187,6 +194,22 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    private void  fillMyDietList(){
+    ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<List<Diet>> cb = test.getMyDiets("Token "+Constants.API_KEY);
+        cb.enqueue(new Callback<List<Diet>>() {
+            @Override
+            public void onResponse(Call<List<Diet>> call, Response<List<Diet>> response) {
+                 da = new DietAdapter(SettingsFragment.this.getContext(), (ArrayList<Diet>) response.body());
+                lv2.setAdapter(da);
+                Toast.makeText(SettingsFragment.this.getContext(),"Diet saved succesfully!",Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onFailure(Call<List<Diet>> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

@@ -2,6 +2,7 @@ package com.example.bounswegroup2.Utils;
 
 import com.example.bounswegroup2.Models.AteFood;
 import com.example.bounswegroup2.Models.Diet;
+import com.example.bounswegroup2.Models.DietAddResponse;
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodAddResponse;
 import com.example.bounswegroup2.Models.FoodComment;
@@ -202,11 +203,15 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("api/diets")
-    Call<Diet> addDiet(@Header("Authorization") String token, @Body RequestBody body);
+    Call<DietAddResponse> addDiet(@Header("Authorization") String token, @Body RequestBody body);
 
     @Headers("Content-Type: application/json")
     @POST("api/myDiets/{dietId}")
     Call<Void> addMyDiet(@Header("Authorization") String token, @Path("dietId") int dietId);
+
+    @Headers("Content-Type: application/json")
+    @GET("api/myDiets")
+    Call<List<Diet>> getMyDiets(@Header("Authorization") String token);
 
 
 }
