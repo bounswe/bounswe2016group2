@@ -146,6 +146,7 @@ public class MicroPieChartFragment extends userHomeFragment implements OnChartVa
                     double folate       = 0;
                     double fibre        = 0;
                     double thiamin      = 0;
+                    int dayd = 0;
                     ArrayList<IBarDataSet> sets = new ArrayList<IBarDataSet>();
                     for (AteFoodUserless ate : foodList){
 
@@ -158,10 +159,11 @@ public class MicroPieChartFragment extends userHomeFragment implements OnChartVa
                         Integer hour = Integer.parseInt(checkTime[0]);
                         if (hour >= 21){
                             checkDay++;
+                            dayd = checkDay;
                         }
 
                         // System.out.println(ate.getCreated()+ "----------------");
-                        if(Integer.parseInt(checkDate[0]) ==year && Integer.parseInt(checkDate[1]) ==month && checkDay ==day){
+                        if(Integer.parseInt(checkDate[0]) ==year && Integer.parseInt(checkDate[1]) ==month && checkDay ==dayd){
                             Food food = ate.getFood();
                             cholestrol   += food.getDetails().getOthers().getCholesterol();
                             magnesium    += food.getDetails().getOthers().getMagnesium();

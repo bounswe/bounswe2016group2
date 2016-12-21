@@ -43,7 +43,7 @@ public class Total {
 
     @SerializedName("weight")
     @Expose
-    private double weight;
+    private Double weight;
 
     /**
      * Gets ate foods.

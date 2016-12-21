@@ -133,46 +133,7 @@ public class recommendationFragment extends Fragment {
                 return;
             }
         });
-        adapter = new FoodsAdapter(recommendationFragment.this.getContext(), foodies);
-        myFoodLv.addHeaderView(headerView);
-        myFoodLv.setAdapter(adapter);
-        myFoodLv.setOnItemClickListener(ıtemClcked());
-        myFoodLv.setDivider(ContextCompat.getDrawable(recommendationFragment.this.getContext(),android.R.color.black));
-        myFoodLv.setDividerHeight(1);
-        tvName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(adapter.isSorted()){
-                    Collections.sort(foodies,Food.czToA);
-                    adapter.setSorted(false);
-                    tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
-                }else {
-                    Collections.sort(foodies,Food.caToZ);
-                    adapter.setSorted(true);
-                    tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
-                }
-                adapter.setFoods(foodies);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        tvRating.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(adapter.isSorted()){
-                    Collections.sort(foodies,Food.czToARating);
-                    adapter.setSorted(false);
-                    tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
-                }else {
-                    Collections.sort(foodies,Food.caToZRating);
-                    adapter.setSorted(true);
-                    tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
-                }
-                adapter.setFoods(foodies);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        initiateFoodSearch();
-        fillMyFoodList();
+
         return rootView;
     }
 
@@ -181,7 +142,8 @@ public class recommendationFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstancesState) {
         //onResume happens after onStart and onActivityCreate
         super.onActivityCreated(savedInstancesState);
-
+        initiateFoodSearch();
+        fillMyFoodList();
 
     }
 
@@ -199,7 +161,45 @@ public class recommendationFragment extends Fragment {
                 foodies = (ArrayList<Food>) response.body();
                 System.out.println(foodies);
                 System.out.println("FOOOOOODIIIIES "+ foodies.size());
-                adapter.notifyDataSetChanged();
+                adapter = new FoodsAdapter(recommendationFragment.this.getContext(),foodies);
+                myFoodLv.addHeaderView(headerView);
+                myFoodLv.setAdapter(adapter);
+                myFoodLv.setOnItemClickListener(ıtemClcked());
+                myFoodLv.setDivider(ContextCompat.getDrawable(recommendationFragment.this.getContext(),android.R.color.black));
+                myFoodLv.setDividerHeight(1);
+                tvName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(adapter.isSorted()){
+                            Collections.sort(foodies,Food.czToA);
+                            adapter.setSorted(false);
+                            tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                        }else {
+                            Collections.sort(foodies,Food.caToZ);
+                            adapter.setSorted(true);
+                            tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                        }
+                        adapter.setFoods(foodies);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                tvRating.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(adapter.isSorted()){
+                            Collections.sort(foodies,Food.czToARating);
+                            adapter.setSorted(false);
+                            tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                        }else {
+                            Collections.sort(foodies,Food.caToZRating);
+                            adapter.setSorted(true);
+                            tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                        }
+                        adapter.setFoods(foodies);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
             }
             @Override
             public void onFailure(Call<List<Food>> call, Throwable t) {
