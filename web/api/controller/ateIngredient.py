@@ -27,7 +27,6 @@ def ateIngredient(req, ingredientId):
         ingredient = Ingredient.objects.get(id=ingredientId)
         data['ingredient'] = ingredient.id
     except Ingredient.DoesNotExist:
-        print('ammk')
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if req.method == 'POST':

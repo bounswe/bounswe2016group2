@@ -30,10 +30,8 @@ def restaurants(req):
     elif req.method == 'POST':
         req.data['user'] = req.user.id
         serializer = RestaurantSerializer(data=req.data)
-        print(req.user)
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
