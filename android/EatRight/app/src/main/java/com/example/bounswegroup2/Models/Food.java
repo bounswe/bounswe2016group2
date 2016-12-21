@@ -1,184 +1,380 @@
 package com.example.bounswegroup2.Models;
 
-/**
- * Created by yigitozgumus on 11/12/16.
- */
-
-import android.view.ViewDebug;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Food implements Serializable {
+/**
+ * The type Food.
+ */
+public class Food implements Serializable
+{
 
     @SerializedName("id")
     @Expose
     private Integer id;
+    @SerializedName("inclusions")
+    @Expose
+    private List<Inclusion> inclusions = null;
+    @SerializedName("comments")
+    @Expose
+    private List<FoodComment> comments = null;
+   /* @SerializedName("rates")
+    @Expose
+    private List<String> rates = null;*/
+    @SerializedName("restaurant")
+    @Expose
+    private Restaurant restaurant;
+    @SerializedName("user")
+    @Expose
+    private User user;
     @SerializedName("name")
     @Expose
     private String name;
     @SerializedName("slug")
     @Expose
     private String slug;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
     @SerializedName("ingredients")
     @Expose
-    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-    @SerializedName("rating")
+    private List<Ingredient> ingredients = null;
+    @SerializedName("weight")
     @Expose
-    private double rating;
-
-    @SerializedName("photo_links")
+    private Integer weight;
+    @SerializedName("details")
     @Expose
-    private ArrayList<String> photoLinks = new ArrayList<>();
-    private int totalEnergy;
-    private int totalPro;
-    private int totalFat;
-    private int totalCab;
-    public Food(String name, String slug) {
-       this.name = name; this.slug = slug;
-        totalEnergy=0;totalCab=0;totalFat=0;totalPro = 0;
-    }
+    private Details details;
+    @SerializedName("rate")
+    @Expose
+    private Double rate;
+    @SerializedName("tags")
+    @Expose
+    private List<FoodTag> tags;
+    private final static transient long serialVersionUID = -1659623804730649438L;
 
     /**
+     * Gets id.
      *
-     * @return
-     * The id
+     * @return the id
      */
     public Integer getId() {
         return id;
     }
 
     /**
+     * Sets id.
      *
-     * @param id
-     * The id
+     * @param id the id
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
     /**
+     * Gets inclusions.
      *
-     * @return
-     * The name
+     * @return the inclusions
+     */
+    public List<Inclusion> getInclusions() {
+        return inclusions;
+    }
+
+    /**
+     * Sets inclusions.
+     *
+     * @param inclusions the inclusions
+     */
+    public void setInclusions(List<Inclusion> inclusions) {
+        this.inclusions = inclusions;
+    }
+
+    /**
+     * Gets comments.
+     *
+     * @return the comments
+     */
+    public List<FoodComment> getComments() {
+        return comments;
+    }
+
+    /**
+     * Sets comments.
+     *
+     * @param comments the comments
+     */
+    public void setComments(List<FoodComment> comments) {
+        this.comments = comments;
+    }
+
+ /*   public List<FoodRate> getRates() {
+        return rates;
+    }
+
+    public void setRates(List<FoodRate> rates) {
+        this.rates = rates;
+    }*/
+
+    /**
+     * Gets restaurant.
+     *
+     * @return the restaurant
+     */
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    /**
+     * Sets restaurant.
+     *
+     * @param restaurant the restaurant
+     */
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    /**
+     * Gets name.
+     *
+     * @return the name
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Sets name.
      *
-     * @param name
-     * The name
+     * @param name the name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
+     * Gets slug.
      *
-     * @return
-     * The slug
+     * @return the slug
      */
     public String getSlug() {
         return slug;
     }
 
     /**
+     * Sets slug.
      *
-     * @param slug
-     * The slug
+     * @param slug the slug
      */
     public void setSlug(String slug) {
         this.slug = slug;
     }
 
     /**
+     * Gets description.
      *
-     * @return
-     * The ingredients
+     * @return the description
      */
-    public ArrayList<Ingredient> getIngredients() {
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets description.
+     *
+     * @param description the description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Gets photo.
+     *
+     * @return the photo
+     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    /**
+     * Sets photo.
+     *
+     * @param photo the photo
+     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    /**
+     * Gets ingredients.
+     *
+     * @return the ingredients
+     */
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
     /**
+     * Sets ingredients.
      *
-     * @param ingredients
-     * The ingredients
+     * @param ingredients the ingredients
      */
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-        for (Ingredient i:ingredients) {
-            totalEnergy+= i.getEnergy(); totalCab+=i.getCarb(); totalFat+=i.getFat(); totalPro+=i.getProtein();
-        }
     }
 
-    public double getRating() {
-        return rating;
+    /**
+     * Gets weight.
+     *
+     * @return the weight
+     */
+    public Integer getWeight() {
+        return weight;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    /**
+     * Sets weight.
+     *
+     * @param weight the weight
+     */
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
-    public ArrayList<String> getPhotoLinks() {
-        return photoLinks;
+    /**
+     * Gets details.
+     *
+     * @return the details
+     */
+    public Details getDetails() {
+        return details;
     }
 
-    public void setPhotoLinks(ArrayList<String> photoLinks) {
-        this.photoLinks = photoLinks;
+    /**
+     * Sets details.
+     *
+     * @param details the details
+     */
+    public void setDetails(Details details) {
+        this.details = details;
     }
 
 
-
-    public static Comparator<Food> caToZ = new Comparator<Food>() {
+    /**
+     * The constant caToZ.
+     */
+    public static transient  Comparator<Food> caToZ = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
             return food.getName().compareToIgnoreCase(t1.getName());
         }
     };
-    public static Comparator<Food> czToA = new Comparator<Food>() {
+    /**
+     * The constant czToA.
+     */
+    public static transient  Comparator<Food> czToA = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
             return t1.getName().compareToIgnoreCase(food.getName());
         }
     };
-    public static Comparator<Food> caToZRating = new Comparator<Food>() {
+
+    /**
+     * The constant caToZRating.
+     */
+    public static transient  Comparator<Food> caToZRating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            if(food.getRating() < t1.getRating()) return 1;
-            if(food.getRating() > t1.getRating()) return -1;
+            if(food.getRate() < t1.getRate()) return 1;
+            if(food.getRate() > t1.getRate()) return -1;
             return 0;
         }
     };
-    public static Comparator<Food> czToARating = new Comparator<Food>() {
+    /**
+     * The constant czToARating.
+     */
+    public static transient  Comparator<Food> czToARating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            if(food.getRating() > t1.getRating()) return 1;
-            if(food.getRating() < t1.getRating()) return -1;
+            if(food.getRate() > t1.getRate())  return 1;
+            if(food.getRate() < t1.getRate()) return -1;
             return 0;
         }
     };
 
-    public int getTotalEnergy() {
-        return totalEnergy;
+    /**
+     * Gets rate.
+     *
+     * @return the rate
+     */
+    public Double getRate() {
+        return rate;
     }
 
-    public int getTotalPro() {
-        return totalPro;
+    /**
+     * Sets rate.
+     *
+     * @param rate the rate
+     */
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 
-    public int getTotalFat() {
-        return totalFat;
+    /**
+     * Gets tags.
+     *
+     * @return the tags
+     */
+    public List<FoodTag> getTags() {
+        return tags;
     }
 
-    public int getTotalCab() {
-        return totalCab;
+    /**
+     * Sets tags.
+     *
+     * @param tags the tags
+     */
+    public void setTags(List<FoodTag> tags) {
+        this.tags = tags;
     }
+/*
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getPro() {
+        return pro;
+    }
+
+    public int getCarb() {
+        return carb;
+    }
+
+    public int getFat() {
+        return fat;
+    }*/
 }

@@ -1,43 +1,42 @@
 package com.example.bounswegroup2.eatright;
 
 
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Range;
-import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MultiAutoCompleteTextView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.Ingredient;
+import com.example.bounswegroup2.Models.Tag;
 import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +50,6 @@ import static android.R.drawable.arrow_up_float;
  */
 public class FoodSearchFragment extends ListFragment implements AdapterView.OnItemClickListener {
     private String query;
-    private EditText allergicEditText;
     private Button searchButton;
     private ListView lv;
     private MultiAutoCompleteTextView mtext1;
@@ -62,11 +60,29 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private RangeSeekBar<Integer> proSeekBar;
     private RangeSeekBar<Integer> fatSeekBar;
     private RangeSeekBar<Integer> carbSeekBar;
+    private ArrayList<Integer> ingIds = new ArrayList<>();
+    private ArrayList<Food> nFl = new ArrayList<Food>();
+    private ArrayList<String> selectedTags = new ArrayList<>();
+    private EditText tagsET;
+    private ListView tagLV;
+    private Button saveTags;
+    private ArrayList<Tag> lotags = new ArrayList<>();
+    private ArrayList<String> lotagsNames = new ArrayList<>();
+
+    /**
+     * Set args.
+     *
+     * @param param1 the param 1
+     */
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
         this.setArguments(args);
     }
+
+    /**
+     * Instantiates a new Food search fragment.
+     */
     public FoodSearchFragment() {
         // Required empty public constructor
         query = "";
@@ -76,7 +92,7 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     //@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the diet_raw_layout for this fragment
         ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_food_search, container, false);
         searchButton = (Button)rootView.findViewById(R.id.searchFood);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -89,17 +105,39 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         headerView = inflater.inflate(R.layout.food_list_header,null);
         tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
         tvRating = (TextView) headerView.findViewById(R.id.food_list_header_rating);
+        headerView.findViewById(R.id.food_list_header_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                return;
+            }
+        });
+        tagLV = (ListView) rootView.findViewById(R.id.tagListView);
         lv = (ListView) rootView.findViewById(R.id.ingr_listview);
         calorieSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekbarForCalorie);
+        calorieSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         fatSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForFat);
+        fatSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         proSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.rangeSeekBarForPro);
+        proSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         carbSeekBar = (RangeSeekBar<Integer>) rootView.findViewById(R.id.seekBarForCab);
-
-        //TableLayout headerView = (TableLayout) inflater.inflate(R.layout.ingr_list_header,null);
-        //lv.addHeaderView(headerView);
-
+        carbSeekBar.setOnRangeSeekBarChangeListener(seekBarChnaged());
         mtext1 = (MultiAutoCompleteTextView)rootView.findViewById(R.id.multiAutoCompleteTextView1);
+        tagsET = (EditText) rootView.findViewById(R.id.editTextTag);
+        saveTags = (Button) rootView.findViewById(R.id.saveTags);
         return  rootView;
+    }
+
+    private RangeSeekBar.OnRangeSeekBarChangeListener<Integer> seekBarChnaged() {
+        return new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
+            @Override
+            public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
+
+                Toast toast = Toast.makeText(getActivity(), String.valueOf("Min: "+bar.getSelectedMinValue()+"\nMax: "+
+                bar.getSelectedMaxValue()),Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER|Gravity.BOTTOM,0,0);
+                toast.show();
+            }
+        };
     }
 
     @Override
@@ -109,106 +147,135 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         //getAllFoods(query)
         getListView().setOnItemClickListener(this);
         lv.setOnItemClickListener(this);
-        //getAllIngredients();
-        Ingredient i  = new Ingredient("bread","bread"); i.setCarb(100);i.setFat(100);i.setProtein(100); i.setEnergy(300);
-        Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
-        Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
-        ArrayList<Ingredient> foodList = new ArrayList<Ingredient>(); foodList.add(i);foodList.add(i2);foodList.add(i3);
-        IngredientAdapter adapter = new IngredientAdapter(FoodSearchFragment.this.getContext(), foodList);
-        mtext1.setAdapter(adapter);
-        mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
+        tagsET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b){
+                populateTAgListView();
+                }
+            }
+        });
+        saveTags.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagLV.setVisibility(View.GONE);
+                Toast.makeText(FoodSearchFragment.this.getContext(),"All Tags Saved",Toast.LENGTH_SHORT).show();
+                searchButton.setVisibility(View.VISIBLE);
+                saveTags.setVisibility(View.GONE);
+                for (Tag t : lotags) lotagsNames.add(t.getName());
+            }
+        });
+        tagLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Tag tag = (Tag)adapterView.getAdapter().getItem(i);
+                if (lotags.contains(tag)){
+                    lotags.remove(tag);
+                    Toast.makeText(FoodSearchFragment.this.getContext(),"Removed Tag Succesfully:\n"+tag.getName(),Toast.LENGTH_SHORT).show();
+                }else{
+                    lotags.add(tag);
+                    Toast.makeText(FoodSearchFragment.this.getContext(),"Added Tag Succesfully:\n"+tag.getName(),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        getAllIngredients();
         getListView().addHeaderView(headerView);
         getListView().setDivider(ContextCompat.getDrawable(FoodSearchFragment.this.getContext(),android.R.color.black));
         getListView().setDividerHeight(1);
         //setRetainInstance(true);
     }
 
+    private void populateTAgListView() {
+        String s = tagsET.getText().toString();
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        Call<List<Tag>> cb = test.getTags("Token "+Constants.API_KEY,s);
+        cb.enqueue(new Callback<List<Tag>>() {
+            @Override
+            public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
+                ArrayList<Tag> lot = (ArrayList<Tag>) response.body();
+                TagAdapter adp = new TagAdapter(FoodSearchFragment.this.getContext(),lot);
+                tagLV.setAdapter(adp);
+                tagLV.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                tagLV.setVisibility(View.VISIBLE);
+                getListView().setVisibility(View.INVISIBLE);
+                searchButton.setVisibility(View.GONE);
+                saveTags.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<List<Tag>> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
         if(adapter.getId() == getListView().getId()){
             Food food = (Food)adapter.getAdapter().getItem(position);
+            Bundle b = new Bundle();
+            b.putSerializable("details",food.getDetails());
+            b.putSerializable("ingr", (Serializable) food.getIngredients());
+            b.putSerializable("name",food.getName());
+            b.putSerializable("photo",food.getPhoto());
+            if (food.getRestaurant() != null){
+                b.putSerializable("restaName",food.getRestaurant().getName());
+                b.putSerializable("restaID",food.getRestaurant().getId());
+            }else{
+                b.putSerializable("restaName",Constants.user);
+                b.putSerializable("restaID",0);
+            }
+            b.putSerializable("foodid",food.getId());
+            b.putSerializable("rate",food.getRate());
+            b.putSerializable("comments", (Serializable) food.getComments());
             Intent intent = new Intent(getActivity(), FoodPageActivity.class);
-            intent.putExtra("food", food);
+            intent.putExtras(b);
             startActivity(intent);
         }
     }
 
     //Revise after server deployment
     private void getAllFoods(String queryString, final List<String> allergic){
+        tagLV.setVisibility(View.INVISIBLE);
+        getListView().setVisibility(View.VISIBLE);
         if(queryString == null) queryString = "";
+        float minCalorie = calorieSeekBar.getSelectedMinValue();
+        float maxCalorie = calorieSeekBar.getSelectedMaxValue();
+        float minProtein = proSeekBar.getSelectedMinValue();
+        float maxProtein = proSeekBar.getSelectedMaxValue();
+        float minCarbon  = carbSeekBar.getSelectedMinValue();
+        float maxCarbon  = carbSeekBar.getSelectedMaxValue();
+        float minFat = fatSeekBar.getSelectedMinValue();
+        float maxFat = fatSeekBar.getSelectedMaxValue();
         ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
-        Call<List<Food>> cb = test.getFoodsWithQuery(queryString);
-        int minCalorie = calorieSeekBar.getSelectedMinValue();
-        int maxCalorie = calorieSeekBar.getSelectedMaxValue();
-        final Range<Integer> r1 = new Range<Integer>(minCalorie,maxCalorie);
-        int minProtein = proSeekBar.getSelectedMinValue();
-        int maxProtein = proSeekBar.getSelectedMaxValue();
-        final Range<Integer> r2 = new Range<Integer>(minProtein,maxProtein);
-        final int minCarbon  = carbSeekBar.getSelectedMinValue();
-        final int maxCarbon  = carbSeekBar.getSelectedMaxValue();
-        final Range<Integer> r3 = new Range<Integer>(minCarbon,maxCarbon);
-        int minFat = fatSeekBar.getSelectedMinValue();
-        int maxFat = fatSeekBar.getSelectedMaxValue();
-        final Range<Integer> r4 = new Range<Integer>(minFat,maxFat);
+        HashMap<String,Object> hm = new HashMap<>();
+        hm.put("minEnergy",  minCalorie); hm.put("maxEnergy",maxCalorie);
+        hm.put("minProteinVal",  minProtein); hm.put("maxProteinVal",maxProtein);
+        hm.put("minCarbVal", minCarbon); hm.put("maxCarbVal",maxCarbon);
+        hm.put("minFatVal",  minFat); hm.put("maxFatVal",maxFat);
+        hm.put("ingredients",ingIds); hm.put("tag",lotagsNames);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
+        Call<List<Food>> cb = test.searchFood(Constants.API_KEY,body);
         cb.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
-                ArrayList<Food> foodList = (ArrayList<Food>) response.body();
-                for (int i = 0;i<foodList.size();i++){
-                    Food f = foodList.get(i);
-                    if(!r1.contains(f.getTotalEnergy()) || !r2.contains(f.getTotalPro()) || !r3.contains(f.getTotalCab()) || !r4.contains(f.getTotalFat())){
-                        foodList.remove(i); i--;
-                    }else{
-                        ArrayList<Ingredient> listOfIngredients = f.getIngredients();
-                        for (int j=0;j<listOfIngredients.size();j++){
-                            if (allergic.contains(listOfIngredients.get(j).getName())){
-                                j = listOfIngredients.size();
-                                foodList.remove(i);
-                                i--;
-                            }
-                        }
-                    }
-                    FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), foodList);
-                    setListAdapter(adapter);
-                    }
-            }
+            nFl = (ArrayList<Food>) response.body();
 
-            @Override
-            public void onFailure(Call<List<Food>> call, Throwable t) {
-                System.out.println("HATA VAR");
-                Food f  = new Food("apple","apple");
-                Food f2 = new Food("banana","banana");
-                Food f3 = new Food("orange","orange");
-                Ingredient i  = new Ingredient("bread","bread"); i.setCarb(100);i.setFat(100);i.setProtein(100); i.setEnergy(300);
-                Ingredient i2 = new Ingredient("egg","egg"); i2.setCarb(200);i2.setFat(200);i2.setProtein(200); i2.setEnergy(600);
-                Ingredient i3 = new Ingredient("eggplant","eggplant"); i3.setCarb(300);i3.setFat(300);i3.setProtein(300); i3.setEnergy(900);
-                ArrayList<Ingredient> ingList = new ArrayList<Ingredient>(); ingList.add(i);
-                f.setIngredients(ingList);
-                ArrayList<String> a = new ArrayList<String>(); a.add("https://nutritionaz.files.wordpress.com/2014/06/eat-right.jpg");
-                f.setPhotoLinks(a); f2.setPhotoLinks(a); f3.setPhotoLinks(a);
-                ingList.add(i2);
-                f2.setIngredients(ingList);
-                ingList.add(i3);
-                f3.setIngredients(ingList);
-                f.setRating(4.5); f2.setRating(4.1); f3.setRating(2.8);
-                final ArrayList<Food> foodList = new ArrayList<Food>(); foodList.add(f);foodList.add(f2);foodList.add(f3);
-                final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), foodList);
+                final FoodsAdapter adapter = new FoodsAdapter(FoodSearchFragment.this.getContext(), nFl);
                 setListAdapter(adapter);
-
                 tvName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(adapter.isSorted()){
-                            Collections.sort(foodList,Food.czToA);
+                            Collections.sort(nFl,Food.czToA);
                             adapter.setSorted(false);
                             tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
                         }else {
-                            Collections.sort(foodList,Food.caToZ);
+                            Collections.sort(nFl,Food.caToZ);
                             adapter.setSorted(true);
                             tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
                         }
-                        adapter.setFoods(foodList);
+                        adapter.setFoods(nFl);
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -216,18 +283,23 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
                     @Override
                     public void onClick(View view) {
                         if(adapter.isSorted()){
-                            Collections.sort(foodList,Food.czToARating);
+                            Collections.sort(nFl,Food.czToARating);
                             adapter.setSorted(false);
                             tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
                         }else {
-                            Collections.sort(foodList,Food.caToZRating);
+                            Collections.sort(nFl,Food.caToZRating);
                             adapter.setSorted(true);
                             tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
                         }
-                        adapter.setFoods(foodList);
+                        adapter.setFoods(nFl);
                         adapter.notifyDataSetChanged();
                     }
                 });
+            }
+
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+
             }
         });
     }
@@ -238,13 +310,22 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
         cb.enqueue(new Callback<List<Ingredient>>() {
             @Override
             public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
-                //   IngredientAdapter adapter = new IngredientAdapter(SettingsFragment.this.getContext(), (ArrayList<Ingredient>) response.body());
-                //lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                //lv.setItemsCanFocus(false);
-                //lv.setAdapter(adapter);
 
-                //  mtext1.setAdapter(adapter);
-                // mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                final IngredientAdapter ingAdap= new IngredientAdapter(FoodSearchFragment.this.getContext(),(ArrayList<Ingredient>) response.body());
+                lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                lv.setItemsCanFocus(false);
+                lv.setAdapter(ingAdap);
+
+                mtext1.setAdapter(ingAdap);
+                mtext1.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                mtext1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Ingredient ing = (Ingredient)adapterView.getAdapter().getItem(i);
+                        int id = ing.getId();
+                        ingIds.add(id);
+                    }
+                });
             }
 
             @Override
@@ -257,4 +338,6 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu,inflater);
     }
+
+
 }

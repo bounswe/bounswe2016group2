@@ -19,15 +19,22 @@ import java.util.List;
 /**
  * Created by Enes on 13.11.2016.
  */
-
 public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filterable {
-    private ArrayList<Ingredient> ingredients,suggestions,tempItems;
+    private ArrayList<Ingredient> ingredients,listOfIngr,suggestions,tempItems;
 
+    /**
+     * Instantiates a new Ingredient adapter.
+     *
+     * @param context     the context
+     * @param ingredients the ingredients
+     */
     public IngredientAdapter(Context context, ArrayList<Ingredient> ingredients) {
         super(context, 0, ingredients);
         this.ingredients = ingredients;
+        this.listOfIngr = ingredients;
         this.suggestions = new ArrayList<Ingredient>();
-        this.tempItems = new ArrayList<Ingredient>(this.ingredients);
+        this.tempItems = new ArrayList<Ingredient>();
+        tempItems.addAll(ingredients);
 
     }
 
@@ -48,15 +55,20 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         TextView tvFat = (TextView) convertView.findViewById(R.id.ingr_fat);
         // Populate the data into the template view using the data object
         tvName.setText(ingr.getName());
-        tvEnergy.setText(Integer.toString(ingr.getEnergy()));
-        tvPro.setText(Integer.toString(ingr.getProtein()));
-        tvCab.setText(Integer.toString(ingr.getCarb()));
-        tvFat.setText(Integer.toString(ingr.getFat()));
+        tvEnergy.setText(""+ingr.getEnergy());
+        tvPro.setText(""+ingr.getProtein());
+        tvCab.setText(""+ingr.getCarb());
+        tvFat.setText(""+ingr.getFat());
 
         // Return the completed view to render on screen
         return convertView;
     }
 
+    /**
+     * Gets ingredients.
+     *
+     * @return the ingredients
+     */
     public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -72,8 +84,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
     Filter nameFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            String str = ((Ingredient) resultValue).getName();
-            return str;
+            return ((Ingredient) resultValue).getName();
         }
 
         @Override
@@ -96,15 +107,28 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<Ingredient> filterList = (ArrayList<Ingredient>) results.values;
+            clear();
             if (results != null && results.count > 0) {
-                clear();
-                for (Ingredient i : filterList) {
-                    add(i);
-                    notifyDataSetChanged();
-                }
+                addAll((ArrayList<Ingredient>) results.values);
+            }else{
+                addAll(tempItems);
             }
+            notifyDataSetChanged();
         }
     };
+
+    /**
+     * Gets ingredient.
+     *
+     * @param s the s
+     * @return the ingredient
+     */
+    public Ingredient getIngredient(String s) {
+        for (Ingredient ingr:tempItems)
+            if(ingr.getName().equalsIgnoreCase(s))
+                return ingr;
+        return null;
+    }
+
 }
 

@@ -1,46 +1,160 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bounswegroup2.eatright.SettingsFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/scroll">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ingr_listview_settings"
-                android:layout_below="@+id/mAutoTVForSettings"
-                android:choiceMode="multipleChoiceModal"
-                android:visibility="gone"/>
-
-        <MultiAutoCompleteTextView
-            android:id="@+id/mAutoTVForSettings"
-            android:hint="@string/allergic_ingredients"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            />
-
-        <CheckBox
-            android:text="Vegan"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollViewSearchSett"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:id="@+id/checkBox"
-            android:layout_below="@+id/mAutoTVForSettings"
-            android:layout_toStartOf="@+id/mAutoTVForSettings" />
-
-        <Button
-            android:text="SAVE"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_save_settings"
-            android:layout_alignParentBottom="true"
+            android:text="@string/calorie_range"
+            android:id="@+id/CalorieTExtViewSett"
+            android:layout_alignTop="@+id/seekbarForCalorie"
             android:layout_centerHorizontal="true" />
 
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekbarForCalorieSett"
+            app:absoluteMaxValue="2500"
+            app:absoluteMinValue="0" />
+
+        <TextView
+            android:text="@string/fat_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rangeSeekBarForProSett"
+            android:layout_alignStart="@+id/CalorieTExtViewSett"
+            android:layout_marginTop="11dp"
+            android:id="@+id/textViewFatRangeSett" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ingr_listviewSett"
+            android:layout_below="@+id/multiAutoCompleteTextView1Sett"
+            android:choiceMode="multipleChoiceModal"
+            android:visibility="gone"/>
+
+        <TextView
+            android:text="@string/carbonhydrate_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8Sett"
+            android:layout_below="@+id/seekBarForFatSett"
+            android:layout_alignStart="@+id/textViewFatRangeSett" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rangeSeekBarForProSett"
+            app:absoluteMaxValue="1000"
+            app:absoluteMinValue="0"
+            android:layout_below="@+id/CalorieTExtViewSett"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:absoluteMaxValue="1000"
+            app:absoluteMinValue="0"
+            android:id="@+id/seekBarForCabSett"
+            android:layout_marginTop="19dp"
+            android:layout_below="@+id/textViewFatRangeSett"
+            android:layout_alignParentStart="true" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:absoluteMaxValue="1000"
+            app:absoluteMinValue="0"
+            android:id="@+id/seekBarForFatSett"
+            android:layout_below="@+id/rangeSeekBarForProSett"
+            android:layout_alignParentStart="true" />
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/multiAutoCompleteTextView1Sett"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/allergic_ingredient"
+            android:layout_below="@+id/seekBarForCabSett"
+            android:layout_alignParentStart="true"
+            android:ems="10"/>
+
+        <TextView
+            android:text="@string/protein_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seekbarForCalorieSett"
+            android:layout_alignStart="@+id/textViewFatRangeSett" />
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:id="@+id/saveDietSett"
+        android:textAlignment="center"
+            android:layout_below="@+id/seekBarForCabSett"
+            android:layout_toEndOf="@+id/textView8Sett" />
+
+
     </RelativeLayout>
-</FrameLayout>
+    <TableRow android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Name"
+        android:maxLines="1"
+        android:layout_weight="1"
+        android:id="@+id/editTextNameSett"
+        android:layout_marginEnd="81dp"
+        android:layout_alignBottom="@+id/scrollViewSearchSett"
+        android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Description"
+            android:layout_weight="2"
+            android:maxLines="1"
+            android:id="@+id/editTextDescSett"
+            android:layout_below="@+id/scrollViewSearchSett"
+            android:layout_alignParentStart="true" />
+
+    </TableRow>
+    </LinearLayout>
+</ScrollView>
+
+    <ListView
+        android:id="@+id/dietListSett"
+        android:layout_below="@id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"/>
+</RelativeLayout>
+
+
+
+

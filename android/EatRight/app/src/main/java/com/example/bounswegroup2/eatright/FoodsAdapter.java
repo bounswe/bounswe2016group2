@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
@@ -17,10 +18,16 @@ import java.util.ArrayList;
 /**
  * Created by Enes on 13.11.2016.
  */
-
 public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
     private ArrayList<Food> foods = new ArrayList<Food>();
     private boolean isSorted ;
+
+    /**
+     * Instantiates a new Foods adapter.
+     *
+     * @param context the context
+     * @param foods   the foods
+     */
     public FoodsAdapter(Context context, ArrayList<Food> foods) {
         super(context, 0, foods);
         this.foods = foods;
@@ -41,14 +48,14 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         TextView tvName = (TextView) convertView.findViewById(R.id.food_name);
         TextView tvSlug = (TextView) convertView.findViewById(R.id.food_slug);
         TextView tvComment = (TextView) convertView.findViewById(R.id.comment_food);
-        TextView tvRating = (TextView) convertView.findViewById(R.id.rating_food);
-        tvRating.setText(Double.toString(food.getRating()));
+        RatingBar tvRating = (RatingBar) convertView.findViewById(R.id.rating_food);
+        tvRating.setRating(Float.parseFloat(food.getRate().toString()));
         tvComment.setText(food.getSlug());
         // Populate the data into the template view using the data object
         tvName.setText(food.getName());
         tvSlug.setText(food.getSlug());
         Picasso.with(getContext())
-                .load(food.getPhotoLinks().get(0))
+                .load(food.getPhoto())
                 .placeholder(R.drawable.eatright)
                 .fit()
                 .centerInside()
@@ -57,15 +64,36 @@ public class FoodsAdapter extends ArrayAdapter<Food> implements Filterable {
         return convertView;
     }
 
+    /**
+     * Gets foods.
+     *
+     * @return the foods
+     */
     public ArrayList<Food> getFoods() {
         return foods;
     }
+
+    /**
+     * Set foods.
+     *
+     * @param list the list
+     */
     public void setFoods(ArrayList<Food> list){foods = list;}
 
+    /**
+     * Is sorted boolean.
+     *
+     * @return the boolean
+     */
     public boolean isSorted() {
         return isSorted;
     }
 
+    /**
+     * Sets sorted.
+     *
+     * @param sorted the sorted
+     */
     public void setSorted(boolean sorted) {
         isSorted = sorted;
     }
