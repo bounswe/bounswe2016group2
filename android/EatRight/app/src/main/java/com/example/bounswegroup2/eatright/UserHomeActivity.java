@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInstaller;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,12 +13,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,11 +32,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.example.bounswegroup2.Models.AteFoodUserless;
 import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.FoodLess;
+import com.example.bounswegroup2.Models.FoodTag;
 import com.example.bounswegroup2.Models.TagResponse;
+import com.example.bounswegroup2.Models.TotalUserHistory;
 import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
@@ -41,11 +49,16 @@ import com.example.bounswegroup2.Utils.FoodAdapter;
 import com.example.bounswegroup2.Utils.OnBackPressedListener;
 import com.example.bounswegroup2.Utils.QueryWrapper;
 import com.example.bounswegroup2.Utils.SessionManager;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -56,24 +69,27 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.drawable.arrow_down_float;
+import static android.R.drawable.arrow_up_float;
+
 public class UserHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView userRecommendations;
     private TextView userHistory;
-    private RecyclerView mHistoryRecyclerView;
-    private RecyclerView mRecomRecyclerView;
-    private LinearLayoutManager mHistoryLinearLayoutManager;
-    private LinearLayoutManager mRecomLinearLayoutManager;
-    private FoodAdapter foodAdapterH;
-    private FoodAdapter foodAdapterR;
+    private View headerView;
+    private TextView tvName;
+    private TextView tvRating;
+    private ListView myFoodLv;
+    private ArrayList<Food> lof = new ArrayList<>();
     private DrawerLayout drawer;
     private NavigationView mNavigationView;
     private TextView mShowName;
     private FloatingActionButton mFab ;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
-    ArrayList<Food> HistoryFoods;
+    ArrayList<String> tagList = new ArrayList<>();
+    ArrayList<Food> foodies = new ArrayList<>();
     protected OnBackPressedListener onBackPressedListener;
 
     protected Typeface mTfRegular;
@@ -89,6 +105,7 @@ public class UserHomeActivity extends AppCompatActivity
         ViewPager pager = (ViewPager) findViewById(R.id.history_pager);
         pager.setOffscreenPageLimit(3);
 
+
         PageAdapter a = new PageAdapter(getSupportFragmentManager());
         pager.setAdapter(a);
 
@@ -96,9 +113,12 @@ public class UserHomeActivity extends AppCompatActivity
                 .getDisplayMetrics());
         pager.setPageMargin(pageMargin);
 
+       // recomPager.setPageMargin(pageMargin);
+
         // Bind the tabs to the ViewPager
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
+
 
         mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
@@ -106,25 +126,20 @@ public class UserHomeActivity extends AppCompatActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         userRecommendations = (TextView) findViewById(R.id.user_home_recommendations);
-        userHistory = (TextView) findViewById(R.id.user_home_history);
+
         userRecommendations.setText(R.string.user_page_recommendations);
 
-        userHistory.setText(R.string.user_page_histroy);
         Bundle bundle = getIntent().getExtras();
         //TODO will be activated after the main implementation
-//        mFab = (FloatingActionButton) findViewById(R.id.fab);
-//        mFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
         //Bundle bundle = getIntent().getExtras();
-       initSecondaryViews(bundle);
+        initSecondaryViews(bundle);
         editForServerLogin();
         //getMe();
-      //  initFoodHistory();
+        initiateFoodSearch();
+        fillMyFoodList();
+        initFoodRecommendations();
+
     }
 
 
@@ -156,18 +171,106 @@ public class UserHomeActivity extends AppCompatActivity
     }
 
 
-    public void initFoodHistory(){
-       // mHistoryRecyclerView = (RecyclerView) findViewById(R.id.History_recycler);
-//        mHistoryRecyclerView.setHasFixedSize(true);
-//        mHistoryLinearLayoutManager = new GridLayoutManager(getApplicationContext(),1);
-//        mHistoryLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        mHistoryRecyclerView.setLayoutManager(mHistoryLinearLayoutManager);
-      //  getFoods();
-
-    }
-
     public void initFoodRecommendations(){
         //TODO will process recommended foods and will add to the recycler view
+        myFoodLv = (ListView) findViewById(R.id.list_my_recommended);
+        LayoutInflater inflater = getLayoutInflater();
+        headerView = inflater.inflate(R.layout.food_list_header,null);
+        tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
+        tvRating = (TextView) headerView.findViewById(R.id.food_list_header_rating);
+        headerView.findViewById(R.id.food_list_header_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                return;
+            }
+        });
+        final FoodsAdapter adapter = new FoodsAdapter(getApplicationContext(), foodies);
+        myFoodLv.addHeaderView(headerView);
+        myFoodLv.setAdapter(adapter);
+        myFoodLv.setDivider(ContextCompat.getDrawable(getApplicationContext(),android.R.color.black));
+        myFoodLv.setDividerHeight(1);
+        tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(adapter.isSorted()){
+                    Collections.sort(lof,Food.czToA);
+                    adapter.setSorted(false);
+                    tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                }else {
+                    Collections.sort(lof,Food.caToZ);
+                    adapter.setSorted(true);
+                    tvName.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                }
+                adapter.setFoods(lof);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        tvRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(adapter.isSorted()){
+                    Collections.sort(lof,Food.czToARating);
+                    adapter.setSorted(false);
+                    tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_down_float,0);
+                }else {
+                    Collections.sort(lof,Food.caToZRating);
+                    adapter.setSorted(true);
+                    tvRating.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,arrow_up_float,0);
+                }
+                adapter.setFoods(foodies);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void initiateFoodSearch(){
+        String token = "Token " + SessionManager.getPreferences(this,"token");
+        ApiInterface[] test = {ApiInterface.retrofit.create(ApiInterface.class)};
+        Call<TotalUserHistory> cb = test[0].getuserFoodHistory(token);
+        cb.enqueue(new Callback<TotalUserHistory>() {
+            @Override
+            public void onResponse(Call<TotalUserHistory> call, Response<TotalUserHistory> response) {
+                if(response.isSuccessful()){
+                    TotalUserHistory userHistory = response.body();
+                    ArrayList<AteFoodUserless> foodList = (ArrayList<AteFoodUserless>) userHistory.getTotal().getAteFoods();
+
+                    for (AteFoodUserless ate : foodList){
+                        List<FoodTag> tags = new ArrayList<FoodTag>();
+                        tags = ate.getFood().getTags();
+                        for (int i = 0; i < tags.size(); i++) {
+                         tagList.add(tags.get(i).getName());
+                            System.out.println("MOGO- " + tags.get(i).getName());
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<TotalUserHistory> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
+    private void fillMyFoodList() {
+        ApiInterface test = ApiInterface.retrofit.create(ApiInterface.class);
+        HashMap<String,Object> hm = new HashMap<>();
+        hm.put("tag",tagList);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(hm)).toString());
+        Call<List<Food>> cb = test.searchFood(Constants.API_KEY,body);
+        cb.enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                foodies = (ArrayList<Food>) response.body();
+                System.out.println(foodies);
+            }
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
 
@@ -282,8 +385,10 @@ public class UserHomeActivity extends AppCompatActivity
                                                settingsFragment,settingsFragment.getTag()).commit();
 
 
-        } else if (id == R.id.nav_my_foods) {
-
+        } else if (id == R.id.nav_send) {
+            ConsHistFragment consHistFragment = new ConsHistFragment().newInstance("Mogo","Fogo");
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_user_home,consHistFragment,consHistFragment.getTag()).commit();
         }
         findViewById(R.id.yigitLinear).setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -293,7 +398,7 @@ public class UserHomeActivity extends AppCompatActivity
 
     private class PageAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Daily Macro","Daily Micro", "Total" };
+        private final String[] TITLES = { "Daily Macro","Daily Micro", "Macro History","Energy History" };
 
         public PageAdapter(FragmentManager fm) {
             super(fm);
@@ -317,6 +422,40 @@ public class UserHomeActivity extends AppCompatActivity
                     break;
                 case 2:
                     f = FullHistoryFrag.newInstance(pos);
+                    break;
+                case 3:
+                    f = fullHistoryEnergyFragment.newInstance(pos);
+                    break;
+            }
+
+            return f;
+        }
+
+        @Override
+        public int getCount() {
+            return TITLES.length;
+        }
+    }
+    private class RecommendationPager extends FragmentPagerAdapter {
+
+        private final String[] TITLES = { "Daily Macro","Daily Micro", "Total" };
+
+        public RecommendationPager(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TITLES[position];
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            Fragment f = null;
+
+            switch(pos) {
+                case 0:
+                    f = pieChartFrag.newInstance(pos);
                     break;
             }
 

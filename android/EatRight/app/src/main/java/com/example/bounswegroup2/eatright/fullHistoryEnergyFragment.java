@@ -46,12 +46,12 @@ import retrofit2.Response;
  * Created by yigitozgumus on 12/19/16.
  */
 
-public class FullHistoryFrag extends userHomeFragment {
+public class fullHistoryEnergyFragment extends userHomeFragment {
     private static final String ARG_POSITION = "position";
     private int position;
 
     public static Fragment newInstance(int position) {
-        FullHistoryFrag frag = new FullHistoryFrag();
+        fullHistoryEnergyFragment frag = new fullHistoryEnergyFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         frag.setArguments(b);
@@ -64,10 +64,10 @@ public class FullHistoryFrag extends userHomeFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_full_history, container, false);
+        View v = inflater.inflate(R.layout.fragment_full_history_energy, container, false);
         final Typeface tf1 = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
         position = getArguments().getInt(ARG_POSITION);
-        mChart = (BarChart) v.findViewById(R.id.stacked_bar1);
+        mChart = (BarChart) v.findViewById(R.id.stacked_bar2);
         mChart.getDescription().setEnabled(false);
         mChart.setMaxVisibleValueCount(40);
 
@@ -82,7 +82,7 @@ public class FullHistoryFrag extends userHomeFragment {
 
         // change the position of the y-labels
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setValueFormatter(new AxisValueFormatter());
+        leftAxis.setValueFormatter(new EnergyValueFormatter());
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
         mChart.getAxisRight().setEnabled(false);
 
@@ -112,10 +112,8 @@ public class FullHistoryFrag extends userHomeFragment {
                 if(response.isSuccessful()){
                     TotalUserHistory userHistory = response.body();
                     ArrayList<AteFoodUserless> foodList = (ArrayList<AteFoodUserless>) userHistory.getTotal().getAteFoods();
-                    System.out.println(foodList.size() + " HOOOOOOOOOOOOO");
-                    double carbs = 0.0;
-                    double fats = 0.0;
-                    double protein = 0.0;
+
+                    double energy = 0.0;
                     BarDataSet set1;
                     String dateCheck;
                     ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
@@ -132,9 +130,8 @@ public class FullHistoryFrag extends userHomeFragment {
                         int dateResolver = getTotalDays(Integer.parseInt(checkDate[1]),checkDay);
                         System.out.println("DEBUG "+ Integer.parseInt(checkDate[1])+ " "+ checkDay);
                         System.out.println(dateResolver);
-                        carbs += initialFood.getDetails().getCarb().getWeight();
-                        fats += initialFood.getDetails().getFat().getWeight();
-                        protein += initialFood.getDetails().getProtein().getWeight();
+
+                        energy += initialFood.getDetails().getEnergy();
                         dateCheck = checkMonth+"-"+String.valueOf(checkDay);
 
                         //System.out.println(dateCheck);
@@ -155,30 +152,22 @@ public class FullHistoryFrag extends userHomeFragment {
                             //System.out.println((checkMonth1+"-"+String.valueOf(checkDay1) + " !!!!! " + dateCheck));
                             if(!(checkMonth1+"-"+String.valueOf(checkDay1)).equals(dateCheck)){
                                 yVals1.add(new BarEntry(indexCount+dateResolver,
-                                        new float[]{(float)carbs,
-                                                (float)fats,
-                                                (float) protein},
+                                        new float[]{(float)energy},
                                         dateCheck));
                                 count++;
                                 indexCount++;
-                                carbs = food.getDetails().getCarb().getWeight();
-                                fats = food.getDetails().getFat().getWeight();
-                                protein = food.getDetails().getProtein().getWeight();
+                                energy = initialFood.getDetails().getEnergy();
                                 dateCheck =checkMonth1+"-"+String.valueOf(checkDay1);
                             }else {
-                                carbs += food.getDetails().getCarb().getWeight();
-                                fats += food.getDetails().getFat().getWeight();
-                                protein += food.getDetails().getProtein().getWeight();
+                                energy += initialFood.getDetails().getEnergy();
                             }
                         }
                         yVals1.add(new BarEntry(indexCount+dateResolver,
-                                new float[]{(float)carbs,
-                                        (float)fats,
-                                        (float) protein},
-                                dateCheck));
+                                new float[]{(float)energy}
+                               , dateCheck));
                         set1 = new BarDataSet(yVals1, "Food Consumption History");
                         set1.setColors(getColors());
-                        set1.setStackLabels(new String[]{"Carbs", "Fats", "Protein"});
+                        set1.setStackLabels(new String[]{"Total Energy"});
 
                         ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
                         dataSets.add(set1);
@@ -212,7 +201,7 @@ public class FullHistoryFrag extends userHomeFragment {
 
         return v;
 
-        }
+    }
 
     private int[] getColors() {
 
@@ -222,7 +211,7 @@ public class FullHistoryFrag extends userHomeFragment {
         int[] colors = new int[stacksize];
 
         for (int i = 0; i < colors.length; i++) {
-            colors[i] = ColorTemplate.COLORFUL_COLORS[i];
+            colors[i] = ColorTemplate.PASTEL_COLORS[i];
         }
 
         return colors;
@@ -245,4 +234,4 @@ public class FullHistoryFrag extends userHomeFragment {
             return result;
         }
     }
-    }
+}
