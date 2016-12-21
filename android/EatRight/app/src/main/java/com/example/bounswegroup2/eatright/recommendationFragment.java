@@ -171,8 +171,7 @@ public class recommendationFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-        initiateFoodSearch();
-        fillMyFoodList();
+
         return rootView;
     }
 
@@ -181,7 +180,8 @@ public class recommendationFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstancesState) {
         //onResume happens after onStart and onActivityCreate
         super.onActivityCreated(savedInstancesState);
-
+        initiateFoodSearch();
+        fillMyFoodList();
 
     }
 

@@ -43,7 +43,7 @@ public class Total {
 
     @SerializedName("weight")
     @Expose
-    private Integer weight;
+    private Double weight;
 
     /**
      * Gets ate foods.
@@ -194,7 +194,7 @@ public class Total {
      *
      * @return the weight
      */
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
@@ -203,7 +203,7 @@ public class Total {
      *
      * @param weight the weight
      */
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 }

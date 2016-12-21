@@ -106,18 +106,25 @@ public class pieChartFrag extends userHomeFragment {
                     double carbs = 0;
                     double fats = 0;
                     double protein = 0;
+                    int dayd = 0;
                     for (AteFoodUserless ate : foodList){
                         String[] checkDate = ate.getCreated().substring(2,10).split("-");
                         Integer checkDay = Integer.parseInt(checkDate[2]);
                         String[] checkTime = ate.getCreated().substring(11,19).split(":");
-                       // System.out.println(ate.getCreated().substring(12,20));
+                        System.out.println(ate.getCreated().substring(11,19) + " ___________________");
                         Integer hour = Integer.parseInt(checkTime[0]);
                         if (hour >= 21){
                             checkDay++;
+                            dayd = checkDay;
+                            System.out.println(checkDay);
                         }
 
-                       // System.out.println(ate.getCreated()+ "----------------");
-                        if(Integer.parseInt(checkDate[0]) ==year && Integer.parseInt(checkDate[1]) ==month && checkDay ==day){
+                        System.out.println(ate.getCreated()+ "----------------");
+                        System.out.println(checkDate[0]+ " " + year);
+                        System.out.println(checkDate[1]+ " " + month);
+                        System.out.println(checkDay+ " " + day);
+                        if(Integer.parseInt(checkDate[0]) ==year && Integer.parseInt(checkDate[1]) ==month && checkDay ==dayd){
+                            System.out.println("WUBBA LUBBA DUB DUB");
                             Food food = ate.getFood();
                             carbs += food.getDetails().getCarb().getWeight();
                             fats += food.getDetails().getFat().getWeight();
