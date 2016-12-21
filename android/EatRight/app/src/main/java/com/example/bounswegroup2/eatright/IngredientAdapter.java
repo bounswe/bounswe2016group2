@@ -19,10 +19,15 @@ import java.util.List;
 /**
  * Created by Enes on 13.11.2016.
  */
-
 public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filterable {
     private ArrayList<Ingredient> ingredients,listOfIngr,suggestions,tempItems;
 
+    /**
+     * Instantiates a new Ingredient adapter.
+     *
+     * @param context     the context
+     * @param ingredients the ingredients
+     */
     public IngredientAdapter(Context context, ArrayList<Ingredient> ingredients) {
         super(context, 0, ingredients);
         this.ingredients = ingredients;
@@ -59,6 +64,11 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
         return convertView;
     }
 
+    /**
+     * Gets ingredients.
+     *
+     * @return the ingredients
+     */
     public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -106,6 +116,13 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Filte
             notifyDataSetChanged();
         }
     };
+
+    /**
+     * Gets ingredient.
+     *
+     * @param s the s
+     * @return the ingredient
+     */
     public Ingredient getIngredient(String s) {
         for (Ingredient ingr:tempItems)
             if(ingr.getName().equalsIgnoreCase(s))

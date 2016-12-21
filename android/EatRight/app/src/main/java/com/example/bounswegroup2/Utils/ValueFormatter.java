@@ -9,12 +9,14 @@ import java.text.DecimalFormat;
 /**
  * Created by yigitozgumus on 12/20/16.
  */
-
 public class ValueFormatter implements IValueFormatter
 {
 
     private DecimalFormat mFormat;
 
+    /**
+     * Instantiates a new Value formatter.
+     */
     public ValueFormatter() {
         mFormat = new DecimalFormat("###,###,###,##0");
     }

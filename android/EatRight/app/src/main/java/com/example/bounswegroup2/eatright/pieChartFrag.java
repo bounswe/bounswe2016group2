@@ -37,8 +37,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+/**
+ * The type Pie chart frag.
+ */
 public class pieChartFrag extends userHomeFragment {
 
+    /**
+     * New instance fragment.
+     *
+     * @param position the position
+     * @return the fragment
+     */
     public static Fragment newInstance(int position) {
         pieChartFrag frag = new pieChartFrag();
         Bundle b = new Bundle();

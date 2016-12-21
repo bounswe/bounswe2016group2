@@ -16,9 +16,15 @@ import java.util.ArrayList;
 /**
  * Created by Enes on 20.12.2016.
  */
-
 public class TagAdapter extends ArrayAdapter<Tag>  {
     private ArrayList<Tag> lot = new ArrayList<>();
+
+    /**
+     * Instantiates a new Tag adapter.
+     *
+     * @param context the context
+     * @param lot     the lot
+     */
     public TagAdapter(Context context, ArrayList<Tag> lot) {
         super(context, 0,lot);
         this.lot = lot;
@@ -40,9 +46,20 @@ public class TagAdapter extends ArrayAdapter<Tag>  {
         return convertView;
     }
 
+    /**
+     * Gets tags.
+     *
+     * @return the tags
+     */
     public ArrayList<Tag> getTags() {
         return lot;
     }
+
+    /**
+     * Set tags.
+     *
+     * @param list the list
+     */
     public void setTags(ArrayList<Tag> list){lot = list;}
 
 }

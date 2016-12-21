@@ -59,6 +59,9 @@ public class SettingsFragment extends Fragment {
     private EditText descr;
     private DietAdapter da;
 
+    /**
+     * Instantiates a new Settings fragment.
+     */
     public SettingsFragment() {
         // Required empty public constructor
     }

@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.bounswegroup2.Models.Food;
 
@@ -20,6 +23,13 @@ import java.util.Arrays;
  * create an instance of this fragment.
  */
 public class ConsHistFragment extends Fragment {
+
+    private View headerView;
+    private TextView tvName;
+    private TextView tvRating;
+    private ListView myFoodLv;
+    private ArrayList<Food> lof = new ArrayList<>();
+    private Button bringFood;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +40,9 @@ public class ConsHistFragment extends Fragment {
     private String mParam2;
 
 
+    /**
+     * Instantiates a new Cons hist fragment.
+     */
     public ConsHistFragment() {
         // Required empty public constructor
     }
@@ -42,7 +55,7 @@ public class ConsHistFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ConsHistFragment.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static ConsHistFragment newInstance(String param1, String param2) {
         ConsHistFragment fragment = new ConsHistFragment();
         Bundle args = new Bundle();
@@ -68,8 +81,18 @@ public class ConsHistFragment extends Fragment {
         // Inflate the diet_raw_layout for this fragment
         Log.d("CONS",mParam1);
         Log.d("CONS",mParam2);
-
-        return inflater.inflate(R.layout.fragment_cons_hist, container, false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_cons_hist, container, false);
+        myFoodLv = (ListView) rootView.findViewById(R.id.list_my_foods);
+        headerView = inflater.inflate(R.layout.food_list_header,null);
+        tvName = (TextView) headerView.findViewById(R.id.food_list_header_name);
+        tvRating = (TextView) headerView.findViewById(R.id.food_list_header_rating);
+        headerView.findViewById(R.id.food_list_header_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                return;
+            }
+        });
+        return rootView;
     }
 
     @Override

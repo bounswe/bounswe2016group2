@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * Created by Enes on 15.12.2016.
  */
-
 public class Fat implements Serializable
 {
 
@@ -20,18 +19,38 @@ public class Fat implements Serializable
     private Double weight;
     private final static long serialVersionUID = -8178553691364773570L;
 
+    /**
+     * Gets rate.
+     *
+     * @return the rate
+     */
     public Integer getRate() {
         return rate;
     }
 
+    /**
+     * Sets rate.
+     *
+     * @param rate the rate
+     */
     public void setRate(Integer rate) {
         this.rate = rate;
     }
 
+    /**
+     * Gets weight.
+     *
+     * @return the weight
+     */
     public Double getWeight() {
         return weight;
     }
 
+    /**
+     * Sets weight.
+     *
+     * @param weight the weight
+     */
     public void setWeight(Double weight) {
         this.weight = weight;
     }

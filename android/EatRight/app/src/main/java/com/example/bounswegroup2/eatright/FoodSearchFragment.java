@@ -73,11 +73,20 @@ public class FoodSearchFragment extends ListFragment implements AdapterView.OnIt
     private boolean isSettingsChanged = false;
     private ArrayList<Integer> dietIds = new ArrayList<>();
 
+    /**
+     * Set args.
+     *
+     * @param param1 the param 1
+     */
     public void setArgs(String param1){
         Bundle args = new Bundle();
         args.putString("PARAM1",param1);
         this.setArguments(args);
     }
+
+    /**
+     * Instantiates a new Food search fragment.
+     */
     public FoodSearchFragment() {
         // Required empty public constructor
         query = "";

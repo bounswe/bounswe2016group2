@@ -1,4 +1,4 @@
-package com.example.bounswegroup2.Utils;
+package com.example.bounswegroup2.eatright;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
@@ -6,22 +6,22 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.text.DecimalFormat;
 
 /**
- * Created by yigitozgumus on 12/20/16.
+ * Created by yigitozgumus on 12/21/16.
  */
-public class AxisValueFormatter implements IAxisValueFormatter
+public class EnergyValueFormatter implements IAxisValueFormatter
 {
 
     private DecimalFormat mFormat;
 
     /**
-     * Instantiates a new Axis value formatter.
+     * Instantiates a new Energy value formatter.
      */
-    public AxisValueFormatter() {
+    public EnergyValueFormatter() {
         mFormat = new DecimalFormat("###,###,###,##0");
     }
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        return mFormat.format(value) + " gr" ;
+        return mFormat.format(value) + " kcal" ;
     }
 }

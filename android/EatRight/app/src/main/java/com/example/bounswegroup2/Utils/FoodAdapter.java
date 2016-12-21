@@ -19,24 +19,54 @@ import java.util.List;
 /**
  * Created by yigitozgumus on 11/23/16.
  */
-
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     private ArrayList<Food> foods  = new ArrayList<>();
     private Context context;
     private static ClickListener clickListener;
 
-    //Creating onClick listener for the ImageTexts
+    /**
+     * The interface Click listener.
+     */
+//Creating onClick listener for the ImageTexts
     public interface ClickListener {
+        /**
+         * On item click.
+         *
+         * @param position the position
+         * @param v        the v
+         */
         void onItemClick(int position, View v);
+
+        /**
+         * On item long click.
+         *
+         * @param position the position
+         * @param v        the v
+         */
         void onItemLongClick(int position, View v);
     }
 
 
+    /**
+     * The type View holder.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
+        /**
+         * The Food image.
+         */
         ImageView foodImage;
+        /**
+         * The Food title.
+         */
         TextView foodTitle;
+
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param view the view
+         */
         public ViewHolder(View view) {
             super(view);
             foodImage = (ImageView)view.findViewById(R.id.food_image);
@@ -61,10 +91,21 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
 
     }
 
+    /**
+     * Sets on item click listener.
+     *
+     * @param clickListener the click listener
+     */
     public void setOnItemClickListener(ClickListener clickListener) {
         FoodAdapter.clickListener = clickListener;
     }
 
+    /**
+     * Instantiates a new Food adapter.
+     *
+     * @param context  the context
+     * @param foodList the food list
+     */
     public FoodAdapter(Context context, ArrayList<Food> foodList){
         this.context = context;
         this.foods = foodList;

@@ -16,9 +16,15 @@ import java.util.ArrayList;
 /**
  * Created by Enes on 21.12.2016.
  */
-
 public class DietAdapter extends ArrayAdapter<Diet>{
 private ArrayList<Diet> dietList;
+
+    /**
+     * Instantiates a new Diet adapter.
+     *
+     * @param context  the context
+     * @param dietList the diet list
+     */
     public DietAdapter(Context context, ArrayList<Diet> dietList) {
         super(context,0, dietList);
         this.dietList = dietList;

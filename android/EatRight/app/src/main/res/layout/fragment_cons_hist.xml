@@ -4,11 +4,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.bounswegroup2.eatright.ConsHistFragment">
 
-    <!-- TODO: Update blank fragment diet_raw_layout -->
-    <TextView
-        android:id="@+id/const_textView"
+    <!-- TODO: Update blank fragment layout -->
+    <ListView
+        android:id="@+id/list_my_hist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
+        android:layout_height="wrap_content"
+        >
+    </ListView>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+        <Button android:id="@+id/bringMyHist"
+            android:text="Bring My History"/>
+    </TableRow>
 </FrameLayout>

@@ -165,6 +165,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
+     *
+     * @param v the v
      */
     public void attemptLogin(View v) {
         /**  if (mAuthTask != null) {
@@ -224,6 +226,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return true;
     }
 
+    /**
+     * Switch to reg activity.
+     *
+     * @param v the v
+     */
     public void switchToRegActivity(View v) {
         if (v.getId() == switchToRegBut.getId()) {
             Intent intent = new Intent(this, RegisterActivity.class);
@@ -313,12 +320,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     private interface ProfileQuery {
+        /**
+         * The Projection.
+         */
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
         };
 
+        /**
+         * The constant ADDRESS.
+         */
         int ADDRESS = 0;
+        /**
+         * The constant IS_PRIMARY.
+         */
         int IS_PRIMARY = 1;
     }
 

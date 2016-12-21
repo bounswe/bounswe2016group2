@@ -31,6 +31,9 @@ import retrofit2.Response;
 import static com.example.bounswegroup2.Utils.Constants.emailRegex;
 import static com.example.bounswegroup2.Utils.Constants.passRegex;
 
+/**
+ * The type Register activity.
+ */
 public class RegisterActivity extends AppCompatActivity {
     private Button expandFormBut;
     private EditText phoneText;
@@ -59,6 +62,11 @@ public class RegisterActivity extends AppCompatActivity {
         mregProgressView = (View) findViewById(R.id.reg_progress);
     }
 
+    /**
+     * Expand form for server.
+     *
+     * @param v the v
+     */
     public void expandFormForServer(View v) {
         if (v.getId() == expandFormBut.getId()){
             if (phoneText.getVisibility() == View.GONE){
@@ -105,6 +113,12 @@ public class RegisterActivity extends AppCompatActivity {
             mRegFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
+    /**
+     * Reg but clicked.
+     *
+     * @param v the v
+     */
     public void regButClicked(View v){
         if (v.getId() == regBut.getId()) {
             // Reset errors.
