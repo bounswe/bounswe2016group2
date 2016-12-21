@@ -1,6 +1,5 @@
 import Comments from 'comment/Comments.js'
 import Rate from 'rate/Rate.js'
-
 export default class FoodPage extends React.Component {
 
   constructor (props) {
@@ -241,6 +240,23 @@ export default class FoodPage extends React.Component {
               })}
             </tbody>
           </table>
+        </div>
+        {/* Semantic Tags*/}
+        <div className="ui segment">
+          <h1 className="ui header" style={{textAlign:'center'}}>Semantic Tags</h1>
+        </div>
+        <div className="ui segment">
+          <ul>
+            {this.state.food.tags && this.state.food.tags.map(function(tag, index){
+              return(
+                <div key={index} className="item" style={{marginBottom:10}}>
+                  <div className="content">
+                    <div className="header" style={{fontSize:16}}>{tag.name}</div>
+                  </div>
+                </div>
+              )
+            })}
+          </ul>
         </div>
         {/* comments section */}
         <div className="ui segment">

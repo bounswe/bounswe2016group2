@@ -531,6 +531,38 @@ var FoodPage = function (_React$Component) {
           React.createElement(
             'h1',
             { className: 'ui header', style: { textAlign: 'center' } },
+            'Semantic Tags'
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(
+            'ul',
+            null,
+            this.state.food.tags && this.state.food.tags.map(function (tag, index) {
+              return React.createElement(
+                'div',
+                { key: index, className: 'item', style: { marginBottom: 10 } },
+                React.createElement(
+                  'div',
+                  { className: 'content' },
+                  React.createElement(
+                    'div',
+                    { className: 'header', style: { fontSize: 16 } },
+                    tag.name
+                  )
+                )
+              );
+            })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(
+            'h1',
+            { className: 'ui header', style: { textAlign: 'center' } },
             'Comments'
           )
         ),
