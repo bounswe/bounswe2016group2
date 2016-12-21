@@ -3,6 +3,7 @@ import FoodRow from 'food/FoodRow.js'
 import ConsumptionHistory from 'user/ConsumptionHistory.js'
 import MyFoods from 'user/MyFoods.js'
 import MyRestaurants from 'user/MyRestaurants.js'
+import Recommendation from 'user/Recommendation.js'
 
 export default class UserHomepage extends React.Component
 {
@@ -25,7 +26,6 @@ export default class UserHomepage extends React.Component
   fetch(){
     Api.me().then(
       (data) => {
-        console.log(data);
         this.setState({user: data})
         $('#userHomepage .item').tab();
       }
@@ -54,6 +54,9 @@ export default class UserHomepage extends React.Component
           <a className="item" data-tab="myDiets">
             My Diets
           </a>
+          <a className="item" data-tab="recommendation">
+            Recommendations
+          </a>
         </div>
         <div className="ui tab active" data-tab="consumptionHistory">
           <ConsumptionHistory/>
@@ -70,6 +73,9 @@ export default class UserHomepage extends React.Component
         }
         <div className="ui tab" data-tab="myDiets">
           <MyDiets/>
+        </div>
+        <div className="ui tab" data-tab="recommendation">
+          <Recommendation/>
         </div>
       </div>
     )

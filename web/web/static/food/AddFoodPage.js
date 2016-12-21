@@ -56,7 +56,8 @@ var AddFoodPage = function (_React$Component) {
       this.setState({ errors: null });
       var postData = {
         name: this.state.name,
-        photo: this.state.photo
+        photo: this.state.photo,
+        description: this.state.description
       };
       Api.addFood(postData).then(function (data) {
         console.log(data);
@@ -131,6 +132,13 @@ var AddFoodPage = function (_React$Component) {
       });
     }
   }, {
+    key: 'descriptionChanged',
+    value: function descriptionChanged(event) {
+      this.setState({
+        description: event.target.value
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var formClassName = 'ui form';
@@ -186,6 +194,16 @@ var AddFoodPage = function (_React$Component) {
                 null,
                 this.state.errors.photo[0]
               )
+            ),
+            React.createElement(
+              'div',
+              { className: 'field' },
+              React.createElement(
+                'label',
+                null,
+                ' Description '
+              ),
+              React.createElement('input', { type: 'url', name: 'photo', placeholder: 'image url', value: this.state.description, onChange: this.descriptionChanged.bind(this) })
             )
           )
         ),
