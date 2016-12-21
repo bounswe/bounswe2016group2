@@ -10,7 +10,9 @@ import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.FoodRate;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Restaurant;
+import com.example.bounswegroup2.Models.RestaurantComment;
 import com.example.bounswegroup2.Models.RestaurantMore;
+import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.Tag;
 import com.example.bounswegroup2.Models.TagResponse;
 import com.example.bounswegroup2.Models.TotalUserHistory;
@@ -293,7 +295,7 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("api/myDiets/{dietId}")
     Call<List<Diet>> setMyDiet(@Path("dietId") int dietId);
-
+    
     /**
      * Gets restaurants.
      *
@@ -320,9 +322,8 @@ public interface ApiInterface {
      * @return the call
      */
     @Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/comment")
-    Call<Response> commentRestaurant(@Path("restaurantId") int restaurantId);
-
+    @POST("/api/restaurants/{restaurantId}/comment")
+    Call<RestaurantComment> commentRestaurant(@Header("Authorization") String key, @Path("restaurantId") int restaurantId, @Body RequestBody body);
     /**
      * Rate restaurant call.
      *
@@ -330,8 +331,8 @@ public interface ApiInterface {
      * @return the call
      */
     @Headers("Content-Type: application/json")
-    @POST("api/restaurants/{restaurantId}/rate")
-    Call<Response> rateRestaurant(@Path("restaurantId") int restaurantId);
+    @POST("/api/restaurants/{restaurantId}/rate")
+    Call<RestaurantRate> rateRestaurant(@Header("Authorization") String key, @Path("restaurantId") int restaurantId, @Body RequestBody body);
 
     /**
      * Add ingredient to food call.
@@ -420,6 +421,7 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @GET("api/myDiets")
     Call<List<Diet>> getMyDiets(@Header("Authorization") String token);
+
 
 
 }
