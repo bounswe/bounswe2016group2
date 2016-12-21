@@ -1,17 +1,13 @@
 package com.example.bounswegroup2.eatright;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
-import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodComment;
-import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
-
-import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 

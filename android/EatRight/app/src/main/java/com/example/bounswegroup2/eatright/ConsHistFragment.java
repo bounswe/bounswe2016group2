@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.example.bounswegroup2.Models.Food;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**

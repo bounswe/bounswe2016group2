@@ -30,7 +30,6 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;

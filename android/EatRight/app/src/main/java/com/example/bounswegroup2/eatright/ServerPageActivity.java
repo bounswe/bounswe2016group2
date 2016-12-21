@@ -18,10 +18,9 @@ import android.widget.Toast;
 
 import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodLess;
-import com.example.bounswegroup2.Models.Restaurant;
 import com.example.bounswegroup2.Models.RestaurantComment;
-import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.RestaurantMore;
+import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.SessionManager;
@@ -42,6 +41,9 @@ import retrofit2.Response;
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 
+/**
+ * The type Server page activity.
+ */
 public class ServerPageActivity extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener, AdapterView.OnItemClickListener{
 
     private TextView serverName;

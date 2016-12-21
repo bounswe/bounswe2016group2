@@ -1,11 +1,9 @@
 package com.example.bounswegroup2.eatright;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,13 +23,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bounswegroup2.Models.Food;
 import com.example.bounswegroup2.Models.FoodAddResponse;
-import com.example.bounswegroup2.Models.FoodComment;
 import com.example.bounswegroup2.Models.FoodLess;
 import com.example.bounswegroup2.Models.Ingredient;
 import com.example.bounswegroup2.Models.Tag;
-import com.example.bounswegroup2.Models.TagResponse;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.Constants;
 import com.example.bounswegroup2.Utils.QueryWrapper;
@@ -42,17 +37,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.bounswegroup2.eatright.R.id.addFoodSubmitBut;
-import static com.example.bounswegroup2.eatright.R.id.saveTags;
-import static com.example.bounswegroup2.eatright.UserHomeActivity.*;
 
 
 /**

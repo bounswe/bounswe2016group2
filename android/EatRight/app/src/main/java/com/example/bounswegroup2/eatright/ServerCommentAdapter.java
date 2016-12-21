@@ -15,10 +15,15 @@ import java.util.ArrayList;
 /**
  * Created by gozdeberk on 19/12/16.
  */
-
 public class ServerCommentAdapter extends ArrayAdapter<RestaurantComment> implements Filterable {
     private ArrayList<RestaurantComment> listOfComm;
 
+    /**
+     * Instantiates a new Server comment adapter.
+     *
+     * @param context    the context
+     * @param listOfComm the list of comm
+     */
     public ServerCommentAdapter(Context context, ArrayList<RestaurantComment> listOfComm) {
         super(context, 0, listOfComm);
         this.listOfComm = listOfComm;
@@ -40,6 +45,12 @@ public class ServerCommentAdapter extends ArrayAdapter<RestaurantComment> implem
         // Return the completed view to render on screen
         return convertView;
     }
+
+    /**
+     * Gets commnets.
+     *
+     * @return the commnets
+     */
     public ArrayList<RestaurantComment> getCommnets() {
         return listOfComm;
     }

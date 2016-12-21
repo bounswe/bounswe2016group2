@@ -6,8 +6,8 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,14 +16,10 @@ import android.widget.Toast;
 import com.example.bounswegroup2.Models.signUpRequest;
 import com.example.bounswegroup2.Utils.ApiInterface;
 import com.example.bounswegroup2.Utils.QueryWrapper;
-import com.example.bounswegroup2.Utils.SessionManager;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -1,13 +1,8 @@
 package com.example.bounswegroup2.eatright;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
-import android.widget.MultiAutoCompleteTextView;
 
 import com.example.bounswegroup2.Models.Ingredient;
 

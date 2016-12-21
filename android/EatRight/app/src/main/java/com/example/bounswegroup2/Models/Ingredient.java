@@ -4,9 +4,10 @@ package com.example.bounswegroup2.Models;
  * Created by yigitozgumus on 11/12/16.
  */
 
-import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * The type Ingredient.
@@ -97,7 +98,7 @@ public class Ingredient implements Serializable
     /**
      * Gets id.
      *
-     * @return The  id
+     * @return The id
      */
     public Integer getId() {
         return id;
@@ -115,7 +116,7 @@ public class Ingredient implements Serializable
     /**
      * Gets slug.
      *
-     * @return The  slug
+     * @return The slug
      */
     public String getSlug() {
         return slug;
@@ -133,7 +134,7 @@ public class Ingredient implements Serializable
     /**
      * Gets energy.
      *
-     * @return The  energy
+     * @return The energy
      */
     public Double getEnergy() {
         return energy;
@@ -151,7 +152,7 @@ public class Ingredient implements Serializable
     /**
      * Gets protein.
      *
-     * @return The  protein
+     * @return The protein
      */
     public Double getProtein() {
         return protein;
@@ -169,7 +170,7 @@ public class Ingredient implements Serializable
     /**
      * Gets carb.
      *
-     * @return The  carb
+     * @return The carb
      */
     public Double getCarb() {
         return carb;
@@ -187,7 +188,7 @@ public class Ingredient implements Serializable
     /**
      * Gets fat.
      *
-     * @return The  fat
+     * @return The fat
      */
     public Double getFat() {
         return fat;
@@ -205,7 +206,7 @@ public class Ingredient implements Serializable
     /**
      * Gets measure value.
      *
-     * @return The  measureValue
+     * @return The measureValue
      */
     public Double getMeasureValue() {
         return measureValue;
@@ -223,7 +224,7 @@ public class Ingredient implements Serializable
     /**
      * Gets measure unit.
      *
-     * @return The  measureUnit
+     * @return The measureUnit
      */
     public String getMeasureUnit() {
         return measureUnit;
@@ -241,7 +242,7 @@ public class Ingredient implements Serializable
     /**
      * Gets default value.
      *
-     * @return The  defaultValue
+     * @return The defaultValue
      */
     public Double getDefaultValue() {
         return defaultValue;
@@ -259,7 +260,7 @@ public class Ingredient implements Serializable
     /**
      * Gets default unit.
      *
-     * @return The  defaultUnit
+     * @return The defaultUnit
      */
     public String getDefaultUnit() {
         return defaultUnit;
@@ -277,7 +278,7 @@ public class Ingredient implements Serializable
     /**
      * Gets saturated fat.
      *
-     * @return The  saturatedFat
+     * @return The saturatedFat
      */
     public Double getSaturatedFat() {
         return saturatedFat;
@@ -295,7 +296,7 @@ public class Ingredient implements Serializable
     /**
      * Gets sugar.
      *
-     * @return The  sugar
+     * @return The sugar
      */
     public Double getSugar() {
         return sugar;
@@ -313,7 +314,7 @@ public class Ingredient implements Serializable
     /**
      * Gets fibre.
      *
-     * @return The  fibre
+     * @return The fibre
      */
     public Double getFibre() {
         return fibre;
@@ -331,7 +332,7 @@ public class Ingredient implements Serializable
     /**
      * Gets cholesterol.
      *
-     * @return The  cholesterol
+     * @return The cholesterol
      */
     public Double getCholesterol() {
         return cholesterol;
@@ -349,7 +350,7 @@ public class Ingredient implements Serializable
     /**
      * Gets calcium.
      *
-     * @return The  calcium
+     * @return The calcium
      */
     public Double getCalcium() {
         return calcium;
@@ -367,7 +368,7 @@ public class Ingredient implements Serializable
     /**
      * Gets iron.
      *
-     * @return The  iron
+     * @return The iron
      */
     public Double getIron() {
         return iron;
@@ -385,7 +386,7 @@ public class Ingredient implements Serializable
     /**
      * Gets sodium.
      *
-     * @return The  sodium
+     * @return The sodium
      */
     public Double getSodium() {
         return sodium;
@@ -403,7 +404,7 @@ public class Ingredient implements Serializable
     /**
      * Gets potassium.
      *
-     * @return The  potassium
+     * @return The potassium
      */
     public Double getPotassium() {
         return potassium;
@@ -421,7 +422,7 @@ public class Ingredient implements Serializable
     /**
      * Gets magnesium.
      *
-     * @return The  magnesium
+     * @return The magnesium
      */
     public Double getMagnesium() {
         return magnesium;
@@ -439,7 +440,7 @@ public class Ingredient implements Serializable
     /**
      * Gets phosphorus.
      *
-     * @return The  phosphorus
+     * @return The phosphorus
      */
     public Double getPhosphorus() {
         return phosphorus;
@@ -457,7 +458,7 @@ public class Ingredient implements Serializable
     /**
      * Gets thiamin.
      *
-     * @return The  thiamin
+     * @return The thiamin
      */
     public Double getThiamin() {
         return thiamin;
@@ -475,7 +476,7 @@ public class Ingredient implements Serializable
     /**
      * Gets riboflavin.
      *
-     * @return The  riboflavin
+     * @return The riboflavin
      */
     public Double getRiboflavin() {
         return riboflavin;
@@ -493,7 +494,7 @@ public class Ingredient implements Serializable
     /**
      * Gets niacin.
      *
-     * @return The  niacin
+     * @return The niacin
      */
     public Double getNiacin() {
         return niacin;
@@ -511,7 +512,7 @@ public class Ingredient implements Serializable
     /**
      * Gets folate.
      *
-     * @return The  folate
+     * @return The folate
      */
     public Double getFolate() {
         return folate;
@@ -529,7 +530,7 @@ public class Ingredient implements Serializable
     /**
      * Gets name.
      *
-     * @return The  name
+     * @return The name
      */
     public String getName() {
         return name;
@@ -547,7 +548,7 @@ public class Ingredient implements Serializable
     /**
      * Gets photo.
      *
-     * @return The  photo
+     * @return The photo
      */
     public String getPhoto() {
         return photo;

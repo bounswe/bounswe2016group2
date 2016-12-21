@@ -14,44 +14,27 @@ import com.example.bounswegroup2.Models.RestaurantComment;
 import com.example.bounswegroup2.Models.RestaurantMore;
 import com.example.bounswegroup2.Models.RestaurantRate;
 import com.example.bounswegroup2.Models.Tag;
-import com.example.bounswegroup2.Models.TagResponse;
 import com.example.bounswegroup2.Models.TotalUserHistory;
 import com.example.bounswegroup2.Models.User;
 import com.example.bounswegroup2.Models.UserMore;
 import com.example.bounswegroup2.Models.signInRequest;
 import com.example.bounswegroup2.Models.signUpRequest;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -295,7 +278,7 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("api/myDiets/{dietId}")
     Call<List<Diet>> setMyDiet(@Path("dietId") int dietId);
-    
+
     /**
      * Gets restaurants.
      *
@@ -318,16 +301,21 @@ public interface ApiInterface {
     /**
      * Comment restaurant call.
      *
+     * @param key          the key
      * @param restaurantId the restaurant id
+     * @param body         the body
      * @return the call
      */
     @Headers("Content-Type: application/json")
     @POST("/api/restaurants/{restaurantId}/comment")
     Call<RestaurantComment> commentRestaurant(@Header("Authorization") String key, @Path("restaurantId") int restaurantId, @Body RequestBody body);
+
     /**
      * Rate restaurant call.
      *
+     * @param key          the key
      * @param restaurantId the restaurant id
+     * @param body         the body
      * @return the call
      */
     @Headers("Content-Type: application/json")

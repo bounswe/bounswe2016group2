@@ -1,7 +1,5 @@
 package com.example.bounswegroup2.Utils;
 
-import com.example.bounswegroup2.Models.UserMore;
-
 /**
  * Created by Enes on 21.10.2016.
  */

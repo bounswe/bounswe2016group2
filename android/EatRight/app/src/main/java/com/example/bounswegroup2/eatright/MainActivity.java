@@ -1,7 +1,7 @@
 package com.example.bounswegroup2.eatright;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * The type Main activity.
