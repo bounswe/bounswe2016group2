@@ -22,7 +22,7 @@ export default class ConsumptionHistory extends React.Component {
   }
 
   componentDidMount() {
-    this.fetch();
+    this.fetch(this.input.fromDate, this.input.toDate);
   }
 
   updateTotalCharts() {
@@ -216,9 +216,21 @@ export default class ConsumptionHistory extends React.Component {
 
   }
 
-  fetch(){
+  fetch(a , b){
+    console.log("fetch", a, b);
     Api.consumptionHistory().then(
       (data) => {
+        // filter
+        data.daily = data.daily.filter((day, index) => {
+          console.log(day.date, this.input.fromDate, this.input.toDate);
+          let dateSplit = day.date.split('-');
+          let date = new Date(dateSplit[2], dateSplit[1]-1, dateSplit[0]);
+          let fromSplit = this.input.fromDate.split('-');
+          let fromDate = new Date(fromSplit[2], fromSplit[1]-1, fromSplit[0]);
+          let toSplit = this.input.toDate.split('-');
+          let toDate = new Date(toSplit[2], toSplit[1]-1, toSplit[0]);
+          return (date.getTime() >= fromDate.getTime() && date.getTime() <= toDate.getTime());
+        })
         data.daily = data.daily.sort((a, b) => {
           return moment(a.date, 'DD-MM-YYYY').unix() - moment(b.date, 'DD-MM-YYYY').unix()
         })
@@ -249,7 +261,7 @@ export default class ConsumptionHistory extends React.Component {
           <DatePicker name="consumptionStartDate" placeholder="Start Date" default={this.input.fromDate} onChange={this.fromDateChanged.bind(this)}/>
           <span style={{marginLeft:10, marginRight:10}}>to</span>
           <DatePicker name="consumptionEndDate" placeholder="End Date" default={this.input.toDate} onChange={this.toDateChanged.bind(this)}/>
-          <button className="ui button" style={{marginLeft:10, marginRight:10}}>Refresh</button>
+          <button className="ui button" style={{marginLeft:10, marginRight:10}} onClick={() => {this.fetch(this.input.fromDate, this.input.toDate)}}>Refresh</button>
         </div>
         <div style={{marginTop: 30}}>
           <div id="totalMacroChart" style={{display: 'inline-block', width: '50%'}}></div>

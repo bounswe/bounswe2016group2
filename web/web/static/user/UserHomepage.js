@@ -26,6 +26,10 @@ var _MyRestaurants = require('user/MyRestaurants.js');
 
 var _MyRestaurants2 = _interopRequireDefault(_MyRestaurants);
 
+var _Recommendation = require('user/Recommendation.js');
+
+var _Recommendation2 = _interopRequireDefault(_Recommendation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64,7 +68,6 @@ var UserHomepage = function (_React$Component) {
       var _this2 = this;
 
       Api.me().then(function (data) {
-        console.log(data);
         _this2.setState({ user: data });
         $('#userHomepage .item').tab();
       }).catch(function (error) {
@@ -99,6 +102,11 @@ var UserHomepage = function (_React$Component) {
             'a',
             { className: 'item', 'data-tab': 'myDiets' },
             'My Diets'
+          ),
+          React.createElement(
+            'a',
+            { className: 'item', 'data-tab': 'recommendation' },
+            'Recommendations'
           )
         ),
         React.createElement(
@@ -120,6 +128,11 @@ var UserHomepage = function (_React$Component) {
           'div',
           { className: 'ui tab', 'data-tab': 'myDiets' },
           React.createElement(_MyDiets2.default, null)
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui tab', 'data-tab': 'recommendation' },
+          React.createElement(_Recommendation2.default, null)
         )
       );
     }
