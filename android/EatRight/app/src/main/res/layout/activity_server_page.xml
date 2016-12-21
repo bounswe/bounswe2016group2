@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,47 +17,47 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/server_name_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
-
+    <RatingBar
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rate_rest_ratingBar"
+        android:layout_weight="1"
+        android:stepSize="0.5"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:layout_below="@+id/server_name_text"
+        android:layout_centerHorizontal="true" />
     <ImageView
         android:layout_width="250dp"
         android:layout_height="150dp"
         app:srcCompat="@drawable/eatright"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/server_image"
-        android:layout_below="@+id/server_name_text"
+        android:layout_below="@+id/rate_rest_ratingBar"
         android:layout_centerHorizontal="true" />
-
-    <!--<TextView
-        android:text="Rating"
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Make a comment"
+        android:inputType="textMultiLine"
+        android:ems="10"
         android:layout_below="@+id/server_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:id="@+id/server_rating_text" />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/server_rating_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
-        android:id="@+id/server_rating" />-->
-
+        android:id="@+id/server_comment_text"
+        android:layout_alignEnd="@+id/rate_rest_ratingBar" />
     <TableRow
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/rate_row"
-        android:layout_below="@+id/server_image">
+        android:id="@+id/post_rate_row"
+        android:layout_below="@+id/server_comment_text">
         <TextView
-            android:text="Rate"
+            android:text="Rate Us"
             android:layout_width="wrap_content"
             android:layout_marginTop="15dp"
-            android:id="@+id/rate_food_taste_text"
+            android:id="@+id/rate_rest_text"
             android:gravity="center"
             android:layout_weight="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
@@ -70,7 +67,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/rate_rest_ratingBar"
+            android:id="@+id/post_rate_rest_ratingBar"
             android:layout_weight="1"
             android:stepSize="0.5" />
     </TableRow>
@@ -78,9 +75,9 @@
         android:text="Foods Served"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rate_row"
+        android:layout_below="@+id/post_rate_row"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:id="@+id/server_foodList_text" />
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -94,4 +91,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/food_listview" />
     </FrameLayout>
+
+    <Button
+        android:text="SEND"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/post_rate_row"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/server_send_button" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_comment"
+        android:id="@+id/server_comment_but"
+        android:layout_alignTop="@+id/server_name_text"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp" />
 </RelativeLayout>
