@@ -8,12 +8,14 @@ import java.text.DecimalFormat;
 /**
  * Created by yigitozgumus on 12/20/16.
  */
-
 public class AxisValueFormatter implements IAxisValueFormatter
 {
 
     private DecimalFormat mFormat;
 
+    /**
+     * Instantiates a new Axis value formatter.
+     */
     public AxisValueFormatter() {
         mFormat = new DecimalFormat("###,###,###,##0");
     }

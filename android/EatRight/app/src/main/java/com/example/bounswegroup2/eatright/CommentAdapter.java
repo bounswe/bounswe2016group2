@@ -38,14 +38,27 @@ import java.util.List;
 /**
  * Created by Enes on 13.11.2016.
  */
-
 public class CommentAdapter extends ArrayAdapter<FoodComment> implements Filterable {
     private ArrayList<FoodComment> listOfComm;
 
+    /**
+     * Instantiates a new Comment adapter.
+     *
+     * @param context    the context
+     * @param listOfComm the list of comm
+     */
     public CommentAdapter(Context context, ArrayList<FoodComment> listOfComm) {
         super(context, 0, listOfComm);
         this.listOfComm = listOfComm;
     }
+
+    /**
+     * Creates the view for the adapter
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
@@ -63,6 +76,12 @@ public class CommentAdapter extends ArrayAdapter<FoodComment> implements Filtera
         // Return the completed view to render on screen
         return convertView;
     }
+
+    /**
+     * Gets commnets.
+     *
+     * @return the commnets
+     */
     public ArrayList<FoodComment> getCommnets() {
         return listOfComm;
     }

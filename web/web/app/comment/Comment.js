@@ -4,41 +4,38 @@ export default class Comment extends React.Component {
   constructor(props) {
     super(props);
 
-    this.id = props.comment.id;
-    this.username = props.comment.username;
-    this.commentTime = props.comment.time;
-    this.commentText = props.comment.text;
+    this.userId = props.comment.user;
+    this.comment = props.comment.comment;
+    this.state = {};
 
-    this.state = {
-      showReplySection: false
-    };
-
-    this.reply = this.reply.bind(this);
+    this.fetchUserName = this.fetchUserName.bind(this);
+    this.fetchUserName();
   }
 
-  reply(){
-    this.setState({showReplySection: true})
+  fetchUserName(){
+    Api.getUser(this.userId).then((data) => {
+      let screenName = "";
+      if(data.first_name || data.last_name){
+        screenName = data.first_name + " " + data.last_name;
+      }
+      else{
+        screenName = data.username;
+      }
+      this.setState({user: screenName})
+    }).catch((error) => {
+      this.setState({errors: error.data})
+    })
   }
 
   render() {
     return (
       <div className="comment">
         <div className="content">
-          <a className="author">{this.username}</a>
-          <div className="metadata">
-            <span className="date">{this.commentTime}</span>
-          </div>
+          <div className="author">{this.state.user}</div>
           <div className="text">
-            {this.commentText}
-          </div>
-          <div className="actions">
-            <a className="reply" onClick={this.reply}>Reply</a>
+            {this.comment}
           </div>
         </div>
-        {this.state.showReplySection &&
-          // TODO: Only restaurants can reply to comments
-          <PostComment/>
-        }
       </div>
     );
   }

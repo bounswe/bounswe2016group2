@@ -1,17 +1,22 @@
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from api.controller import ingredient, user, food, inclusion, ateFood, ateIngredient, restaurant, diet, mock
+from api.controller import search, ingredient, user, food, inclusion, ateFood, ateIngredient, restaurant, diet, mock
 
 urlpatterns = [
+    # SEARCH ROUTES
+    url(r'^search$', search.search),
+    url(r'^searchFood$', search.searchFood),
+    url(r'^searchTag$', search.searchTag),
     # USER ROUTES
     url(r'^users/signup$', user.signup),
     url(r'^users/signin$', user.signin),
     url(r'^users/signout$', user.signout),
-    url(r'^users/me$', user.me),
     url(r'^users$', user.users),
     url(r'^users/(?P<userId>[0-9]+)$', user.user),
-    url(r'^users/history$', user.history),
+    url(r'^users/me$', user.me),
+    url(r'^users/me/history$', user.history),
+    url(r'^users/me/restaurantHistory$', user.restaurantHistory),
     # INGREDIENT ROUTES
     url(r'^ingredients$', ingredient.ingredients),
     url(r'^ingredients/(?P<ingredientId>[0-9]+)$', ingredient.ingredient),
@@ -22,14 +27,20 @@ urlpatterns = [
     url(r'^foods$', food.foods),
     url(r'^foods/(?P<foodId>[0-9]+)$', food.food),
     url(r'^foods/(?P<foodId>[0-9]+)/ate$', ateFood.ateFood),
+    url(r'^foods/(?P<foodId>[0-9]+)/comment$', food.comment),
+    url(r'^foods/(?P<foodId>[0-9]+)/rate$', food.rate),
+    url(r'^foods/(?P<foodId>[0-9]+)/tag$', food.tag),
     url(r'^foods/(?P<slug>[\w-]+)$', food.slug),
-    url(r'^foodSearch$', food.search),
+    url(r'^myFoods$', food.myFoods),
     # INCLUSION ROUTES
     url(r'^foods/(?P<food>[0-9]+)/ingredients/(?P<ingredient>[0-9]+)$', inclusion.inclusion),
     # RESTAURANT ROUTES
     url(r'^restaurants$', restaurant.restaurants),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)$', restaurant.restaurant),
     url(r'^restaurants/(?P<restaurantId>[0-9]+)/foods/(?P<foodId>[0-9]+)$', restaurant.restaurantFood),
+    url(r'^restaurants/(?P<restaurantId>[0-9]+)/comment', restaurant.comment),
+    url(r'^restaurants/(?P<restaurantId>[0-9]+)/rate', restaurant.rate),
+    url(r'^myRestaurants$', restaurant.myRestaurants),
     # DIET ROUTES
     url(r'^diets$', diet.diets),
     url(r'^diets/(?P<dietId>[0-9]+)$', diet.diet),

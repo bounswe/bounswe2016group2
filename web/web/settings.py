@@ -83,9 +83,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'eatright',
-        'USER': 'root',
-        'PASSWORD': '1123',
-        'HOST': 'localhost',
+        'USER': os.environ['DB_USER'] if 'DB_USER' in os.environ else 'root',
+        'PASSWORD': os.environ['DB_PASSWORD'] if 'DB_PASSWORD' in os.environ else '1123',
+        'HOST': os.environ['DB_HOST'] if 'DB_HOST' in os.environ else 'localhost',
         'PORT': '3306',
     }
 }

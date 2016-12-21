@@ -30,13 +30,11 @@ def diets(req):
 @api_view(['GET'])
 def myDiets(req):
     user = User.objects.get(id=req.user.id)
-    print(user.diet_set)
     if req.method == 'GET':
         serializer = DietReadSerializer(user.diet_set, many=True)
         return Response(serializer.data)
     if req.method == 'PUT':
         pass
-    print(req.user.id)
     return Response()
 
 
@@ -51,10 +49,10 @@ def myDiet(req, dietId):
         return Response(status=status.HTTP_404_NOT_FOUND)
     if req.method == 'POST':
         user.diet_set.add(diet)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response({}, status=status.HTTP_201_CREATED)
     if req.method == 'DELETE':
         user.diet_set.remove(diet)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({})
 
 
 @api_view(['GET', 'PUT', 'DELETE'])

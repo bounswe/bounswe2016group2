@@ -40,6 +40,9 @@ public class ConsHistFragment extends Fragment {
     private String mParam2;
 
 
+    /**
+     * Instantiates a new Cons hist fragment.
+     */
     public ConsHistFragment() {
         // Required empty public constructor
     }
@@ -52,7 +55,7 @@ public class ConsHistFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment ConsHistFragment.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static ConsHistFragment newInstance(String param1, String param2) {
         ConsHistFragment fragment = new ConsHistFragment();
         Bundle args = new Bundle();

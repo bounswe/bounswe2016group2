@@ -8,7 +8,6 @@ import java.io.Serializable;
 /**
  * Created by Enes on 20.12.2016.
  */
-
 public class FoodTag implements Serializable {
 
         @SerializedName("id")
@@ -18,19 +17,39 @@ public class FoodTag implements Serializable {
         @Expose
         private String name;
 
-        public Integer getId() {
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public Integer getId() {
             return id;
         }
 
-        public void setId(Integer id) {
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(Integer id) {
             this.id = id;
         }
 
-        public String getName() {
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
             return name;
         }
 
-        public void setName(String name) {
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
             this.name = name;
         }
     }

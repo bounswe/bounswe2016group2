@@ -8,12 +8,16 @@ class Api {
   static get(url) {
     return new Promise((resolve, reject) => {
       let status = null
-      fetch(this.path(url), {
+      let requestData = {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then((res) => {
+      }
+      if (token) {
+        requestData.headers.Authorization = 'Token ' + token
+      }
+      fetch(this.path(url), requestData).then((res) => {
         status = res.status
         return res
       }).then((res) => {
@@ -58,14 +62,18 @@ class Api {
 
 	static delete(url, data) {
 		return new Promise((resolve, reject) => {
-			let status = null
-			fetch(this.path(url), {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data)
-			}).then((res) => {
+			let status = null;
+      let requestData = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+      if (token) {
+        requestData.headers.Authorization = 'Token ' + token
+      }
+			fetch(this.path(url), requestData).then((res) => {
 				status = res.status
 				return res
 			}).then((res) => {
@@ -93,10 +101,15 @@ class Api {
   static signup(data) {
     return this.post('users/signup', data)
   }
-  static consumptionHistory(){
-    return this.get('users/history');
+  static me(data) {
+    return this.get('users/me', data)
   }
-
+  static consumptionHistory(){
+    return this.get('users/me/history');
+  }
+  static getUser(userId){
+    return this.get('users/' + userId);
+  }
   // INGREDIENT ROUTES
   static searchIngredient(query) {
     return this.get('ingredientSearch?query=' + query);
@@ -121,17 +134,26 @@ class Api {
   static getFood(id){
     return this.get('foods/' + id);
   }
-  static searchFood(query) {
-		return this.get('foodSearch?query=' + query);
+  static search(query) {
+		return this.get('search?query=' + query);
+	}
+  static advancedSearch(filter) {
+		return this.post('searchFood', filter);
 	}
   static addIngredientToFood(foodId, ingId, data) {
 		return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
+	}
+  static addTagToFood(foodId, data) {
+		return this.post('foods/' + foodId + '/tag', data);
 	}
   static foodAte(id, data){
     return this.post('foods/' + id + "/ate", data);
   }
   static deleteFood(data){
 		return this.delete('foods/' + data);
+	}
+  static searchTag(query){
+		return this.get('searchTag?query=' + query);
 	}
 
   // INCLUSION ROUTES
@@ -157,7 +179,29 @@ class Api {
   static getDiets(){
     return this.get('diets');
   }
+  static getDiet(dietId){
+    return this.get('diets/' + dietId);
+  }
   static addDiet(dietId){
     return this.post('myDiets/' + dietId)
+  }
+  static removeDiet(dietId){
+    return this.delete('myDiets/' + dietId)
+  }
+
+  // COMMENT ROUTES
+  static commentOnFood(foodId, data){
+    return this.post('foods/'+foodId+'/comment', data);
+  }
+  static commentOnRestaurant(restaurantId, data){
+    return this.post('restaurants/'+restaurantId+'/comment', data);
+  }
+
+  // RATE ROUTES
+  static rateOnFood(foodId, data){
+    return this.post('foods/'+foodId+'/rate', data)
+  }
+  static rateOnRestaurant(restaurantId, data){
+    return this.post('restaurants/'+restaurantId+'/rate', data)
   }
 }

@@ -37,9 +37,9 @@ var AddFoodPage = function (_React$Component) {
     key: 'setFoodSelectOptions',
     value: function setFoodSelectOptions() {
       var self = this;
-      Api.getFoods().then(function (data) {
+      Api.me().then(function (data) {
         self.setState({
-          options: data
+          options: data.foods
         });
       });
     }
@@ -51,7 +51,8 @@ var AddFoodPage = function (_React$Component) {
       e.preventDefault();
       var postData = {
         name: this.state.name,
-        photo: this.state.photo
+        photo: this.state.photo,
+        description: this.state.description
       };
       Api.addRestaurant(postData).then(function (data) {
         console.log(data);
@@ -63,10 +64,8 @@ var AddFoodPage = function (_React$Component) {
 
         // Evenly, it's possible to use .catch
         Promise.all(foodPromises).then(function () {
-          console.log('lan');
           router.navigate('../restaurants/' + data.id);
         }).catch(function (reason) {
-          console.log('lansad');
           console.log('error', reason);
           router.navigate('../restaurants/' + data.id);
         });

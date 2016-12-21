@@ -32,6 +32,7 @@ export default class IngredientInput extends React.Component {
             measureValue: self.state.ingredients[index].measureValue
           })
           self.inclusion.ingredientId = self.state.ingredients[index].id
+          self.inclusion.value = self.state.value;
         }
       })
     }).catch((err) => {

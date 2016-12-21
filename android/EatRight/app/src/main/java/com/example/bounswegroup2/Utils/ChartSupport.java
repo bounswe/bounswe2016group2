@@ -10,13 +10,18 @@ import com.example.bounswegroup2.eatright.R;
 /**
  * Created by yigitozgumus on 12/17/16.
  */
-
 public class ChartSupport extends FragmentActivity {
 
+    /**
+     * The M months.
+     */
     protected String[] mMonths = new String[] {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
     };
 
+    /**
+     * The M parties.
+     */
     protected String[] mParties = new String[] {
             "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
             "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
@@ -24,7 +29,13 @@ public class ChartSupport extends FragmentActivity {
             "Party Y", "Party Z"
     };
 
+    /**
+     * The M tf regular.
+     */
     protected Typeface mTfRegular;
+    /**
+     * The M tf light.
+     */
     protected Typeface mTfLight;
 
     @Override
@@ -35,6 +46,13 @@ public class ChartSupport extends FragmentActivity {
         mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
     }
 
+    /**
+     * Gets random.
+     *
+     * @param range      the range
+     * @param startsfrom the startsfrom
+     * @return the random
+     */
     protected float getRandom(float range, float startsfrom) {
         return (float) (Math.random() * range) + startsfrom;
     }

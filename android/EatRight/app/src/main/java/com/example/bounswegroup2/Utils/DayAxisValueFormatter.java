@@ -7,16 +7,23 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 /**
  * Created by yigitozgumus on 12/20/16.
  */
-
 public class DayAxisValueFormatter implements IAxisValueFormatter
 {
 
+    /**
+     * The M months.
+     */
     protected String[] mMonths = new String[]{
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
     };
 
     private BarLineChartBase<?> chart;
 
+    /**
+     * Instantiates a new Day axis value formatter.
+     *
+     * @param chart the chart
+     */
     public DayAxisValueFormatter(BarLineChartBase<?> chart) {
         this.chart = chart;
     }

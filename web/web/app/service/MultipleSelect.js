@@ -25,7 +25,10 @@ export default class MultipleSelect extends React.Component {
     $(`.ui.dropdown[name="${this.state.name}"]`).dropdown({
       maxSelections: 20,
       onChange: (value) => {
-        const data = value.split(',')
+        let data = []
+        if (value != '') {
+          data = value.split(',')
+        }
         self.onChange(data)
       }
     })

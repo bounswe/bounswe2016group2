@@ -7,15 +7,22 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 /**
  * Created by yigitozgumus on 12/21/16.
  */
-
 public class MicronutrientsValueFormatter implements IAxisValueFormatter {
 
     private BarLineChartBase<?> chart;
 
+    /**
+     * Instantiates a new Micronutrients value formatter.
+     *
+     * @param chart the chart
+     */
     public MicronutrientsValueFormatter(BarLineChartBase<?> chart) {
         this.chart = chart;
     }
 
+    /**
+     * The Micronutrients.
+     */
     final String[] MICRONUTRIENTS = {
             "Cholestrol(mg)",
             "Magnesium(mg)",

@@ -59,6 +59,9 @@ public class SettingsFragment extends Fragment {
     private EditText descr;
     private DietAdapter da;
 
+    /**
+     * Instantiates a new Settings fragment.
+     */
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -143,6 +146,7 @@ public class SettingsFragment extends Fragment {
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 String s = response.message().toString();
                                 da.notifyDataSetChanged();
+                                Toast.makeText(SettingsFragment.this.getContext(),"Diet saved succesfully!",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -202,7 +206,7 @@ public class SettingsFragment extends Fragment {
             public void onResponse(Call<List<Diet>> call, Response<List<Diet>> response) {
                  da = new DietAdapter(SettingsFragment.this.getContext(), (ArrayList<Diet>) response.body());
                 lv2.setAdapter(da);
-                Toast.makeText(SettingsFragment.this.getContext(),"Diet saved succesfully!",Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

@@ -21,11 +21,7 @@ var PostComment = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (PostComment.__proto__ || Object.getPrototypeOf(PostComment)).call(this, props));
 
     _this.state = {};
-
-    // TODO: pass needed api call,
-    // it can be different for replying and commenting
-
-    // this.apiCall = props.apiCall;
+    _this.addComment = props.addComment;
 
     _this.commentChanged = _this.commentChanged.bind(_this);
     _this.submit = _this.submit.bind(_this);
@@ -35,20 +31,8 @@ var PostComment = function (_React$Component) {
   _createClass(PostComment, [{
     key: "submit",
     value: function submit() {
-      var postData = {
-        comment: this.state.comment
-      };
-
-      // TODO: add api call
-      /*
-      this.apiCall(postData).then((data) => {
-          console.log(data);
-        }
-      ).catch((error) => {
-          console.log(error.data);
-        }
-      );
-      */
+      var postData = { comment: this.state.comment };
+      this.addComment(postData);
     }
   }, {
     key: "commentChanged",

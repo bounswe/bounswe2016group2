@@ -21,12 +21,16 @@ var Api = function () {
 
       return new Promise(function (resolve, reject) {
         var status = null;
-        fetch(_this.path(url), {
+        var requestData = {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
-        }).then(function (res) {
+        };
+        if (token) {
+          requestData.headers.Authorization = 'Token ' + token;
+        }
+        fetch(_this.path(url), requestData).then(function (res) {
           status = res.status;
           return res;
         }).then(function (res) {
@@ -78,13 +82,17 @@ var Api = function () {
 
       return new Promise(function (resolve, reject) {
         var status = null;
-        fetch(_this3.path(url), {
+        var requestData = {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(data)
-        }).then(function (res) {
+        };
+        if (token) {
+          requestData.headers.Authorization = 'Token ' + token;
+        }
+        fetch(_this3.path(url), requestData).then(function (res) {
           status = res.status;
           return res;
         }).then(function (res) {
@@ -119,11 +127,20 @@ var Api = function () {
       return this.post('users/signup', data);
     }
   }, {
+    key: 'me',
+    value: function me(data) {
+      return this.get('users/me', data);
+    }
+  }, {
     key: 'consumptionHistory',
     value: function consumptionHistory() {
-      return this.get('users/history');
+      return this.get('users/me/history');
     }
-
+  }, {
+    key: 'getUser',
+    value: function getUser(userId) {
+      return this.get('users/' + userId);
+    }
     // INGREDIENT ROUTES
 
   }, {
@@ -165,14 +182,24 @@ var Api = function () {
       return this.get('foods/' + id);
     }
   }, {
-    key: 'searchFood',
-    value: function searchFood(query) {
-      return this.get('foodSearch?query=' + query);
+    key: 'search',
+    value: function search(query) {
+      return this.get('search?query=' + query);
+    }
+  }, {
+    key: 'advancedSearch',
+    value: function advancedSearch(filter) {
+      return this.post('searchFood', filter);
     }
   }, {
     key: 'addIngredientToFood',
     value: function addIngredientToFood(foodId, ingId, data) {
       return this.post('foods/' + foodId + '/ingredients/' + ingId, data);
+    }
+  }, {
+    key: 'addTagToFood',
+    value: function addTagToFood(foodId, data) {
+      return this.post('foods/' + foodId + '/tag', data);
     }
   }, {
     key: 'foodAte',
@@ -183,6 +210,11 @@ var Api = function () {
     key: 'deleteFood',
     value: function deleteFood(data) {
       return this.delete('foods/' + data);
+    }
+  }, {
+    key: 'searchTag',
+    value: function searchTag(query) {
+      return this.get('searchTag?query=' + query);
     }
 
     // INCLUSION ROUTES
@@ -223,9 +255,45 @@ var Api = function () {
       return this.get('diets');
     }
   }, {
+    key: 'getDiet',
+    value: function getDiet(dietId) {
+      return this.get('diets/' + dietId);
+    }
+  }, {
     key: 'addDiet',
     value: function addDiet(dietId) {
       return this.post('myDiets/' + dietId);
+    }
+  }, {
+    key: 'removeDiet',
+    value: function removeDiet(dietId) {
+      return this.delete('myDiets/' + dietId);
+    }
+
+    // COMMENT ROUTES
+
+  }, {
+    key: 'commentOnFood',
+    value: function commentOnFood(foodId, data) {
+      return this.post('foods/' + foodId + '/comment', data);
+    }
+  }, {
+    key: 'commentOnRestaurant',
+    value: function commentOnRestaurant(restaurantId, data) {
+      return this.post('restaurants/' + restaurantId + '/comment', data);
+    }
+
+    // RATE ROUTES
+
+  }, {
+    key: 'rateOnFood',
+    value: function rateOnFood(foodId, data) {
+      return this.post('foods/' + foodId + '/rate', data);
+    }
+  }, {
+    key: 'rateOnRestaurant',
+    value: function rateOnRestaurant(restaurantId, data) {
+      return this.post('restaurants/' + restaurantId + '/rate', data);
     }
   }]);
 

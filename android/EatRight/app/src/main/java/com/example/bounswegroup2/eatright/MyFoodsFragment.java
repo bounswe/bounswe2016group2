@@ -54,6 +54,10 @@ public class MyFoodsFragment extends Fragment {
     private ListView myFoodLv;
     private ArrayList<Food> lof = new ArrayList<>();
     private Button bringFood;
+
+    /**
+     * Instantiates a new My foods fragment.
+     */
     public MyFoodsFragment() {
         // Required empty public constructor
     }
@@ -66,7 +70,7 @@ public class MyFoodsFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment MyFoodsFragment.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static MyFoodsFragment newInstance(String param1, String param2) {
         MyFoodsFragment fragment = new MyFoodsFragment();
         Bundle args = new Bundle();
@@ -201,8 +205,11 @@ public class MyFoodsFragment extends Fragment {
                 if (food.getRestaurant() != null){
                     b.putSerializable("restaName",food.getRestaurant().getName());
                     b.putSerializable("restaID",food.getRestaurant().getId());
+                }else if(food.getUser() != null){
+                    b.putSerializable("restaName",food.getUser().getUsername());
+                    b.putSerializable("restaID",0);
                 }else{
-                    b.putSerializable("restaName",Constants.user);
+                    b.putSerializable("restaName","Anonim");
                     b.putSerializable("restaID",0);
                 }
                 b.putSerializable("foodid",food.getId());

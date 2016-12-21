@@ -72,6 +72,9 @@ import retrofit2.Response;
 import static android.R.drawable.arrow_down_float;
 import static android.R.drawable.arrow_up_float;
 
+/**
+ * The type User home activity.
+ */
 public class UserHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -88,11 +91,26 @@ public class UserHomeActivity extends AppCompatActivity
     private FloatingActionButton mFab ;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
+    /**
+     * The Tag list.
+     */
     ArrayList<String> tagList = new ArrayList<>();
+    /**
+     * The Foodies.
+     */
     ArrayList<Food> foodies = new ArrayList<>();
+    /**
+     * The On back pressed listener.
+     */
     protected OnBackPressedListener onBackPressedListener;
 
+    /**
+     * The M tf regular.
+     */
     protected Typeface mTfRegular;
+    /**
+     * The M tf light.
+     */
     protected Typeface mTfLight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +161,20 @@ public class UserHomeActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Sets on back pressed listener.
+     *
+     * @param onBackPressedListener the on back pressed listener
+     */
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         this.onBackPressedListener = onBackPressedListener;
     }
 
+    /**
+     * Init secondary views.
+     *
+     * @param bundle the bundle
+     */
     public void initSecondaryViews(Bundle bundle){
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -171,6 +199,9 @@ public class UserHomeActivity extends AppCompatActivity
     }
 
 
+    /**
+     * Init food recommendations.
+     */
     public void initFoodRecommendations(){
         //TODO will process recommended foods and will add to the recycler view
         myFoodLv = (ListView) findViewById(R.id.list_my_recommended);
@@ -400,6 +431,11 @@ public class UserHomeActivity extends AppCompatActivity
 
         private final String[] TITLES = { "Daily Macro","Daily Micro", "Macro History","Energy History" };
 
+        /**
+         * Instantiates a new Page adapter.
+         *
+         * @param fm the fm
+         */
         public PageAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -440,6 +476,11 @@ public class UserHomeActivity extends AppCompatActivity
 
         private final String[] TITLES = { "Daily Macro","Daily Micro", "Total" };
 
+        /**
+         * Instantiates a new Recommendation pager.
+         *
+         * @param fm the fm
+         */
         public RecommendationPager(FragmentManager fm) {
             super(fm);
         }

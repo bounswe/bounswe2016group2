@@ -95,6 +95,9 @@ public class FoodAddFragment extends Fragment {
         super.onAttach(context);
     }
 
+    /**
+     * Instantiates a new Food add fragment.
+     */
     public FoodAddFragment() {
         // Required empty public constructor
     }
@@ -107,7 +110,7 @@ public class FoodAddFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FoodAddFragment.
      */
-    // TODO: Rename and change types and number of parameters
+// TODO: Rename and change types and number of parameters
     public static FoodAddFragment newInstance(String param1, String param2) {
         FoodAddFragment fragment = new FoodAddFragment();
         Bundle args = new Bundle();

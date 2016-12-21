@@ -45,11 +45,16 @@ import retrofit2.Response;
 /**
  * Created by yigitozgumus on 12/19/16.
  */
-
 public class fullHistoryEnergyFragment extends userHomeFragment {
     private static final String ARG_POSITION = "position";
     private int position;
 
+    /**
+     * New instance fragment.
+     *
+     * @param position the position
+     * @return the fragment
+     */
     public static Fragment newInstance(int position) {
         fullHistoryEnergyFragment frag = new fullHistoryEnergyFragment();
         Bundle b = new Bundle();

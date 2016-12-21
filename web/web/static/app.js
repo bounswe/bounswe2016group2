@@ -36,6 +36,10 @@ var _CreateDietPage = require('diet/CreateDietPage.js');
 
 var _CreateDietPage2 = _interopRequireDefault(_CreateDietPage);
 
+var _DietPage = require('diet/DietPage.js');
+
+var _DietPage2 = _interopRequireDefault(_DietPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var route = function route(path, callback) {
@@ -69,6 +73,9 @@ route("/profile/", function (params) {
 });
 route("createDiet/", function () {
   return React.createElement(_CreateDietPage2.default, null);
+});
+route("diets/:id", function (params) {
+  return React.createElement(_DietPage2.default, { id: params.id });
 });
 route("*", function () {
   return React.createElement(_Homepage2.default, null);

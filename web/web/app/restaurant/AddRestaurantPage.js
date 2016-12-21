@@ -12,10 +12,10 @@ export default class AddFoodPage extends React.Component {
 
   setFoodSelectOptions() {
     const self = this
-    Api.getFoods()
+    Api.me()
       .then((data) => {
         self.setState({
-          options: data
+          options: data.foods
         })
       })
   }
@@ -24,7 +24,8 @@ export default class AddFoodPage extends React.Component {
     e.preventDefault()
     const postData = {
       name: this.state.name,
-      photo: this.state.photo
+      photo: this.state.photo,
+      description: this.state.description
     }
     Api.addRestaurant(postData)
       .then((data) => {
@@ -37,10 +38,8 @@ export default class AddFoodPage extends React.Component {
 
         // Evenly, it's possible to use .catch
         Promise.all(foodPromises).then(() => {
-          console.log('lan');
           router.navigate('../restaurants/' + data.id)
         }).catch(reason => {
-          console.log('lansad');
           console.log('error', reason)
           router.navigate('../restaurants/' + data.id)
         })

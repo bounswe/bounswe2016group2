@@ -10,6 +10,10 @@ var _IngredientInput = require('ingredient/IngredientInput.js');
 
 var _IngredientInput2 = _interopRequireDefault(_IngredientInput);
 
+var _TagSelect = require('service/TagSelect.js');
+
+var _TagSelect2 = _interopRequireDefault(_TagSelect);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30,6 +34,7 @@ var AddFoodPage = function (_React$Component) {
       data: null,
       errors: null,
       ingredients: [],
+      selectedTags: [],
       inclusions: [{ 'ingredientId': null, 'unit': 'g' }]
     };
     return _this;
@@ -55,7 +60,7 @@ var AddFoodPage = function (_React$Component) {
       };
       Api.addFood(postData).then(function (data) {
         console.log(data);
-        var inclusionProms = [];
+        var promises = [];
         var foodId = data.id;
         _this2.state.inclusions.forEach(function (inclusion, index) {
           var ingredientId = inclusion.ingredientId;
@@ -65,13 +70,16 @@ var AddFoodPage = function (_React$Component) {
           };
           console.log(data.id, ingredientId, newData);
           if (ingredientId) {
-            inclusionProms.push(Api.addIngredientToFood(data.id, ingredientId, newData));
+            promises.push(Api.addIngredientToFood(data.id, ingredientId, newData));
           }
-          // console.log(this.state);
+        });
+
+        _this2.state.selectedTags.forEach(function (tag, index) {
+          promises.push(Api.addTagToFood(data.id, tag));
         });
 
         // Evenly, it's possible to use .catch
-        Promise.all(inclusionProms).then(function (values) {
+        Promise.all(promises).then(function (values) {
           router.navigate('../foods/' + data.id);
         }).catch(function (reason) {
           console.log('error', reason);
@@ -113,6 +121,13 @@ var AddFoodPage = function (_React$Component) {
     value: function photoChanged(event) {
       this.setState({
         photo: event.target.value
+      });
+    }
+  }, {
+    key: 'tagsChanged',
+    value: function tagsChanged(tags) {
+      this.setState({
+        selectedTags: tags
       });
     }
   }, {
@@ -190,6 +205,11 @@ var AddFoodPage = function (_React$Component) {
             { className: 'ui button', onClick: this.addMoreIngredient.bind(this) },
             'Add more'
           )
+        ),
+        React.createElement(
+          'div',
+          { className: 'ui segment' },
+          React.createElement(_TagSelect2.default, { onChange: this.tagsChanged.bind(this), name: 'tags', placeholder: 'Search tag' })
         ),
         React.createElement(
           'div',

@@ -1,4 +1,5 @@
 import IngredientInput from 'ingredient/IngredientInput.js'
+import TagSelect from 'service/TagSelect.js'
 
 export default class AddFoodPage extends React.Component {
 
@@ -8,6 +9,7 @@ export default class AddFoodPage extends React.Component {
       data: null,
       errors: null,
       ingredients: [],
+      selectedTags: [],
       inclusions: [{'ingredientId':null,'unit':'g'}]
     }
   }
@@ -28,7 +30,7 @@ export default class AddFoodPage extends React.Component {
     Api.addFood(postData)
       .then((data) => {
         console.log(data);
-        let inclusionProms = []
+        let promises = []
         let foodId = data.id
         this.state.inclusions.forEach((inclusion,index) => {
           let ingredientId = inclusion.ingredientId
@@ -38,13 +40,16 @@ export default class AddFoodPage extends React.Component {
           }
           console.log(data.id, ingredientId, newData);
           if (ingredientId) {
-            inclusionProms.push(Api.addIngredientToFood(data.id, ingredientId, newData))
+            promises.push(Api.addIngredientToFood(data.id, ingredientId, newData))
           }
-          // console.log(this.state);
         });
 
+        this.state.selectedTags.forEach((tag, index) => {
+          promises.push(Api.addTagToFood(data.id, tag))
+        })
+
         // Evenly, it's possible to use .catch
-        Promise.all(inclusionProms).then(values => {
+        Promise.all(promises).then(values => {
           router.navigate('../foods/' + data.id)
         }).catch(reason => {
           console.log('error', reason)
@@ -84,6 +89,12 @@ export default class AddFoodPage extends React.Component {
   photoChanged(event) {
     this.setState({
       photo: event.target.value
+    })
+  }
+
+  tagsChanged(tags) {
+    this.setState({
+      selectedTags: tags
     })
   }
 
@@ -128,6 +139,9 @@ export default class AddFoodPage extends React.Component {
             return <IngredientInput id={index} key={index} inclusion={inclusion}/>
           })}
           <button className="ui button" onClick={this.addMoreIngredient.bind(this)}>Add more</button>
+        </div>
+        <div className="ui segment">
+          <TagSelect onChange={this.tagsChanged.bind(this)} name="tags" placeholder="Search tag"/>
         </div>
         <div className="ui segment" style={{textAlign:'center'}}>
           <button className="ui button" type='submit' onClick={this.submit.bind(this)}>Submit</button>

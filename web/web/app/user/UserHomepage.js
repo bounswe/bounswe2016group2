@@ -1,10 +1,21 @@
-class ConsumptionHistory extends React.Component {
-  constructor(props) {
+import MyDiets from 'diet/MyDiets.js'
+import FoodRow from 'food/FoodRow.js'
+import ConsumptionHistory from 'user/ConsumptionHistory.js'
+import MyFoods from 'user/MyFoods.js'
+import MyRestaurants from 'user/MyRestaurants.js'
+
+export default class UserHomepage extends React.Component
+{
+  constructor(props)
+  {
     super(props)
     this.state = {
+      user: {}
     }
+  }
 
-    this.fetch = this.fetch.bind(this);
+  componentDidMount(){
+    $('#userHomepage .item').tab();
   }
 
   componentWillMount() {
@@ -12,9 +23,11 @@ class ConsumptionHistory extends React.Component {
   }
 
   fetch(){
-    Api.consumptionHistory().then(
+    Api.me().then(
       (data) => {
-        this.setState({data: data})
+        console.log(data);
+        this.setState({user: data})
+        $('#userHomepage .item').tab();
       }
     ).catch(
       (error) => {
@@ -25,46 +38,36 @@ class ConsumptionHistory extends React.Component {
 
   render() {
     return (
-      <div className="ui segment">
-        consumption history
-      </div>
-    )
-  }
-}
-
-import MyDiets from 'diet/MyDiets.js'
-
-export default class UserHomepage extends React.Component
-{
-  constructor(props)
-  {
-    super(props)
-  }
-
-  componentDidMount(){
-    $('#userHomepage .item').tab();
-  }
-
-  render() {
-    return (
       <div id="userHomepage" className="ui-container">
         <div className="ui pointing menu">
-          <a className="item" data-tab="consumptionHistory">
+          <a className="item active" data-tab="consumptionHistory">
             Consumption History
           </a>
+          <a className="item" data-tab="myFoods">
+            My Foods
+          </a>
+          { this.state.user.isServer &&
+            <a className="item" data-tab="myRestaurants">
+              My Restaurants
+            </a>
+          }
           <a className="item" data-tab="myDiets">
             My Diets
           </a>
-          <a className="item" data-tab="favFoods">
-            Favorite Foods
-          </a>
-          <a className="item" data-tab="favRestaurants">
-            Favorite Restaurants
-          </a>
         </div>
-        <div className="ui tab" data-tab="consumptionHistory">
+        <div className="ui tab active" data-tab="consumptionHistory">
           <ConsumptionHistory/>
         </div>
+        { this.state.user.foods &&
+          <div className="ui tab" data-tab="myFoods">
+            <MyFoods foods={this.state.user.foods || []}/>
+          </div>
+        }
+        { this.state.user.isServer &&
+          <div className="ui tab" data-tab="myRestaurants">
+            <MyRestaurants restaurants={this.state.user.restaurants}/>
+          </div>
+        }
         <div className="ui tab" data-tab="myDiets">
           <MyDiets/>
         </div>
