@@ -48,6 +48,12 @@ public class Food implements Serializable
     @SerializedName("details")
     @Expose
     private Details details;
+    @SerializedName("rate")
+    @Expose
+    private Double rate;
+    @SerializedName("tags")
+    @Expose
+    private List<FoodTag> tags;
     private final static transient long serialVersionUID = -1659623804730649438L;
 
     public Integer getId() {
@@ -90,7 +96,7 @@ public class Food implements Serializable
         this.restaurant = restaurant;
     }
 
-    public Object getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -171,19 +177,35 @@ public class Food implements Serializable
     public static transient  Comparator<Food> caToZRating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            if(food.getDetails().getRate() < t1.getDetails().getRate()) return 1;
-            if(food.getDetails().getRate() > t1.getDetails().getRate()) return -1;
+            if(food.getRate() < t1.getRate()) return 1;
+            if(food.getRate() > t1.getRate()) return -1;
             return 0;
         }
     };
     public static transient  Comparator<Food> czToARating = new Comparator<Food>() {
         @Override
         public int compare(Food food, Food t1) {
-            if(food.getDetails().getRate() > t1.getDetails().getRate())  return 1;
-            if(food.getDetails().getRate() < t1.getDetails().getRate()) return -1;
+            if(food.getRate() > t1.getRate())  return 1;
+            if(food.getRate() < t1.getRate()) return -1;
             return 0;
         }
     };
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
+
+    public List<FoodTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<FoodTag> tags) {
+        this.tags = tags;
+    }
 /*
     public int getEnergy() {
         return energy;

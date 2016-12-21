@@ -12,6 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bounswegroup2.Models.AteFoodUserless;
+import com.example.bounswegroup2.Models.Food;
+import com.example.bounswegroup2.Models.TotalUserHistory;
+import com.example.bounswegroup2.Utils.ApiInterface;
+import com.example.bounswegroup2.Utils.SessionManager;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -30,7 +35,16 @@ import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.FileUtils;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public abstract class userHomeFragment extends Fragment {
 
@@ -97,6 +111,24 @@ public abstract class userHomeFragment extends Fragment {
         return d;
     }
 
+    protected String getMonthEquivalent(int Month){
+        Map<Integer,String> result = new HashMap<Integer,String>();
+        result.put(1,"Jan");
+        result.put(2,"Feb");
+        result.put(3,"Mar");
+        result.put(4,"Apr");
+        result.put(5,"May");
+        result.put(6,"Jun");
+        result.put(7,"Jul");
+        result.put(8,"Aug");
+        result.put(9,"Sep");
+        result.put(10,"Oct");
+        result.put(11,"Nov");
+        result.put(12,"Dec");
+        String month = result.get(Month);
+        return month;
+    }
+
     /**
      * generates less data (1 DataSet, 4 values)
      * @return
@@ -104,14 +136,49 @@ public abstract class userHomeFragment extends Fragment {
     protected PieData generatePieData() {
         //TODO get food data
 
-        int count = 4;
+        String token = "Token " + SessionManager.getPreferences(getContext(),"token");
+        System.out.println(token);
+        final TotalUserHistory[] userHistory = new TotalUserHistory[1];
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        String[] timecheck = currentDateTimeString.split(" ");
+        String day = timecheck[0];
+        String month = timecheck[1];
+        ApiInterface[] test = {ApiInterface.retrofit.create(ApiInterface.class)};
+        Call<TotalUserHistory> cb = test[0].getuserFoodHistory(token);
+        cb.enqueue(new Callback<TotalUserHistory>() {
+            @Override
+            public void onResponse(Call<TotalUserHistory> call, Response<TotalUserHistory> response) {
+                if(response.isSuccessful()){
+                     userHistory[0] = response.body();
+                    System.out.println(userHistory[0]);
 
-        ArrayList<PieEntry> entries1 = new ArrayList<PieEntry>();
+                }
+            }
 
-        for(int i = 0; i < count; i++) {
-            entries1.add(new PieEntry((float) ((Math.random() * 60) + 40), "Quarter " + (i+1)));
+            @Override
+            public void onFailure(Call<TotalUserHistory> call, Throwable t) {
+                System.out.println(t.getCause());
+                System.out.println(t.getMessage());
+            }
+        });
+
+        ArrayList<AteFoodUserless> foodList = (ArrayList<AteFoodUserless>) userHistory[0].getTotal().getAteFoods();
+        double carbs = 0;
+        double fats = 0;
+        double protein = 0;
+        for (AteFoodUserless ate : foodList){
+            Food food = ate.getFood();
+            carbs += food.getDetails().getCarb().getWeight();
+            fats += food.getDetails().getFat().getWeight();
+            protein += food.getDetails().getProtein().getWeight();
         }
-
+        ArrayList<PieEntry> entries1 = new ArrayList<>();
+        System.out.println(carbs);
+        System.out.println(fats);
+        System.out.println(protein);
+        entries1.add(new PieEntry((float) carbs,"Carbs"));
+        entries1.add(new PieEntry((float)fats,"Fats"));
+        entries1.add(new PieEntry((float) protein,"Protein"));
         PieDataSet ds1 = new PieDataSet(entries1, "MacroNutrients");
         ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
         ds1.setSliceSpace(2f);
@@ -120,7 +187,6 @@ public abstract class userHomeFragment extends Fragment {
         ds1.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         PieData d = new PieData(ds1);
         d.setValueTypeface(tf);
-
         return d;
     }
 

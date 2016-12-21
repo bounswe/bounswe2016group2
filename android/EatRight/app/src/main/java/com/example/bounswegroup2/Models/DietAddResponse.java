@@ -1,7 +1,7 @@
 package com.example.bounswegroup2.Models;
 
 /**
- * Created by Enes on 16.12.2016.
+ * Created by Enes on 21.12.2016.
  */
 
 import java.io.Serializable;
@@ -9,18 +9,23 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Diet implements Serializable
-{
+public class DietAddResponse implements Serializable {
 
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("ingredients")
     @Expose
-    private List<IngrLess> ingredients = null;
+    private List<Integer> ingredients = null;
+    @SerializedName("users")
+    @Expose
+    private List<Integer> users = null;
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("slug")
+    @Expose
+    private String slug;
     @SerializedName("description")
     @Expose
     private String description;
@@ -76,11 +81,11 @@ public class Diet implements Serializable
         this.id = id;
     }
 
-    public List<IngrLess> getIngredients() {
+    public List<Integer> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<IngrLess> ingredients) {
+    public void setIngredients(List<Integer> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -212,4 +217,19 @@ public class Diet implements Serializable
         this.maxFatRate = maxFatRate;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public List<Integer> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Integer> users) {
+        this.users = users;
+    }
 }

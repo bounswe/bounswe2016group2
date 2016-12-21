@@ -8,7 +8,6 @@
 
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,8 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/seekbarForCalorie"
-            app:absoluteMaxValue="750"
-            app:absoluteMinValue="100" />
+            app:absoluteMaxValue="2500"
+            app:absoluteMinValue="0" />
     <TextView
         android:text="@string/protein_range"
         android:layout_width="wrap_content"
@@ -62,44 +61,6 @@
             android:layout_below="@+id/seekBarForFat"
             android:layout_alignStart="@+id/textViewFatRange" />
 
-        <MultiAutoCompleteTextView
-            android:id="@+id/multiAutoCompleteTextView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/allergic_ingredient"
-            android:layout_below="@+id/seekBarForCab"
-            android:layout_alignParentStart="true" />
-
-        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rangeSeekBarForPro"
-            app:absoluteMaxValue="150"
-            app:absoluteMinValue="0"
-            android:layout_below="@+id/CalorieTExtView"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="33dp" />
-
-        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:absoluteMaxValue="150"
-            app:absoluteMinValue="0"
-            android:id="@+id/seekBarForCab"
-            android:layout_marginTop="19dp"
-            android:layout_below="@+id/textViewFatRange"
-            android:layout_alignParentStart="true" />
-
-        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:absoluteMaxValue="150"
-            app:absoluteMinValue="0"
-            android:id="@+id/seekBarForFat"
-            android:layout_below="@+id/rangeSeekBarForPro"
-            android:layout_alignParentStart="true" />
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,6 +70,69 @@
             android:layout_below="@+id/seekBarForCab"
             android:layout_toEndOf="@+id/textView8"
             android:textAlignment="center"/>
+
+        <Button
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Tags"
+            android:gravity="bottom"
+            android:id="@+id/saveTags"
+            android:layout_below="@+id/seekBarForCab"
+            android:layout_toEndOf="@+id/textView8"
+            android:textAlignment="center"/>
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rangeSeekBarForPro"
+            app:absoluteMaxValue="1000"
+            app:absoluteMinValue="0"
+            android:layout_below="@+id/CalorieTExtView"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="33dp" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:absoluteMaxValue="1000"
+            app:absoluteMinValue="0"
+            android:id="@+id/seekBarForCab"
+            android:layout_marginTop="19dp"
+            android:layout_below="@+id/textViewFatRange"
+            android:layout_alignParentStart="true" />
+
+        <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:absoluteMaxValue="1000"
+            app:absoluteMinValue="0"
+            android:id="@+id/seekBarForFat"
+            android:layout_below="@+id/rangeSeekBarForPro"
+            android:layout_alignParentStart="true" />
+
+        <MultiAutoCompleteTextView
+            android:id="@+id/multiAutoCompleteTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/allergic_ingredient"
+            android:layout_below="@+id/seekBarForCab"
+            android:layout_alignParentStart="true"
+            android:ems="10"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:gravity="bottom"
+            android:hint="Tags"
+            android:id="@+id/editTextTag"
+            android:maxLines="1"
+            android:layout_alignBaseline="@+id/multiAutoCompleteTextView1"
+            android:layout_alignBottom="@+id/multiAutoCompleteTextView1"
+            android:layout_toEndOf="@+id/multiAutoCompleteTextView1"
+             />
+
 
     </RelativeLayout>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -121,7 +145,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@id/android:list" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tagListView"
+            android:visibility="gone"/>
     </FrameLayout>
+
 </RelativeLayout>
 
 

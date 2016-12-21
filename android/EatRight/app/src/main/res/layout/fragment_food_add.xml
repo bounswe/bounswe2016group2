@@ -1,22 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.bounswegroup2.eatright.FoodAddFragment">
-    <RelativeLayout
+    android:layout_height="match_parent">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ScrollView
-            android:scrollbarStyle="outsideOverlay"
-            android:layout_alignParentTop="true"
-            android:layout_above="@+id/buttonLayouts"
+        android:id="@+id/asdsd"
+        android:layout_height="200dp"
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical">
+            <TableLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/tableLayoutAddFood">
                 <TableRow android:layout_height="wrap_content">
                     <AutoCompleteTextView
@@ -34,7 +34,7 @@
                         android:inputType="numberDecimal"
                         android:tag="M"
                         android:maxLines="1" />
-                        />
+                    />
                     <TextView android:id="@+id/unitTV"
                         android:tag="UTV"
                         android:layout_weight="1"
@@ -64,45 +64,82 @@
                         />
                 </TableRow>
             </TableLayout>
-        </ScrollView>
-        <LinearLayout
-            android:id="@+id/buttonLayouts"
-            android:orientation="vertical"
+            <LinearLayout
+                android:layout_below="@id/tableLayoutAddFood"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/bttLAyout">
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/foodDesc"
+                    android:hint="Description"
+                    android:inputType="textMultiLine"
+                    />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText android:hint="@string/name"
+                        android:id="@+id/nameFood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tagET"
+                        android:maxLines="1"
+                        android:hint="TAG"
+                        android:layout_gravity="start"/>
+                    <Button
+                        android:id="@+id/buttonAdd"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add" />
+
+                    <Button
+                        android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:id="@+id/addFoodSubmitBut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/submit"/>
+                    <Button
+                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:id="@+id/addTagsButt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAVE TAGS"/>
+                </TableRow>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/asdsd"
+      >
+        <ListView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_alignParentBottom="true">
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/foodDesc"
-                android:hint="Description"
-                android:inputType="textMultiLine"
-                />
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText android:hint="@string/name"
-                    android:id="@+id/nameFood"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            <Button
-                android:id="@+id/buttonAdd"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add" />
+            android:id="@+id/listForTags"/>
 
-            <Button
-                android:layout_weight="1"
-                android:layout_gravity="end"
-                android:id="@+id/addFoodSubmitBut"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/submit"/>
-            </TableRow>
-        </LinearLayout>
-    </RelativeLayout>
+    </FrameLayout>
+</RelativeLayout>
 
-</FrameLayout>
+
+
+
+
+
+
+
