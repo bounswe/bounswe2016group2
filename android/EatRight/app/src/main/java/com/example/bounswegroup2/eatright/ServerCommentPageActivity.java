@@ -28,7 +28,7 @@ public class ServerCommentPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment_page);
+        setContentView(R.layout.activity_server_comment_page);
         listView = (ListView) findViewById(R.id.comm_list);
         lofc = (ArrayList<RestaurantComment>) getIntent().getExtras().getSerializable("comments");
         getUsrnameForComments();
@@ -50,6 +50,7 @@ public class ServerCommentPageActivity extends AppCompatActivity {
                     fc2.setFood(fc.getFood());*/
                     fc.setUsername(uname);
                     lofc2.add(fc);
+                    System.out.println(lofc2.size() +"ENES");
                 }
 
                 @Override

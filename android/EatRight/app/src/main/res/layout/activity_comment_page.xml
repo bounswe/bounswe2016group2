@@ -12,5 +12,5 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/comm_list"></ListView>
+        android:id="@+id/comm_list_user"></ListView>
 </LinearLayout>

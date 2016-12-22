@@ -5,8 +5,8 @@ android {
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.example.bounswegroup2.eatright"
-        minSdkVersion 21
-        targetSdkVersion 22
+        minSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

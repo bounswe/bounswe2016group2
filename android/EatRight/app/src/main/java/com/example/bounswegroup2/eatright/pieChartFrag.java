@@ -92,6 +92,7 @@ public class pieChartFrag extends userHomeFragment {
         String currentDateTimeString = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
         //System.out.println(currentDateTimeString.substring(0,8)+"=====================");
         String[] timecheck = currentDateTimeString.substring(0,8).split("/");
+        System.out.println(currentDateTimeString.substring(0,8));
         final Integer day = Integer.parseInt(timecheck[1]);
         final Integer month = Integer.parseInt(timecheck[0]);
         final Integer year = Integer.parseInt(timecheck[2]);
