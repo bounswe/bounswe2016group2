@@ -59,13 +59,13 @@ def searchFoodByDiet(foods, diets):
         exclude = False
 
         for diet in diets:
-            if not diet['minEnergy'] < food['details']['energy'] < diet['maxEnergy']:
+            if not diet['minEnergy'] <= food['details']['energy'] <= diet['maxEnergy']:
                 exclude = True
-            if not diet['minProteinVal'] < food['details']['protein']['weight'] < diet['maxProteinVal']:
+            if not diet['minProteinVal'] <= food['details']['protein']['weight'] <= diet['maxProteinVal']:
                 exclude = True
-            if not diet['minCarbVal'] < food['details']['carb']['weight'] < diet['maxCarbVal']:
+            if not diet['minCarbVal'] <= food['details']['carb']['weight'] <= diet['maxCarbVal']:
                 exclude = True
-            if not diet['minFatVal'] < food['details']['fat']['weight'] < diet['maxFatVal']:
+            if not diet['minFatVal'] <= food['details']['fat']['weight'] <= diet['maxFatVal']:
                 exclude = True
 
         for ingredient in food['ingredients']:
